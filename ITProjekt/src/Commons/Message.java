@@ -51,6 +51,7 @@ public class Message implements Serializable {
 		this.client = client;
 	}
 	
+    @Override
     public String toString() {
     	return "Message" + this.id + " Client" + this.client + "SendingTime " + this.timestamp;
     }
