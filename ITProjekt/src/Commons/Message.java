@@ -28,7 +28,7 @@ public class Message implements Serializable{
     
     
     public String toString() {
-    	return "";
+    	return "Message" + this.id + " Client" + this.client + "SendingTime " + this.timestamp;
     }
     
     
