@@ -3,10 +3,10 @@ package Commons;
 public class Game {
 	private int gameId;
 	private boolean isRunning;
-	private boolean isSchieber;
+	protected boolean isSchieber;
 	private int numOfPlayers;
-	private int numOfRounds;
-	private int winningPoints;
+	protected int numOfRounds;
+	protected int winningPoints;
 	
 	
 	public Game() {
