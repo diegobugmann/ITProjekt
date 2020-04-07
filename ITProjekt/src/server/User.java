@@ -2,6 +2,10 @@ package server;
 
 import java.net.Socket;
 
+import Commons.Message;
+import Commons.Message_CreateGame;
+import Commons.Message_JoinGame;
+
 public class User {
 	
 	private int userID;
@@ -17,24 +21,37 @@ public class User {
 			@Override
 			public void run() {
 				while(true) {
-					Message msg = Message.receive(socket); //Methode, die auf Msges wartet
+					Message msg = Message.receive(clientSocket); //Methode, die auf Msges wartet
 					
-					/* Hier wird entschieden, bei welchen Msgs was gemacht wird
+					// Hier wird entschieden, bei welchen Msgs was gemacht wird
+					
+					 if (msg instanceof Message_CreateGame) {
+						boolean isSchieber = ((Message_CreateGame)msg).isSchieber();
+						boolean germanCards = ((Message_CreateGame)msg).isGermanCards();
+						int numOfRounds = ((Message_CreateGame)msg).getNumOfRounds();
+						int winningPoints = ((Message_CreateGame)msg).getWinningPoints();
+						Game g = new Game(germanCards, numOfRounds, winningPoints, isSchieber);
+						model.getGames().add(g);
+						model.broadcast(msg);
+					 }
 					 
-					if (msg instanceof ChatMsg) {				
-						model.broadcast((ChatMsg) msg);
-					} else if (msg instanceof JoinMsg) {
-						Client.this.name = ((JoinMsg) msg).getName();
-					}
-					
-					*/
-					
+					 if (msg instanceof Message_JoinGame) {
+						 boolean added = false;
+						 Player p = new Player(model, clientSocket); //Player aus diesem User erstellen??
+						 for (Game g : model.getGames()) {
+							 if (g == ((Message_JoinGame)msg).getGame()) { //dem richtigen Game hinzufügen
+								 added = g.addPlayer(p);
+							 }
+						 }
+						 if (added) //Wenn der Spieler hinzugefügt wurde, wird dies gebroadcasted
+							 model.broadcast(msg);
+					 }
+					 
 				}
 			}
 		};
 		Thread thread = new Thread(run);
 		thread.start();
-		
 	}
 	
 	public void setName(String name) {

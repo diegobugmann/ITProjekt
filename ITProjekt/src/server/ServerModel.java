@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
 
+import Commons.Message;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -12,9 +13,10 @@ public class ServerModel {
 	private ObservableList<User> clients = FXCollections.observableArrayList();
 	private ObservableList<Game> games = FXCollections.observableArrayList();
 	private ServerSocket listener;
+	private volatile boolean stop = false;
 	
 	private int port = 8080;
-	
+
 	public ServerModel() {
 		//diese Infos bei Server mit GUI in Methode startServer(), die vom Contr aufgerufen wird
 		try { 
@@ -22,7 +24,7 @@ public class ServerModel {
 			Runnable run = new Runnable() {
 				@Override
 				public void run() {
-					while (true) { // !stop
+					while (!stop) {
 						try {
 							Socket socket = listener.accept(); // wait for clients to connect
 							User user = new User(ServerModel.this, socket);
@@ -46,6 +48,15 @@ public class ServerModel {
 		for (User u : clients) {
 			u.send(outMsg); //Methode, um Msg zu versenden
 		}
+	}
+	
+	
+	public ObservableList<User> getClients() {
+		return clients;
+	}
+
+	public ObservableList<Game> getGames() {
+		return games;
 	}
 	
 }

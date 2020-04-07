@@ -11,8 +11,8 @@ public class Player extends User {
 	private boolean hisTurn;
 	private Wiis wiis; //muss Wiis[] sein bei mehreren Wiis
 	
-	public Player(Socket clientSocket, String name) {
-		super(clientSocket, name);
+	public Player(ServerModel model, Socket clientSocket) {
+		super(model, clientSocket);
 	}
 	
 }

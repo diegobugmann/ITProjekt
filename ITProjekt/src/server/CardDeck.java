@@ -7,12 +7,12 @@ import Commons.Card;
 
 public class CardDeck {
 	
-	private DeckType type;
+	private boolean germanCards;
 	private final ArrayList<Card> cards;
 	
-	public CardDeck(DeckType type) {
+	public CardDeck(boolean germanCards) {
 		cards = new ArrayList<Card>();
-		this.type = type;
+		this.germanCards = germanCards;
 		shuffleCards();
 	}
 	

@@ -8,5 +8,9 @@ public class Message_JoinGame extends Message{
 	public Message_JoinGame() {
 		super();
 	}
+	
+	public Game getGame() {
+		return game;
+	}
 
 }
