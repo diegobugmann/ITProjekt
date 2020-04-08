@@ -1,6 +1,7 @@
 package Commons;
 
 import java.io.Serializable;
+import java.net.Socket;
 
 public class Message implements Serializable {
 
@@ -25,6 +26,8 @@ public class Message implements Serializable {
     public Message() {
     	this.id = nextMessageID();
     }
+    
+    
     
     
 	public long getId() {
@@ -55,4 +58,9 @@ public class Message implements Serializable {
     public String toString() {
     	return "Message" + this.id + " Client" + this.client + "SendingTime " + this.timestamp;
     }
+
+	public static Message receive(Socket clientSocket) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
