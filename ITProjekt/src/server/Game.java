@@ -2,6 +2,8 @@ package server;
 
 import java.util.ArrayList;
 
+import javafx.beans.property.SimpleIntegerProperty;
+
 public class Game extends Commons.Game {
 	
 	private ArrayList<Team> teams = new ArrayList<Team>();
@@ -9,7 +11,7 @@ public class Game extends Commons.Game {
 	private CardDeck deck;
 	private boolean isFistPlay;
 	private ArrayList<Play> plays;
-	private int numOfPlayers = 0;
+	private SimpleIntegerProperty numOfPlayers = new SimpleIntegerProperty(0);
 	
 	public Game(boolean germanCards, int rounds, int winningPoints, boolean isSchieber) {
 		this.deck = new CardDeck(germanCards);
@@ -30,16 +32,18 @@ public class Game extends Commons.Game {
 	
 	public boolean addPlayer(Player p) {
 		if (isSchieber) {
-			if (teams.get(0).getPlayerList().size() < 2) 
+			if (teams.get(0).getPlayerList().size() < 2)
 				teams.get(0).addPlayer(p);
 			else if (teams.get(1).getPlayerList().size() < 2)
 				teams.get(1).addPlayer(p);
 			else return false; //wenn schon 4 Spieler im Spiel sind, wird false zurückgegeben
+			numOfPlayers.setValue(teams.get(0).getPlayerList().size()+teams.get(1).getPlayerList().size());
 			return true;
 		} else {
 			for (Team t : teams) {
 				if (t.getPlayerList().size() == 0) { //fügt ein Spieler in einem noch leeren Team hinzu
 					t.addPlayer(p);
+					numOfPlayers.setValue(teams.indexOf(t)+1); //Spielerzahl aktualisieren
 					return true;
 				}
 			}
@@ -49,5 +53,9 @@ public class Game extends Commons.Game {
 
 	public void setGameType(GameType trumpf) {
 		this.trumpf = trumpf;
+	}
+	
+	public SimpleIntegerProperty getNumOfPlayers() {
+		return numOfPlayers;
 	}
 }

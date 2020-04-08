@@ -21,7 +21,7 @@ public class User {
 			@Override
 			public void run() {
 				while(true) {
-					Message msg = Message.receive(clientSocket); //Methode, die auf Msges wartet
+					Message msg = Message.receive(clientSocket); //TODO Methode, die auf Msges wartet
 					
 					// Hier wird entschieden, bei welchen Msgs was gemacht wird
 					
@@ -32,7 +32,8 @@ public class User {
 						int winningPoints = ((Message_CreateGame)msg).getWinningPoints();
 						Game g = new Game(germanCards, numOfRounds, winningPoints, isSchieber);
 						model.getGames().add(g);
-						model.broadcast(msg);
+						model.broadcast(msg); //TODO Message_GameList zurückschicken
+						//TODO den Client, welcher dass Game erstellt hat, dem Game hinzufügen
 					 }
 					 
 					 if (msg instanceof Message_JoinGame) {
@@ -45,6 +46,9 @@ public class User {
 						 }
 						 if (added) //Wenn der Spieler hinzugefügt wurde, wird dies gebroadcasted
 							 model.broadcast(msg);
+						 else {
+							 //TODO User benachrichtigen, dass er nicht joinen konnte
+						 }
 					 }
 					 
 				}
