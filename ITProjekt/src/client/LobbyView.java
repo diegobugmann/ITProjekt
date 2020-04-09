@@ -1,11 +1,16 @@
 package client;
 
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -19,29 +24,50 @@ public class LobbyView {
 	protected Stage stage;
 	
 	
+	
 	public LobbyView(Stage stage) {
 		
 		this.stage = stage;
 		
 		newBtn = new Button("Neues Spiel");
 		joinBtn = new Button("Spiel beitreten");
-		joinBtn.disableProperty().set(true);
+		//joinBtn.disableProperty().set(true);
 		
-		Image image = new Image(this.getClass().getClassLoader().getResourceAsStream("/ITProjekt/client/Lobby.jpg"));
-		Background background = new Background(new BackgroundImage(image, null, null, null, null)); 
-		
+		Image image = new Image(LobbyView.class.getResourceAsStream("Bilder/Lobby.jpg"));
+		BackgroundSize backSize = new BackgroundSize(800, 800, false, false, false, false);
+		Background background = new Background(new BackgroundImage(image, null, null, BackgroundPosition.CENTER, backSize)); 
 		center = new VBox(newBtn, joinBtn);
+		center.setAlignment(Pos.CENTER);
 		
 		lobby = new BorderPane();
 		
+		int regionSize = 350;
+		Region region1 = new Region();
+		Region region2 = new Region();
+		Region region3 = new Region();
+		Region region4 = new Region();
+		
+		region1.setPrefWidth(regionSize);
+		region2.setPrefWidth(regionSize);
+		
+		region3.setPrefHeight(regionSize);
+		region4.setPrefHeight(regionSize);
+		
+		BorderPane.setAlignment(center, Pos.CENTER);
 		lobby.setCenter(center);
 		lobby.setBackground(background);
+		
+		lobby.setTop(region3);
+		lobby.setRight(region1);
+		lobby.setBottom(region4);
+		lobby.setLeft(region2);
 		
 		Scene scene = new Scene(lobby);
 		/* scene.getStylesheets().add(getClass().getResource("").toExternalForm()); */
 		
 		stage.setFullScreen(false);
-		
+		stage.setHeight(800);
+		stage.setWidth(800);
 		stage.setTitle("Lobby");
 		stage.setScene(scene);
 		stage.show();

@@ -38,6 +38,8 @@ public class ClientView {
 		
 		
 		
+		
+		
 	}
 	
 	public void showLoginView(Stage stage) {

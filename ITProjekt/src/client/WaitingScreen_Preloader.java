@@ -1,16 +1,22 @@
 package client;
 
+
+
 import javafx.application.Preloader;
 import javafx.application.Preloader.PreloaderNotification;
 import javafx.application.Preloader.ProgressNotification;
 import javafx.application.Preloader.StateChangeNotification;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.scene.paint.Color;
 
 /* Kopiert von SWE Modul von R. Bradley*/
 
@@ -22,18 +28,24 @@ public class WaitingScreen_Preloader extends Preloader {
     @Override
     public void start(Stage splashStage) throws Exception {
         this.stage = splashStage;
-        stage.initStyle(StageStyle.TRANSPARENT); // is also undecorated
         
-        gif = new Image(this.getClass().getClassLoader().getResourceAsStream("ITProjekt/client/Bilder/splaschscreen.gif"));
+        
+        gif = new Image(WaitingScreen_Preloader.class.getResourceAsStream("Bilder/splashscreen.gif"));
         ImageView imv = new ImageView(gif);
        
         
         BorderPane root = new BorderPane();
+        root.setBackground(new Background(new BackgroundFill(Color.BLACK, null, null)));
         root.setId("splash");
         root.setCenter(imv);
         root.setBottom(lblStatus);
+        root.setAlignment(lblStatus, Pos.TOP_CENTER);
         
-        Scene scene = new Scene(root, 300, 300);
+        lblStatus.setText("Es fehlen noch 3 von 4 Spielern");
+        lblStatus.setStyle("-fx-text-fill: white");
+        lblStatus.setStyle("-fx-text-size: 12px");
+        
+        Scene scene = new Scene(root, 200, 200);
         
         stage.setScene(scene);
 

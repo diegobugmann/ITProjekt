@@ -31,6 +31,7 @@ public class LoginView extends VBox{
 		pwlbl = new Label("Passwort erstellen:");
 		passwordField = new PasswordField();
 		loginBtn = new Button("Login");
+		loginBtn.setDisable(true);
 		
 		Region region1 = new Region();
 		region1.setPrefHeight(50);
@@ -51,6 +52,19 @@ public class LoginView extends VBox{
 		
 	}
 	
+	public void loginProcess() {
+		
+		
+		// if(passwordField.getText().isEmpty() == false && userName.getText().isEmpty() == false) {
+			
+			
+		//}
+		
+	}
+	
+	
+	
+
 
 
 
