@@ -5,7 +5,7 @@ public class Wiis {
 	public enum Blatt {
 		dreiblatt,
 		vierblatt,
-		fünfblatt,
+		fuenfblatt,
 		sechsblatt,
 		siebenblatt,
 		achtblatt,

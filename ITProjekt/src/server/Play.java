@@ -14,10 +14,12 @@ public class Play {
 	
 	public Team validateWinner() {
 		//TODO
+		return null;
 	}
 	
 	public int validatePoints() {
 		//TODO
+		return 0;
 	}
 	
 }
