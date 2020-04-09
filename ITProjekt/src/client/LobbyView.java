@@ -22,6 +22,7 @@ public class LobbyView {
 	protected BorderPane lobby;
 	protected VBox center;
 	protected Stage stage;
+	protected GameList gameList;
 	
 	
 	
@@ -29,14 +30,19 @@ public class LobbyView {
 		
 		this.stage = stage;
 		
+		gameList  = new GameList();
+		
 		newBtn = new Button("Neues Spiel");
 		joinBtn = new Button("Spiel beitreten");
 		//joinBtn.disableProperty().set(true);
 		
+		Region spacer1 = new Region();
+		spacer1.setPrefHeight(100);
+		
 		Image image = new Image(LobbyView.class.getResourceAsStream("Bilder/Lobby.jpg"));
 		BackgroundSize backSize = new BackgroundSize(800, 800, false, false, false, false);
 		Background background = new Background(new BackgroundImage(image, null, null, BackgroundPosition.CENTER, backSize)); 
-		center = new VBox(newBtn, joinBtn);
+		center = new VBox(newBtn, spacer1, gameList, joinBtn);
 		center.setAlignment(Pos.CENTER);
 		
 		lobby = new BorderPane();
