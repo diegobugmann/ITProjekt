@@ -3,6 +3,7 @@ package server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.logging.Logger;
 
 import Commons.Message;
 import javafx.collections.FXCollections;
@@ -10,15 +11,18 @@ import javafx.collections.ObservableList;
 
 public class ServerModel {
 	
-	private ObservableList<User> clients = FXCollections.observableArrayList();
+	private final Logger logger = Logger.getLogger("");
+	private ObservableList<User> users = FXCollections.observableArrayList();
 	private ObservableList<Game> games = FXCollections.observableArrayList();
 	private ServerSocket listener;
 	private volatile boolean stop = false;
 	
-	private int port = 8080;
-
-	public ServerModel() {
-		//diese Infos bei Server mit GUI in Methode startServer(), die vom Contr aufgerufen wird
+	private int port;
+	
+	public void startServer(int port) {
+		logger.info("Starting server");
+		logger.info("Listening on Port: "+port);
+		this.port = port;
 		try { 
 			listener = new ServerSocket(port, 10, null);
 			Runnable run = new Runnable() {
@@ -26,33 +30,52 @@ public class ServerModel {
 				public void run() {
 					while (!stop) {
 						try {
-							Socket socket = listener.accept(); // wait for clients to connect
-							User user = new User(ServerModel.this, socket);
-							clients.add(user);
+							Socket socket = listener.accept(); // wait for users to connect
+							User user = new User(ServerModel.this, socket); //generating thread for each user
+							users.add(user);
 						} catch (Exception e) {
-							//logger.info(e.toString());
+							logger.info(e.toString());
 						}
 					}
 				}
 			};
-			Thread clientThread = new Thread(run, "ServerSocket");
-			clientThread.start(); //Starten des threads und somit aufrufen von run()
+			Thread thread = new Thread(run, "ServerSocket");
+			thread.start(); //Starten des threads und somit aufrufen von run()
 		} catch (IOException e) {
-			//logger.info(e.toString());
+			logger.info(e.toString());
 		}
-		
 	}
+	
 	
 	public void broadcast(Message msg) {
-		//logger.info("Broadcasting message to clients");
-		for (User u : clients) {
-			u.send(outMsg); //Methode, um Msg zu versenden
+		logger.info("Broadcasting to all clients");
+		for (User u : users) {
+			//u.send(outMsg); //Methode, um Msg zu versenden
 		}
 	}
 	
+	public void stopServer() {
+		logger.info("Stopping all clients");
+		for (User u : users) {
+			try {
+				u.getSocket().close();
+			} catch (IOException e1) {
+				logger.info(e1.toString());
+			}
+		}
+		logger.info("Stopping server");
+		stop = true;
+		if (listener != null) {
+			try {
+				listener.close();
+			} catch (IOException e) {
+				logger.info(e.toString());
+			}
+		}
+	}
 	
-	public ObservableList<User> getClients() {
-		return clients;
+	public ObservableList<User> getUsers() {
+		return users;
 	}
 
 	public ObservableList<Game> getGames() {

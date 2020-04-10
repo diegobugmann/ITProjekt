@@ -61,5 +61,9 @@ public class User {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	public Socket getSocket() {
+		return this.clientSocket;
+	}
 
 }

@@ -7,6 +7,7 @@ public class ServerMain extends Application {
 	
 	private ServerModel model;
 	private ServerController controller;
+	private ServerView view;
 	
 	public static void main(String[] args) {
 		launch(args);
@@ -15,7 +16,8 @@ public class ServerMain extends Application {
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		model = new ServerModel();
-		controller = new ServerController(model);
+		view = new ServerView(model, primaryStage);
+		controller = new ServerController(model, view);
 	}
 
 }
