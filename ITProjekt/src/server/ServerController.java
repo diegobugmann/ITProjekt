@@ -1,5 +1,7 @@
 package server;
 
+import java.util.ArrayList;
+
 import Commons.Simple_Message;
 
 public class ServerController {
@@ -20,8 +22,10 @@ public class ServerController {
 		
 		for (Game g : model.getGames()) {
 			g.getNumOfPlayers().addListener( (obs, oV, nV) -> {
+				//TODO Spieleranzahl aktualisieren??
 				if ((int) nV == 4) {
 					//TODO Wenn 4 Spieler einem Spiel beigetreten sind, wird das Spiel gestartet
+					ArrayList<? extends User> players = g.getPlayers();
 					//model.broadcast(startGameMsg);
 			}
 			});

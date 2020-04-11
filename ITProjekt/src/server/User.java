@@ -31,9 +31,9 @@ public class User {
 						int numOfRounds = ((Message_CreateGame)msg).getNumOfRounds();
 						int winningPoints = ((Message_CreateGame)msg).getWinningPoints();
 						Game g = new Game(germanCards, numOfRounds, winningPoints, isSchieber);
-						model.getGames().add(g);
+						model.addGame(g);
 						model.broadcast(msg); //TODO Message_GameList zurückschicken
-						//TODO den Client, welcher dass Game erstellt hat, dem Game hinzufügen
+						//TODO den Client, welcher das Game erstellt hat, dem Game hinzufügen
 					 }
 					 
 					 if (msg instanceof Message_JoinGame) {

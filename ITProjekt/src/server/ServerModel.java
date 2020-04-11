@@ -3,6 +3,7 @@ package server;
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import Commons.Message;
@@ -54,6 +55,11 @@ public class ServerModel {
 		}
 	}
 	
+	
+	public void broadcast(ArrayList<? extends User> players, Message msg) {
+		//TODO nur an spezifische User broadcasten (sinnvoll? oder direkt von Cntrl aus senden?)
+	}
+	
 	public void stopServer() {
 		logger.info("Stopping all clients");
 		for (User u : users) {
@@ -80,6 +86,10 @@ public class ServerModel {
 
 	public ObservableList<Game> getGames() {
 		return games;
+	}
+	
+	public void addGame(Game g) {
+		this.games.add(g);
 	}
 	
 }

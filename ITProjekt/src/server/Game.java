@@ -37,7 +37,7 @@ public class Game extends Commons.Game {
 			else if (teams.get(1).getPlayerList().size() < 2)
 				teams.get(1).addPlayer(p);
 			else return false; //wenn schon 4 Spieler im Spiel sind, wird false zurückgegeben
-			numOfPlayers.setValue(teams.get(0).getPlayerList().size()+teams.get(1).getPlayerList().size());
+			numOfPlayers.setValue(teams.get(0).getPlayerList().size()+teams.get(1).getPlayerList().size()); //Spielerzahl aktualisieren
 			return true;
 		} else {
 			for (Team t : teams) {
@@ -57,5 +57,14 @@ public class Game extends Commons.Game {
 	
 	public SimpleIntegerProperty getNumOfPlayers() {
 		return numOfPlayers;
+	}
+	
+	public ArrayList<Player> getPlayers() {
+		ArrayList<Player> players = new ArrayList<Player>();
+		for (Team t : teams) {
+			for (Player p : t.getPlayerList())
+				players.add(p);
+		}
+		return players;
 	}
 }
