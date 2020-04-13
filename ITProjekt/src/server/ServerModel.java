@@ -47,17 +47,19 @@ public class ServerModel {
 		}
 	}
 	
-	
+	//An alle User broadcasten
 	public void broadcast(Message msg) {
 		logger.info("Broadcasting to all clients");
 		for (User u : users) {
-			//u.send(outMsg); //Methode, um Msg zu versenden
+			msg.send(u.getSocket()); //Methode, um Msg zu versenden
 		}
 	}
 	
-	
+	//Nur an bestimmte User broadcasten
 	public void broadcast(ArrayList<? extends User> players, Message msg) {
-		//TODO nur an spezifische User broadcasten (sinnvoll? oder direkt von Cntrl aus senden?)
+		for (User u : players) {
+			msg.send(u.getSocket());
+		}
 	}
 	
 	public void stopServer() {
