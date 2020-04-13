@@ -22,7 +22,8 @@ public class GameList extends VBox {
 		tableView = new TableView<>();
 		
 		TableColumn<Table, String> colGames = new TableColumn<>("Spiele");
-		colGames.setPrefWidth(90);
+		colGames.setPrefWidth(150);
+		
 		tableView.getColumns().add(colGames);
 		
 		

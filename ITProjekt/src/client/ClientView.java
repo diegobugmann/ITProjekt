@@ -28,10 +28,6 @@ public class ClientView {
 		this.model = model;
 		
 		
-		// showLoginView(primaryStage);
-		// loadMainView(primaryStage);
-		
-		showLobbyView(primaryStage);
 		
 		
 		

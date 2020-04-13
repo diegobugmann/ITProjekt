@@ -31,18 +31,31 @@ public class LobbyView {
 		this.stage = stage;
 		
 		gameList  = new GameList();
+		gameMenu = new GameMenu();
 		
 		newBtn = new Button("Neues Spiel");
 		joinBtn = new Button("Spiel beitreten");
 		//joinBtn.disableProperty().set(true);
 		
+		int spacerMinSize = 20;
+		int spacerPrefSize = 50;
+		int spacerMaxSize = 100;
 		Region spacer1 = new Region();
-		spacer1.setPrefHeight(100);
+		Region spacer2 = new Region();
+		
+		spacer1.setMinHeight(spacerMinSize);
+		spacer2.setMinHeight(spacerMinSize);
+		
+		spacer1.setPrefHeight(spacerPrefSize);
+		spacer2.setPrefHeight(spacerPrefSize);
+		
+		spacer1.setMaxHeight(spacerMaxSize);
+		spacer2.setMaxHeight(spacerMaxSize);
 		
 		Image image = new Image(LobbyView.class.getResourceAsStream("Bilder/Lobby.jpg"));
 		BackgroundSize backSize = new BackgroundSize(800, 800, false, false, false, false);
 		Background background = new Background(new BackgroundImage(image, null, null, BackgroundPosition.CENTER, backSize)); 
-		center = new VBox(newBtn, spacer1, gameList, joinBtn);
+		center = new VBox(newBtn, spacer1, gameList, spacer2, joinBtn);
 		center.setAlignment(Pos.CENTER);
 		
 		lobby = new BorderPane();
@@ -63,13 +76,14 @@ public class LobbyView {
 		lobby.setCenter(center);
 		lobby.setBackground(background);
 		
-		lobby.setTop(region3);
+		lobby.setTop(gameMenu);
+		BorderPane.setMargin(gameMenu, new Insets(0, 0, 250, 0));
 		lobby.setRight(region1);
 		lobby.setBottom(region4);
 		lobby.setLeft(region2);
 		
 		Scene scene = new Scene(lobby);
-		/* scene.getStylesheets().add(getClass().getResource("").toExternalForm()); */
+		//scene.getStylesheets().add(getClass().getResource("").toExternalForm());
 		
 		stage.setFullScreen(false);
 		stage.setHeight(800);
