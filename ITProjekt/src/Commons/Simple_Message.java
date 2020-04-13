@@ -13,9 +13,9 @@ public class Simple_Message extends Message{
 		Game_end;
 	}
 	
-	
-	public Simple_Message() {
-		// TODO Auto-generated constructor stub
+	private Msg type;
+	public Simple_Message(Msg type) {
+		this.type = type;
 	}
 
 }

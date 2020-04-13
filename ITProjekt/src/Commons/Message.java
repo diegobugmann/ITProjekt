@@ -1,7 +1,11 @@
 package Commons;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
+
 
 public class Message implements Serializable {
 
@@ -25,10 +29,20 @@ public class Message implements Serializable {
     
     public Message() {
     	this.id = nextMessageID();
+    	this.timestamp = System.currentTimeMillis();
     }
     
-    
-    
+    public void send(Socket socket) {
+    	try{
+        	ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream());
+        	this.timestamp = System.currentTimeMillis();
+        	writer.writeObject(this);
+			writer.flush();
+    	}
+    	catch(Exception e) {
+    		System.out.println(e.toString());
+    	}
+    }
     
 	public long getId() {
 		return id;
@@ -59,8 +73,11 @@ public class Message implements Serializable {
     	return "Message" + this.id + " Client" + this.client + "SendingTime " + this.timestamp;
     }
 
-	public static Message receive(Socket clientSocket) {
-		// TODO Auto-generated method stub
-		return null;
+    
+    
+	public static Message receive(Socket clientSocket) throws IOException, ClassNotFoundException {
+    	ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
+    	Message msg = (Message) in.readObject();
+        return msg;
 	}
 }
