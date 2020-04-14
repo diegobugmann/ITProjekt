@@ -44,11 +44,11 @@ public class Message_Hand extends Message{
 		ArrayList<Card> clubs = new ArrayList<Card>();
 		ArrayList<Card> diamonds = new ArrayList<Card>();
 		for(Card c : hand) {
-			if(c.getSuit() == Card.Suit.Spades)
+			if(c.getSuit() == Card.Suit.ShieldsOrSpades)
 				spades.add(c);
-			else if(c.getSuit() == Card.Suit.Hearts)
+			else if(c.getSuit() == Card.Suit.RosesOrHearts)
 				hearts.add(c);
-			else if(c.getSuit() == Card.Suit.Clubs)
+			else if(c.getSuit() == Card.Suit.BellsOrClubs)
 				clubs.add(c);
 			else
 				diamonds.add(c);
