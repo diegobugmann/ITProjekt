@@ -18,6 +18,8 @@ public class TestConnection {
 		TestConnection  c = new TestConnection();
 		c.connect();
 		c.connection.sendMessage(new Simple_Message(Simple_Message.Msg.CheckConnection));
+		System.out.println("Closing Connection");
+		c.connection.closeConnection();
 	}
 	/**
 	 * Connects to the Server and creates a connection object to send or receive data from the server

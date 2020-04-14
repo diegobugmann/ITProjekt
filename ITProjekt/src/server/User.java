@@ -26,19 +26,21 @@ public class User {
 		Runnable run = new Runnable() {
 			@Override
 			public void run() {
-				while(true) {
+				
 					try {
-						Message msgIn = Message.receive(clientSocket);
-						processMessage(msgIn);
+						while(true) {
+							Message msgIn = Message.receive(clientSocket);
+							processMessage(msgIn);
+						}
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					} catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} //TODO Methode, die auf Msges wartet 
+					}
+					finally { try { if (clientSocket != null) clientSocket.close(); } catch (IOException e) {}}
 				}
-			}
 		};
 		Thread thread = new Thread(run);
 		thread.start();
