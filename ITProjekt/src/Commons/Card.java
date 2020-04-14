@@ -8,15 +8,18 @@ public class Card implements Comparable<Object>, Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public enum Suit {Clubs, Diamonds, Hearts, Spades;
+	public enum Suit {	ShieldsOrSpades,
+		RosesOrHearts,
+		AcornsOrDiamonds,
+		BellsOrClubs;
         @Override
         public String toString() {
             String suit = "";
             switch (this) {
-            case Clubs: suit = "clubs"; break;
-            case Diamonds: suit = "diamonds"; break;
-            case Hearts: suit = "hearts"; break;
-            case Spades: suit = "spades"; break;
+            case BellsOrClubs: suit = "clubs"; break;
+            case AcornsOrDiamonds: suit = "diamonds"; break;
+            case RosesOrHearts: suit = "hearts"; break;
+            case ShieldsOrSpades: suit = "spades"; break;
             }
             return suit;
         }
