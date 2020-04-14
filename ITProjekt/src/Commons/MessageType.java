@@ -54,7 +54,6 @@ public enum MessageType {
     	else if (msg instanceof Message_Trumpf) type = trumpf;
     	else if (msg instanceof Message_EndResult) type = endResults;
     	return type;
-
     }	
 	
 }

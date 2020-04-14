@@ -32,10 +32,15 @@ public class Message implements Serializable {
     	this.timestamp = System.currentTimeMillis();
     }
     
+    /**
+     * Sends the Message on the given Socket
+     * @param socket
+     */
     public void send(Socket socket) {
     	try{
         	ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream());
         	this.timestamp = System.currentTimeMillis();
+        	System.out.println("Sending: "+ this.toString());
         	writer.writeObject(this);
 			writer.flush();
     	}
@@ -44,6 +49,7 @@ public class Message implements Serializable {
     	}
     }
     
+    //Geters and Setters -----------------------------------------------------------------------------
 	public long getId() {
 		return id;
 	}
@@ -67,17 +73,23 @@ public class Message implements Serializable {
 	public void setClient(String client) {
 		this.client = client;
 	}
-	
+	//--------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-    	return "Message" + this.id + " Client" + this.client + "SendingTime " + this.timestamp;
+    	return "Message " + this.id + " Client " + this.client + "SendingTime  " + this.timestamp;
     }
-
-    
-    
+ 
+    /**
+     * Reades a received Message and casts it into a Message Object
+     * @param clientSocket
+     * @return
+     * @throws IOException
+     * @throws ClassNotFoundException
+     */
 	public static Message receive(Socket clientSocket) throws IOException, ClassNotFoundException {
     	ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
     	Message msg = (Message) in.readObject();
+    	System.out.println("Read new Message "+ msg.toString());
         return msg;
 	}
 }

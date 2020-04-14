@@ -9,7 +9,6 @@ import Commons.Simple_Message;
 
 public class CommunicationThread extends Thread{
 	private Socket socket;
-	private ObjectInputStream reader;
 	private ClientController controller;
 	
 	public CommunicationThread(Socket s, ClientController controller) throws IOException {
@@ -17,7 +16,6 @@ public class CommunicationThread extends Thread{
 		super();
 		this.socket = s;
 		this.controller = controller;
-		this.reader = new ObjectInputStream(socket.getInputStream());
 	}
 	
 	
@@ -29,7 +27,8 @@ public class CommunicationThread extends Thread{
     public void run() {
     	 try {
     		// Read a message from the client
- 			Message msgIn = (Message) reader.readObject();
+    		 Message msgIn = Message.receive(socket);
+				processMessage(msgIn);
  			
  			Message msgOut = processMessage(msgIn);
  			if(msgOut != null) {
@@ -42,7 +41,6 @@ public class CommunicationThread extends Thread{
     }
 	
 	private Message processMessage(Message msgIn) {
-		// TODO Auto-generated method stub
 		
 		return null;
 	}

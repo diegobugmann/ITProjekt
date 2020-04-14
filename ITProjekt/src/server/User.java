@@ -9,6 +9,7 @@ import Commons.MessageType;
 import Commons.Message_CreateGame;
 import Commons.Message_GameList;
 import Commons.Message_JoinGame;
+import Commons.Simple_Message;
 
 public class User {
 	
@@ -29,7 +30,6 @@ public class User {
 					try {
 						Message msgIn = Message.receive(clientSocket);
 						processMessage(msgIn);
-						
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -76,9 +76,14 @@ public class User {
 			} else {
 				//TODO User benachrichtigen, dass er nicht joinen konnte
 			}
-			break;	
+			break;
+
 		}
-			
+		case simple_Message : {
+			Simple_Message received = new Simple_Message(Simple_Message.Msg.Received);
+			received.send(this.clientSocket);
+			break;
+		}	
 	 }
 		
 	}
