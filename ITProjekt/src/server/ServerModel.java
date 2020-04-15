@@ -56,9 +56,9 @@ public class ServerModel {
 	}
 	
 	//Nur an bestimmte User broadcasten
-	public void broadcast(ArrayList<? extends User> players, Message msg) {
-		for (User u : players) {
-			msg.send(u.getSocket());
+	public void broadcast(ArrayList<Player> players, Message msg) {
+		for (Player p : players) {
+			msg.send(p.getSocket());
 		}
 	}
 	

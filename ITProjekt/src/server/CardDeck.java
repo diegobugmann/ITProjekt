@@ -26,11 +26,13 @@ public class CardDeck {
         Collections.shuffle(cards);
     }
     
-    public Card dealCard() {
-    	if (cards.size() > 0)
-    		return cards.remove(cards.size()-1);
-    	else
-    		return null;
+    
+    //deal every player 9 cards
+    public void dealCards(ArrayList<Player> players) {
+    	for (Player p : players) {
+    		for (int i = 0; i < 9; i++)
+    			p.addCard(cards.remove(cards.size()-1));
+    	}
     }
 
 }

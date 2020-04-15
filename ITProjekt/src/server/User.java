@@ -59,22 +59,26 @@ public class User {
 			int numOfRounds = ((Message_CreateGame)msgIn).getNumOfRounds();
 			int winningPoints = ((Message_CreateGame)msgIn).getWinningPoints();
 			Game g = new Game(germanCards, numOfRounds, winningPoints, isSchieber);
-			Player p = new Player(this.model, this.clientSocket);
+			Player p = new Player(this.model, this.clientSocket); //TODO
 			g.addPlayer(p); //Player, welcher Spiel erstellt hat, hinzufügen
 			model.addGame(g);
+			msgOut = new Simple_Message(Simple_Message.Msg.Received);
+			msgOut.send(clientSocket);
 			msgOut = new Message_GameList(); //TODO Parameter sollen die games sein
-			model.broadcast(msgOut);
+			model.broadcast(msgOut); //GameList an alle Spieler schicken
 			break;
 		}
 			
 		case joinGame : {
 			boolean added = false;
-			Player p = new Player(model, clientSocket);
+			Player p = new Player(model, clientSocket); //TODO
 			for (Game g : model.getGames()) {
 				if (g == ((Message_JoinGame)msgIn).getGame()) //dem richtigen Game hinzufügen
 					added = g.addPlayer(p);
 			}
 			if (added) { //Wenn der Spieler hinzugefügt wurde, wird dies gebroadcasted
+				msgOut = new Simple_Message(Simple_Message.Msg.Received);
+				msgOut.send(clientSocket);
 				msgOut = msgIn;
 				model.broadcast(msgOut);
 			} else {

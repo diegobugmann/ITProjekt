@@ -55,8 +55,16 @@ public class Game extends Commons.Game {
 		this.trumpf = trumpf;
 	}
 	
+	public boolean isSchieber() {
+		return this.isSchieber;
+	}
+	
 	public SimpleIntegerProperty getNumOfPlayers() {
 		return numOfPlayers;
+	}
+	
+	public CardDeck getDeck() {
+		return this.deck;
 	}
 	
 	public ArrayList<Player> getPlayers() {

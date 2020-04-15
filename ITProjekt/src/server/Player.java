@@ -15,4 +15,11 @@ public class Player extends User {
 		super(model, clientSocket);
 	}
 	
+	public void addCard(Card c) {
+		this.hand.add(c);
+	}
+	
+	public ArrayList<Card> getHand() {
+		return this.hand;
+	}
 }
