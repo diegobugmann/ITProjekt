@@ -13,7 +13,7 @@ import Commons.Simple_Message;
 
 public class User {
 	
-	private static int nextID = 0;
+	private static int nextID = 1;
 	private int userID;
 	private String name;
 	private Socket clientSocket;
@@ -62,10 +62,9 @@ public class User {
 			Player p = new Player(this.model, this.clientSocket); //TODO
 			g.addPlayer(p); //Player, welcher Spiel erstellt hat, hinzufügen
 			model.addGame(g);
-			msgOut = new Simple_Message(Simple_Message.Msg.Received);
-			msgOut.send(clientSocket);
+			sendReceived();
 			msgOut = new Message_GameList(); //TODO Parameter sollen die games sein
-			model.broadcast(msgOut); //GameList an alle Spieler schicken
+			model.broadcast(msgOut);
 			break;
 		}
 			
@@ -76,9 +75,8 @@ public class User {
 				if (g == ((Message_JoinGame)msgIn).getGame()) //dem richtigen Game hinzufügen
 					added = g.addPlayer(p);
 			}
-			if (added) { //Wenn der Spieler hinzugefügt wurde, wird dies gebroadcasted
-				msgOut = new Simple_Message(Simple_Message.Msg.Received);
-				msgOut.send(clientSocket);
+			if (added) {
+				sendReceived();
 				msgOut = msgIn;
 				model.broadcast(msgOut);
 			} else {
@@ -88,12 +86,16 @@ public class User {
 
 		}
 		case simple_Message : {
-			Simple_Message received = new Simple_Message(Simple_Message.Msg.Received);
-			received.send(this.clientSocket);
+			sendReceived();
 			break;
 		}	
 	 }
 		
+	}
+	
+	public void sendReceived() {
+		Simple_Message msg = new Simple_Message(Simple_Message.Msg.Received);
+		msg.send(clientSocket);
 	}
 
 	public void setName(String name) {

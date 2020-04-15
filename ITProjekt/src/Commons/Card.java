@@ -2,7 +2,7 @@ package Commons;
 
 import java.io.Serializable;
 
-public class Card implements Comparable<Object>, Serializable{
+public class Card implements Comparable<Card>, Serializable{
 	/**
 	 * 
 	 */
@@ -66,8 +66,7 @@ public class Card implements Comparable<Object>, Serializable{
     }
 
 	@Override
-	public int compareTo(Object o) {
-		Card c = (Card) o;
+	public int compareTo(Card c) {
 		return this.getRank().ordinal() - c.getRank().ordinal();
 	}
 }

@@ -2,8 +2,11 @@ package server;
 
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import Commons.Card;
+import Commons.Card.Rank;
+import Commons.Card.Suit;
 
 public class Player extends User {
 	
@@ -21,5 +24,31 @@ public class Player extends User {
 	
 	public ArrayList<Card> getHand() {
 		return this.hand;
+	}
+	
+	//Organizing the cards in a certain order (by Michi)
+	public void organizeHand() {
+		ArrayList<Card> spades = new ArrayList<Card>();
+		ArrayList<Card> hearts = new ArrayList<Card>();
+		ArrayList<Card> clubs = new ArrayList<Card>();
+		ArrayList<Card> diamonds = new ArrayList<Card>();
+		for(Card c : hand) {
+			if(c.getSuit() == Card.Suit.ShieldsOrSpades)
+				spades.add(c);
+			else if(c.getSuit() == Card.Suit.RosesOrHearts)
+				hearts.add(c);
+			else if(c.getSuit() == Card.Suit.BellsOrClubs)
+				clubs.add(c);
+			else
+				diamonds.add(c);
+		}
+		Collections.sort(spades);
+		Collections.sort(hearts);
+		Collections.sort(clubs);
+		Collections.sort(diamonds);
+		spades.addAll(hearts);
+		spades.addAll(clubs);
+		spades.addAll(diamonds);
+		hand = spades;
 	}
 }

@@ -32,6 +32,7 @@ public class ServerController {
 					//TODO broadcast GameList? gem. Diagramm
 					g.getDeck().dealCards(players);
 					for (Player p : players) {
+						p.organizeHand();
 						msgOut = new Message_Hand(p.getHand());
 						msgOut.send(p.getSocket());
 					}
