@@ -13,6 +13,7 @@ import Commons.Simple_Message;
 
 public class User {
 	
+	private static int nextID = 0;
 	private int userID;
 	private String name;
 	private Socket clientSocket;
@@ -22,6 +23,7 @@ public class User {
 	public User(ServerModel model, Socket clientSocket) {
 		this.clientSocket = clientSocket;
 		this.model = model;
+		userID = nextID++;
 		
 		Runnable run = new Runnable() {
 			@Override
@@ -60,14 +62,14 @@ public class User {
 			Player p = new Player(this.model, this.clientSocket);
 			g.addPlayer(p); //Player, welcher Spiel erstellt hat, hinzufügen
 			model.addGame(g);
-			msgOut = new Message_GameList();
-			model.broadcast(msgOut); //TODO Message_GameList zurückschicken
+			msgOut = new Message_GameList(); //TODO Parameter sollen die games sein
+			model.broadcast(msgOut);
 			break;
 		}
 			
 		case joinGame : {
 			boolean added = false;
-			Player p = new Player(model, clientSocket); //Player aus diesem User erstellen??
+			Player p = new Player(model, clientSocket);
 			for (Game g : model.getGames()) {
 				if (g == ((Message_JoinGame)msgIn).getGame()) //dem richtigen Game hinzufügen
 					added = g.addPlayer(p);
@@ -96,6 +98,10 @@ public class User {
 	
 	public Socket getSocket() {
 		return this.clientSocket;
+	}
+	
+	public int getID() {
+		return this.userID;
 	}
 
 }

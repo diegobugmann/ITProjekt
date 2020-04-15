@@ -16,10 +16,10 @@ public class Card implements Comparable<Object>, Serializable{
         public String toString() {
             String suit = "";
             switch (this) {
-            case BellsOrClubs: suit = "clubs"; break;
-            case AcornsOrDiamonds: suit = "diamonds"; break;
-            case RosesOrHearts: suit = "hearts"; break;
-            case ShieldsOrSpades: suit = "spades"; break;
+            	case BellsOrClubs: suit = "Bells or Clubs"; break;
+            	case AcornsOrDiamonds: suit = "Acorns or Diamonds"; break;
+            	case RosesOrHearts: suit = "Roses or Hearts"; break;
+            	case ShieldsOrSpades: suit = "Shields or Spades"; break;
             }
             return suit;
         }
