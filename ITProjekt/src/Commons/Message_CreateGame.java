@@ -1,30 +1,27 @@
 package Commons;
-
+/**
+ * Message from client to server to create new Game
+ * @author mibe1
+ *
+ */
 public class Message_CreateGame extends Message{
-
-	private boolean germanCards;
-	private boolean isSchieber;
-	private int numOfRounds;
-	private int winningPoints;
+	//Commons.game created from the client changed on the Serverside to a Server.game
+	private Game game;
+	/**
+	 * Constructor
+	 * @param game
+	 */
+	public Message_CreateGame(Game game) {
+		this.game = game;
+	}
+	/**
+	 * Getter
+	 * @return
+	 */
+	public Game getGame() {
+		return game;
+	}
 	
-	public boolean isGermanCards() {
-		return germanCards;
-	}
-
-	public boolean isSchieber() {
-		return isSchieber;
-	}
-
-	public int getNumOfRounds() {
-		return numOfRounds;
-	}
-
-	public int getWinningPoints() {
-		return winningPoints;
-	}
-
-	public Message_CreateGame() {
-		// TODO Auto-generated constructor stub
-	}
+	
 
 }

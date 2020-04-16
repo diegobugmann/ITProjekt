@@ -42,13 +42,24 @@ public class CommunicationThread extends Thread{
 
     }
 	
+    /**
+     * process the message based on the Messagetype and gives advice to the controller
+     * @param msgIn Incomming Message
+     * @return message received or specific answer message
+     */
 	private Message processMessage(Message msgIn) {
+		//The default answer is a Simpe_Message received so the client can interact with the user without blocking the communication.
 		Message returnMsg = new Simple_Message(Simple_Message.Msg.Received);
+		
 		MessageType type = MessageType.getType(msgIn);
 		switch(type){
+		/**
+		 * Go through all Simple Messages and react to them
+		 */
 			case simple_Message : {
 				Simple_Message msg =(Simple_Message) msgIn;
 				switch(msg.getType()) {
+				//If the Message is a received message from the Server the communication has ended (block loops)	
 					case Received :{
 						return null;
 					}
@@ -67,9 +78,6 @@ public class CommunicationThread extends Thread{
 					case Ansage_Trumpf :{
 						break;
 					}
-					case Game_end :{
-						break;
-					}
 					
 					case Login_accepted :{
 						break;
@@ -84,10 +92,6 @@ public class CommunicationThread extends Thread{
 				
 				break;
 			}
-			case joinGame : {
-				
-				break;
-			}
 			case players : {
 				
 				break;
@@ -97,10 +101,6 @@ public class CommunicationThread extends Thread{
 				break;
 			}
 			case turn : {
-				
-				break;
-			}
-			case ansage : {
 				
 				break;
 			}
@@ -136,12 +136,6 @@ public class CommunicationThread extends Thread{
 
 	public void sendMessage(Message msg) {
 		msg.send(this.socket);
-	}
-	
-	public void sendReceived() {
-		Simple_Message msg = new Simple_Message(Simple_Message.Msg.Received);
-		msg.send(this.socket);
-		
 	}
 	
 	
