@@ -28,7 +28,6 @@ public class User {
 		Runnable run = new Runnable() {
 			@Override
 			public void run() {
-				
 					try {
 						while(true) {
 							Message msgIn = Message.receive(clientSocket);
@@ -83,13 +82,14 @@ public class User {
 				//TODO User benachrichtigen, dass er nicht joinen konnte
 			}
 			break;
-
 		}
+		
 		case simple_Message : {
 			sendReceived(); //TODO
 			break;
-		}	
-	 }
+		}
+		
+		}
 		
 	}
 	

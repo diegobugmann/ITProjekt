@@ -5,18 +5,15 @@ package Commons;
  *
  */
 public class Message_CreateGame extends Message{
-	
 
 	private boolean isSchieber;
 	private boolean isGermanCards;
-	private int numOfPlayers;
 	private int numOfRounds;
 	private int winningPoints;
-	public Message_CreateGame(boolean isSchieber, boolean isGermanCards, int numOfPlayers, int numOfRounds, int winningPoints) {
+	public Message_CreateGame(boolean isSchieber, boolean isGermanCards, int numOfRounds, int winningPoints) {
 		super();
 		this.isSchieber = isSchieber;
 		this.isGermanCards = isGermanCards;
-		this.numOfPlayers = numOfPlayers;
 		this.numOfRounds = numOfRounds;
 		this.winningPoints = winningPoints;
 	}
@@ -25,9 +22,6 @@ public class Message_CreateGame extends Message{
 	}
 	public boolean isSchieber() {
 		return isSchieber;
-	}
-	public int getNumOfPlayers() {
-		return numOfPlayers;
 	}
 	public int getNumOfRounds() {
 		return numOfRounds;
