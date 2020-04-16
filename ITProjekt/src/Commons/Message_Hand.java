@@ -2,7 +2,11 @@ package Commons;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
+/**
+ * Sends the hand to the player 
+ * @author mibe1
+ *
+ */
 public class Message_Hand extends Message{
 	
 	private int size;
@@ -14,6 +18,7 @@ public class Message_Hand extends Message{
 		this.size = hand.size();
 	}
 
+	//Getters and Setters
 	public int getSize() {
 		return size;
 	}
@@ -28,11 +33,5 @@ public class Message_Hand extends Message{
 
 	public void setHand(ArrayList<Card> hand) {
 		this.hand = hand;
-	}
-	
-	@Override
-	public String toString() {
-		return "Message_Hand" + this.getId();
-	}
-	
+	}	
 }

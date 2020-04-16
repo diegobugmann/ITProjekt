@@ -59,7 +59,7 @@ public class Game extends Commons.Game {
 		return this.isSchieber;
 	}
 	
-	public SimpleIntegerProperty getNumOfPlayers() {
+	public SimpleIntegerProperty getNumOfPlayersAsProperty() {
 		return numOfPlayers;
 	}
 	

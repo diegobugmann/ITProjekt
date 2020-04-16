@@ -24,7 +24,7 @@ public class ServerController {
 		
 		//listener is waiting for 4 players to join a game
 		for (Game g : model.getGames()) {
-			g.getNumOfPlayers().addListener( (obs, oV, nV) -> {
+			g.getNumOfPlayersAsProperty().addListener( (obs, oV, nV) -> {
 				if ((int) nV == 4) {
 					ArrayList<Player> players = g.getPlayers();
 					Message msgOut = new Simple_Message(Simple_Message.Msg.Game_Start);
