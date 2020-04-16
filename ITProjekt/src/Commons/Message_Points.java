@@ -16,23 +16,18 @@ public class Message_Points extends Message{
 		this.playerII = playerII;
 		this.points = points;
 	}
+	//Getters
 	public String getPlayerI() {
 		return playerI;
 	}
-	public void setPlayerI(String playerI) {
-		this.playerI = playerI;
-	}
+
 	public String getPlayerII() {
 		return playerII;
 	}
-	public void setPlayerII(String playerII) {
-		this.playerII = playerII;
-	}
+
 	public int getPoints() {
 		return points;
 	}
-	public void setPoints(int points) {
-		this.points = points;
-	}
+
 
 }
