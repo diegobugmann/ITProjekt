@@ -12,6 +12,7 @@ public class Message_CreateGame extends Message{
 	 * @param game
 	 */
 	public Message_CreateGame(Game game) {
+		super();
 		this.game = game;
 	}
 	/**

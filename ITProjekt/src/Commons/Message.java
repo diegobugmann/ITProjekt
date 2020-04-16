@@ -6,12 +6,18 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.net.Socket;
 
-
+/**
+ * Basic Class for all Messages, contains client, messageid and timestamp
+ * @author mibe1
+ *
+ */
 public class Message implements Serializable {
 
 	// Data included in a message
     private long id;
     private long timestamp;
+    // contains the Sending client if message gets send from client to Server
+    //Or the acting client if message gets send from Server to all clients (Example turn)
     private String client;
     
     
@@ -22,6 +28,7 @@ public class Message implements Serializable {
      * Increment the global messageID
      * Code from Bradley Richards
      * @return the next valid ID
+     * TODO think if this works when programm is exicuted on multible physical clients and what it is needed for
      */
     private static long nextMessageID() {
         return messageID++;
