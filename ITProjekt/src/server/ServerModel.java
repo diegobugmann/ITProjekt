@@ -32,7 +32,7 @@ public class ServerModel {
 					while (!stop) {
 						try {
 							Socket socket = listener.accept(); // wait for users to connect
-							User user = new User(ServerModel.this, socket); //generating thread for each user
+							User user = new Player(ServerModel.this, socket);
 							users.add(user);
 						} catch (Exception e) {
 							logger.info(e.toString());
