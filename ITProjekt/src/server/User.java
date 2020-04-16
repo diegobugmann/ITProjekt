@@ -54,10 +54,10 @@ public class User {
 		switch (MessageType.getType(msgIn)) {
 		
 		case createGame : {
-			boolean isSchieber = ((Message_CreateGame)msgIn).getGame().isSchieber();
-			boolean germanCards = ((Message_CreateGame)msgIn).getGame().isGermanCards();
-			int numOfRounds = ((Message_CreateGame)msgIn).getGame().getNumOfRounds();
-			int winningPoints = ((Message_CreateGame)msgIn).getGame().getWinningPoints();
+			boolean isSchieber = ((Message_CreateGame)msgIn).isSchieber();
+			boolean germanCards = ((Message_CreateGame)msgIn).isGermanCards();
+			int numOfRounds = ((Message_CreateGame)msgIn).getNumOfRounds();
+			int winningPoints = ((Message_CreateGame)msgIn).getWinningPoints();
 			Game g = new Game(germanCards, numOfRounds, winningPoints, isSchieber);
 			Player p = new Player(this.model, this.clientSocket); //TODO
 			g.addPlayer(p); //Player, welcher Spiel erstellt hat, hinzufügen

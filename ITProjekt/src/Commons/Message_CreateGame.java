@@ -5,23 +5,38 @@ package Commons;
  *
  */
 public class Message_CreateGame extends Message{
-	//Commons.game created from the client changed on the Serverside to a Server.game
-	private Game game;
-	/**
-	 * Constructor
-	 * @param game
-	 */
-	public Message_CreateGame(Game game) {
+	
+
+	private boolean isSchieber;
+	private boolean isGermanCards;
+	private int numOfPlayers;
+	private int numOfRounds;
+	private int winningPoints;
+	public Message_CreateGame(boolean isSchieber, boolean isGermanCards, int numOfPlayers, int numOfRounds, int winningPoints) {
 		super();
-		this.game = game;
+		this.isSchieber = isSchieber;
+		this.isGermanCards = isGermanCards;
+		this.numOfPlayers = numOfPlayers;
+		this.numOfRounds = numOfRounds;
+		this.winningPoints = winningPoints;
 	}
-	/**
-	 * Getter
-	 * @return
-	 */
-	public Game getGame() {
-		return game;
+	public boolean isGermanCards() {
+		return isGermanCards;
 	}
+	public boolean isSchieber() {
+		return isSchieber;
+	}
+	public int getNumOfPlayers() {
+		return numOfPlayers;
+	}
+	public int getNumOfRounds() {
+		return numOfRounds;
+	}
+	public int getWinningPoints() {
+		return winningPoints;
+	}
+	
+	
 	
 	
 

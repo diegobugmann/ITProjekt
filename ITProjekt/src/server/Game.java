@@ -15,11 +15,11 @@ public class Game extends Commons.Game {
 	
 	public Game(boolean germanCards, int rounds, int winningPoints, boolean isSchieber) {
 		this.deck = new CardDeck(germanCards);
-		this.numOfRounds = rounds;
+		this.setNumOfRounds(rounds);
 		this.isFistPlay = true;
-		this.isSchieber = isSchieber;
+		this.setSchieber(isSchieber);
 		plays = new ArrayList<Play>();
-		this.winningPoints = winningPoints;
+		this.setWinningPoints(winningPoints);
 		
 		if (isSchieber) {
 			for (int i = 0; i < 2; i++) //Bei Schieber 2 Teams erstellen
@@ -31,7 +31,7 @@ public class Game extends Commons.Game {
 	}
 	
 	public boolean addPlayer(Player p) {
-		if (isSchieber) {
+		if (this.isSchieber()) {
 			if (teams.get(0).getPlayerList().size() < 2)
 				teams.get(0).addPlayer(p);
 			else if (teams.get(1).getPlayerList().size() < 2)
@@ -53,10 +53,6 @@ public class Game extends Commons.Game {
 
 	public void setGameType(GameType trumpf) {
 		this.trumpf = trumpf;
-	}
-	
-	public boolean isSchieber() {
-		return this.isSchieber;
 	}
 	
 	public SimpleIntegerProperty getNumOfPlayersAsProperty() {
