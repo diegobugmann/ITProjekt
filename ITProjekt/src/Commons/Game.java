@@ -1,25 +1,19 @@
 package Commons;
 
-import javafx.beans.property.SimpleIntegerProperty;
-
 public class Game {
+	public static int nextID = 1;
 	private int gameId;
 	private boolean isRunning;
-	protected boolean isSchieber;
+	private boolean isSchieber;
 	private int numOfPlayers;
-	protected int numOfRounds;
-	protected int winningPoints;
+	private int numOfRounds;
+	private int winningPoints;
 	private boolean isGermanCards;
-	
-	
-
-
 
 	public Game() {
 		// TODO Auto-generated constructor stub
 	}
-
-
+	
 	public int getGameId() {
 		return gameId;
 	}
@@ -78,10 +72,10 @@ public class Game {
 	public void setWinningPoints(int winningPoints) {
 		this.winningPoints = winningPoints;
 	}
+	
 	public boolean isGermanCards() {
 		return isGermanCards;
 	}
-
 
 	public void setGermanCards(boolean isGermanCards) {
 		this.isGermanCards = isGermanCards;

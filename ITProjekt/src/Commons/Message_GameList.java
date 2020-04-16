@@ -12,13 +12,13 @@ import java.util.ArrayList;
 public class Message_GameList extends Message{
 
 	//All Games
-	private ArrayList<Game> games;
+	private ArrayList<? extends Game> games;
 	
 	/**
 	 * Main constructor create a Message with all open games on the server
 	 * @param games
 	 */
-	public Message_GameList(ArrayList<Game> games) {
+	public Message_GameList(ArrayList<? extends Game> games) {
 		super();
 		this.games = games;
 	}
@@ -34,14 +34,8 @@ public class Message_GameList extends Message{
 	 * Getters and setters of Gamelist
 	 * @return
 	 */
-	public ArrayList<Game> getGames() {
+	public ArrayList<? extends Game> getGames() {
 		return games;
-	}
-
-	public void setGames(ArrayList<Game> games) {
-		this.games = games;
-	}
-	
-	
+	}	
 	
 }

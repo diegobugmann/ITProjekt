@@ -13,8 +13,10 @@ public class Game extends Commons.Game {
 	private ArrayList<Play> plays;
 	private SimpleIntegerProperty numOfPlayers = new SimpleIntegerProperty(0);
 	
-	public Game(boolean germanCards, int rounds, int winningPoints, boolean isSchieber) {
-		this.deck = new CardDeck(germanCards);
+	public Game(boolean isGermanCards, int rounds, int winningPoints, boolean isSchieber) {
+		this.setGameId(Game.nextID++);
+		this.setGermanCards(isGermanCards);
+		this.deck = new CardDeck(isGermanCards);
 		this.setNumOfRounds(rounds);
 		this.isFistPlay = true;
 		this.setSchieber(isSchieber);

@@ -55,22 +55,22 @@ public class User {
 		
 		case createGame : {
 			boolean isSchieber = ((Message_CreateGame)msgIn).isSchieber();
-			boolean germanCards = ((Message_CreateGame)msgIn).isGermanCards();
+			boolean isGermanCards = ((Message_CreateGame)msgIn).isGermanCards();
 			int numOfRounds = ((Message_CreateGame)msgIn).getNumOfRounds();
 			int winningPoints = ((Message_CreateGame)msgIn).getWinningPoints();
-			Game g = new Game(germanCards, numOfRounds, winningPoints, isSchieber);
-			Player p = new Player(this.model, this.clientSocket); //TODO
+			Game g = new Game(isGermanCards, numOfRounds, winningPoints, isSchieber);
+			Player p = (Player) this; //downcasting
 			g.addPlayer(p); //Player, welcher Spiel erstellt hat, hinzufügen
 			model.addGame(g);
 			sendReceived();
-			msgOut = new Message_GameList(); //TODO Parameter sollen die games sein
+			msgOut = new Message_GameList(model.getGames());
 			model.broadcast(msgOut);
 			break;
 		}
 			
 		case joinGame : {
 			boolean added = false;
-			Player p = new Player(model, clientSocket); //TODO
+			Player p = (Player) this;
 			for (Game g : model.getGames()) {
 				if (g.getGameId() == ((Message_JoinGame)msgIn).getGameId()) //dem richtigen Game hinzufügen
 					added = g.addPlayer(p);
@@ -86,7 +86,7 @@ public class User {
 
 		}
 		case simple_Message : {
-			sendReceived();
+			sendReceived(); //TODO
 			break;
 		}	
 	 }
