@@ -5,6 +5,8 @@ import java.io.ObjectInputStream;
 import java.net.Socket;
 
 import Commons.Message;
+import Commons.MessageType;
+import Commons.Message_Ansage;
 import Commons.Simple_Message;
 
 public class CommunicationThread extends Thread{
@@ -41,8 +43,94 @@ public class CommunicationThread extends Thread{
     }
 	
 	private Message processMessage(Message msgIn) {
-		
-		return null;
+		Message returnMsg = new Simple_Message(Simple_Message.Msg.Received);
+		MessageType type = MessageType.getType(msgIn);
+		switch(type){
+			case simple_Message : {
+				Simple_Message msg =(Simple_Message) msgIn;
+				switch(msg.getType()) {
+					case Received :{
+						return null;
+					}
+					case Game_Start :{
+						break;
+					}
+					case Your_Turn :{
+						break;
+					}
+					case Ansage_Points :{
+						break;
+					}
+					case GameEnded :{
+						break;
+					}
+					case Ansage_Trumpf :{
+						break;
+					}
+					case Game_end :{
+						break;
+					}
+					
+					case Login_accepted :{
+						break;
+					}
+					
+					case registration_accepted:{
+						break;
+					}
+				}
+			}
+			case gamelist : {
+				
+				break;
+			}
+			case joinGame : {
+				
+				break;
+			}
+			case players : {
+				
+				break;
+			}
+			case hand : {
+				
+				break;
+			}
+			case turn : {
+				
+				break;
+			}
+			case ansage : {
+				
+				break;
+			}
+			case wiis : {
+				
+				break;
+			}
+			case stich : {
+				
+				break;
+			}
+			case points : {
+				
+				break;
+			}
+			case cancel : {
+				
+				break;
+			}
+			case trumpf : {
+				
+				break;
+			}
+			
+			case endResults : {
+				
+				break;
+			}
+		}
+		return returnMsg;
 	}
 
 

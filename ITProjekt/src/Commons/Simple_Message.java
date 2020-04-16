@@ -10,12 +10,22 @@ public class Simple_Message extends Message{
 		Ansage_Points,
 		GameEnded,
 		Ansage_Trumpf,
-		Game_end;
+		Game_end,
+		Login_accepted,
+		registration_accepted;
 	}
 	
 	private Msg type;
 	public Simple_Message(Msg type) {
 		this.type = type;
 	}
+	public Msg getType() {
+		return type;
+	}
+	public void setType(Msg type) {
+		this.type = type;
+	}
+	
+	
 
 }
