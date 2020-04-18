@@ -1,17 +1,19 @@
 package client;
 
 import java.io.IOException;
-import java.io.ObjectInputStream;
 import java.net.Socket;
 
-import Commons.Message;
-import Commons.MessageType;
-import Commons.Message_Ansage;
-import Commons.Simple_Message;
-
+import Commons.*;
+import javafx.application.Platform;
+/**
+ * 
+ * @author mibe1
+ *
+ */
 public class CommunicationThread extends Thread{
 	private Socket socket;
 	private ClientController controller;
+	private String senderName = "";
 	
 	public CommunicationThread(Socket s, ClientController controller) throws IOException {
 		//run the Constructor of Thread
@@ -29,9 +31,7 @@ public class CommunicationThread extends Thread{
     public void run() {
     	 try {
     		// Read a message from the client
-    		 Message msgIn = Message.receive(socket);
-				processMessage(msgIn);
- 			
+    		 Message msgIn = Message.receive(socket); 			
  			Message msgOut = processMessage(msgIn);
  			if(msgOut != null) {
  				msgOut.send(socket);
@@ -64,6 +64,11 @@ public class CommunicationThread extends Thread{
 						return null;
 					}
 					case Game_Start :{
+				        Platform.runLater(new Runnable() {
+				            @Override public void run() {
+				                //Start game
+				            }
+				        });
 						break;
 					}
 					case Your_Turn :{
@@ -80,16 +85,29 @@ public class CommunicationThread extends Thread{
 					}
 					
 					case Login_accepted :{
+						Platform.runLater(new Runnable() {
+				            @Override public void run() {
+				                controller.loginaccepted();
+				            }
+				        });
+						returnMsg = null;
 						break;
 					}
 					
 					case registration_accepted:{
+						
 						break;
 					}
 				}
 			}
 			case gamelist : {
-				
+				Message_GameList msglist = (Message_GameList) msgIn;
+				Platform.runLater(new Runnable() {
+		            @Override public void run() {
+		            	
+		                controller.updateGamelist();
+		            }
+		        });
 				break;
 			}
 			case players : {
@@ -129,16 +147,48 @@ public class CommunicationThread extends Thread{
 				
 				break;
 			}
+			
+			case error : {
+				Message_Error msgError = (Message_Error) msgIn;
+				switch(msgError.getType()) {
+				case logginfalied :{
+					Platform.runLater(new Runnable() {
+			            @Override public void run() {
+
+			                controller.loginfaild(msgError.getErrorMessage());
+			            }
+			        });
+					returnMsg = null;
+					break;
+				}
+				case not_loggedin :{
+					break;
+				}
+				}
+				break;
+			}
 		}
 		return returnMsg;
 	}
 
 
 	public void sendMessage(Message msg) {
+		msg.setClient(senderName);
 		msg.send(this.socket);
 	}
 	
 	
+	
+	public String getSenderName() {
+		return senderName;
+	}
+
+
+	public void setSenderName(String senderName) {
+		this.senderName = senderName;
+	}
+
+
 	/**
 	 * Closes the connection to the Server on shutting down the program
 	 */
