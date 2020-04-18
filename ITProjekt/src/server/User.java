@@ -2,6 +2,7 @@ package server;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import Commons.Message;
@@ -77,6 +78,12 @@ public class User {
 			g.addPlayer(p); //Player, welcher Spiel erstellt hat, hinzufügen
 			model.addGame(g);
 			sendReceived();
+			//Castdown games to Games.commons for sending
+			/*ArrayList<Commons.Game> castGames = new ArrayList<Commons.Game>();
+			for(Game game : model.getGames()) {
+				Commons.Game castGame = game.Clone();
+				castGames.add();
+			}*/
 			msgOut = new Message_GameList(model.getGames());
 			model.broadcast(msgOut);
 			break;
@@ -100,7 +107,7 @@ public class User {
 		}
 		//---------------------------------------------------------------------------------------------
 		case simple_Message : {
-			sendReceived(); //TODO
+			//sendReceived(); //TODO
 			break;
 		}
 		
@@ -110,7 +117,6 @@ public class User {
 	
 	public void sendReceived() {
 		Simple_Message msg = new Simple_Message(Simple_Message.Msg.Received);
-		System.out.println("Sendig received");
 		msg.send(clientSocket);
 	}
 
