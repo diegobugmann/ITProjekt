@@ -146,6 +146,11 @@ public class ClientController {
 	
 	public void processKarten() {
 		
+		
+		
+		int cardStyle=0;
+		
+		model.setCardStyle(cardStyle);
 	}
 	
 	public void processSprache() {

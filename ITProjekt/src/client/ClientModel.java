@@ -4,7 +4,8 @@ public class ClientModel {
 	protected boolean userName;
 	protected boolean password;
 	protected String user;
-	protected String pw; 
+	protected String pw;
+	public static int cardStyle=0;
 	
 	
 	
@@ -45,6 +46,14 @@ public class ClientModel {
 	
 	public void newGame() {
 		
+	}
+	
+	public void setCardStyle(int style) {
+		this.cardStyle = style;
+	}
+	
+	public int getCardStyle() {
+		return this.cardStyle;
 	}
 
 
