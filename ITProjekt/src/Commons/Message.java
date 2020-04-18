@@ -49,7 +49,7 @@ public class Message implements Serializable {
     	try{
         	ObjectOutputStream writer = new ObjectOutputStream(socket.getOutputStream());
         	this.timestamp = System.currentTimeMillis();
-        	System.out.println("Sending: "+ this.toString());
+        	System.out.println("Sending: "+ this.toString() + " Socket " + socket.toString());
         	writer.writeObject(this);
 			writer.flush();
     	}
@@ -85,7 +85,7 @@ public class Message implements Serializable {
 	//--------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-    	return "Message " + this.id + " Client " + this.client + "SendingTime  " + this.timestamp;
+    	return "Message " + this.id + "  Client " + this.client + " SendingTime  " + this.timestamp;
     }
  
     /**

@@ -70,7 +70,6 @@ public class ClientModel {
 		this.user = user;
 		this.pw = pw;
 		this.connection.setSenderName(user);
-		//Codevorschlag 
 		Message_Login msg = new Message_Login(user, pw);
 		connection.sendMessage(msg);		
 	}

@@ -32,10 +32,15 @@ public class CommunicationThread extends Thread{
     	 try {
     		// Read a message from the client
     		 Message msgIn = Message.receive(socket); 			
- 			Message msgOut = processMessage(msgIn);
- 			if(msgOut != null) {
- 				msgOut.send(socket);
- 			}
+    		 Platform.runLater(new Runnable() {
+		            @Override public void run() {
+		     			Message msgOut = processMessage(msgIn);
+		     			if(msgOut != null) {
+		     				msgOut.send(socket);
+		     			}
+		            }
+		        });
+
 			this.run();
          } catch (Exception e) {
          }    
@@ -45,6 +50,7 @@ public class CommunicationThread extends Thread{
     /**
      * process the message based on the Messagetype and gives advice to the controller
      * @param msgIn Incomming Message
+     * @return 
      * @return message received or specific answer message
      */
 	private Message processMessage(Message msgIn) {
@@ -61,14 +67,10 @@ public class CommunicationThread extends Thread{
 				switch(msg.getType()) {
 				//If the Message is a received message from the Server the communication has ended (block loops)	
 					case Received :{
-						return null;
+						returnMsg = null;
+						break;
 					}
 					case Game_Start :{
-				        Platform.runLater(new Runnable() {
-				            @Override public void run() {
-				                //Start game
-				            }
-				        });
 						break;
 					}
 					case Your_Turn :{
@@ -85,11 +87,7 @@ public class CommunicationThread extends Thread{
 					}
 					
 					case Login_accepted :{
-						Platform.runLater(new Runnable() {
-				            @Override public void run() {
-				                controller.loginaccepted();
-				            }
-				        });
+				        controller.loginaccepted();;
 						returnMsg = null;
 						break;
 					}
@@ -99,15 +97,11 @@ public class CommunicationThread extends Thread{
 						break;
 					}
 				}
+				break;
 			}
 			case gamelist : {
 				Message_GameList msglist = (Message_GameList) msgIn;
-				Platform.runLater(new Runnable() {
-		            @Override public void run() {
-		            	
-		                controller.updateGamelist(msglist.getGames());
-		            }
-		        });
+				controller.updateGamelist(msglist.getGames());
 				break;
 			}
 			case players : {
@@ -152,12 +146,7 @@ public class CommunicationThread extends Thread{
 				Message_Error msgError = (Message_Error) msgIn;
 				switch(msgError.getType()) {
 				case logginfalied :{
-					Platform.runLater(new Runnable() {
-			            @Override public void run() {
-
-			                controller.loginfaild(msgError.getErrorMessage());
-			            }
-			        });
+					controller.loginfaild(msgError.getErrorMessage());
 					returnMsg = null;
 					break;
 				}
