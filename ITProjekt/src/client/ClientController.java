@@ -92,7 +92,7 @@ public class ClientController {
 		
 		view.lobbyView.joinBtn.setOnAction(event -> {
 			try {
-				startSplash(event);
+				joinGame(event);
 				
 				
 			} catch (Exception e) {
@@ -102,6 +102,18 @@ public class ClientController {
 		});
 	}
 	
+	private void joinGame(Event e) {
+		Game g = this.view.lobbyView.gameList.getSelectedGame();
+		int gameId = g.getGameId();
+		model.joinGame(gameId);
+		try {
+			startSplash(e);
+		} catch (Exception e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+	}
+
 	private void createNewGame(Event e) {
 		
 		try {

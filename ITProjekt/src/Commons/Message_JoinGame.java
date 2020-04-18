@@ -9,7 +9,7 @@ public class Message_JoinGame extends Message{
 	 * @param gameId
 	 * @param playerName
 	 */
-	public Message_JoinGame(int gameId, String playerName) {
+	public Message_JoinGame(int gameId) {
 		super();
 		this.gameId = gameId;
 	}

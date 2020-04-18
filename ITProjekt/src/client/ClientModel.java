@@ -90,6 +90,12 @@ public class ClientModel {
 		return this.cardStyle;
 	}
 
+	public void joinGame(int gameId) {
+		Message_JoinGame msg = new Message_JoinGame(gameId);
+		connection.sendMessage(msg);
+		
+	}
+
 
 }
 
