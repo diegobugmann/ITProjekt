@@ -93,6 +93,7 @@ public class ClientController {
 			try {
 				startSplash(event);
 				
+				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
