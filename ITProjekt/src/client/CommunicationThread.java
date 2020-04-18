@@ -105,7 +105,7 @@ public class CommunicationThread extends Thread{
 				Platform.runLater(new Runnable() {
 		            @Override public void run() {
 		            	
-		                controller.updateGamelist();
+		                controller.updateGamelist(msglist.getGames());
 		            }
 		        });
 				break;

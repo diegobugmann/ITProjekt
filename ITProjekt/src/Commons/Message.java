@@ -14,6 +14,8 @@ import java.net.Socket;
 public class Message implements Serializable {
 
 	// Data included in a message
+	//The first Message sent from a client to a server is always 0 from the seccond message the messages get an individual ID
+	//IDs are not always unique!!!!!!!! This is not required but special
     private long id;
     private long timestamp;
     // contains the Sending client if message gets send from client to Server
@@ -96,6 +98,8 @@ public class Message implements Serializable {
 	public static Message receive(Socket clientSocket) throws IOException, ClassNotFoundException {
     	ObjectInputStream in = new ObjectInputStream(clientSocket.getInputStream());
     	Message msg = (Message) in.readObject();
+    	if(messageID < msg.getId())
+    	messageID = msg.getId();
     	System.out.println("Read new Message "+ msg.toString());
         return msg;
 	}

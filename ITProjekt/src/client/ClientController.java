@@ -1,7 +1,10 @@
 package client;
 
+import java.util.ArrayList;
+
 import javax.swing.JOptionPane;
 
+import Commons.Game;
 import javafx.event.Event;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -102,7 +105,8 @@ public class ClientController {
 	private void createNewGame(Event e) {
 		
 		try {
-			model.newGame();
+			//TODO read userinput and set as parameters for new game 
+			model.newGame(true,true,100,100);
 			startSplash(e);
 			
 			
@@ -179,6 +183,19 @@ public class ClientController {
 	public void loginfaild(String message) {
 		JOptionPane.showMessageDialog(null, message, "InfoBox: Login faild from Server", JOptionPane.ERROR_MESSAGE);
 		view.showLoginView(stage);
+	}
+/**
+ * Called when the Game list on the Serverlist gets changed and sent to the Client
+ * @author mibe1 
+ * @param games all games
+ */
+	public void updateGamelist(ArrayList<? extends Game> games) {
+		//Testcode as long as not implemented
+		for(Game g : games){
+			System.out.println(g);
+		}
+		//TODO update game list with the new game list from the server
+		
 	}
 
 

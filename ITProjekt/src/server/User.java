@@ -110,6 +110,7 @@ public class User {
 	
 	public void sendReceived() {
 		Simple_Message msg = new Simple_Message(Simple_Message.Msg.Received);
+		System.out.println("Sendig received");
 		msg.send(clientSocket);
 	}
 

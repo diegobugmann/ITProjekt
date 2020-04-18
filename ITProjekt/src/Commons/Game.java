@@ -1,6 +1,8 @@
 package Commons;
 
-public class Game {
+import java.io.Serializable;
+
+public class Game implements Serializable {
 	public static int nextID = 1;
 	private int gameId;
 	private boolean isRunning;
@@ -8,10 +10,6 @@ public class Game {
 	private int numOfRounds;
 	private int winningPoints;
 	private boolean isGermanCards;
-
-	public Game() {
-		// TODO Auto-generated constructor stub
-	}
 	
 	public int getGameId() {
 		return gameId;
@@ -60,5 +58,12 @@ public class Game {
 	public void setGermanCards(boolean isGermanCards) {
 		this.isGermanCards = isGermanCards;
 	}
+
+	@Override
+	public String toString() {
+		return "Game [gameId=" + gameId + ", isRunning=" + isRunning + ", isSchieber=" + isSchieber + ", numOfRounds="
+				+ numOfRounds + ", winningPoints=" + winningPoints + ", isGermanCards=" + isGermanCards + "]";
+	}
+	
 	
 }

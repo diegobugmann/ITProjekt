@@ -23,7 +23,7 @@ public class Message_GameList extends Message{
 		this.games = games;
 	}
 	/**
-	 * Overloaded COnstructor in case no games created jet
+	 * Overloaded Constructor in case no games created jet
 	 */
 	public Message_GameList() {
 		super();

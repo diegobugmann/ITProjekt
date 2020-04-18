@@ -70,14 +70,17 @@ public class ClientModel {
 		this.user = user;
 		this.pw = pw;
 		this.connection.setSenderName(user);
-		//Codevorschlag Michi kann auch anders ablaufen
+		//Codevorschlag 
 		Message_Login msg = new Message_Login(user, pw);
 		connection.sendMessage(msg);		
 	}
 	
-	
-	public void newGame() {
-		
+	/**
+	 * Code Michi Creates a game based on the Inputs form the GUI via controller and sends creation to Server via connection thread
+	 */
+	public void newGame(boolean isSchieber, boolean isGermanCards, int numOfRounds, int winningPoints) {
+		Message_CreateGame msg = new Message_CreateGame(isSchieber, isGermanCards, numOfRounds, winningPoints);
+		connection.sendMessage(msg);
 	}
 	
 	public void setCardStyle(int style) {
