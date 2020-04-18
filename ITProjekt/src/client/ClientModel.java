@@ -23,7 +23,7 @@ public class ClientModel {
 	 * @category Serverconnection
 	 * @author mibe1 ispired by Bradley Richards code example
 	 */
-	private void connect(ClientController c, String ipAddress, int port) {
+	public void connect(ClientController c, String ipAddress, int port) {
 	    Socket socket = null;
 	    //Trainingscode to not enter if Gui not ready Delete before publish
 	    if(ipAddress.isEmpty())
@@ -42,6 +42,7 @@ public class ClientModel {
 	}
 	
 	public boolean validateUserName(String newValue) {
+		//userName validierung nur ganz simpelhalte auf der Clientseit die DB abfrage etc wird beim Login auf dem Server geprüft!
 		userName = false;
 		
 		if(newValue.isEmpty() == false) {
@@ -53,29 +54,25 @@ public class ClientModel {
 	}
 	
 	public boolean validatePassword(String newValue) {
+		//Passwort validierung nur ganz simpelhalte auf der Clientseit die DB abfrage etc wird beim Login auf dem Server geprüft!
 		password = false;
 		
 		if(newValue.isEmpty() == false) {
 			//sendet an DB
 			password = true;
 		}
-		
-		
 		return password;
 	}
 	
-	public boolean loginProcess(String user, String pw) {
+	
+	public void loginProcess(String user, String pw) {
 		boolean done = false;
 		this.user = user;
 		this.pw = pw;
+		this.connection.setSenderName(user);
 		//Codevorschlag Michi kann auch anders ablaufen
-		//Message_Login msg = new Message_Login(user, pw);
-		//connection.sendMessage(msg);
-		
-		//an DB senden
-		done = true;
-		return done;
-		
+		Message_Login msg = new Message_Login(user, pw);
+		connection.sendMessage(msg);		
 	}
 	
 	

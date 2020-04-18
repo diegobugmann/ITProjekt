@@ -1,5 +1,7 @@
 package client;
 
+import javax.swing.JOptionPane;
+
 import javafx.event.Event;
 import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
@@ -48,11 +50,7 @@ public class ClientController {
 		if(user && pw) {
 			view.loginView.loginBtn.setDisable(false);
 			view.loginView.loginBtn.setOnAction(event -> {
-				if(model.loginProcess(view.loginView.userName.getText(), view.loginView.passwordField.getText())) {
-					view.loginView.stage.close();
-					startLobby(stage);
-				}
-					
+				model.loginProcess(view.loginView.userName.getText(), view.loginView.passwordField.getText());
 			});
 				
 		}
@@ -164,6 +162,23 @@ public class ClientController {
 	
 	public void processAbout() {
 		
+	}
+	
+	/**
+	 * @author mibe1
+	 * When the login gets accepted the mainstage is shown
+	 */
+	public void loginaccepted() {
+		startLobby(stage);
+	}
+	/**
+	 * Login is not accepted from Server, display Errormessage as popup and restart login page
+	 * @param message
+	 * @author mibe1
+	 */
+	public void loginfaild(String message) {
+		JOptionPane.showMessageDialog(null, message, "InfoBox: Login faild from Server", JOptionPane.ERROR_MESSAGE);
+		view.showLoginView(stage);
 	}
 
 

@@ -7,8 +7,10 @@ import java.util.logging.Logger;
 import Commons.Message;
 import Commons.MessageType;
 import Commons.Message_CreateGame;
+import Commons.Message_Error;
 import Commons.Message_GameList;
 import Commons.Message_JoinGame;
+import Commons.Message_Login;
 import Commons.Simple_Message;
 
 public class User {
@@ -51,7 +53,20 @@ public class User {
 		logger.info("Message received from client: "+ msgIn.toString());
 		Message msgOut = null;
 		switch (MessageType.getType(msgIn)) {
-		
+		//Trial code Michael can be deleted as soon as implemented properly
+		case login :{
+			Message_Login msg = (Message_Login) msgIn;
+			if(msg.getLoginName().equals("m") && msg.getPassword().equals("m")) {
+				Simple_Message outputmessage = new Simple_Message(Simple_Message.Msg.Login_accepted);
+				outputmessage.send(clientSocket);
+			}
+			else {
+				Message_Error fail = new Message_Error("Username or PW not corrrect", Message_Error.ErrorType.logginfalied);
+				fail.send(clientSocket);
+			}
+			break;
+		}
+		//----------------------------------------------------------------------------------------------
 		case createGame : {
 			boolean isSchieber = ((Message_CreateGame)msgIn).isSchieber();
 			boolean isGermanCards = ((Message_CreateGame)msgIn).isGermanCards();
