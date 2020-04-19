@@ -71,6 +71,7 @@ public class CommunicationThread extends Thread{
 						break;
 					}
 					case Game_Start :{
+						controller.startGame();
 						break;
 					}
 					case Your_Turn :{

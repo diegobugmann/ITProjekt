@@ -234,6 +234,13 @@ public class ClientController {
 		//TODO update game list with the new game list from the server
 		
 	}
+/**
+ * Start the Game;
+ */
+public void startGame() {
+	// TODO Auto-generated method stub
+	
+}
 
 
 }
