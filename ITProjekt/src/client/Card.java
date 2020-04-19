@@ -10,6 +10,7 @@ public class Card extends Commons.Card {
 
 	public Card(Suit suit, Rank rank) {
 		super(suit, rank);
+		cardlbl = new Label();
 		cardlbl.getStyleClass().add("card");
 		
 	}
@@ -29,11 +30,11 @@ public class Card extends Commons.Card {
 			imv.fitHeightProperty().bind(cardlbl.heightProperty());
 			imv.setPreserveRatio(true);
 			cardlbl.setGraphic(imv);
-	}else {
-		cardlbl.setGraphic(null);
-	}
+		}else {
+			cardlbl.setGraphic(null);
+		}
 
-}
+	}
 
 	private String cardToFileName(Card card) {
 		String rank = card.getRank().toString();

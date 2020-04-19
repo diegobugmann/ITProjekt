@@ -22,6 +22,7 @@ public class LoginView extends VBox{
 	protected Label textlbl;
 	protected Label pwlbl;
 	protected Button loginBtn;
+	//protected Button newUserBtn;
 	protected Stage stage;
 	
 
@@ -42,6 +43,10 @@ public class LoginView extends VBox{
 		loginBtn = new Button("Login");
 		loginBtn.setDisable(true);
 		
+		//newUserBtn = new Button("Neuer User");
+		//newUserBtn.setDisable(true);
+		
+		
 		Region region0 = new Region();
 		region0.setPrefHeight(20);
 		
@@ -50,6 +55,9 @@ public class LoginView extends VBox{
 		
 		Region region2 = new Region();
 		region2.setPrefHeight(50);
+		
+		Region region3 = new Region();
+		region3.setPrefHeight(10);
 		
 		Image image = new Image(LobbyView.class.getResourceAsStream("Bilder/Lobby.jpg"));
 		BackgroundSize backSize = new BackgroundSize(800, 800, false, false, false, false);

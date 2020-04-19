@@ -6,7 +6,11 @@ import javax.swing.JOptionPane;
 
 import Commons.Game;
 import javafx.event.Event;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
 
 public class ClientController {
@@ -72,7 +76,7 @@ public class ClientController {
 		});
 		
 		view.lobbyView.gameMenu.karten.setOnAction(event -> {
-			processKarten();
+			processKartenStyle();
 		});
 		view.lobbyView.gameMenu.sprache.setOnAction(event ->{
 			processSprache();
@@ -156,17 +160,32 @@ public class ClientController {
 	}
 	
 	public void processExit(Event event, Stage stage) {
+		//Verbindung schliessen
+			stage.close();
 			
 	}
 	
-	public void processKarten() {
+	public void processKartenStyle() {
+		int cardStyle=model.getCardStyle();
+		CardStyleView cardStyleView = new CardStyleView();
+		cardStyleView.setSelectedStyle(cardStyle);
+		
+		Scene scene2 = new Scene(cardStyleView);
+		Stage stage2 = new Stage();
+		stage2.setScene(scene2);
+		stage2.setHeight(300);
+		stage2.setWidth(300);
+		stage2.initStyle(StageStyle.UNDECORATED);
+		stage2.show();
+		cardStyleView.confirmBtn.setOnAction(event -> {
+			model.setCardStyle(cardStyleView.getSelectedRadio());
+			stage2.close();
+		});
+
 		
 		
-		
-		int cardStyle=0;
-		
-		model.setCardStyle(cardStyle);
 	}
+	
 	
 	public void processSprache() {
 		
@@ -177,7 +196,13 @@ public class ClientController {
 	}
 	
 	public void processAbout() {
-		
+		String info = "CodingKittens \n"
+				+ "Version V 1.0 \n"
+				+ "IT-Projekt 2020";
+		Alert alert = new Alert(AlertType.INFORMATION, info );
+		alert.setHeaderText(null);
+		alert.setTitle(null);
+		alert.showAndWait();
 	}
 	
 	/**

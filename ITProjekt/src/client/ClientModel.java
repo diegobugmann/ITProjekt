@@ -42,7 +42,7 @@ public class ClientModel {
 	}
 	
 	public boolean validateUserName(String newValue) {
-		//userName validierung nur ganz simpelhalte auf der Clientseit die DB abfrage etc wird beim Login auf dem Server geprüft!
+		//userName validierung nur ganz simpelhalte auf der Clientseit die DB abfrage etc wird beim Login auf dem Server geprï¿½ft!
 		userName = false;
 		
 		if(newValue.isEmpty() == false) {
@@ -54,7 +54,7 @@ public class ClientModel {
 	}
 	
 	public boolean validatePassword(String newValue) {
-		//Passwort validierung nur ganz simpelhalte auf der Clientseit die DB abfrage etc wird beim Login auf dem Server geprüft!
+		//Passwort validierung nur ganz simpelhalte auf der Clientseit die DB abfrage etc wird beim Login auf dem Server geprï¿½ft!
 		password = false;
 		
 		if(newValue.isEmpty() == false) {
