@@ -28,18 +28,17 @@ public class ServerController {
 				if ((int) nV == 4) {
 					ArrayList<Player> players = g.getPlayers();
 					Message msgOut = new Simple_Message(Simple_Message.Msg.Game_Start);
-					model.broadcast(players, msgOut); //Spiel starten
+					model.broadcast(players, msgOut); 
+					g.start(); //Spiel starten
 					//TODO broadcast GameList? gem. Diagramm
-					g.getDeck().dealCards(players);
-					for (Player p : players) {
-						p.organizeHand();
-						msgOut = new Message_Hand(p.getHand());
-						msgOut.send(p.getSocket());
-					}
-					if (!g.isSchieber()) {
-						//TODO Message Ansage_Trumpf bei startspieler
+					if (g.isSchieber()) {
+						Player starter = g.getStartingPlayer();
+						msgOut = new Simple_Message(Simple_Message.Msg.Ansage_Trumpf);
+						msgOut.send(starter.getSocket());
 					} else {
-						//TODO Message Ansage_Punkte bei allen, Trumpf bestimmen
+						msgOut = new Simple_Message(Simple_Message.Msg.Ansage_Points);
+						model.broadcast(players, msgOut);
+						//TODO Trumpf bestimmen
 					}
 			}
 			});

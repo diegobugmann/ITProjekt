@@ -2,6 +2,9 @@ package server;
 
 import java.util.ArrayList;
 
+import Commons.GameType;
+import Commons.Message;
+import Commons.Message_Hand;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class Game extends Commons.Game {
@@ -50,7 +53,7 @@ public class Game extends Commons.Game {
 		}
 	}
 
-	public void setGameType(GameType trumpf) {
+	public void setTrumpf(GameType trumpf) {
 		this.trumpf = trumpf;
 	}
 	
@@ -71,4 +74,20 @@ public class Game extends Commons.Game {
 		return players;
 	}
 	
+	//Gibt den als erstes beigetretenen Spieler zurück
+	public Player getStartingPlayer() {
+		return teams.get(0).getPlayerList().get(0);
+	}
+	
+	public void start() {
+		Message msgOut = null;
+		ArrayList<Player> players = getPlayers();
+		//TODO broadcast GameList? gem. Diagramm
+		this.deck.dealCards(players);
+		for (Player p : players) {
+			p.organizeHand();
+			msgOut = new Message_Hand(p.getHand());
+			msgOut.send(p.getSocket());
+		}
+	}
 }

@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Commons.Card;
 import Commons.Card.Suit;
+import Commons.GameType;
 
 public class Validation {
 	

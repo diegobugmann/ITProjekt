@@ -1,6 +1,9 @@
-package server;
+package Commons;
 
-public enum GameType {
+import java.io.Serializable;
+
+public enum GameType implements Serializable {
+
 	TopsDown,
 	BottomsUp,
 	ShieldsOrSpades,
@@ -26,5 +29,5 @@ public enum GameType {
         }
         return type;
 	}
-	
+
 }

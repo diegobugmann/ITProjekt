@@ -2,9 +2,9 @@ package server;
 
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import Commons.GameType;
 import Commons.Message;
 import Commons.MessageType;
 import Commons.Message_CreateGame;
@@ -12,6 +12,7 @@ import Commons.Message_Error;
 import Commons.Message_GameList;
 import Commons.Message_JoinGame;
 import Commons.Message_Login;
+import Commons.Message_Trumpf;
 import Commons.Simple_Message;
 
 public class User {
@@ -77,6 +78,7 @@ public class User {
 			model.addGame(g);
 			Player p = (Player) this; //downcasting
 			g.addPlayer(p); //Player, welcher Spiel erstellt hat, hinzufügen
+			p.setCurrentGame(g);
 			sendReceived();
 			msgOut = new Message_GameList(model.getCastedGames());
 			model.broadcast(msgOut);
@@ -87,8 +89,10 @@ public class User {
 			boolean added = false;
 			Player p = (Player) this;
 			for (Game g : model.getGames()) {
-				if (g.getGameId() == ((Message_JoinGame)msgIn).getGameId()) //dem richtigen Game hinzufügen
+				if (g.getGameId() == ((Message_JoinGame)msgIn).getGameId()) { //dem richtigen Game hinzufügen
 					added = g.addPlayer(p);
+					p.setCurrentGame(g);
+				}	
 			}
 			if (added) {
 				sendReceived();
@@ -99,7 +103,18 @@ public class User {
 			}
 			break;
 		}
-		//---------------------------------------------------------------------------------------------
+		//-----------------------------------------------------------------------------------------------
+		case trumpf: {
+			GameType trumpf = ((Message_Trumpf)msgIn).getTrumpf();
+			Player p = (Player) this;
+			p.getCurrentGame().setTrumpf(trumpf);
+			//Hier beginnt nun der Spielablauf (1. Runde) und den Spielern werden YourFirstTurn(Wiis) Nachrichten geschickt
+		}
+		//------------------------------------------------------------------------------------------------
+		case ansage: {
+			
+		}
+		//-----------------------------------------------------------------------------------------------
 		case simple_Message : {
 			//sendReceived(); //TODO
 			break;

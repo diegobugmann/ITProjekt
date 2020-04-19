@@ -10,6 +10,7 @@ import Commons.Card.Suit;
 
 public class Player extends User {
 	
+	private Game currentGame;
 	private ArrayList<Card> hand;
 	private boolean hisTurn;
 	private Wiis wiis; //muss Wiis[] sein bei mehreren Wiis
@@ -50,5 +51,13 @@ public class Player extends User {
 		spades.addAll(clubs);
 		spades.addAll(diamonds);
 		hand = spades;
+	}
+	
+	public void setCurrentGame(Game g) {
+		this.currentGame = g;
+	}
+	
+	public Game getCurrentGame() {
+		return this.currentGame;
 	}
 }
