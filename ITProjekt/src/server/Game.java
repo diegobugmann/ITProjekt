@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class Game extends Commons.Game {
 	
+	public static int nextID = 1;
 	private ArrayList<Team> teams = new ArrayList<Team>();
 	private GameType trumpf;
 	private CardDeck deck;
@@ -14,14 +15,10 @@ public class Game extends Commons.Game {
 	private SimpleIntegerProperty numOfPlayers = new SimpleIntegerProperty(0);
 	
 	public Game(boolean isGermanCards, int rounds, int winningPoints, boolean isSchieber) {
-		this.setGameId(Game.nextID++);
-		this.setGermanCards(isGermanCards);
+		super(isGermanCards, rounds, winningPoints, isSchieber, nextID++);
 		this.deck = new CardDeck(isGermanCards);
-		this.setNumOfRounds(rounds);
 		this.isFistPlay = true;
-		this.setSchieber(isSchieber);
 		plays = new ArrayList<Play>();
-		this.setWinningPoints(winningPoints);
 		
 		if (isSchieber) {
 			for (int i = 0; i < 2; i++) //Bei Schieber 2 Teams erstellen
@@ -73,4 +70,5 @@ public class Game extends Commons.Game {
 		}
 		return players;
 	}
+	
 }

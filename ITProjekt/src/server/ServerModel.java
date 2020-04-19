@@ -6,13 +6,15 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import Commons.Game;
 import Commons.Message;
 
 public class ServerModel {
 	
 	private final Logger logger = Logger.getLogger("");
 	private ArrayList<User> users = new ArrayList<User>();
-	private ArrayList<Game> games = new ArrayList<Game>();
+	private ArrayList<server.Game> games = new ArrayList<server.Game>();
+	private ArrayList<Commons.Game> castGames = new ArrayList<Commons.Game>();
 	private ServerSocket listener;
 	private volatile boolean stop = false;
 	
@@ -84,12 +86,17 @@ public class ServerModel {
 		return users;
 	}
 
-	public ArrayList<Game> getGames() {
+	public ArrayList<server.Game> getGames() {
 		return games;
 	}
 	
-	public void addGame(Game g) {
+	public ArrayList<Commons.Game> getCastedGames() {
+		return castGames;
+	}
+	
+	public void addGame(server.Game g) {
 		this.games.add(g);
+		this.castGames.add(new Commons.Game(g.isGermanCards(), g.getNumOfRounds(), g.getWinningPoints(), g.isSchieber(), g.getGameId()));
 	}
 	
 }

@@ -74,17 +74,11 @@ public class User {
 			int numOfRounds = ((Message_CreateGame)msgIn).getNumOfRounds();
 			int winningPoints = ((Message_CreateGame)msgIn).getWinningPoints();
 			Game g = new Game(isGermanCards, numOfRounds, winningPoints, isSchieber);
+			model.addGame(g);
 			Player p = (Player) this; //downcasting
 			g.addPlayer(p); //Player, welcher Spiel erstellt hat, hinzufügen
-			model.addGame(g);
 			sendReceived();
-			//Castdown games to Games.commons for sending
-			/*ArrayList<Commons.Game> castGames = new ArrayList<Commons.Game>();
-			for(Game game : model.getGames()) {
-				Commons.Game castGame = game.Clone();
-				castGames.add();
-			}*/
-			msgOut = new Message_GameList(model.getGames());
+			msgOut = new Message_GameList(model.getCastedGames());
 			model.broadcast(msgOut);
 			break;
 		}
