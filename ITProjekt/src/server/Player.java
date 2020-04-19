@@ -13,6 +13,7 @@ public class Player extends User {
 	private Game currentGame;
 	private ArrayList<Card> hand;
 	private boolean hisTurn;
+	private int announcedPoints;
 	private Wiis wiis; //muss Wiis[] sein bei mehreren Wiis
 	
 	public Player(ServerModel model, Socket clientSocket) {
@@ -59,5 +60,9 @@ public class Player extends User {
 	
 	public Game getCurrentGame() {
 		return this.currentGame;
+	}
+	
+	public void setAnnouncedPoints(int announcedPoints) {
+		this.announcedPoints = announcedPoints;
 	}
 }

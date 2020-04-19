@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import Commons.Message;
 import Commons.Message_Hand;
+import Commons.Message_Trumpf;
 import Commons.Simple_Message;
 
 public class ServerController {
@@ -29,16 +30,18 @@ public class ServerController {
 					ArrayList<Player> players = g.getPlayers();
 					Message msgOut = new Simple_Message(Simple_Message.Msg.Game_Start);
 					model.broadcast(players, msgOut); 
-					g.start(); //Spiel starten
+					g.dealCards();
 					//TODO broadcast GameList? gem. Diagramm
 					if (g.isSchieber()) {
 						Player starter = g.getStartingPlayer();
 						msgOut = new Simple_Message(Simple_Message.Msg.Ansage_Trumpf);
 						msgOut.send(starter.getSocket());
 					} else {
+						g.createRandomTrumpf();
+						msgOut = new Message_Trumpf(g.getTrumpf());
+						model.broadcast(players, msgOut);
 						msgOut = new Simple_Message(Simple_Message.Msg.Ansage_Points);
 						model.broadcast(players, msgOut);
-						//TODO Trumpf bestimmen
 					}
 			}
 			});

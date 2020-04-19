@@ -14,6 +14,7 @@ import Commons.Message_JoinGame;
 import Commons.Message_Login;
 import Commons.Message_Trumpf;
 import Commons.Simple_Message;
+import Commons.Message_Ansage;
 
 public class User {
 	
@@ -108,22 +109,38 @@ public class User {
 			GameType trumpf = ((Message_Trumpf)msgIn).getTrumpf();
 			Player p = (Player) this;
 			p.getCurrentGame().setTrumpf(trumpf);
+			msgOut = msgIn;
+			model.broadcast(p.getCurrentGame().getPlayers(), msgOut); //Trumpf an alle broadcasten
+			p.getCurrentGame().startPlaying();
 			//Hier beginnt nun der Spielablauf (1. Runde) und den Spielern werden YourFirstTurn(Wiis) Nachrichten geschickt
+			break;
 		}
 		//------------------------------------------------------------------------------------------------
 		case ansage: {
-			
+			int points = ((Message_Ansage)msgIn).getPoints();
+			Player p = (Player) this;
+			p.setAnnouncedPoints(points);
+			//Hier beginnt nun der Spielablauf (1. Runde) und den Spielern werden YourFirstTurn(Wiis) Nachrichten geschickt
 		}
 		//-----------------------------------------------------------------------------------------------
 		case simple_Message : {
-			//sendReceived(); //TODO
-			break;
+			switch(((Simple_Message)msgIn).getType()) {
+			case Received: {
+				//TODO
+				break;
+			}
+			default: {
+				break; //Sollten keine anderen Simple_Messages vom Server empfangen werden
+			}
+			}
 		}
-		
 		}
-		
 	}
 	
+	private void startPlaying() {
+		
+	}
+
 	public void sendReceived() {
 		Simple_Message msg = new Simple_Message(Simple_Message.Msg.Received);
 		msg.send(clientSocket);

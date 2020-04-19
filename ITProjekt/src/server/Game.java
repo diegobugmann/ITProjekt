@@ -1,6 +1,7 @@
 package server;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 import Commons.GameType;
 import Commons.Message;
@@ -16,6 +17,7 @@ public class Game extends Commons.Game {
 	private boolean isFistPlay;
 	private ArrayList<Play> plays;
 	private SimpleIntegerProperty numOfPlayers = new SimpleIntegerProperty(0);
+	private Play currentPlay;
 	
 	public Game(boolean isGermanCards, int rounds, int winningPoints, boolean isSchieber) {
 		super(isGermanCards, rounds, winningPoints, isSchieber, nextID++);
@@ -57,6 +59,19 @@ public class Game extends Commons.Game {
 		this.trumpf = trumpf;
 	}
 	
+	public GameType getTrumpf() {
+		return this.trumpf;
+	}
+	
+	public void createRandomTrumpf() {
+		Random rand = new Random();
+		int i = rand.nextInt(4) + 2;
+		for (GameType type : GameType.values()) {
+			if (type.ordinal() == i)
+				this.trumpf = type;
+		}
+	}
+	
 	public SimpleIntegerProperty getNumOfPlayersAsProperty() {
 		return numOfPlayers;
 	}
@@ -79,7 +94,7 @@ public class Game extends Commons.Game {
 		return teams.get(0).getPlayerList().get(0);
 	}
 	
-	public void start() {
+	public void dealCards() {
 		Message msgOut = null;
 		ArrayList<Player> players = getPlayers();
 		//TODO broadcast GameList? gem. Diagramm
@@ -90,4 +105,13 @@ public class Game extends Commons.Game {
 			msgOut.send(p.getSocket());
 		}
 	}
+	
+	public void startPlaying() {
+		Player starter = getStartingPlayer();
+		//TODO Wiis hier validieren
+		//FirstPlay Message an starter verschicken (inkl. Wiis)
+		Play play = new Play();
+		this.currentPlay = play;
+	}
+
 }
