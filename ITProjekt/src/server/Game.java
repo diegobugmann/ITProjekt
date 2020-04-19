@@ -6,6 +6,7 @@ import javafx.beans.property.SimpleIntegerProperty;
 
 public class Game extends Commons.Game {
 	
+	public static int nextID = 1;
 	private ArrayList<Team> teams = new ArrayList<Team>();
 	private GameType trumpf;
 	private CardDeck deck;
@@ -13,13 +14,11 @@ public class Game extends Commons.Game {
 	private ArrayList<Play> plays;
 	private SimpleIntegerProperty numOfPlayers = new SimpleIntegerProperty(0);
 	
-	public Game(boolean germanCards, int rounds, int winningPoints, boolean isSchieber) {
-		this.deck = new CardDeck(germanCards);
-		this.numOfRounds = rounds;
+	public Game(boolean isGermanCards, int rounds, int winningPoints, boolean isSchieber) {
+		super(isGermanCards, rounds, winningPoints, isSchieber, nextID++);
+		this.deck = new CardDeck(isGermanCards);
 		this.isFistPlay = true;
-		this.isSchieber = isSchieber;
 		plays = new ArrayList<Play>();
-		this.winningPoints = winningPoints;
 		
 		if (isSchieber) {
 			for (int i = 0; i < 2; i++) //Bei Schieber 2 Teams erstellen
@@ -31,7 +30,7 @@ public class Game extends Commons.Game {
 	}
 	
 	public boolean addPlayer(Player p) {
-		if (isSchieber) {
+		if (this.isSchieber()) {
 			if (teams.get(0).getPlayerList().size() < 2)
 				teams.get(0).addPlayer(p);
 			else if (teams.get(1).getPlayerList().size() < 2)
@@ -55,8 +54,12 @@ public class Game extends Commons.Game {
 		this.trumpf = trumpf;
 	}
 	
-	public SimpleIntegerProperty getNumOfPlayers() {
+	public SimpleIntegerProperty getNumOfPlayersAsProperty() {
 		return numOfPlayers;
+	}
+	
+	public CardDeck getDeck() {
+		return this.deck;
 	}
 	
 	public ArrayList<Player> getPlayers() {
@@ -67,4 +70,5 @@ public class Game extends Commons.Game {
 		}
 		return players;
 	}
+	
 }

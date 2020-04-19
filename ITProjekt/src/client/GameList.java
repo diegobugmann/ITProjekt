@@ -1,5 +1,6 @@
 package client;
 
+import Commons.Game;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
@@ -22,7 +23,8 @@ public class GameList extends VBox {
 		tableView = new TableView<>();
 		
 		TableColumn<Table, String> colGames = new TableColumn<>("Spiele");
-		colGames.setPrefWidth(90);
+		colGames.setPrefWidth(150);
+		
 		tableView.getColumns().add(colGames);
 		
 		
@@ -32,5 +34,9 @@ public class GameList extends VBox {
 		return tableView;
 	}
 	
+	public Game getSelectedGame() {
+		//TODO selektiertes Game zurückgeben
+		return null;
+	}
 
 }

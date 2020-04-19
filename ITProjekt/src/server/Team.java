@@ -4,13 +4,14 @@ import java.util.ArrayList;
 
 public class Team {
 	
+	private static int nextID = 1;
 	private int teamID;
 	private ArrayList<Player> playerList = new ArrayList<Player>();
 	private int score;
 	private int totalScore;
 	
 	public Team() {
-		//ID vergeben
+		this.teamID = nextID++;
 	}
 	
 	public void addPlayer(Player p) {

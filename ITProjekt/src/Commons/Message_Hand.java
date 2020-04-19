@@ -2,7 +2,11 @@ package Commons;
 
 import java.util.ArrayList;
 import java.util.Collections;
-
+/**
+ * Sends the hand to the player 
+ * @author mibe1
+ *
+ */
 public class Message_Hand extends Message{
 	
 	private int size;
@@ -14,6 +18,7 @@ public class Message_Hand extends Message{
 		this.size = hand.size();
 	}
 
+	//Getters and Setters
 	public int getSize() {
 		return size;
 	}
@@ -28,38 +33,5 @@ public class Message_Hand extends Message{
 
 	public void setHand(ArrayList<Card> hand) {
 		this.hand = hand;
-	}
-	
-	@Override
-	public String toString() {
-		return "Message_Hand" + this.getId();
-	}
-	
-	/**
-	 * Organizing the cards in a certain order
-	 */
-	public void organize() {
-		ArrayList<Card> spades = new ArrayList<Card>();
-		ArrayList<Card> hearts = new ArrayList<Card>();
-		ArrayList<Card> clubs = new ArrayList<Card>();
-		ArrayList<Card> diamonds = new ArrayList<Card>();
-		for(Card c : hand) {
-			if(c.getSuit() == Card.Suit.Spades)
-				spades.add(c);
-			else if(c.getSuit() == Card.Suit.Hearts)
-				hearts.add(c);
-			else if(c.getSuit() == Card.Suit.Clubs)
-				clubs.add(c);
-			else
-				diamonds.add(c);
-		}
-		Collections.sort(spades);
-		Collections.sort(hearts);
-		Collections.sort(clubs);
-		Collections.sort(diamonds);
-		spades.addAll(hearts);
-		spades.addAll(clubs);
-		spades.addAll(diamonds);
-		hand = spades;
-	}
+	}	
 }

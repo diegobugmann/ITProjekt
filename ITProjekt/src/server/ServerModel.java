@@ -6,15 +6,15 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import Commons.Game;
 import Commons.Message;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 
 public class ServerModel {
 	
 	private final Logger logger = Logger.getLogger("");
-	private ObservableList<User> users = FXCollections.observableArrayList();
-	private ObservableList<Game> games = FXCollections.observableArrayList();
+	private ArrayList<User> users = new ArrayList<User>();
+	private ArrayList<server.Game> games = new ArrayList<server.Game>();
+	private ArrayList<Commons.Game> castGames = new ArrayList<Commons.Game>();
 	private ServerSocket listener;
 	private volatile boolean stop = false;
 	
@@ -32,7 +32,7 @@ public class ServerModel {
 					while (!stop) {
 						try {
 							Socket socket = listener.accept(); // wait for users to connect
-							User user = new User(ServerModel.this, socket); //generating thread for each user
+							User user = new Player(ServerModel.this, socket); //upcasting
 							users.add(user);
 						} catch (Exception e) {
 							logger.info(e.toString());
@@ -47,17 +47,19 @@ public class ServerModel {
 		}
 	}
 	
-	
+	//An alle User broadcasten
 	public void broadcast(Message msg) {
 		logger.info("Broadcasting to all clients");
 		for (User u : users) {
-			//u.send(outMsg); //Methode, um Msg zu versenden
+			msg.send(u.getSocket()); //Methode, um Msg zu versenden
 		}
 	}
 	
-	
-	public void broadcast(ArrayList<? extends User> players, Message msg) {
-		//TODO nur an spezifische User broadcasten (sinnvoll? oder direkt von Cntrl aus senden?)
+	//Nur an bestimmte User broadcasten
+	public void broadcast(ArrayList<Player> players, Message msg) {
+		for (Player p : players) {
+			msg.send(p.getSocket());
+		}
 	}
 	
 	public void stopServer() {
@@ -80,16 +82,21 @@ public class ServerModel {
 		}
 	}
 	
-	public ObservableList<User> getUsers() {
+	public ArrayList<User> getUsers() {
 		return users;
 	}
 
-	public ObservableList<Game> getGames() {
+	public ArrayList<server.Game> getGames() {
 		return games;
 	}
 	
-	public void addGame(Game g) {
+	public ArrayList<Commons.Game> getCastedGames() {
+		return castGames;
+	}
+	
+	public void addGame(server.Game g) {
 		this.games.add(g);
+		this.castGames.add(new Commons.Game(g.isGermanCards(), g.getNumOfRounds(), g.getWinningPoints(), g.isSchieber(), g.getGameId()));
 	}
 	
 }

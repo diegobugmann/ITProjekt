@@ -2,15 +2,23 @@ package Commons;
 
 public class Message_JoinGame extends Message{
 
-	private Game game;
-	private String player;
+	private int gameId;
 	
-	public Message_JoinGame() {
+	/**
+	 * main Constructor containing the game the client wants to join
+	 * @param gameId
+	 * @param playerName
+	 */
+	public Message_JoinGame(int gameId) {
 		super();
+		this.gameId = gameId;
+	}
+
+	//Getters
+	public int getGameId() {
+		return gameId;
 	}
 	
-	public Game getGame() {
-		return game;
-	}
+	
 
 }

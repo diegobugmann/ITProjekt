@@ -2,21 +2,24 @@ package Commons;
 
 import java.io.Serializable;
 
-public class Card implements Comparable<Object>, Serializable{
+public class Card implements Comparable<Card>, Serializable{
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public enum Suit {Clubs, Diamonds, Hearts, Spades;
+	public enum Suit {	ShieldsOrSpades,
+		RosesOrHearts,
+		AcornsOrDiamonds,
+		BellsOrClubs;
         @Override
         public String toString() {
             String suit = "";
             switch (this) {
-            case Clubs: suit = "clubs"; break;
-            case Diamonds: suit = "diamonds"; break;
-            case Hearts: suit = "hearts"; break;
-            case Spades: suit = "spades"; break;
+            	case BellsOrClubs: suit = "Bells or Clubs"; break;
+            	case AcornsOrDiamonds: suit = "Acorns or Diamonds"; break;
+            	case RosesOrHearts: suit = "Roses or Hearts"; break;
+            	case ShieldsOrSpades: suit = "Shields or Spades"; break;
             }
             return suit;
         }
@@ -63,8 +66,7 @@ public class Card implements Comparable<Object>, Serializable{
     }
 
 	@Override
-	public int compareTo(Object o) {
-		Card c = (Card) o;
+	public int compareTo(Card c) {
 		return this.getRank().ordinal() - c.getRank().ordinal();
 	}
 }
