@@ -22,8 +22,9 @@ public class DB_Connection {
 	private String ipAdress = "127.0.0.1";
 	private int port = 3306;
 	private String userName = "jassUser";
-	private String userPassword = "newPassword_1234";
+	private String userPassword = "newPassword_12345";
 	private final Logger logger = Logger.getLogger("");
+	
 	
 	public DB_Connection() {
 		
@@ -31,8 +32,8 @@ public class DB_Connection {
 		
 		try {
 			File file = new File("DBsettings.xml");
-			DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
-			DocumentBuilder db = dbf.newDocumentBuilder();
+			DocumentBuilderFactory dbfactory = DocumentBuilderFactory.newInstance();
+			DocumentBuilder db = dbfactory.newDocumentBuilder();
 			Document document = db.parse(file);			
 			NodeList nList = document.getElementsByTagName("DBSettings"); 
 			Node node = nList.item(0);
@@ -101,6 +102,7 @@ public class DB_Connection {
         return cn;
 	}
 	
+
 	private void createDB(Connection cn) {
 		
 		Statement stmt = null;

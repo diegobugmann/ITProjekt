@@ -3,5 +3,5 @@
 	<ipAdress>127.0.0.1</ipAdress>
 	<port>3306</port>
 	<username>jassUser</username>
-	<password>newPassword_1234</password>
+	<password>newPassword_12345</password>
 </DBSettings>
