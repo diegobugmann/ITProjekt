@@ -46,9 +46,7 @@ public class ClientModel {
 		userName = false;
 		
 		if(newValue.isEmpty() == false) {
-			userName = true;
-			//sendet an DB
-			
+			userName = true;			
 		}
 		return userName;
 	}
@@ -58,7 +56,6 @@ public class ClientModel {
 		password = false;
 		
 		if(newValue.isEmpty() == false) {
-			//sendet an DB
 			password = true;
 		}
 		return password;

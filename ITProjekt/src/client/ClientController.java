@@ -78,9 +78,11 @@ public class ClientController {
 		view.lobbyView.gameMenu.karten.setOnAction(event -> {
 			processKartenStyle();
 		});
-		view.lobbyView.gameMenu.sprache.setOnAction(event ->{
+		/*
+		 view.lobbyView.gameMenu.sprache.setOnAction(event ->{
 			processSprache();
 		});
+		*/
 		
 		view.lobbyView.gameMenu.regeln.setOnAction(event ->{
 			processRegeln();
