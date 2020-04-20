@@ -7,6 +7,7 @@ import java.util.Collections;
 import Commons.Card;
 import Commons.Card.Rank;
 import Commons.Card.Suit;
+import Commons.Wiis;
 
 public class Player extends User {
 	

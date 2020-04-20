@@ -3,8 +3,10 @@ package server;
 import java.util.ArrayList;
 
 import Commons.Card;
+import Commons.Card.Rank;
 import Commons.Card.Suit;
 import Commons.GameType;
+import Commons.Wiis.Blatt;
 
 public class Validation {
 	
@@ -54,6 +56,93 @@ public class Validation {
 	private boolean hasSuit(ArrayList<Card> hand, Suit suit) {
 		//TODO
 		return true;
+	}
+	
+	public static void validateWiis(ArrayList<Card> hand) {
+		Blatt currentBlatt = null;
+		if (isDreiBlatt(hand)) currentBlatt = Blatt.dreiblatt;
+		if (isVierBlatt(hand)) currentBlatt = Blatt.vierblatt;
+		if (isFuenfBlatt(hand)) currentBlatt = Blatt.fuenfblatt;
+		if (isSechsBlatt(hand)) currentBlatt = Blatt.sechsblatt;
+		if (isSiebenBlatt(hand)) currentBlatt = Blatt.siebenblatt;
+		if (isAchtBlatt(hand)) currentBlatt =  Blatt.achtblatt;
+		if (isNeunBlatt(hand)) currentBlatt = Blatt.neunblatt;
+		if (isVierGleiche(hand)) currentBlatt = Blatt.viergleiche;
+		if (isVierNeuner(hand)) currentBlatt = Blatt.vierNeuner;
+		if (isVierBauern(hand)) currentBlatt = Blatt.vierBauern;
+	}
+
+	private static boolean isVierBauern(ArrayList<Card> hand) {
+		int counter = 0;
+		for (Card c : hand) {
+			if (c.getRank() == Rank.Jack)
+				counter++;
+		}
+		if (counter < 4) return false;
+		else return true;
+	}
+
+	private static boolean isVierNeuner(ArrayList<Card> hand) {
+		int counter = 0;
+		for (Card c : hand) {
+			if (c.getRank() == Rank.Nine)
+				counter++;
+		}
+		if (counter < 4) return false;
+		else return true;
+	}
+
+	private static boolean isVierGleiche(ArrayList<Card> hand) {
+		int counter = 0;
+		for (Rank r : Rank.values()) {
+			counter = 0;
+			if (r != Rank.Nine && r != Rank.Jack) {
+				for (Card c : hand) {
+					if (c.getRank() == r) {
+						counter++;
+						//allenfalls remove, um weniger zu durchsuchen?
+						if (counter == 4) 
+							return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+
+	private static boolean isNeunBlatt(ArrayList<Card> hand) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private static boolean isAchtBlatt(ArrayList<Card> hand) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private static boolean isSiebenBlatt(ArrayList<Card> hand) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private static boolean isSechsBlatt(ArrayList<Card> hand) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private static boolean isFuenfBlatt(ArrayList<Card> hand) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private static boolean isVierBlatt(ArrayList<Card> hand) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	private static boolean isDreiBlatt(ArrayList<Card> hand) {
+		//TODO Idee: Methode rekursiv auf einzelnen Arrays der Farbe aufrufen
+		return false;
 	}
 	
 }
