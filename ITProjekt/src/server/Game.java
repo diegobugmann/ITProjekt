@@ -17,6 +17,7 @@ public class Game extends Commons.Game {
 	private boolean isFistPlay;
 	private ArrayList<Play> plays;
 	private SimpleIntegerProperty numOfPlayers = new SimpleIntegerProperty(0);
+	private SimpleIntegerProperty numOfAnsagen = new SimpleIntegerProperty(0);
 	private Play currentPlay;
 	
 	public Game(boolean isGermanCards, int rounds, int winningPoints, boolean isSchieber) {
@@ -41,13 +42,13 @@ public class Game extends Commons.Game {
 			else if (teams.get(1).getPlayerList().size() < 2)
 				teams.get(1).addPlayer(p);
 			else return false; //wenn schon 4 Spieler im Spiel sind, wird false zurückgegeben
-			numOfPlayers.setValue(teams.get(0).getPlayerList().size()+teams.get(1).getPlayerList().size()); //Spielerzahl aktualisieren
+			numOfPlayers.set(teams.get(0).getPlayerList().size()+teams.get(1).getPlayerList().size()); //Spielerzahl aktualisieren
 			return true;
 		} else {
 			for (Team t : teams) {
 				if (t.getPlayerList().size() == 0) { //fügt ein Spieler in einem noch leeren Team hinzu
 					t.addPlayer(p);
-					numOfPlayers.setValue(teams.indexOf(t)+1); //Spielerzahl aktualisieren
+					numOfPlayers.set(teams.indexOf(t)+1); //Spielerzahl aktualisieren
 					return true;
 				}
 			}
@@ -74,6 +75,14 @@ public class Game extends Commons.Game {
 	
 	public SimpleIntegerProperty getNumOfPlayersAsProperty() {
 		return numOfPlayers;
+	}
+	
+	public SimpleIntegerProperty getNumOfAnsagenAsProperty() {
+		return numOfAnsagen;
+	}
+	
+	public void incrementNumOfAnsagen() {
+		this.numOfAnsagen.set(numOfAnsagen.get()+1);
 	}
 	
 	public CardDeck getDeck() {
@@ -108,8 +117,12 @@ public class Game extends Commons.Game {
 	
 	public void startPlaying() {
 		Player starter = getStartingPlayer();
-		//TODO Wiis hier validieren
-		//FirstPlay Message an starter verschicken (inkl. Wiis)
+		if (this.isSchieber()) {
+			//TODO Wiis hier validieren
+			//FirstPlay Message an starter verschicken (inkl. Wiis)
+		} else {
+			//FirstPlay Message an starter verschicken (ohne wiis)
+		}
 		Play play = new Play();
 		this.currentPlay = play;
 	}

@@ -12,7 +12,7 @@ public class ServerModel {
 	
 	private final Logger logger = Logger.getLogger("");
 	private ArrayList<User> users = new ArrayList<User>();
-	private ArrayList<server.Game> games = new ArrayList<server.Game>();
+	private ArrayList<Game> games = new ArrayList<Game>();
 	private ArrayList<Commons.Game> castGames = new ArrayList<Commons.Game>();
 	private ServerSocket listener;
 	private volatile boolean stop = false;
@@ -85,7 +85,7 @@ public class ServerModel {
 		return users;
 	}
 
-	public ArrayList<server.Game> getGames() {
+	public ArrayList<Game> getGames() {
 		return games;
 	}
 	
@@ -93,7 +93,7 @@ public class ServerModel {
 		return castGames;
 	}
 	
-	public void addGame(server.Game g) {
+	public void addGame(Game g) {
 		this.games.add(g);
 		this.castGames.add(new Commons.Game(g.isGermanCards(), g.getNumOfRounds(), g.getWinningPoints(), g.isSchieber(), g.getGameId()));
 	}

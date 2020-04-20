@@ -99,7 +99,7 @@ public class User {
 			}
 			if (added) {
 				sendReceived();
-				msgOut = msgIn;
+				msgOut = new Message_GameList(model.getCastedGames());
 				model.broadcast(msgOut);
 			} else {
 				//TODO User benachrichtigen, dass er nicht joinen konnte
@@ -122,6 +122,7 @@ public class User {
 			int points = ((Message_Ansage)msgIn).getPoints();
 			Player p = (Player) this;
 			p.setAnnouncedPoints(points);
+			p.getCurrentGame().incrementNumOfAnsagen(); //bei 4 erhaltenen Ansagen wird das Spiel starten
 			//Hier beginnt nun der Spielablauf (1. Runde) und den Spielern werden YourFirstTurn(Wiis) Nachrichten geschickt
 		}
 		//-----------------------------------------------------------------------------------------------

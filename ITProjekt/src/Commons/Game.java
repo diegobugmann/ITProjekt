@@ -10,6 +10,7 @@ public class Game implements Serializable {
 	private int numOfRounds;
 	private int winningPoints;
 	private boolean isGermanCards;
+	private int currentNumOfPlayers;
 	
 	public Game(boolean isGermanCards, int rounds, int winningPoints, boolean isSchieber, int gameId) {
 		this.isGermanCards = isGermanCards;
@@ -17,6 +18,7 @@ public class Game implements Serializable {
 		this.winningPoints = winningPoints;
 		this.isSchieber = isSchieber;
 		this.gameId = gameId;
+		this.currentNumOfPlayers = 1;
 		if(isSchieber)
 			this.isSchieberDisplay = "Schieber";
 		else
@@ -54,6 +56,14 @@ public class Game implements Serializable {
 	
 	public boolean isGermanCards() {
 		return isGermanCards;
+	}
+	
+	public void setCurrentNumOfPlayers(int i) {
+		this.currentNumOfPlayers = i;
+	}
+	
+	public int getCurrentNumOfPlayers() {
+		return this.currentNumOfPlayers;
 	}
 
 	@Override
