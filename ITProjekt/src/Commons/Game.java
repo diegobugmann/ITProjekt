@@ -6,6 +6,7 @@ public class Game implements Serializable {
 	private int gameId;
 	private boolean isRunning;
 	private boolean isSchieber;
+	private String isSchieberDisplay;
 	private int numOfRounds;
 	private int winningPoints;
 	private boolean isGermanCards;
@@ -16,8 +17,17 @@ public class Game implements Serializable {
 		this.winningPoints = winningPoints;
 		this.isSchieber = isSchieber;
 		this.gameId = gameId;
+		if(isSchieber)
+			this.isSchieberDisplay = "Schieber";
+		else
+			this.isSchieberDisplay = "Differenzler";
+
 	}
 	
+	public String getIsSchieberDisplay() {
+		return isSchieberDisplay;
+	}
+
 	public int getGameId() {
 		return gameId;
 	}

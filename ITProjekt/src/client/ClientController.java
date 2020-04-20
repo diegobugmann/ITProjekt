@@ -232,10 +232,6 @@ public class ClientController {
  * @param games all games
  */
 	public void updateGamelist(ArrayList<Commons.Game> games) {
-		//Testcode as long as not implemented
-		for(Game g : games){
-			System.out.println(g);
-		}
 		this.view.lobbyView.gameList.setAllGames(games);
 		
 	}

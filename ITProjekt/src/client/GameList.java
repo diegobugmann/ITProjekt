@@ -26,50 +26,40 @@ public class GameList extends VBox {
 		tableView = new TableView<Game>();
 		TableColumn<Table, String> colGames = new TableColumn<>("Spiele");
 		colGames.setPrefWidth(150);
-		TableColumn gameId = new TableColumn("GameName");
+		
+		TableColumn gameId = new TableColumn("Spiel ID");
 		gameId.setCellValueFactory(new PropertyValueFactory<>("gameId"));
 		
-		TableColumn gameType = new TableColumn("Is Schieber");
-		gameType.setCellValueFactory(new PropertyValueFactory<>("isSchieber"));
 		
-		TableColumn numOfRounds = new TableColumn("Is Schieber");
+		TableColumn gameType = new TableColumn("Spielmodus");
+		gameType.setCellValueFactory(new PropertyValueFactory<>("isSchieberDisplay"));
+		
+		
+		TableColumn numOfRounds = new TableColumn("Anzahl Runden");
 		numOfRounds.setCellValueFactory(new PropertyValueFactory<>("numOfRounds"));
 		
-		TableColumn winningPoints = new TableColumn("Is Schieber");
+		TableColumn winningPoints = new TableColumn("Zu erreichende Punkte");
 		winningPoints.setCellValueFactory(new PropertyValueFactory<>("winningPoints"));
 		
 		tableView.getColumns().addAll(gameId, gameType, numOfRounds, winningPoints);
 		
+		tableView.setPlaceholder(new Label(""));
+		tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
 		return tableView;
 	}
 	
 	public void setAllGames(ArrayList<Commons.Game> games) {
 		tableView.getItems().clear();
-		System.out.println("Cleared");
-		for(Game g : games) {
-			tableView.getItems().add(g);
+
+			for(Game g : games) {
+				if(!g.isRunning())
+					tableView.getItems().add(g);
 		}
 	}
 	
-	/*
-	private TableView<Table> createTableView(){
-		tableView = new TableView<>();
-		
-		TableColumn<Table, String> colGames = new TableColumn<>("Spiele");
-		colGames.setPrefWidth(150);
-		
-		tableView.getColumns().add(colGames);
-		
-		
-		//Wenn keine Daten vorhanden, leeres Label darstellen
-		tableView.setPlaceholder(new Label(""));
-		
-		return tableView;
-	}
-	*/
 	public Game getSelectedGame() {
-		//TODO selektiertes Game zurückgeben
-		return null;
+		Game g = tableView.getSelectionModel().getSelectedItem();
+		return g;
 	}
 
 }
