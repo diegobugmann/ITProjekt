@@ -62,6 +62,8 @@ public class User {
 			if( ((Message_Login)msgIn).getLoginName().equals("m") && ((Message_Login)msgIn).getPassword().equals("m") ) {
 				msgOut = new Simple_Message(Simple_Message.Msg.Login_accepted);
 				msgOut.send(clientSocket);
+				Message gameUpdate = new Message_GameList(model.getCastedGames());
+				gameUpdate.send(clientSocket);
 			}
 			else {
 				msgOut = new Message_Error("Username or PW not corrrect", Message_Error.ErrorType.logginfalied);
@@ -128,6 +130,10 @@ public class User {
 			case Received: {
 				//TODO
 				break;
+			}
+			case Get_GameList:{
+				msgOut = new Message_GameList(model.getCastedGames());
+				msgOut.send(clientSocket);
 			}
 			default: {
 				break; //Sollten keine anderen Simple_Messages vom Server empfangen werden

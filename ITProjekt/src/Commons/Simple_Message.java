@@ -27,6 +27,8 @@ public class Simple_Message extends Message{
 		GameEnded,
 		//Server to client waits for client to reutrn Message ansage Trumpf
 		Ansage_Trumpf,
+		//Fragt GameListe des Servers ab
+		Get_GameList,
 		//Login related Messages
 		Login_accepted,
 		registration_accepted;

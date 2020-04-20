@@ -148,6 +148,7 @@ public class ClientController {
 		try {
 			splashScreen.stop();
 			startLobby(stage);
+			model.updateGameList();
 			
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -230,12 +231,12 @@ public class ClientController {
  * @author mibe1 
  * @param games all games
  */
-	public void updateGamelist(ArrayList<? extends Game> games) {
+	public void updateGamelist(ArrayList<Commons.Game> games) {
 		//Testcode as long as not implemented
 		for(Game g : games){
 			System.out.println(g);
 		}
-		//TODO update game list with the new game list from the server
+		this.view.lobbyView.gameList.setAllGames(games);
 		
 	}
 /**

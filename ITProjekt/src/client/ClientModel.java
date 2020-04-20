@@ -93,6 +93,11 @@ public class ClientModel {
 		
 	}
 
+	public void updateGameList() {
+		Simple_Message msg = new Simple_Message(Simple_Message.Msg.Get_GameList);
+		connection.sendMessage(msg);
+	}
+
 
 }
 
