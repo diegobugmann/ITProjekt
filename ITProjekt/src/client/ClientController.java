@@ -78,11 +78,9 @@ public class ClientController {
 		view.lobbyView.gameMenu.karten.setOnAction(event -> {
 			processKartenStyle();
 		});
-		/*
-		 view.lobbyView.gameMenu.sprache.setOnAction(event ->{
+		/*view.lobbyView.gameMenu.sprache.setOnAction(event ->{
 			processSprache();
-		});
-		*/
+		});*/
 		
 		view.lobbyView.gameMenu.regeln.setOnAction(event ->{
 			processRegeln();
@@ -220,6 +218,7 @@ public class ClientController {
 	 * @author mibe1
 	 */
 	public void loginfaild(String message) {
+		//Change to alert Box
 		JOptionPane.showMessageDialog(null, message, "InfoBox: Login faild from Server", JOptionPane.ERROR_MESSAGE);
 		view.showLoginView(stage);
 	}
