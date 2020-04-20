@@ -218,8 +218,11 @@ public class ClientController {
 	 * @author mibe1
 	 */
 	public void loginfaild(String message) {
-		//Change to alert Box
-		JOptionPane.showMessageDialog(null, message, "InfoBox: Login faild from Server", JOptionPane.ERROR_MESSAGE);
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Login failed");
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.showAndWait();
 		view.showLoginView(stage);
 	}
 /**
