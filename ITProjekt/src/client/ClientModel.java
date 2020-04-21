@@ -3,10 +3,12 @@ package client;
 import java.net.Socket;
 
 import Commons.*;
+import client.CommunicationThread.Status;
 
 
 
 public class ClientModel {
+	
 	protected boolean userName;
 	protected boolean password;
 	protected String user;
@@ -14,6 +16,8 @@ public class ClientModel {
 	//Michis Variabel
 	protected CommunicationThread connection;
 	public static int cardStyle=0; // 0 = französisch
+	protected Game currentGame;
+
 	
 	/**
 	 * Connects to the Server and creates a connection object to send or receive data from the server
@@ -74,23 +78,32 @@ public class ClientModel {
 	 * Code Michi Creates a game based on the Inputs form the GUI via controller and sends creation to Server via connection thread
 	 */
 	public void newGame(boolean isSchieber, boolean isGermanCards, int numOfRounds, int winningPoints) {
-		Message_CreateGame msg = new Message_CreateGame(isSchieber, isGermanCards, numOfRounds, winningPoints);
-		connection.sendMessage(msg);
+		//Only create Game when user is in the correct Status to create a Game
+		if(connection.getStatus() == Status.logedin) {
+			connection.setStatus(Status.joingamerequested);
+			Message_CreateGame msg = new Message_CreateGame(isSchieber, isGermanCards, numOfRounds, winningPoints);
+			connection.sendMessage(msg);
+		}
+		else
+			System.out.println("Wrong Status");
+		//TODO Errorhandling
 	}
 	
 
 	public void joinGame(int gameId) {
-		Message_JoinGame msg = new Message_JoinGame(gameId);
-		connection.sendMessage(msg);
-		
+		//Only join Game when user is in the correct Status to join a Game
+		if(connection.getStatus() == Status.logedin) {
+			connection.setStatus(Status.joingamerequested);
+			Message_JoinGame msg = new Message_JoinGame(gameId);
+			connection.sendMessage(msg);
+		}
+		else
+			System.out.println("Wrong Status");
+		//TODO Errorhandling
 	}
 
 	public void updateGameList() {
 		Simple_Message msg = new Simple_Message(Simple_Message.Msg.Get_GameList);
 		connection.sendMessage(msg);
 	}
-
-
 }
-
-

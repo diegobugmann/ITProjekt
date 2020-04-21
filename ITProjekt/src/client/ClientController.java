@@ -6,7 +6,10 @@ import javax.swing.JOptionPane;
 
 import Commons.Card;
 import Commons.Game;
+
 import javafx.event.ActionEvent;
+
+import client.CommunicationThread.Status;
 import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -80,9 +83,6 @@ public class ClientController {
 		view.lobbyView.gameMenu.karten.setOnAction(event -> {
 			processKartenStyle();
 		});
-		/*view.lobbyView.gameMenu.sprache.setOnAction(event ->{
-			processSprache();
-		});*/
 		
 		view.lobbyView.gameMenu.regeln.setOnAction(event ->{
 			processRegeln();
@@ -110,14 +110,19 @@ public class ClientController {
 	
 	private void joinGame(Event e) {
 		Game g = this.view.lobbyView.gameList.getSelectedGame();
+		model.currentGame = g;
 		int gameId = g.getGameId();
 		model.joinGame(gameId);
-		
+
+	}
+	
+	public void joinGameApproved(Game game) {
+		model.currentGame = game;
 		try {
 			startGame(); //TODO wieder löschen
 			//startSplash(e);
+			startSplash();
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
@@ -139,7 +144,12 @@ public class ClientController {
 			boolean isSchieber = true;
 			boolean isGermanCards = false;
 			int winningPoints = 1000;
+			//model.newGame(true,true,100,100);
+		
+			//TODO read userinput and set as parameters for new game 
 			
+			//startSplash();
+
 			try {
 				if(newGameView.rbDifferenzler.isSelected()) {
 					isSchieber = false;	
@@ -168,7 +178,7 @@ public class ClientController {
 		
 	}
 	
-	private void startSplash(Event e) throws Exception {
+	private void startSplash() throws Exception {
 		splashScreen = new WaitingScreen_Preloader();
 		view.lobbyView.stage.close();
 		splashScreen.start(stage);
@@ -202,6 +212,7 @@ public class ClientController {
 			
 	}
 	
+
 	public void processKartenStyle() {
 		int cardStyle=ClientModel.cardStyle;
 		CardStyleView cardStyleView = new CardStyleView();
@@ -267,9 +278,23 @@ public class ClientController {
  	* Called when the Game list on the Serverlist gets changed and sent to the Client
  * @author mibe1 
  * @param games all games
+ * @param status 
  */
-	public void updateGamelist(ArrayList<Commons.Game> games) {
-		this.view.lobbyView.gameList.setAllGames(games);
+	public void updateGamelist(ArrayList<Commons.Game> games, Status status) {
+		if(status == Status.logedin) {
+			this.view.lobbyView.gameList.setAllGames(games);
+		}
+		else if(status == Status.joinedgame) {
+			int numOfPlayers = 1;
+			for(Game g : games)
+			{
+				if(g.getGameId() == model.currentGame.getGameId()) {
+					model.currentGame = g;
+					numOfPlayers = g.getCurrentNumOfPlayers();
+					this.splashScreen.updateAnzahlPers(numOfPlayers);
+				}
+			}
+		}
 		
 	}
 	/**
@@ -323,9 +348,26 @@ public class ClientController {
 	stage2.close();
 	startLobby(stage);
 	model.updateGameList();
+
+/**
+ * Start the Game;
+
+public void startGame() {
+	Alert alert = new Alert(AlertType.INFORMATION);
+	alert.setTitle("Spielstart");
+	alert.setHeaderText(null);
+	alert.setContentText("Spiel gestartet");
+	alert.showAndWait();
+	*/
+	/*try {
+		splashScreen.stop();
+		
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}*/
 	
 }
-
 
 
 }

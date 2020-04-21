@@ -10,23 +10,39 @@ import javafx.application.Platform;
  * @author mibe1
  *TODO Michael:
  *-Korrektes Schliessen
- *-Anzahl Spieler anzeigen
  *-Tabelle verschönern
  */
 public class CommunicationThread extends Thread{
+	/**
+	 * Status of the CLient
+	 * @author mibe1
+	 *Idea: Depending on the Status Messages get handled differently
+	 *
+	 */
+	public enum Status{
+		connected,
+		logedin,
+		joingamerequested,
+		joinedgame,
+		ingame,
+		onturn
+	}
+	
+	
 	private Socket socket;
 	private ClientController controller;
 	private String senderName = "";
+	private Status status;
 	
 	public CommunicationThread(Socket s, ClientController controller) throws IOException {
 		//run the Constructor of Thread
 		super();
 		this.socket = s;
 		this.controller = controller;
+		status = Status.connected;
 	}
 	
-	
-    /**
+		/**
      * Handles all incoming Messages by just receiving them and then giving them to the processMessage method 
      * If the answer of the message is not null, this method also response to the server and starts listening again 
      */
@@ -49,6 +65,11 @@ public class CommunicationThread extends Thread{
          }    
 
     }
+    
+	public void sendMessage(Message msg) {
+		msg.setClient(senderName);
+		msg.send(this.socket);
+	}
 	
     /**
      * process the message based on the Messagetype and gives advice to the controller
@@ -74,16 +95,19 @@ public class CommunicationThread extends Thread{
 						break;
 					}
 					case Game_Start :{
+						status = Status.ingame;
 						controller.startGame();
 						break;
 					}
 					case Your_Turn :{
+						status = Status.onturn;
 						break;
 					}
 					case Ansage_Points :{
 						break;
 					}
 					case GameEnded :{
+						status = Status.logedin;
 						break;
 					}
 					case Ansage_Trumpf :{
@@ -91,7 +115,8 @@ public class CommunicationThread extends Thread{
 					}
 					
 					case Login_accepted :{
-				        controller.loginaccepted();;
+				        this.status = Status.logedin;
+						controller.loginaccepted();
 						returnMsg = null;
 						break;
 					}
@@ -105,7 +130,15 @@ public class CommunicationThread extends Thread{
 			}
 			case gamelist : {
 				Message_GameList msglist = (Message_GameList) msgIn;
-				controller.updateGamelist(msglist.getGames());
+				controller.updateGamelist(msglist.getGames(), status);
+				returnMsg = null;
+				break;
+			}
+			case joined : {
+				Message_JoinedGame msgjoined = (Message_JoinedGame) msgIn;
+				status = Status.joinedgame;
+				controller.joinGameApproved(msgjoined.getGame());
+				returnMsg = null;
 				break;
 			}
 			case players : {
@@ -164,15 +197,8 @@ public class CommunicationThread extends Thread{
 		}
 		return returnMsg;
 	}
-
-
-	public void sendMessage(Message msg) {
-		msg.setClient(senderName);
-		msg.send(this.socket);
-	}
 	
-	
-	
+	//Getters and Setters -----------------------------------------------------------------------------------------------------------
 	public String getSenderName() {
 		return senderName;
 	}
@@ -182,11 +208,22 @@ public class CommunicationThread extends Thread{
 		this.senderName = senderName;
 	}
 
+    public Status getStatus() {
+		return status;
+	}
 
+
+	public void setStatus(Status status) {
+		this.status = status;
+	}
+
+	//---------------------------------------------------------------------------------------------------------------------------------
 	/**
 	 * Closes the connection to the Server on shutting down the program
 	 */
 	public void closeConnection() {
 		try { if (socket != null) socket.close(); } catch (IOException e) {}
 	}
+	
+
 }

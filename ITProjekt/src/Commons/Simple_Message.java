@@ -49,6 +49,12 @@ public class Simple_Message extends Message{
 	public void setType(Msg type) {
 		this.type = type;
 	}
+	//---------------------------------
+	//ToString for simplemessages
+	@Override
+	public String toString() {
+		return super.toString() + " Simplemessage Type: "+ this.type;
+	}
 	
 	
 

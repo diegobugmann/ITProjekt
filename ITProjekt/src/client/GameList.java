@@ -35,14 +35,14 @@ public class GameList extends VBox {
 		gameType.setCellValueFactory(new PropertyValueFactory<>("isSchieberDisplay"));
 		
 		
-		TableColumn numOfRounds = new TableColumn("Anzahl Runden");
+		TableColumn numOfRounds = new TableColumn("Runden");
 		numOfRounds.setCellValueFactory(new PropertyValueFactory<>("numOfRounds"));
 		
-		TableColumn winningPoints = new TableColumn("Zu erreichende Punkte");
+		TableColumn winningPoints = new TableColumn("Ziel Punkte");
 		winningPoints.setCellValueFactory(new PropertyValueFactory<>("winningPoints"));
 		
-		TableColumn currentNumOfPlayers = new TableColumn("Wartenden Spieler");
-		currentNumOfPlayers.setCellValueFactory(new PropertyValueFactory<>("currentNumOfPlayers"));
+		TableColumn currentNumOfPlayers = new TableColumn("Spieler");
+		currentNumOfPlayers.setCellValueFactory(new PropertyValueFactory<>("currentNumOfPlayersString"));
 		
 		tableView.getColumns().addAll(gameId, gameType, numOfRounds, winningPoints, currentNumOfPlayers);
 		
@@ -56,6 +56,7 @@ public class GameList extends VBox {
 
 			for(Game g : games) {
 				if(!g.isRunning())
+					System.out.println(g);
 					tableView.getItems().add(g);
 		}
 	}

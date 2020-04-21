@@ -11,6 +11,7 @@ import Commons.Message_CreateGame;
 import Commons.Message_Error;
 import Commons.Message_GameList;
 import Commons.Message_JoinGame;
+import Commons.Message_JoinedGame;
 import Commons.Message_Login;
 import Commons.Message_Trumpf;
 import Commons.Simple_Message;
@@ -82,7 +83,11 @@ public class User {
 			Player p = (Player) this; //downcasting
 			g.addPlayer(p); //Player, welcher Spiel erstellt hat, hinzufügen
 			p.setCurrentGame(g);
-			sendReceived();
+			//sendReceived();
+			Commons.Game commonsGame = new Commons.Game(g.isGermanCards(), g.getNumOfRounds(), g.getWinningPoints(), g.isSchieber(), g.getGameId());
+			//Sends joined game back to client t store
+			Message_JoinedGame joined = new Message_JoinedGame(commonsGame);
+			joined.send(clientSocket);
 			msgOut = new Message_GameList(model.getCastedGames());
 			model.broadcast(msgOut);
 			break;
@@ -98,7 +103,12 @@ public class User {
 				}	
 			}
 			if (added) {
-				sendReceived();
+				Game current = p.getCurrentGame();
+				Commons.Game commonsGame = new Commons.Game(current.isGermanCards(), current.getNumOfRounds(), current.getWinningPoints(), current.isSchieber(), current.getGameId());
+				//Sends joined game back to client t store
+				Message_JoinedGame joined = new Message_JoinedGame(commonsGame);
+				joined.send(clientSocket);
+				
 				msgOut = new Message_GameList(model.getCastedGames());
 				model.broadcast(msgOut);
 			} else {
