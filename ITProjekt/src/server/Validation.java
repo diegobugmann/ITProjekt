@@ -6,6 +6,7 @@ import Commons.Card;
 import Commons.Card.Rank;
 import Commons.Card.Suit;
 import Commons.GameType;
+import Commons.Wiis;
 import Commons.Wiis.Blatt;
 
 public class Validation {
@@ -58,58 +59,95 @@ public class Validation {
 		return true;
 	}
 	
-	public static void validateWiis(ArrayList<Card> hand) {
-		Blatt currentBlatt = null;
-		if (isDreiBlatt(hand)) currentBlatt = Blatt.dreiblatt;
-		if (isVierBlatt(hand)) currentBlatt = Blatt.vierblatt;
-		if (isFuenfBlatt(hand)) currentBlatt = Blatt.fuenfblatt;
-		if (isSechsBlatt(hand)) currentBlatt = Blatt.sechsblatt;
-		if (isSiebenBlatt(hand)) currentBlatt = Blatt.siebenblatt;
-		if (isAchtBlatt(hand)) currentBlatt =  Blatt.achtblatt;
-		if (isNeunBlatt(hand)) currentBlatt = Blatt.neunblatt;
-		if (isVierGleiche(hand)) currentBlatt = Blatt.viergleiche;
-		if (isVierNeuner(hand)) currentBlatt = Blatt.vierNeuner;
-		if (isVierBauern(hand)) currentBlatt = Blatt.vierBauern;
+	//TODO weitere Wiis-Validierung sinnvoll gestalten (mit Liste)
+	public static Wiis validateWiis(ArrayList<Card> hand) {
+		Wiis currentWiis = isBlatt(hand);
+		//7, 8 und 9-Blatt sind nur einzeln möglich
+		if (currentWiis.getBlatt() == Blatt.siebenblatt || currentWiis.getBlatt() == Blatt.achtblatt ||
+			currentWiis.getBlatt() == Blatt.neunblatt)
+			return currentWiis;
+		else if (currentWiis.getBlatt() == Blatt.sechsblatt) {
+			/*
+			 * TODO Noch nach einem dreiblatt suchen
+			 * Dazu Karten, die schon in einem Wiis verwendet werden, entfernen
+			 */
+		}
+		else {
+			/*
+			 * TODO Bei 5-Blatt oder Kleiner noch nach vierlingen suchen und nach weiteren Blättern
+			 * Dazu Karten, die schon in einem Wiis verwendet werden, entfernen
+			 */
+		}
+		
+		
+		return null;
 	}
-
-	private static boolean isVierBauern(ArrayList<Card> hand) {
+	
+	private static Wiis isVierGleiche(ArrayList<Card> hand) {
+		int counter = 0;
+		for (Rank r : Rank.values()) {
+			counter = 0;
+			for (Card c : hand) {
+				if (c.getRank() == r) {
+					counter++;
+					//allenfalls remove, um weniger zu durchsuchen?
+					if (counter == 4) {
+						if (r == Rank.Nine) return new Wiis(Blatt.vierNeuner, c);
+						else if (r == Rank.Jack) return new Wiis(Blatt.vierBauern, c);
+						else return new Wiis(Blatt.viergleiche, c);
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	//gibt bei Erfolg das höchste Blatt als Wiis zurück, ohne die Karten zu entfernen
+	private static Wiis isBlatt(ArrayList<Card> hand) {
+		for (int diff = hand.size()-1; diff >= 2; diff--) {
+			for (int highest = hand.size()-1; highest >= diff; highest--) {
+				if (hand.get(highest).getSuit() == hand.get(highest-diff).getSuit()) { //same suit?
+					if (hand.get(highest).getRank().ordinal() == hand.get(highest-diff).getRank().ordinal()+diff) { //difference = 7 ranks?
+						for (Blatt b : Blatt.values()) {
+							if (diff == b.ordinal()+2) 
+								return new Wiis(b, hand.get(highest));
+						}
+					}
+				}
+			}
+		}
+		return null;
+	}
+	
+	
+	/*Methoden ersetzt durch isVierGleiche
+	 * 
+	private static Wiis isVierBauern(ArrayList<Card> hand) {
 		int counter = 0;
 		for (Card c : hand) {
 			if (c.getRank() == Rank.Jack)
 				counter++;
 		}
-		if (counter < 4) return false;
-		else return true;
+		if (counter < 4) return new Wiis(Blatt.vierBauern, null);
+		else return null;
 	}
 
-	private static boolean isVierNeuner(ArrayList<Card> hand) {
+	private static Wiis isVierNeuner(ArrayList<Card> hand) {
 		int counter = 0;
 		for (Card c : hand) {
 			if (c.getRank() == Rank.Nine)
 				counter++;
 		}
-		if (counter < 4) return false;
-		else return true;
+		if (counter < 4) return new Wiis(Blatt.vierNeuner, null);
+		else return null;
 	}
-
-	private static boolean isVierGleiche(ArrayList<Card> hand) {
-		int counter = 0;
-		for (Rank r : Rank.values()) {
-			counter = 0;
-			if (r != Rank.Nine && r != Rank.Jack) {
-				for (Card c : hand) {
-					if (c.getRank() == r) {
-						counter++;
-						//allenfalls remove, um weniger zu durchsuchen?
-						if (counter == 4) 
-							return true;
-					}
-				}
-			}
-		}
-		return false;
-	}
-
+	*/
+	
+	
+	
+	
+	/* Alle Methoden werden ersetzt durch isBlatt()
+	 *
 	private static boolean isNeunBlatt(ArrayList<Card> hand) {
 		if (hand.get(0).getSuit() == hand.get(8).getSuit())
 			return true;
@@ -140,23 +178,47 @@ public class Validation {
 	}
 
 	private static boolean isSechsBlatt(ArrayList<Card> hand) {
-		// TODO Auto-generated method stub
+		for (int i = hand.size()-1; i >= 5; i--) {
+			if (hand.get(i).getSuit() == hand.get(i-5).getSuit()) { //same suit?
+				if (hand.get(i).getRank().ordinal() == hand.get(i-5).getRank().ordinal()+5) { //difference = 5 ranks?
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
 	private static boolean isFuenfBlatt(ArrayList<Card> hand) {
-		// TODO Auto-generated method stub
+		for (int i = hand.size()-1; i >= 4; i--) {
+			if (hand.get(i).getSuit() == hand.get(i-4).getSuit()) { //same suit?
+				if (hand.get(i).getRank().ordinal() == hand.get(i-4).getRank().ordinal()+4) { //difference = 4 ranks?
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
 	private static boolean isVierBlatt(ArrayList<Card> hand) {
-		// TODO Auto-generated method stub
+		for (int i = hand.size()-1; i >= 3; i--) {
+			if (hand.get(i).getSuit() == hand.get(i-3).getSuit()) { //same suit?
+				if (hand.get(i).getRank().ordinal() == hand.get(i-3).getRank().ordinal()+3) { //difference = 3 ranks?
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
 	private static boolean isDreiBlatt(ArrayList<Card> hand) {
-		//TODO Idee: Methode rekursiv auf einzelnen Arrays der Farbe aufrufen
+		for (int i = hand.size()-1; i >= 2; i--) {
+			if (hand.get(i).getSuit() == hand.get(i-2).getSuit()) { //same suit?
+				if (hand.get(i).getRank().ordinal() == hand.get(i-2).getRank().ordinal()+2) { //difference = 2 ranks?
+					return true;
+				}
+			}
+		}
 		return false;
 	}
-	
+	*/
 }

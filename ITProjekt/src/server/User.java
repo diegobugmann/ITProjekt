@@ -100,7 +100,6 @@ public class User {
 				}	
 			}
 			if (added) {
-				Game current = p.getCurrentGame();
 				//Send back the join Message so client knows the Game
 				msgIn.send(clientSocket);			
 				msgOut = new Message_GameList(model.getCastedGames());
