@@ -105,31 +105,36 @@ public class ClientController {
 	
 	private void joinGame(Event e) {
 		Game g = this.view.lobbyView.gameList.getSelectedGame();
+		model.currentGame = g;
 		int gameId = g.getGameId();
 		model.joinGame(gameId);
+
+	}
+	
+	public void joinGameApproved(Game game) {
+		model.currentGame = game;
 		try {
-			startSplash(e);
+			startSplash();
 		} catch (Exception e1) {
-			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
 	}
 
 	private void createNewGame(Event e) {
-		
-		try {
+		model.newGame(true,true,100,100);
+		/**try {
 			//TODO read userinput and set as parameters for new game 
-			model.newGame(true,true,100,100);
-			startSplash(e);
+			
+			startSplash();
 			
 			
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
-		}
+		}*/
 	}
 	
-	private void startSplash(Event e) throws Exception {
+	private void startSplash() throws Exception {
 		splashScreen = new WaitingScreen_Preloader();
 		view.lobbyView.stage.close();
 		splashScreen.start(stage);
@@ -233,7 +238,7 @@ public class ClientController {
 			{
 				if(g.getGameId() == model.currentGame.getGameId()) {
 					model.currentGame = g;
-					g.getCurrentNumOfPlayers();
+					numOfPlayers = g.getCurrentNumOfPlayers();
 					this.splashScreen.updateAnzahlPers(numOfPlayers);
 				}
 			}

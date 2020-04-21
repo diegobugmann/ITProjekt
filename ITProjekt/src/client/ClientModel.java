@@ -80,7 +80,7 @@ public class ClientModel {
 	 */
 	public void newGame(boolean isSchieber, boolean isGermanCards, int numOfRounds, int winningPoints) {
 		//Only create Game when user is in the correct Status to create a Game
-		if(connection.getStatus() == Status.connected) {
+		if(connection.getStatus() == Status.logedin) {
 			connection.setStatus(Status.joingamerequested);
 			Message_CreateGame msg = new Message_CreateGame(isSchieber, isGermanCards, numOfRounds, winningPoints);
 			connection.sendMessage(msg);
@@ -100,7 +100,7 @@ public class ClientModel {
 
 	public void joinGame(int gameId) {
 		//Only join Game when user is in the correct Status to join a Game
-		if(connection.getStatus() == Status.connected) {
+		if(connection.getStatus() == Status.logedin) {
 			connection.setStatus(Status.joingamerequested);
 			Message_JoinGame msg = new Message_JoinGame(gameId);
 			connection.sendMessage(msg);

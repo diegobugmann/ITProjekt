@@ -93,11 +93,10 @@ public class CommunicationThread extends Thread{
 				//If the Message is a received message from the Server the communication has ended (block loops)	
 					case Received :{
 						returnMsg = null;
-						if(status == Status.joingamerequested)
-							status = Status.joinedgame;
 						break;
 					}
 					case Game_Start :{
+						System.out.println("That works allready");
 						status = Status.ingame;
 						controller.startGame();
 						break;
@@ -134,6 +133,14 @@ public class CommunicationThread extends Thread{
 			case gamelist : {
 				Message_GameList msglist = (Message_GameList) msgIn;
 				controller.updateGamelist(msglist.getGames(), status);
+				returnMsg = null;
+				break;
+			}
+			case joined : {
+				Message_JoinedGame msgjoined = (Message_JoinedGame) msgIn;
+				status = Status.joinedgame;
+				controller.joinGameApproved(msgjoined.getGame());
+				returnMsg = null;
 				break;
 			}
 			case players : {

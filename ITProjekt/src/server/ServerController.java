@@ -50,6 +50,7 @@ public class ServerController {
 			if ((int) nV == 4) {
 				ArrayList<Player> players = g.getPlayers();
 				Message msgOut = new Simple_Message(Simple_Message.Msg.Game_Start);
+				System.out.println("Server sending GameStart");
 				model.broadcast(players, msgOut); 
 				g.dealCards();
 				//TODO broadcast GameList? gem. Diagramm, um zu zeigen, dass das Spiel am laufen ist
