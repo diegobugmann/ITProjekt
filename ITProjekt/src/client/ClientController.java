@@ -249,7 +249,19 @@ public class ClientController {
  * Start the Game;
  */
 public void startGame() {
-	// TODO Auto-generated method stub
+	Alert alert = new Alert(AlertType.INFORMATION);
+	alert.setTitle("Spielstart");
+	alert.setHeaderText(null);
+	alert.setContentText("Spiel gestartet");
+	alert.showAndWait();
+	
+	/*try {
+		splashScreen.stop();
+		
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}*/
 	
 }
 public void processExit(Event event, Stage stage) {

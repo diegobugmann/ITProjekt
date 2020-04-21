@@ -39,18 +39,16 @@ public class ServerController {
 		
 		//listener is waiting for 4 players to join a game
 		g.getNumOfPlayersAsProperty().addListener( (obs, oV, nV) -> {
-			
 			//numOfCurrentPlayers im castedGame anpassen
 			for (Commons.Game game : model.getCastedGames()) {
 				if (g.getGameId() == game.getGameId())
 					game.setCurrentNumOfPlayers((int)nV);
 			}
-			
+			System.out.println("Players:" + nV);
 			//Bei 4 Spielern das Spiel starten
 			if ((int) nV == 4) {
 				ArrayList<Player> players = g.getPlayers();
 				Message msgOut = new Simple_Message(Simple_Message.Msg.Game_Start);
-				System.out.println("Server sending GameStart");
 				model.broadcast(players, msgOut); 
 				g.dealCards();
 				//TODO broadcast GameList? gem. Diagramm, um zu zeigen, dass das Spiel am laufen ist

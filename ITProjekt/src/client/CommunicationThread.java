@@ -96,7 +96,6 @@ public class CommunicationThread extends Thread{
 						break;
 					}
 					case Game_Start :{
-						System.out.println("That works allready");
 						status = Status.ingame;
 						controller.startGame();
 						break;
