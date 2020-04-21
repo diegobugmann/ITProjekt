@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.swing.JOptionPane;
 
 import Commons.Game;
+import client.CommunicationThread.Status;
 import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -78,9 +79,6 @@ public class ClientController {
 		view.lobbyView.gameMenu.karten.setOnAction(event -> {
 			processKartenStyle();
 		});
-		/*view.lobbyView.gameMenu.sprache.setOnAction(event ->{
-			processSprache();
-		});*/
 		
 		view.lobbyView.gameMenu.regeln.setOnAction(event ->{
 			processRegeln();
@@ -88,7 +86,6 @@ public class ClientController {
 		view.lobbyView.gameMenu.about.setOnAction(event ->{
 			processAbout();
 		});
-		
 		
 		view.lobbyView.newBtn.setOnAction(event ->{
 			createNewGame(event);
@@ -160,12 +157,6 @@ public class ClientController {
 		
 	}
 	
-	public void processExit(Event event, Stage stage) {
-		//Verbindung schliessen
-			stage.close();
-			
-	}
-	
 	public void processKartenStyle() {
 		int cardStyle=model.getCardStyle();
 		CardStyleView cardStyleView = new CardStyleView();
@@ -230,9 +221,23 @@ public class ClientController {
  * Called when the Game list on the Serverlist gets changed and sent to the Client
  * @author mibe1 
  * @param games all games
+ * @param status 
  */
-	public void updateGamelist(ArrayList<Commons.Game> games) {
-		this.view.lobbyView.gameList.setAllGames(games);
+	public void updateGamelist(ArrayList<Commons.Game> games, Status status) {
+		if(status == Status.logedin) {
+			this.view.lobbyView.gameList.setAllGames(games);
+		}
+		else if(status == Status.joinedgame) {
+			int numOfPlayers = 1;
+			for(Game g : games)
+			{
+				if(g.getGameId() == model.currentGame.getGameId()) {
+					model.currentGame = g;
+					g.getCurrentNumOfPlayers();
+					this.splashScreen.updateAnzahlPers(numOfPlayers);
+				}
+			}
+		}
 		
 	}
 /**
@@ -242,6 +247,10 @@ public void startGame() {
 	// TODO Auto-generated method stub
 	
 }
-
+public void processExit(Event event, Stage stage) {
+	//Verbindung schliessen
+		stage.close();
+		
+}
 
 }
