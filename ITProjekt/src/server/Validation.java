@@ -111,12 +111,20 @@ public class Validation {
 	}
 
 	private static boolean isNeunBlatt(ArrayList<Card> hand) {
-		// TODO Auto-generated method stub
-		return false;
+		if (hand.get(0).getSuit() == hand.get(8).getSuit())
+			return true;
+		else 
+			return false;
 	}
 
 	private static boolean isAchtBlatt(ArrayList<Card> hand) {
-		// TODO Auto-generated method stub
+		for (int i = hand.size()-1; i >= hand.size()-2; i--) { //Problem mit -2: etwas falsch
+			if (hand.get(i).getSuit() == hand.get(i-7).getSuit()) { //same suit?
+				if (hand.get(i).getRank().ordinal() == hand.get(i-7).getRank().ordinal()-7) { //difference = 7 ranks?
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
