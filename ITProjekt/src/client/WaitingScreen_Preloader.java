@@ -76,5 +76,13 @@ public class WaitingScreen_Preloader extends Preloader {
 		
 	}
     
+	/**
+	 * 
+	 */
+	public void updateAnzahlPers(int numOfPers) {
+        anzahlPers = numOfPers;
+        lblStatus.setText("Es "+((4-anzahlPers == 1) ? "fehlt noch" : "fehlen noch")+ " " +(4-anzahlPers)+ " "+
+        ((4-anzahlPers == 1) ? "Person" : "Personen"));
+	}
 
 }

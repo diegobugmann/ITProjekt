@@ -41,7 +41,10 @@ public class GameList extends VBox {
 		TableColumn winningPoints = new TableColumn("Zu erreichende Punkte");
 		winningPoints.setCellValueFactory(new PropertyValueFactory<>("winningPoints"));
 		
-		tableView.getColumns().addAll(gameId, gameType, numOfRounds, winningPoints);
+		TableColumn currentNumOfPlayers = new TableColumn("Wartenden Spieler");
+		currentNumOfPlayers.setCellValueFactory(new PropertyValueFactory<>("currentNumOfPlayers"));
+		
+		tableView.getColumns().addAll(gameId, gameType, numOfRounds, winningPoints, currentNumOfPlayers);
 		
 		tableView.setPlaceholder(new Label(""));
 		tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
