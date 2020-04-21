@@ -4,7 +4,9 @@ import java.util.ArrayList;
 
 import javax.swing.JOptionPane;
 
+import Commons.Card;
 import Commons.Game;
+import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -21,7 +23,7 @@ public class ClientController {
 	protected WaitingScreen_Preloader splashScreen;
 	protected boolean user;
 	protected boolean pw;
-	
+	protected GameView gameView;
 	
 	public ClientController(ClientModel model, ClientView view, Stage stage) {
 		this.model = model;
@@ -85,10 +87,10 @@ public class ClientController {
 		view.lobbyView.gameMenu.regeln.setOnAction(event ->{
 			processRegeln();
 		});
+		
 		view.lobbyView.gameMenu.about.setOnAction(event ->{
 			processAbout();
 		});
-		
 		
 		view.lobbyView.newBtn.setOnAction(event ->{
 			createNewGame(event);
@@ -110,8 +112,10 @@ public class ClientController {
 		Game g = this.view.lobbyView.gameList.getSelectedGame();
 		int gameId = g.getGameId();
 		model.joinGame(gameId);
+		
 		try {
-			startSplash(e);
+			startGame(); //TODO wieder löschen
+			//startSplash(e);
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -120,16 +124,48 @@ public class ClientController {
 
 	private void createNewGame(Event e) {
 		
-		try {
-			//TODO read userinput and set as parameters for new game 
-			model.newGame(true,true,100,100);
-			startSplash(e);
+		stage.close();
+		NewGameView newGameView = new NewGameView();
+		
+		Scene scene2 = new Scene(newGameView);
+		Stage stage2 = new Stage();
+		stage2.setScene(scene2);
+		stage2.setHeight(300);
+		stage2.setWidth(300);
+		stage2.initStyle(StageStyle.UNDECORATED);
+		stage2.show();
+		
+		newGameView.okBtn.setOnAction(event -> {
+			boolean isSchieber = true;
+			boolean isGermanCards = false;
+			int winningPoints = 1000;
 			
-			
-		} catch (Exception e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-		}
+			try {
+				if(newGameView.rbDifferenzler.isSelected()) {
+					isSchieber = false;	
+				}
+				if(ClientModel.cardStyle == 1) {
+					isGermanCards = true;
+				}
+				if(newGameView.rb2500.isSelected()) {
+					winningPoints = 2500;
+				}
+				int numOfRounds = newGameView.numOfRounds.getValue();
+				
+				model.newGame(isSchieber,isGermanCards,
+						numOfRounds,winningPoints);
+				stage2.close();
+				startGame();
+				// TODO wieder aktivieren
+				//startSplash(e);
+				
+				
+			} catch (Exception e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+		});
+		
 	}
 	
 	private void startSplash(Event e) throws Exception {
@@ -157,17 +193,17 @@ public class ClientController {
 	}
 	
 	public void processStatisitc() {
-		
+		//TODO Statistik holen und anzeigen
 	}
 	
 	public void processExit(Event event, Stage stage) {
-		//Verbindung schliessen
 			stage.close();
+			model.connection.closeConnection();
 			
 	}
 	
 	public void processKartenStyle() {
-		int cardStyle=model.getCardStyle();
+		int cardStyle=ClientModel.cardStyle;
 		CardStyleView cardStyleView = new CardStyleView();
 		cardStyleView.setSelectedStyle(cardStyle);
 		
@@ -179,21 +215,20 @@ public class ClientController {
 		stage2.initStyle(StageStyle.UNDECORATED);
 		stage2.show();
 		cardStyleView.confirmBtn.setOnAction(event -> {
-			model.setCardStyle(cardStyleView.getSelectedRadio());
+			ClientModel.cardStyle = cardStyleView.getSelectedRadio();
 			stage2.close();
 		});
 
-		
-		
 	}
 	
-	
+	/*
 	public void processSprache() {
 		
 	}
+	*/
 	
 	public void processRegeln() {
-		
+		//TODO Regeln anzeigen
 	}
 	
 	public void processAbout() {
@@ -225,9 +260,11 @@ public class ClientController {
 		alert.setContentText(message);
 		alert.showAndWait();
 		view.showLoginView(stage);
+		
+		//TODO login button wird nicht mehr freigegeben
 	}
 /**
- * Called when the Game list on the Serverlist gets changed and sent to the Client
+ 	* Called when the Game list on the Serverlist gets changed and sent to the Client
  * @author mibe1 
  * @param games all games
  */
@@ -235,13 +272,60 @@ public class ClientController {
 		this.view.lobbyView.gameList.setAllGames(games);
 		
 	}
-/**
- * Start the Game;
- */
-public void startGame() {
-	// TODO Auto-generated method stub
+	/**
+	 * Start the Game;
+	 */
+	public void startGame() {
+		try {
+			//splashScreen.stop();
+			view.showGameView(stage);
+		
+			view.gameView.gameMenu.statistik.setOnAction(event ->{
+				processStatisitc();
+			});
+		
+		
+			view.gameView.gameMenu.karten.setOnAction(event -> {
+				processKartenStyle();
+			});
+			/*gameView.gameMenu.sprache.setOnAction(event ->{
+				processSprache();
+			});*/
+		
+			view.gameView.gameMenu.regeln.setOnAction(event ->{
+				processRegeln();
+			});
+		
+			view.gameView.gameMenu.about.setOnAction(event ->{
+				processAbout();
+			});
+		
+			view.gameView.gameMenu.exit.setOnAction(event -> {
+				processExitGame(event, stage);
+			});
+		
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
+	public void updateCardArea(ArrayList<Card> hand) {
+		for(int i = 0; i<hand.size(); i++) {
+			Card card = hand.get(i);
+			gameView.cardArea.setCards(card);
+		}
+		
+		
+	}
+
+	private void processExitGame(ActionEvent event, Stage stage2) {
+	stage2.close();
+	startLobby(stage);
+	model.updateGameList();
 	
 }
+
 
 
 }

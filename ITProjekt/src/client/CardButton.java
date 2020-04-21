@@ -1,17 +1,18 @@
 package client;
 
-import javafx.scene.control.Label;
+import Commons.Card;
+import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-public class Card extends Commons.Card {
-	protected Label cardlbl;
+public class CardButton extends Button {
 	protected String cardStyle;
 
-	public Card(Suit suit, Rank rank) {
-		super(suit, rank);
-		cardlbl = new Label();
-		cardlbl.getStyleClass().add("card");
+	public CardButton() {
+		super();
+		this.getStylesheets().add(getClass().getResource("CSS/card.css").toExternalForm());
+		this.getStyleClass().add("card");
+
 		
 	}
 	
@@ -24,14 +25,14 @@ public class Card extends Commons.Card {
 				
 		if (card != null) {
 			String fileName = cardToFileName(card);
-			Image image = new Image(cardlbl.getClass().getClassLoader().getResourceAsStream("Karten_"+cardStyle+"/" + fileName));
+			Image image = new Image(this.getClass().getClassLoader().getResourceAsStream("Karten_"+cardStyle+"/" + fileName));
 			ImageView imv = new ImageView(image);
-			imv.fitWidthProperty().bind(cardlbl.widthProperty());
-			imv.fitHeightProperty().bind(cardlbl.heightProperty());
+			imv.fitWidthProperty().bind(this.widthProperty());
+			imv.fitHeightProperty().bind(this.heightProperty());
 			imv.setPreserveRatio(true);
-			cardlbl.setGraphic(imv);
+			this.setGraphic(imv);
 		}else {
-			cardlbl.setGraphic(null);
+			this.setGraphic(null);
 		}
 
 	}

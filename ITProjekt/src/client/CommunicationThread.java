@@ -110,7 +110,8 @@ public class CommunicationThread extends Thread{
 				break;
 			}
 			case hand : {
-				
+				Message_Hand msghand = (Message_Hand) msgIn;
+				controller.updateCardArea(msghand.getHand());
 				break;
 			}
 			case turn : {
@@ -134,7 +135,7 @@ public class CommunicationThread extends Thread{
 				break;
 			}
 			case trumpf : {
-				
+				controller.view.gameView.infoView.setTrumpf(type.toString());
 				break;
 			}
 			

@@ -13,7 +13,7 @@ public class ClientModel {
 	protected String pw;
 	//Michis Variabel
 	protected CommunicationThread connection;
-	public static int cardStyle=0;
+	public static int cardStyle=0; // 0 = französisch
 	
 	/**
 	 * Connects to the Server and creates a connection object to send or receive data from the server
@@ -63,7 +63,6 @@ public class ClientModel {
 	
 	
 	public void loginProcess(String user, String pw) {
-		boolean done = false;
 		this.user = user;
 		this.pw = pw;
 		this.connection.setSenderName(user);
@@ -79,13 +78,6 @@ public class ClientModel {
 		connection.sendMessage(msg);
 	}
 	
-	public void setCardStyle(int style) {
-		this.cardStyle = style;
-	}
-	
-	public int getCardStyle() {
-		return this.cardStyle;
-	}
 
 	public void joinGame(int gameId) {
 		Message_JoinGame msg = new Message_JoinGame(gameId);

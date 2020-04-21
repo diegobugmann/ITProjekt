@@ -27,6 +27,7 @@ public class WaitingScreen_Preloader extends Preloader {
     protected int anzahlPers;
     protected Button abbruchBtn;
     protected VBox vBox;
+    
 
     @Override
     public void start(Stage splashStage) throws Exception {
@@ -70,7 +71,7 @@ public class WaitingScreen_Preloader extends Preloader {
         
     }
 
-	public void setLabelText(int anzahlPers) {
+	public void setMissingPers(int anzahlPers) {
 		this.anzahlPers = anzahlPers;
 		
 	}
