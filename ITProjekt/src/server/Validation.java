@@ -13,11 +13,61 @@ public class Validation {
 	
 	public static ArrayList<Card> getPlayableCards(ArrayList<Card> hand, ArrayList<Card> playedCards, GameType gameType) {
 		if (playedCards.isEmpty()) return hand; //Man kann ausspielen, was man möchte
+		ArrayList<Card> playableCards = (ArrayList<Card>) hand.clone();
 		Card firstPlayed = playedCards.get(0);
-		ArrayList<Card> playableCards = hand;
-		//TODO Nicht erlaubte Karten entfernen
+		Suit playedSuit = firstPlayed.getSuit();
+		
+		//If player has cards from played suit, he can only play those. If not, he can play whichever card he wants
+		if (gameType == GameType.BottomsUp || gameType == GameType.TopsDown) {
+			if (containsSuit(playableCards, playedSuit)) {
+				for (Card c : playableCards) {
+					if (playedSuit != c.getSuit())
+						playableCards.remove(c);
+				}
+			}
+			return playableCards;
+		}
+		
+		//TODO bei trumpf sonderheiten: bauer muss nicht angegeben werden, man darf immer stechen, untertrumpfen nur, wenn nicht angegeben werden kann
+		else {
+			String trumpf = gameType.toString();
+			if (containsTrumpf(playableCards, gameType)) {
+				//TODO wenn er trumpf hat, was darf er spielen? Dinge wie untertrumpfen hier beachten!
+			} else { //gets called if player has no trumpf
+				if (containsSuit(playableCards, playedSuit)) {
+					for (Card c : playableCards) {
+						if (playedSuit != c.getSuit())
+							playableCards.remove(c);
+					}
+				}
+				return playableCards;
+			}
+		}
+		
+		
 		return playableCards;
 	}
+	
+	
+	//As soon as list contains at least one card from trumpf, it returns true
+	private static boolean containsTrumpf(ArrayList<Card> hand, GameType gameType) {
+		for (Card c : hand) {
+			if (c.getSuit().toString().equals(gameType.toString()))
+				return true;
+		}
+		return false;
+	}
+	
+	
+	//As soon as list contains at least one card from suit, it returns true
+	private static boolean containsSuit(ArrayList<Card> hand, Suit suit) {
+		for (Card c : hand) {
+			if (c.getSuit() == suit)
+				return true;
+		}
+		return false;
+	}
+	
 	
 	public static int validatePoints(ArrayList<Card> cards, GameType gameType) {
 		int points = 0;
@@ -49,20 +99,11 @@ public class Validation {
 		return points;
 	}
 	
-	private boolean hasTrump(ArrayList<Card> hand, GameType gameType) {
-		//TODO
-		return true;
-	}
-	
-	private boolean hasSuit(ArrayList<Card> hand, Suit suit) {
-		//TODO
-		return true;
-	}
 	
 	//TODO weitere Wiis-Validierung sinnvoll gestalten (mit Liste)
 	public static Wiis validateWiis(ArrayList<Card> hand) {
 		Wiis currentWiis = isBlatt(hand);
-		//7, 8 und 9-Blatt sind nur einzeln möglich
+		//7, 8 und 9-Blatt sind nur einzeln möglich ohne Kollision
 		if (currentWiis.getBlatt() == Blatt.siebenblatt || currentWiis.getBlatt() == Blatt.achtblatt ||
 			currentWiis.getBlatt() == Blatt.neunblatt)
 			return currentWiis;

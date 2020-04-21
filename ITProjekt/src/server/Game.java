@@ -123,7 +123,7 @@ public class Game extends Commons.Game {
 		} else {
 			//FirstPlay Message an starter verschicken (ohne wiis)
 		}
-		Play play = new Play();
+		Play play = new Play(this.trumpf);
 		this.currentPlay = play;
 	}
 

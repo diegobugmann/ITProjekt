@@ -3,6 +3,7 @@ package server;
 import java.util.ArrayList;
 
 import Commons.Card;
+import Commons.GameType;
 
 public class Play {
 	
@@ -10,9 +11,10 @@ public class Play {
 	private Team playWinner;
 	private Player winningPlayer;
 	private ArrayList<Card> playedCards = new ArrayList<Card>();
+	private GameType trumpf;
 	
-	public Play() {
-		
+	public Play(GameType trumpf) {
+		this.trumpf = trumpf;
 	}
 	
 	public Team validateWinner() {
@@ -21,8 +23,8 @@ public class Play {
 	}
 	
 	public int validatePoints() {
-		//TODO
-		return 0;
+		this.points = Validation.validatePoints(playedCards, trumpf);
+		return this.points;
 	}
 	
 	public void addCard(Card c) {
