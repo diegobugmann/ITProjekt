@@ -8,7 +8,10 @@ import javafx.application.Platform;
 /**
  * 
  * @author mibe1
- *
+ *TODO Michael:
+ *-Korrektes Schliessen
+ *-Anzahl Spieler anzeigen
+ *-Tabelle verschönern
  */
 public class CommunicationThread extends Thread{
 	private Socket socket;
