@@ -118,9 +118,9 @@ public class Validation {
 	}
 
 	private static boolean isAchtBlatt(ArrayList<Card> hand) {
-		for (int i = hand.size()-1; i >= hand.size()-2; i--) { //Problem mit -2: etwas falsch
+		for (int i = hand.size()-1; i >= 7; i--) {
 			if (hand.get(i).getSuit() == hand.get(i-7).getSuit()) { //same suit?
-				if (hand.get(i).getRank().ordinal() == hand.get(i-7).getRank().ordinal()-7) { //difference = 7 ranks?
+				if (hand.get(i).getRank().ordinal() == hand.get(i-7).getRank().ordinal()+7) { //difference = 7 ranks?
 					return true;
 				}
 			}
@@ -129,7 +129,13 @@ public class Validation {
 	}
 
 	private static boolean isSiebenBlatt(ArrayList<Card> hand) {
-		// TODO Auto-generated method stub
+		for (int i = hand.size()-1; i >= 6; i--) {
+			if (hand.get(i).getSuit() == hand.get(i-6).getSuit()) { //same suit?
+				if (hand.get(i).getRank().ordinal() == hand.get(i-6).getRank().ordinal()+6) { //difference = 6 ranks?
+					return true;
+				}
+			}
+		}
 		return false;
 	}
 
