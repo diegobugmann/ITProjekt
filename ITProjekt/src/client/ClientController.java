@@ -144,11 +144,6 @@ public class ClientController {
 			boolean isSchieber = true;
 			boolean isGermanCards = false;
 			int winningPoints = 1000;
-			//model.newGame(true,true,100,100);
-		
-			//TODO read userinput and set as parameters for new game 
-			
-			//startSplash();
 
 			try {
 				if(newGameView.rbDifferenzler.isSelected()) {

@@ -2,6 +2,7 @@ package client;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
 
 import Commons.*;
 import javafx.application.Platform;
@@ -33,6 +34,7 @@ public class CommunicationThread extends Thread{
 	private ClientController controller;
 	private String senderName = "";
 	private Status status;
+	private ArrayList<Game> allGames;
 	
 	public CommunicationThread(Socket s, ClientController controller) throws IOException {
 		//run the Constructor of Thread
@@ -130,17 +132,24 @@ public class CommunicationThread extends Thread{
 			}
 			case gamelist : {
 				Message_GameList msglist = (Message_GameList) msgIn;
+				allGames = msglist.getGames();
 				controller.updateGamelist(msglist.getGames(), status);
 				returnMsg = null;
 				break;
 			}
-			case joined : {
-				Message_JoinedGame msgjoined = (Message_JoinedGame) msgIn;
-				status = Status.joinedgame;
-				controller.joinGameApproved(msgjoined.getGame());
+			case joinGame : {
+				Message_JoinGame msgJoin = (Message_JoinGame) msgIn;
+				for(Game g : allGames) {
+					if(msgJoin.getGameId() == g.getGameId()) {
+						System.out.println("yes");
+						status = Status.joinedgame;
+						controller.joinGameApproved(g);
+					}
+				}
 				returnMsg = null;
 				break;
 			}
+			
 			case players : {
 				
 				break;

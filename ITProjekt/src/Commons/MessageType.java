@@ -21,8 +21,7 @@ public enum MessageType {
 	cancel,
 	trumpf,
 	endResults,
-	error,
-	joined
+	error
 	;
 	
     public static MessageType parseType(String typeName) {
@@ -56,7 +55,6 @@ public enum MessageType {
     	else if (msg instanceof Message_Trumpf) type = trumpf;
     	else if (msg instanceof Message_EndResult) type = endResults;
     	else if (msg instanceof Message_Error) type = error;
-    	else if (msg instanceof Message_JoinedGame) type = joined;
     	return type;
     }	
 	
