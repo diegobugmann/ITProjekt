@@ -120,7 +120,6 @@ public class ClientController {
 		model.currentGame = game;
 		try {
 			startGame(); //TODO wieder löschen
-			//startSplash(e);
 			startSplash();
 		} catch (Exception e1) {
 			e1.printStackTrace();
