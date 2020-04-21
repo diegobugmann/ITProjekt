@@ -82,6 +82,7 @@ public class User {
 			Player p = (Player) this; //downcasting
 			g.addPlayer(p); //Player, welcher Spiel erstellt hat, hinzufügen
 			p.setCurrentGame(g);
+			//Send joining message so client knows the game
 			Message_JoinGame msgJoin = new Message_JoinGame(g.getGameId());
 			msgJoin.send(clientSocket);
 			msgOut = new Message_GameList(model.getCastedGames());
