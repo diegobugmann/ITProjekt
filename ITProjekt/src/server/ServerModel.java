@@ -7,12 +7,14 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import Commons.Message;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 
 public class ServerModel {
 	
 	private final Logger logger = Logger.getLogger("");
 	private ArrayList<User> users = new ArrayList<User>();
-	private ArrayList<Game> games = new ArrayList<Game>();
+	private ObservableList<Game> games = FXCollections.observableArrayList();
 	private ArrayList<Commons.Game> castGames = new ArrayList<Commons.Game>();
 	private ServerSocket listener;
 	private volatile boolean stop = false;
@@ -85,7 +87,7 @@ public class ServerModel {
 		return users;
 	}
 
-	public ArrayList<Game> getGames() {
+	public ObservableList<Game> getGames() {
 		return games;
 	}
 	

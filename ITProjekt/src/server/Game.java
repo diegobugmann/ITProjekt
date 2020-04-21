@@ -48,7 +48,7 @@ public class Game extends Commons.Game {
 			for (Team t : teams) {
 				if (t.getPlayerList().size() == 0) { //fügt ein Spieler in einem noch leeren Team hinzu
 					t.addPlayer(p);
-					numOfPlayers.set(teams.indexOf(t)+1); //Spielerzahl aktualisieren
+					numOfPlayers.setValue(teams.indexOf(t)+1); //Spielerzahl aktualisieren
 					return true;
 				}
 			}
