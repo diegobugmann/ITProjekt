@@ -27,6 +27,8 @@ public class Simple_Message extends Message{
 		GameEnded,
 		//Server to client waits for client to reutrn Message ansage Trumpf
 		Ansage_Trumpf,
+		//Fragt GameListe des Servers ab
+		Get_GameList,
 		//Login related Messages
 		Login_accepted,
 		registration_accepted;
@@ -46,6 +48,12 @@ public class Simple_Message extends Message{
 	}
 	public void setType(Msg type) {
 		this.type = type;
+	}
+	//---------------------------------
+	//ToString for simplemessages
+	@Override
+	public String toString() {
+		return super.toString() + " Simplemessage Type: "+ this.type;
 	}
 	
 	

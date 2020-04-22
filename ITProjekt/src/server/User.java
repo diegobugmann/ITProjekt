@@ -3,9 +3,9 @@ package server;
 import java.io.IOException;
 
 import java.net.Socket;
-import java.util.ArrayList;
 import java.util.logging.Logger;
 
+import Commons.GameType;
 import Commons.Message;
 import Commons.MessageType;
 import Commons.Message_CreateGame;
@@ -13,8 +13,13 @@ import Commons.Message_Error;
 import Commons.Message_GameList;
 import Commons.Message_JoinGame;
 import Commons.Message_Login;
+import Commons.Message_Trumpf;
 import Commons.Simple_Message;
+
 import DB.UserData;
+
+import Commons.Message_Ansage;
+
 
 public class User {
 	
@@ -64,6 +69,8 @@ public class User {
 			if( ((Message_Login)msgIn).getLoginName().equals("m") && ((Message_Login)msgIn).getPassword().equals("m") ) {
 				msgOut = new Simple_Message(Simple_Message.Msg.Login_accepted);
 				msgOut.send(clientSocket);
+				Message gameUpdate = new Message_GameList(model.getCastedGames());
+				gameUpdate.send(clientSocket);
 			}
 			else {
 				msgOut = new Message_Error("Username or PW not corrrect", Message_Error.ErrorType.logginfalied);
@@ -81,7 +88,10 @@ public class User {
 			model.addGame(g);
 			Player p = (Player) this; //downcasting
 			g.addPlayer(p); //Player, welcher Spiel erstellt hat, hinzufügen
-			sendReceived();
+			p.setCurrentGame(g);
+			//Send joining message so client knows the game
+			Message_JoinGame msgJoin = new Message_JoinGame(g.getGameId());
+			msgJoin.send(clientSocket);
 			msgOut = new Message_GameList(model.getCastedGames());
 			model.broadcast(msgOut);
 			break;
@@ -91,28 +101,63 @@ public class User {
 			boolean added = false;
 			Player p = (Player) this;
 			for (Game g : model.getGames()) {
-				if (g.getGameId() == ((Message_JoinGame)msgIn).getGameId()) //dem richtigen Game hinzufügen
+				if (g.getGameId() == ((Message_JoinGame)msgIn).getGameId()) { //dem richtigen Game hinzufügen
 					added = g.addPlayer(p);
+					p.setCurrentGame(g);
+				}	
 			}
 			if (added) {
-				sendReceived();
-				msgOut = msgIn;
+				//Send back the join Message so client knows the Game
+				msgIn.send(clientSocket);			
+				msgOut = new Message_GameList(model.getCastedGames());
 				model.broadcast(msgOut);
 			} else {
 				//TODO User benachrichtigen, dass er nicht joinen konnte
 			}
 			break;
 		}
-		//---------------------------------------------------------------------------------------------
-		case simple_Message : {
-			//sendReceived(); //TODO
+		//-----------------------------------------------------------------------------------------------
+		case trumpf: {
+			GameType trumpf = ((Message_Trumpf)msgIn).getTrumpf();
+			Player p = (Player) this;
+			p.getCurrentGame().setTrumpf(trumpf);
+			msgOut = msgIn;
+			model.broadcast(p.getCurrentGame().getPlayers(), msgOut); //Trumpf an alle broadcasten
+			p.getCurrentGame().startPlaying();
+			//Hier beginnt nun der Spielablauf (1. Runde) und den Spielern werden YourFirstTurn(Wiis) Nachrichten geschickt
 			break;
 		}
-		
+		//------------------------------------------------------------------------------------------------
+		case ansage: {
+			int points = ((Message_Ansage)msgIn).getPoints();
+			Player p = (Player) this;
+			p.setAnnouncedPoints(points);
+			p.getCurrentGame().incrementNumOfAnsagen(); //bei 4 erhaltenen Ansagen wird das Spiel starten
+			//Hier beginnt nun der Spielablauf (1. Runde) und den Spielern werden YourFirstTurn(Wiis) Nachrichten geschickt
 		}
-		
+		//-----------------------------------------------------------------------------------------------
+		case simple_Message : {
+			switch(((Simple_Message)msgIn).getType()) {
+			case Received: {
+				//TODO
+				break;
+			}
+			case Get_GameList:{
+				msgOut = new Message_GameList(model.getCastedGames());
+				msgOut.send(clientSocket);
+			}
+			default: {
+				break; //Sollten keine anderen Simple_Messages vom Server empfangen werden
+			}
+			}
+		}
+		}
 	}
 	
+	private void startPlaying() {
+		
+	}
+
 	public void sendReceived() {
 		Simple_Message msg = new Simple_Message(Simple_Message.Msg.Received);
 		msg.send(clientSocket);

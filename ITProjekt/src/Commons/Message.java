@@ -85,7 +85,7 @@ public class Message implements Serializable {
 	//--------------------------------------------------------------------------------------------------
     @Override
     public String toString() {
-    	return "Message " + this.id + "  Client " + this.client + " SendingTime  " + this.timestamp;
+    	return "Message " + this.id +" Type "+MessageType.getType(this)+"  Client " + this.client + " SendingTime  " + this.timestamp;
     }
  
     /**

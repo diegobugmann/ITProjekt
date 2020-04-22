@@ -13,6 +13,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 public class LobbyView {
 	
@@ -60,17 +61,18 @@ public class LobbyView {
 		
 		lobby = new BorderPane();
 		
-		int regionSize = 350;
+		int regionWith = 150;
+		int regionHeight = 250;
 		Region region1 = new Region();
 		Region region2 = new Region();
 		Region region3 = new Region();
 		Region region4 = new Region();
 		
-		region1.setPrefWidth(regionSize);
-		region2.setPrefWidth(regionSize);
+		region1.setPrefWidth(regionWith);
+		region2.setPrefWidth(regionWith);
 		
-		region3.setPrefHeight(regionSize);
-		region4.setPrefHeight(regionSize);
+		region3.setPrefHeight(regionHeight);
+		region4.setPrefHeight(regionHeight);
 		
 		BorderPane.setAlignment(center, Pos.CENTER);
 		lobby.setCenter(center);
@@ -85,6 +87,7 @@ public class LobbyView {
 		Scene scene = new Scene(lobby);
 		//scene.getStylesheets().add(getClass().getResource("").toExternalForm());
 		
+
 		stage.setFullScreen(false);
 		stage.setHeight(800);
 		stage.setWidth(800);

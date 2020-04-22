@@ -1,10 +1,14 @@
 package Commons;
 
 public class Message_Trumpf extends Message{
-
-	public enum color {
-		obeabe,
-		undeufe;
-		
+	
+	public GameType trumpf;
+	
+	public Message_Trumpf(GameType trumpf) {
+		this.trumpf = trumpf;
+	}
+	
+	public GameType getTrumpf() {
+		return this.trumpf;
 	}
 }

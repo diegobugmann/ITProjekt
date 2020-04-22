@@ -7,11 +7,14 @@ import java.util.Collections;
 import Commons.Card;
 import Commons.Card.Rank;
 import Commons.Card.Suit;
+import Commons.Wiis;
 
 public class Player extends User {
 	
+	private Game currentGame;
 	private ArrayList<Card> hand;
 	private boolean hisTurn;
+	private int announcedPoints;
 	private Wiis wiis; //muss Wiis[] sein bei mehreren Wiis
 	
 	public Player(ServerModel model, Socket clientSocket) {
@@ -50,5 +53,22 @@ public class Player extends User {
 		spades.addAll(clubs);
 		spades.addAll(diamonds);
 		hand = spades;
+	}
+	
+	public void setCurrentGame(Game g) {
+		this.currentGame = g;
+	}
+	
+	public Game getCurrentGame() {
+		return this.currentGame;
+	}
+	
+	public void setAnnouncedPoints(int announcedPoints) {
+		this.announcedPoints = announcedPoints;
+	}
+	
+	public void validateWiis() {
+		Wiis wiis = Validation.validateWiis(hand);
+		
 	}
 }

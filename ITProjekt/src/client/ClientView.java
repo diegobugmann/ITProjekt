@@ -1,17 +1,12 @@
 package client;
 
-import javafx.scene.Scene;
-import javafx.scene.image.Image;
-import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 
 public class ClientView {
 	
 	protected ClientModel model;
 	protected Stage primaryStage;
-	
-	protected LoginView loginView;
-	
+	protected LoginView loginView;	
 	protected LobbyView lobbyView;
 	
 	protected CreateNewUserView createNewUserView;
@@ -20,6 +15,8 @@ public class ClientView {
 	protected CardArea cardArea;
 	protected CenterView centerView;
 	protected InfoView infoView;
+
+	protected GameView gameView;
 	
 	protected Stage stage;
 
@@ -28,8 +25,6 @@ public class ClientView {
 	public ClientView(Stage primaryStage, ClientModel model) {
 		this.primaryStage = primaryStage;
 		this.model = model;
-		
-		
 		
 	}
 	
@@ -54,32 +49,12 @@ public class ClientView {
 	}
 
 	
-	
-	public void loadMainView(Stage stage) {
-		
+	public void showGameView(Stage stage) {
 		this.stage = stage;
+		gameView = new GameView(stage);
 		
-		infoView = new InfoView();
-		centerView = new CenterView();
-		cardArea = new CardArea();
-		
-		BorderPane root = new BorderPane();
-		
-		root.setTop(gameMenu);
-		root.setRight(infoView);
-		root.setCenter(centerView);
-		root.setBottom(cardArea);
-		
-		
-		Scene scene = new Scene(root);
-		/* scene.getStylesheets().add(getClass().getResource("").toExternalForm()); */
-		
-		primaryStage.setFullScreen(false);
-		
-		primaryStage.setTitle("CodingKittens");
-		primaryStage.setScene(scene);
-		primaryStage.show();
 	}
+
 	
 }
 	
