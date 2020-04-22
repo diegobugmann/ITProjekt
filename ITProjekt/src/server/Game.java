@@ -86,6 +86,31 @@ public class Game extends Commons.Game {
 		return numOfAnsagen;
 	}
 	
+	//give every player a following Player (for gamedirection)
+	//TODO Methode mit Schlaufen lösen
+	public void setFollowingPlayers() {
+		Player playerOne;
+		Player playerTwo;
+		Player playerThree;
+		Player playerFour;
+		if (isSchieber()) {
+			playerOne = teams.get(0).getPlayerList().get(0);
+			playerTwo = teams.get(0).getPlayerList().get(1);
+			playerThree = teams.get(1).getPlayerList().get(0);
+			playerFour = teams.get(1).getPlayerList().get(1);
+			
+		} else {
+			playerOne = teams.get(0).getPlayerList().get(0);
+			playerTwo = teams.get(1).getPlayerList().get(0);
+			playerThree = teams.get(2).getPlayerList().get(0);
+			playerFour = teams.get(3).getPlayerList().get(0);
+		}
+		playerOne.setFollowingPlayer(playerThree);
+		playerTwo.setFollowingPlayer(playerFour);
+		playerThree.setFollowingPlayer(playerTwo);
+		playerFour.setFollowingPlayer(playerOne);
+	}
+	
 	public void incrementNumOfAnsagen() {
 		this.numOfAnsagen.set(numOfAnsagen.get()+1);
 	}
@@ -135,12 +160,9 @@ public class Game extends Commons.Game {
 		}
 	}
 	
-	//
 	public void startPlaying() {
 		Player starter = getStartingPlayer();
-		Play play = new Play(this.trumpf);
-		this.currentPlay = play;
-		plays.add(play);
+		newPlay();
 		ArrayList<Card> playableCards = starter.getHand(); //he can play what he wants at first
 		if (this.isSchieber()) {
 			Wiis w = starter.validateWiis();
@@ -148,6 +170,13 @@ public class Game extends Commons.Game {
 		} else {
 			//FirstPlay Message an starter verschicken (mit playableCards, ohne Wiis)
 		}
+	}
+	
+	//creates a new Play object, adds it to the game and sets it as currentPlay
+	public void newPlay() {
+		Play newPlay = new Play(this.trumpf);
+		plays.add(newPlay);
+		this.currentPlay = newPlay;
 	}
 
 }

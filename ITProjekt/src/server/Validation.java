@@ -12,7 +12,7 @@ import Commons.Wiis.Blatt;
 public class Validation {
 	
 	public static ArrayList<Card> getPlayableCards(ArrayList<Card> hand, ArrayList<Card> playedCards, GameType gameType) {
-		if (playedCards.isEmpty()) return hand; //Man kann ausspielen, was man möchte
+		if (playedCards.isEmpty()) return hand; //If yu are the first to play, you can play whatever you like
 		ArrayList<Card> playableCards = (ArrayList<Card>) hand.clone();
 		Card firstPlayed = playedCards.get(0);
 		Suit playedSuit = firstPlayed.getSuit();

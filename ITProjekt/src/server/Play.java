@@ -18,14 +18,13 @@ public class Play {
 		this.trumpf = trumpf;
 	}
 	
-	public Team validateWinner() {
+	public Player validateWinner() {
 		//TODO
 		return null;
 	}
 	
-	public int validatePoints() {
+	public void validatePoints() {
 		this.points = Validation.validatePoints(playedCards, trumpf);
-		return this.points;
 	}
 	
 	public void addCard(Card c) {

@@ -47,6 +47,7 @@ public class ServerController {
 			System.out.println("Players:" + nV);
 			//Bei 4 Spielern das Spiel starten
 			if ((int) nV == 4) {
+				g.setFollowingPlayers(); //give every player a following Player (for gamedirection)
 				ArrayList<Player> players = g.getPlayers();
 				Message msgOut = new Simple_Message(Simple_Message.Msg.Game_Start);
 				model.broadcast(players, msgOut); 

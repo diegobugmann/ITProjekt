@@ -3,6 +3,7 @@ package server;
 import java.io.IOException;
 
 import java.net.Socket;
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import Commons.Card;
@@ -140,14 +141,20 @@ public class User {
 			msgOut = msgIn;
 			model.broadcast(currentGame.getPlayers(), msgOut); //broadcast played card
 			Card playedCard = ((Message_Turn)msgIn).getCard();
+			p.removeCard(playedCard); //remove played card from hand
 			currentPlay.addCard(playedCard);
 			currentPlay.getPlayedBy().add(p);
-			if (currentPlay.getPlayedCards().size() == 4) {
-				//TODO Nachricht -> Du hast den Stich geholt? + PlayValidierung + Gewinnerteam gutschreiben & YourTurn an Gewinner
-				Play nextPlay = new Play(currentGame.getTrumpf());
-				currentGame.setCurrentPlay(nextPlay);
+			Player nextPlayer = null;
+			if (currentPlay.getPlayedCards().size() == 4) { //is the play over?
+				currentPlay.validatePoints();
+				nextPlayer = currentPlay.validateWinner(); //TODO validateWinner ausformulieren
+				//TODO add points to winningteam
+				currentGame.newPlay(); //creates a new Play object, adds it to the game and sets it as currentPlay
+				//TODO YourTurn mit der ganzen Hand als playableCards an nextPlayer schicken
 			}
-			//TODO YourTurn an nächsten Spieler
+			nextPlayer = p.getFollowingPlayer();
+			ArrayList<Card> playableCards = nextPlayer.getPlayableCards();
+			//TODO YourTurn an FollowingPlayer mit playableCards
 		}
 		//-------------------------------------------------------------------------------------------------------
 		case simple_Message : {

@@ -16,6 +16,7 @@ public class Player extends User {
 	private boolean hisTurn;
 	private int announcedPoints;
 	private Wiis wiis; //muss Wiis[] sein bei mehreren Wiis
+	private Player followingPlayer;
 	
 	public Player(ServerModel model, Socket clientSocket) {
 		super(model, clientSocket);
@@ -73,7 +74,20 @@ public class Player extends User {
 	}
 	
 	public ArrayList<Card> getPlayableCards() {
-		//ArrayList<Card> playableCards = Validation.getPlayableCards(hand, currentGame.getCurrentPlay(), gameType)
-		return null;
+		ArrayList<Card> playableCards = Validation.getPlayableCards(
+				hand, currentGame.getCurrentPlay().getPlayedCards(), currentGame.getTrumpf());
+		return playableCards;
+	}
+	
+	public void removeCard(Card c) {
+		hand.remove(c);
+	}
+	
+	public Player getFollowingPlayer() {
+		return this.followingPlayer;
+	}
+	
+	public void setFollowingPlayer(Player followingPlayer) {
+		this.followingPlayer = followingPlayer;
 	}
 }
