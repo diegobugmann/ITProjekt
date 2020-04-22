@@ -12,7 +12,7 @@ public class ServerView {
 	private ServerModel model;
 	protected Stage primaryStage;
 	private Label lblPort = new Label("Port");
-	protected TextField txtPort = new TextField("8080");
+	protected TextField txtPort = new TextField("6666");
 	protected Button btnStart = new Button("Start");
 	
 	public ServerView(ServerModel mode, Stage primaryStage) {

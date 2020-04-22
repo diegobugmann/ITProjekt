@@ -3,6 +3,7 @@ package client;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Hyperlink;
 import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
@@ -15,49 +16,70 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+
 public class LoginView extends VBox{
+	
+	protected Label cnlbl;
+	protected TextField cnAddress;
+	protected Button cnBtn;
+	protected Hyperlink newUserLink;
 	
 	protected TextField userName;
 	protected PasswordField passwordField;
 	protected Label textlbl;
 	protected Label pwlbl;
 	protected Button loginBtn;
-	//protected Button newUserBtn;
 	protected Stage stage;
 	
 
 	
 	
-	public LoginView(Stage stage) {
+	public LoginView(Stage stage, String address) {
 		
 		this.stage = stage;
+		
+		/**
+		 * @author luca: Ganze View, sarah: cn und newUserLink 
+		 */
+		cnlbl = new Label("IP/Port");
+		cnAddress = new TextField(address);
+		cnAddress.setMaxWidth(300);
+		cnBtn = new Button("Connect");
+		
+		
+		newUserLink = new Hyperlink("create new user");
+		newUserLink.setDisable(true);
+		
 		
 		textlbl = new Label("Username:");
 		userName = new TextField();
 		userName.setMaxWidth(300);
+		userName.setDisable(true);
+		
 		
 		pwlbl = new Label("Passwort erstellen:");
 		passwordField = new PasswordField();
 		passwordField.setMaxWidth(300);
+		passwordField.setDisable(true);
 		
 		loginBtn = new Button("Login");
-		loginBtn.setDisable(true);
-		
-		//newUserBtn = new Button("Neuer User");
-		//newUserBtn.setDisable(true);
+		loginBtn.setDisable(true);	
 		
 		
 		Region region0 = new Region();
-		region0.setPrefHeight(20);
+		region0.setPrefHeight(10);
 		
 		Region region1 = new Region();
-		region1.setPrefHeight(50);
+		region1.setPrefHeight(30);
 		
 		Region region2 = new Region();
 		region2.setPrefHeight(50);
 		
 		Region region3 = new Region();
-		region3.setPrefHeight(10);
+		region3.setPrefHeight(20);
+		
+		Region region4 = new Region();
+		region4.setPrefHeight(10);
 		
 		Image image = new Image(LobbyView.class.getResourceAsStream("Bilder/Lobby.jpg"));
 		BackgroundSize backSize = new BackgroundSize(800, 800, false, false, false, false);
@@ -65,7 +87,7 @@ public class LoginView extends VBox{
 		
 		this.setBackground(background);
 		
-		this.getChildren().addAll(region0, textlbl, userName, region1, pwlbl, passwordField, region2, loginBtn);
+		this.getChildren().addAll(region0,cnlbl, cnAddress, cnBtn, region1, textlbl, userName, region2, pwlbl, passwordField, region3, loginBtn, newUserLink);
 		
 		this.setAlignment(Pos.CENTER);
 		
@@ -82,40 +104,67 @@ public class LoginView extends VBox{
 		
 	}
 	
+	public TextField getCnField() {
+		return cnAddress;
+	}
+	
+	public void setCnAdress(TextField cnAdress) {
+		this.cnAddress = cnAdress;
+	}
+	
+	public Button getCnBtn() {
+		return cnBtn;
+	}
+	
+	public void setCnBtn (Button cnBtn) {
+		this.cnBtn = cnBtn;
+	}
 	
 	public TextField getUserName() {
 		return userName;
 	}
 
-
-
 	public void setUserName(TextField userName) {
 		this.userName = userName;
 	}
-
-
 
 	public PasswordField getPasswordField() {
 		return passwordField;
 	}
 
-
-
 	public void setPasswordField(PasswordField passwordField) {
 		this.passwordField = passwordField;
 	}
-
-
 
 	public Button getLoginBtn() {
 		return loginBtn;
 	}
 
-
-
 	public void setLoginBtn(Button loginBtn) {
 		this.loginBtn = loginBtn;
 	}
+	
+	public void toggleCnBtn() {
+		if(this.cnBtn.getText() == "Connect") {
+			this.cnBtn.setText("Disconnect");
+		} else {
+			this.cnBtn.setText("Connect");
+		}
+	}
+	public void activateLoginFields() {
+		this.userName.setDisable(false);
+		this.passwordField.setDisable(false);
+		this.newUserLink.setDisable(false);
+		this.cnAddress.setDisable(true);
+	}
+	
+	public void deactivateLoginFields() {
+		this.userName.setDisable(true);
+		this.passwordField.setDisable(true);
+		this.newUserLink.setDisable(true);
+		this.cnAddress.setDisable(false);
+	}
+	
 	
 	
 

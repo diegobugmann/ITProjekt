@@ -14,6 +14,7 @@ import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
@@ -26,7 +27,10 @@ public class ClientController {
 	protected WaitingScreen_Preloader splashScreen;
 	protected boolean user;
 	protected boolean pw;
+	protected boolean cn;
+
 	protected GameView gameView;
+
 	
 	public ClientController(ClientModel model, ClientView view, Stage stage) {
 		this.model = model;
@@ -34,7 +38,11 @@ public class ClientController {
 		this.stage = stage;
 		
 		
-		view.showLoginView(stage);
+		view.showLoginView(stage, model.ipAddress + ":" + model.port);
+		
+
+		view.loginView.cnAddress.textProperty().addListener((observable, 
+				oldValue, newValue)-> {validateCn(newValue);});
 		
 		view.loginView.userName.textProperty().addListener((observable, 
 				oldValue, newValue)-> {validateUser(newValue);});
@@ -42,9 +50,31 @@ public class ClientController {
 		view.loginView.passwordField.textProperty().addListener((observable,
 				oldValue, newValue)-> {validatePw(newValue);});
 		
+		view.loginView.cnBtn.setOnAction(event -> {
+			connectionProcess();
+		});
+		
+		
+		view.loginView.loginBtn.setOnAction(event -> {
+			model.loginProcess(view.loginView.userName.getText(), view.loginView.passwordField.getText());
+		});
+		
+		view.loginView.newUserLink.setOnAction(event -> {
+			createNewUser();
+		});
+		
 			
 	}
-	
+	/**
+	 * @author sarah
+	 * @param newValue
+	 */
+	private void validateCn(String newValue) {
+		cn = model.validateCnAdress(newValue);
+		cnActivate();
+		
+	}
+
 	private void validateUser(String newValue) {
 		user = model.validateUserName(newValue);
 		loginActivate();
@@ -60,14 +90,61 @@ public class ClientController {
 	private void loginActivate() {
 		
 		if(user && pw) {
-			view.loginView.loginBtn.setDisable(false);
-			view.loginView.loginBtn.setOnAction(event -> {
-				model.loginProcess(view.loginView.userName.getText(), view.loginView.passwordField.getText());
-			});
+			view.loginView.loginBtn.setDisable(false);			
 				
+		} else {
+			view.loginView.loginBtn.setDisable(true);
 		}
 		
 	};	
+	
+	/**@author sarah
+	 * 
+	 */
+	private void cnActivate() {
+		
+		if(cn) {
+			
+			view.loginView.cnBtn.setDisable(false);			
+				
+		} else {
+			view.loginView.cnBtn.setDisable(true);
+		}
+		
+	}
+	
+	/**@author sarah
+	 * connect to server
+	 */
+	
+	private void connectionProcess() {
+		if(model.connect(this)) {
+			view.loginView.activateLoginFields();
+			view.loginView.cnBtn.setOnAction(event -> {
+				disconnectProcess();
+			});
+			view.loginView.toggleCnBtn();
+		}else {
+			view.loginView.deactivateLoginFields();
+			/*TODO mach no schön i de View
+			Alert
+			*/			
+		}
+	}
+	/**
+	 * @author sarah
+	 * disconnetct from server
+	 */
+	private void disconnectProcess() {
+		model.disconnect();
+		view.loginView.cnBtn.setOnAction(event -> {
+			connectionProcess();
+		});
+		view.loginView.toggleCnBtn();
+		view.loginView.deactivateLoginFields();
+		
+	}
+	
 	
 	private void startLobby(Stage stage) {
 		this.stage = stage;
@@ -259,14 +336,16 @@ public class ClientController {
 	 * @author mibe1
 	 */
 	public void loginfaild(String message) {
+
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Login failed");
 		alert.setHeaderText(null);
 		alert.setContentText(message);
 		alert.showAndWait();
-		view.showLoginView(stage);
+		view.showLoginView(stage, model.ipAddress + ":" + model.port);
 		
 		//TODO login button wird nicht mehr freigegeben
+
 	}
 /**
  	* Called when the Game list on the Serverlist gets changed and sent to the Client
@@ -291,6 +370,19 @@ public class ClientController {
 		}
 		
 	}
+	
+	/**@author sarah
+	 * create new user
+	 */
+	public void createNewUser() {
+		Stage createNewUserStage = new Stage();
+		createNewUserStage.initModality(Modality.NONE);
+		view.showCreateNewUserView(createNewUserStage);
+		view.createNewUserView.cancelbtn.setOnAction(event ->{
+			createNewUserStage.close();
+		});
+	}
+
 	/**
 	 * Start the Game;
 	 */
@@ -339,29 +431,29 @@ public class ClientController {
 	}
 
 	private void processExitGame(ActionEvent event, Stage stage2) {
-	stage2.close();
-	startLobby(stage);
-	model.updateGameList();
-
-/**
- * Start the Game;
-
-public void startGame() {
-	Alert alert = new Alert(AlertType.INFORMATION);
-	alert.setTitle("Spielstart");
-	alert.setHeaderText(null);
-	alert.setContentText("Spiel gestartet");
-	alert.showAndWait();
-	*/
-	/*try {
-		splashScreen.stop();
-		
-	} catch (Exception e) {
-		// TODO Auto-generated catch block
-		e.printStackTrace();
-	}*/
+		stage2.close();
+		startLobby(stage);
+		model.updateGameList();
 	
-}
+	/**
+	 * Start the Game;
+	
+	public void startGame() {
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle("Spielstart");
+		alert.setHeaderText(null);
+		alert.setContentText("Spiel gestartet");
+		alert.showAndWait();
+		*/
+		/*try {
+			splashScreen.stop();
+			
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}*/
+	
+	}
 
 
 }

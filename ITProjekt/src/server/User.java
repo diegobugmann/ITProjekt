@@ -1,6 +1,7 @@
 package server;
 
 import java.io.IOException;
+
 import java.net.Socket;
 import java.util.logging.Logger;
 
@@ -16,7 +17,11 @@ import Commons.Message_Login;
 import Commons.Message_Trumpf;
 import Commons.Message_Turn;
 import Commons.Simple_Message;
+
+import DB.UserData;
+
 import Commons.Message_Ansage;
+
 
 public class User {
 	
@@ -62,6 +67,8 @@ public class User {
 		
 		//Trial code Michael can be deleted as soon as implemented properly
 		case login : {
+			/*UserData ud = new UserData(); 
+			if(ud.check(((Message_Login)msgIn).getLoginName(), ((Message_Login)msgIn).getPassword())){*/
 			if( ((Message_Login)msgIn).getLoginName().equals("m") && ((Message_Login)msgIn).getPassword().equals("m") ) {
 				msgOut = new Simple_Message(Simple_Message.Msg.Login_accepted);
 				msgOut.send(clientSocket);

@@ -8,6 +8,14 @@ public class ClientView {
 	protected Stage primaryStage;
 	protected LoginView loginView;	
 	protected LobbyView lobbyView;
+	
+	protected CreateNewUserView createNewUserView;
+	
+	protected GameMenu gameMenu;
+	protected CardArea cardArea;
+	protected CenterView centerView;
+	protected InfoView infoView;
+
 	protected GameView gameView;
 	
 	protected Stage stage;
@@ -20,9 +28,9 @@ public class ClientView {
 		
 	}
 	
-	public void showLoginView(Stage stage) {
+	public void showLoginView(Stage stage, String address) {
 		this.stage = stage;
-		loginView = new LoginView(stage);
+		loginView = new LoginView(stage, address);
 		
 	}
 	
@@ -30,6 +38,16 @@ public class ClientView {
 		this.stage = stage;
 		lobbyView = new LobbyView(stage);
 	}
+	
+	/**
+	 * @author sarah
+	 * @param stage
+	 */
+	public void showCreateNewUserView(Stage stage) {
+		this.stage = stage;
+		createNewUserView = new CreateNewUserView(stage);
+	}
+
 	
 	public void showGameView(Stage stage) {
 		this.stage = stage;
