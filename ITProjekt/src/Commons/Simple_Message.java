@@ -31,7 +31,8 @@ public class Simple_Message extends Message{
 		Get_GameList,
 		//Login related Messages
 		Login_accepted,
-		registration_accepted;
+		registration_accepted,
+		Username_accepted;
 	}
 	
 	private Msg type;

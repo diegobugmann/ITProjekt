@@ -10,6 +10,8 @@ import java.sql.SQLException;
 import java.util.Base64;
 import java.util.logging.Logger;
 
+import Commons.Validation_LoginProcess;
+
 public class UserData {
 	
 	private final DB_Connection dbcn = new DB_Connection();
@@ -53,33 +55,15 @@ public class UserData {
 		return isUserNameAvailable;
 	}
 	
-	public boolean isPasswordValid(String password) {
-		
-		Boolean isPasswordValid = false;
-		Boolean isUpperCase = false;
-		Boolean isLowerCase = false;
-		Boolean isDigit = false;
-		
-		for(int i = 0; i < password.length(); i++) {
-			char ch = password.charAt(i);
-			if(Character.isUpperCase(ch)) {
-				isUpperCase = true;
-			}
-			if(Character.isLowerCase(ch)) {
-				isLowerCase = true;
-			}
-			if(Character.isDigit(ch)) {
-				isDigit = true;
-			}
+	public boolean isPwValidDB(String newPasswordtxt) {
+		Validation_LoginProcess vlp = new Validation_LoginProcess();
+		boolean isPwValidDB = false;
+		if(vlp.isPasswordValid(newPasswordtxt)) {
+			isPwValidDB = true;
 		}
-		if (password.length() >= 6 && isUpperCase && isLowerCase && isDigit) {			
-			isPasswordValid = true;
-		}
-		
-		logger.info("Password is valid: " + isPasswordValid.toString());
-		return isPasswordValid;
-		
+		return isPwValidDB;
 	}
+	
 	
 	public boolean createUser(String userName, String password) {
 		

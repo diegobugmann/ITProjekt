@@ -14,11 +14,12 @@ import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import Commons.Validation_LoginProcess;
 
 public class CreateNewUserView extends VBox{
 	
 	/**
-	 * @author sarah
+	 * @author sarah, GUI design by Luca
 	 */
 	
 	protected Stage stage;
@@ -124,5 +125,5 @@ public class CreateNewUserView extends VBox{
 	public void setCancelBtn(Button cancelbtn) {
 		this.cancelbtn = cancelbtn;
 	}
-
+	
 }

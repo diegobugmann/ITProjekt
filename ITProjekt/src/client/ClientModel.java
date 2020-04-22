@@ -137,5 +137,37 @@ public class ClientModel {
 		Simple_Message msg = new Simple_Message(Simple_Message.Msg.Get_GameList);
 		connection.sendMessage(msg);
 	}
+	
+	/**@author sarah
+	 * create new user
+	 */
+	public boolean isPwValid(String newPasswordtxt) {
+		Validation_LoginProcess vlp = new Validation_LoginProcess();
+		boolean pwValid = false;
+		if(vlp.isPasswordValid(newPasswordtxt)) {
+			pwValid = true;
+		} else {
+			//TODO Alert
+		}
+		return pwValid;
+	}
+	
+	public boolean confirmPw(String newPasswordtxt, String confirmPasswordtxt) {
+		boolean pwConfirmed = false;		
+		if(newPasswordtxt.equals(confirmPasswordtxt)) {
+			pwConfirmed = true;
+		} else {
+			//TODO Alert
+		}	
+		return pwConfirmed;	
+	}
+	
+	public boolean createUser() {
+		//TODO Methode fertigstellen nach DB Anbindung
+		boolean isUserNameCreated = false;
+		return isUserNameCreated;
+	}
+	
+
 
 }

@@ -6,7 +6,7 @@ import javax.swing.JOptionPane;
 
 import Commons.Card;
 import Commons.Game;
-
+import Commons.Validation_LoginProcess;
 import javafx.event.ActionEvent;
 
 import client.CommunicationThread.Status;
@@ -60,13 +60,13 @@ public class ClientController {
 		});
 		
 		view.loginView.newUserLink.setOnAction(event -> {
-			createNewUser();
+			createNewUserView();
 		});
 		
 			
 	}
 	/**
-	 * @author sarah
+	 * @author sarah 
 	 * @param newValue
 	 */
 	private void validateCn(String newValue) {
@@ -103,14 +103,11 @@ public class ClientController {
 	 */
 	private void cnActivate() {
 		
-		if(cn) {
-			
-			view.loginView.cnBtn.setDisable(false);			
-				
+		if(cn) {			
+			view.loginView.cnBtn.setDisable(false);						
 		} else {
 			view.loginView.cnBtn.setDisable(true);
-		}
-		
+		}		
 	}
 	
 	/**@author sarah
@@ -126,14 +123,14 @@ public class ClientController {
 			view.loginView.toggleCnBtn();
 		}else {
 			view.loginView.deactivateLoginFields();
-			/*TODO mach no schön i de View
+			/*TODO mach no schöne
 			Alert
 			*/			
 		}
 	}
 	/**
 	 * @author sarah
-	 * disconnetct from server
+	 * disconnect from server
 	 */
 	private void disconnectProcess() {
 		model.disconnect();
@@ -371,15 +368,16 @@ public class ClientController {
 		
 	}
 	
-	/**@author sarah
-	 * create new user
-	 */
-	public void createNewUser() {
+
+	public void createNewUserView() {
 		Stage createNewUserStage = new Stage();
 		createNewUserStage.initModality(Modality.NONE);
 		view.showCreateNewUserView(createNewUserStage);
 		view.createNewUserView.cancelbtn.setOnAction(event ->{
 			createNewUserStage.close();
+		});
+		view.createNewUserView.createUserbtn.setOnAction(event ->{
+			model.createUser();
 		});
 	}
 
@@ -454,6 +452,7 @@ public class ClientController {
 		}*/
 	
 	}
-
+	
+	
 
 }
