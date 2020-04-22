@@ -26,15 +26,17 @@ public class Game extends Commons.Game {
 		this.isFistPlay = true;
 		plays = new ArrayList<Play>();
 		
+		//create 2 teams for schieber and 4 teams for differenzler
 		if (isSchieber) {
-			for (int i = 0; i < 2; i++) //Bei Schieber 2 Teams erstellen
+			for (int i = 0; i < 2; i++)
 				teams.add(new Team());
 		} else {
-			for (int i = 0; i < 4; i++) //Bei Differenzler 4 Teams erstellen
+			for (int i = 0; i < 4; i++)
 				teams.add(new Team());
 		}
 	}
 	
+	//adds a player to the next possible spot and increases the numOfPlayers
 	public boolean addPlayer(Player p) {
 		if (this.isSchieber()) {
 			if (teams.get(0).getPlayerList().size() < 2)
@@ -64,6 +66,7 @@ public class Game extends Commons.Game {
 		return this.trumpf;
 	}
 	
+	//generates a random trumpf, without bottomsup and topdown
 	public void createRandomTrumpf() {
 		Random rand = new Random();
 		int i = rand.nextInt(4) + 2;
@@ -89,6 +92,7 @@ public class Game extends Commons.Game {
 		return this.deck;
 	}
 	
+	//returns all the players
 	public ArrayList<Player> getPlayers() {
 		ArrayList<Player> players = new ArrayList<Player>();
 		for (Team t : teams) {
@@ -98,11 +102,17 @@ public class Game extends Commons.Game {
 		return players;
 	}
 	
-	//Gibt den als erstes beigetretenen Spieler zurück
+	//returns the player that joined first
 	public Player getStartingPlayer() {
 		return teams.get(0).getPlayerList().get(0);
 	}
 	
+	public Player getNextPlayer() {
+		//TODO
+		return null;
+	}
+	
+	//deals cards to all players, organizes them and sends the hand to the client
 	public void dealCards() {
 		Message msgOut = null;
 		ArrayList<Player> players = getPlayers();
@@ -115,16 +125,18 @@ public class Game extends Commons.Game {
 		}
 	}
 	
+	//
 	public void startPlaying() {
 		Player starter = getStartingPlayer();
+		Play play = new Play(this.trumpf);
+		this.currentPlay = play;
 		if (this.isSchieber()) {
+			starter.validateWiis();
 			//TODO Wiis hier validieren
 			//FirstPlay Message an starter verschicken (inkl. Wiis)
 		} else {
 			//FirstPlay Message an starter verschicken (ohne wiis)
 		}
-		Play play = new Play(this.trumpf);
-		this.currentPlay = play;
 	}
 
 }

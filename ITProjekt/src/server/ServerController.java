@@ -66,10 +66,10 @@ public class ServerController {
 			}
 		});
 		
-		//Methode, die in einem Game nach allen 4 Ansagen weiterfährt
+		//as soon as all players guessed their points, the game starts with the first turn
 		g.getNumOfAnsagenAsProperty().addListener( (obs, oV, nV) -> {
 			if ((int) nV == 4) {
-				
+				g.startPlaying();
 			}
 		});
 		

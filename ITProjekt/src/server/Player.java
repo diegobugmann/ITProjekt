@@ -66,4 +66,9 @@ public class Player extends User {
 	public void setAnnouncedPoints(int announcedPoints) {
 		this.announcedPoints = announcedPoints;
 	}
+	
+	public void validateWiis() {
+		Wiis wiis = Validation.validateWiis(hand);
+		
+	}
 }
