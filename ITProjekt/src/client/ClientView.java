@@ -14,6 +14,8 @@ public class ClientView {
 	
 	protected LobbyView lobbyView;
 	
+	protected CreateNewUserView createNewUserView;
+	
 	protected GameMenu gameMenu;
 	protected CardArea cardArea;
 	protected CenterView centerView;
@@ -31,15 +33,24 @@ public class ClientView {
 		
 	}
 	
-	public void showLoginView(Stage stage) {
+	public void showLoginView(Stage stage, String address) {
 		this.stage = stage;
-		loginView = new LoginView(stage);
+		loginView = new LoginView(stage, address);
 		
 	}
 	
 	public void showLobbyView(Stage stage) {
 		this.stage = stage;
 		lobbyView = new LobbyView(stage);
+	}
+	
+	/**
+	 * @author sarah
+	 * @param stage
+	 */
+	public void showCreateNewUserView(Stage stage) {
+		this.stage = stage;
+		createNewUserView = new CreateNewUserView(stage);
 	}
 
 	

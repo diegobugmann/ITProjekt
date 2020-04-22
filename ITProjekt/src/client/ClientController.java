@@ -9,6 +9,7 @@ import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
@@ -21,6 +22,7 @@ public class ClientController {
 	protected WaitingScreen_Preloader splashScreen;
 	protected boolean user;
 	protected boolean pw;
+	protected boolean cn;
 	
 	
 	public ClientController(ClientModel model, ClientView view, Stage stage) {
@@ -29,7 +31,11 @@ public class ClientController {
 		this.stage = stage;
 		
 		
-		view.showLoginView(stage);
+		view.showLoginView(stage, model.ipAddress + ":" + model.port);
+		
+
+		view.loginView.cnAddress.textProperty().addListener((observable, 
+				oldValue, newValue)-> {validateCn(newValue);});
 		
 		view.loginView.userName.textProperty().addListener((observable, 
 				oldValue, newValue)-> {validateUser(newValue);});
@@ -37,9 +43,31 @@ public class ClientController {
 		view.loginView.passwordField.textProperty().addListener((observable,
 				oldValue, newValue)-> {validatePw(newValue);});
 		
+		view.loginView.cnBtn.setOnAction(event -> {
+			connectionProcess();
+		});
+		
+		
+		view.loginView.loginBtn.setOnAction(event -> {
+			model.loginProcess(view.loginView.userName.getText(), view.loginView.passwordField.getText());
+		});
+		
+		view.loginView.newUserLink.setOnAction(event -> {
+			createNewUser();
+		});
+		
 			
 	}
-	
+	/**
+	 * @author sarah
+	 * @param newValue
+	 */
+	private void validateCn(String newValue) {
+		cn = model.validateCnAdress(newValue);
+		cnActivate();
+		
+	}
+
 	private void validateUser(String newValue) {
 		user = model.validateUserName(newValue);
 		loginActivate();
@@ -55,14 +83,61 @@ public class ClientController {
 	private void loginActivate() {
 		
 		if(user && pw) {
-			view.loginView.loginBtn.setDisable(false);
-			view.loginView.loginBtn.setOnAction(event -> {
-				model.loginProcess(view.loginView.userName.getText(), view.loginView.passwordField.getText());
-			});
+			view.loginView.loginBtn.setDisable(false);			
 				
+		} else {
+			view.loginView.loginBtn.setDisable(true);
 		}
 		
 	};	
+	
+	/**@author sarah
+	 * 
+	 */
+	private void cnActivate() {
+		
+		if(cn) {
+			
+			view.loginView.cnBtn.setDisable(false);			
+				
+		} else {
+			view.loginView.cnBtn.setDisable(true);
+		}
+		
+	}
+	
+	/**@author sarah
+	 * connect to server
+	 */
+	
+	private void connectionProcess() {
+		if(model.connect(this)) {
+			view.loginView.activateLoginFields();
+			view.loginView.cnBtn.setOnAction(event -> {
+				disconnectProcess();
+			});
+			view.loginView.toggleCnBtn();
+		}else {
+			view.loginView.deactivateLoginFields();
+			/*TODO mach no schön i de View
+			Alert
+			*/			
+		}
+	}
+	/**
+	 * @author sarah
+	 * disconnetct from server
+	 */
+	private void disconnectProcess() {
+		model.disconnect();
+		view.loginView.cnBtn.setOnAction(event -> {
+			connectionProcess();
+		});
+		view.loginView.toggleCnBtn();
+		view.loginView.deactivateLoginFields();
+		
+	}
+	
 	
 	private void startLobby(Stage stage) {
 		this.stage = stage;
@@ -219,7 +294,7 @@ public class ClientController {
 	 */
 	public void loginfaild(String message) {
 		JOptionPane.showMessageDialog(null, message, "InfoBox: Login faild from Server", JOptionPane.ERROR_MESSAGE);
-		view.showLoginView(stage);
+		view.showLoginView(stage, model.ipAddress + ":" + model.port);
 	}
 /**
  * Called when the Game list on the Serverlist gets changed and sent to the Client
@@ -233,6 +308,19 @@ public class ClientController {
 		}
 		//TODO update game list with the new game list from the server
 		
+	}
+	
+	
+	/**@author sarah
+	 * create new user
+	 */
+	public void createNewUser() {
+		Stage createNewUserStage = new Stage();
+		createNewUserStage.initModality(Modality.NONE);
+		view.showCreateNewUserView(createNewUserStage);
+		view.createNewUserView.cancelbtn.setOnAction(event ->{
+			createNewUserStage.close();
+		});
 	}
 
 
