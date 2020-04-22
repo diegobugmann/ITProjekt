@@ -3,9 +3,11 @@ package server;
 import java.util.ArrayList;
 import java.util.Random;
 
+import Commons.Card;
 import Commons.GameType;
 import Commons.Message;
 import Commons.Message_Hand;
+import Commons.Wiis;
 import javafx.beans.property.SimpleIntegerProperty;
 
 public class Game extends Commons.Game {
@@ -112,6 +114,14 @@ public class Game extends Commons.Game {
 		return null;
 	}
 	
+	public Play getCurrentPlay() {
+		return this.currentPlay;
+	}
+	
+	public void setCurrentPlay(Play play) {
+		this.currentPlay = play;
+	}
+	
 	//deals cards to all players, organizes them and sends the hand to the client
 	public void dealCards() {
 		Message msgOut = null;
@@ -130,12 +140,13 @@ public class Game extends Commons.Game {
 		Player starter = getStartingPlayer();
 		Play play = new Play(this.trumpf);
 		this.currentPlay = play;
+		plays.add(play);
+		ArrayList<Card> playableCards = starter.getHand(); //he can play what he wants at first
 		if (this.isSchieber()) {
-			starter.validateWiis();
-			//TODO Wiis hier validieren
-			//FirstPlay Message an starter verschicken (inkl. Wiis)
+			Wiis w = starter.validateWiis();
+			//FirstPlay Message an starter verschicken (inkl. Wiis & playableCards)
 		} else {
-			//FirstPlay Message an starter verschicken (ohne wiis)
+			//FirstPlay Message an starter verschicken (mit playableCards, ohne Wiis)
 		}
 	}
 

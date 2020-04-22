@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.logging.Logger;
 
+import Commons.Card;
 import Commons.GameType;
 import Commons.Message;
 import Commons.MessageType;
@@ -13,6 +14,7 @@ import Commons.Message_GameList;
 import Commons.Message_JoinGame;
 import Commons.Message_Login;
 import Commons.Message_Trumpf;
+import Commons.Message_Turn;
 import Commons.Simple_Message;
 import Commons.Message_Ansage;
 
@@ -55,6 +57,7 @@ public class User {
 	protected void processMessage(Message msgIn) {
 		logger.info("Message received from client: "+ msgIn.toString());
 		Message msgOut = null;
+		Player p = (Player) this; //downcasting
 		switch (MessageType.getType(msgIn)) {
 		
 		//Trial code Michael can be deleted as soon as implemented properly
@@ -79,7 +82,6 @@ public class User {
 			int winningPoints = ((Message_CreateGame)msgIn).getWinningPoints();
 			Game g = new Game(isGermanCards, numOfRounds, winningPoints, isSchieber);
 			model.addGame(g);
-			Player p = (Player) this; //downcasting
 			g.addPlayer(p); //Player, welcher Spiel erstellt hat, hinzufügen
 			p.setCurrentGame(g);
 			//Send joining message so client knows the game
@@ -92,7 +94,6 @@ public class User {
 		//-----------------------------------------------------------------------------------------------
 		case joinGame : {
 			boolean added = false;
-			Player p = (Player) this;
 			for (Game g : model.getGames()) {
 				if (g.getGameId() == ((Message_JoinGame)msgIn).getGameId()) { //dem richtigen Game hinzufügen
 					added = g.addPlayer(p);
@@ -112,23 +113,36 @@ public class User {
 		//-----------------------------------------------------------------------------------------------
 		case trumpf: {
 			GameType trumpf = ((Message_Trumpf)msgIn).getTrumpf();
-			Player p = (Player) this;
 			p.getCurrentGame().setTrumpf(trumpf);
 			msgOut = msgIn;
 			model.broadcast(p.getCurrentGame().getPlayers(), msgOut); //Trumpf an alle broadcasten
 			p.getCurrentGame().startPlaying();
-			//Hier beginnt nun der Spielablauf (1. Runde) und den Spielern werden YourFirstTurn(Wiis) Nachrichten geschickt
 			break;
 		}
-		//------------------------------------------------------------------------------------------------
+		//------------------------------------------------------------------------------------------------------
 		case ansage: {
 			int points = ((Message_Ansage)msgIn).getPoints();
-			Player p = (Player) this;
 			p.setAnnouncedPoints(points);
 			p.getCurrentGame().incrementNumOfAnsagen(); //bei 4 erhaltenen Ansagen wird das Spiel starten
-			//Hier beginnt nun der Spielablauf (1. Runde) und den Spielern werden YourFirstTurn(Wiis) Nachrichten geschickt
+			break;
 		}
-		//-----------------------------------------------------------------------------------------------
+		//------------------------------------------------------------------------------------------------------
+		case turn : {
+			Game currentGame = p.getCurrentGame();
+			Play currentPlay = currentGame.getCurrentPlay();
+			msgOut = msgIn;
+			model.broadcast(currentGame.getPlayers(), msgOut); //broadcast played card
+			Card playedCard = ((Message_Turn)msgIn).getCard();
+			currentPlay.addCard(playedCard);
+			currentPlay.getPlayedBy().add(p);
+			if (currentPlay.getPlayedCards().size() == 4) {
+				//TODO Nachricht -> Du hast den Stich geholt? + PlayValidierung + Gewinnerteam gutschreiben & YourTurn an Gewinner
+				Play nextPlay = new Play(currentGame.getTrumpf());
+				currentGame.setCurrentPlay(nextPlay);
+			}
+			//TODO YourTurn an nächsten Spieler
+		}
+		//-------------------------------------------------------------------------------------------------------
 		case simple_Message : {
 			switch(((Simple_Message)msgIn).getType()) {
 			case Received: {
@@ -138,6 +152,7 @@ public class User {
 			case Get_GameList:{
 				msgOut = new Message_GameList(model.getCastedGames());
 				msgOut.send(clientSocket);
+				break;
 			}
 			default: {
 				break; //Sollten keine anderen Simple_Messages vom Server empfangen werden

@@ -67,8 +67,13 @@ public class Player extends User {
 		this.announcedPoints = announcedPoints;
 	}
 	
-	public void validateWiis() {
+	public Wiis validateWiis() {
 		Wiis wiis = Validation.validateWiis(hand);
-		
+		return wiis;
+	}
+	
+	public ArrayList<Card> getPlayableCards() {
+		//ArrayList<Card> playableCards = Validation.getPlayableCards(hand, currentGame.getCurrentPlay(), gameType)
+		return null;
 	}
 }
