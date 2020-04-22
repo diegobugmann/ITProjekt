@@ -19,6 +19,7 @@ public class Validation {
 		if (playedCards.isEmpty()) return hand; //If you are the first to play, you can play whatever you like
 		Suit playedSuit = playedCards.get(0).getSuit();
 		boolean hasSuit = containsSuit(hand, playedSuit);
+		//TODO if (!hasSuit) return hand; kompatibel mit untertrumpfen?
 		ArrayList<Card> playableCards = (ArrayList<Card>) hand.clone();
 		
 		//If player has cards from played suit, he can only play those. If not, he can play whichever card he wants
