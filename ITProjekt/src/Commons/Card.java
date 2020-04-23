@@ -8,7 +8,8 @@ public class Card implements Comparable<Card>, Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public enum Suit {	ShieldsOrSpades,
+	public enum Suit {	
+		ShieldsOrSpades,
 		RosesOrHearts,
 		AcornsOrDiamonds,
 		BellsOrClubs;
