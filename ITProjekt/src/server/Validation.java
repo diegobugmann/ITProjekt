@@ -21,45 +21,36 @@ public class Validation {
 		boolean hasSuit = containsSuit(hand, playedSuit);
 		ArrayList<Card> playableCards = (ArrayList<Card>) hand.clone();
 		
-		//If player has cards from played suit, he can only play those. If not, he can play whichever card he wants
+		//GameMode BottomsUp or TopsDown
 		if (gameType == GameType.BottomsUp || gameType == GameType.TopsDown) {
-			if (hasSuit) {
+			if (hasSuit)
 				removeNonSuitable(playableCards, playedSuit);
-			}
 			return playableCards;
 		} else {
-			boolean hasOnlyTrumpf = containsOnlyTrumpf(playableCards, gameType);
-			if (hasOnlyTrumpf) return playableCards; //if all player has left are trumpfs, he can play whatever he likes
-			
+			//GameMode other than BottomsUp or TopsDows
+			if (containsOnlyTrumpf(playableCards, gameType)) //if all player has left are trumpfs, he can play whatever he likes
+				return playableCards;
 			boolean trumpfAus = playedSuit.toString().equals(gameType.toString());
 			boolean wurdeAbgestochen = (!trumpfAus && containsTrumpf(playedCards, gameType));
 			
 			if (containsTrumpf(playableCards, gameType)) { //if player has trumpf
-				if (trumpfAus) { //and it has been played first
-					if (!hasBauerNaked(playableCards, gameType)) {
-						removeNonSuitable(playableCards, playedSuit); //if not naked, he has to play trumpf
-					}
-					return playableCards; //if bauer is naked, he can play whichever card he wants
+				if (trumpfAus) {
+					if (!hasBauerNaked(playableCards, gameType))
+						removeNonSuitable(playableCards, playedSuit); //has to play trumpf
+					return playableCards; //if he has bauer naked, he can play whichever card he wants
 				} else if (wurdeAbgestochen) {
-					if (hasSuit) {
+					if (hasSuit)
 						removeNonSuitable(playableCards, playedSuit, gameType);
-					}
 					removeLowerTrumpfs(playableCards, playedCards, gameType);
-					
-					//TODO Trumpf wurde gespielt, jedoch nicht als erstes (Aufpassen: UNTERTRUMPFEN + kann ich angeben?)
 					return playableCards;
-					
-					
 				} else { //player has trumpf and no trumpf has been played yet
-					if (hasSuit) {
+					if (hasSuit)
 						removeNonSuitable(playableCards, playedSuit, gameType);
-					}
 					return playableCards;
 				}
 			} else { //gets called if player has no trumpf
-				if (hasSuit) {
+				if (hasSuit)
 					removeNonSuitable(playableCards, playedSuit); //if he has cards from the played suit, he can only play those
-				}
 				return playableCards;
 			}
 		}
@@ -146,23 +137,24 @@ public class Validation {
 	/**
 	 * @author digib
 	 * @return void
-	 * prohibits the playing of lower trumpfs
+	 * remove all trumpf cards that are less worthy than the highest played trumpf card
 	 */
-	private static void removeLowerTrumpfs(ArrayList<Card> hand, ArrayList<Card> playedCards, GameType gameType) {
+	private static void removeLowerTrumpfs(ArrayList<Card> playableCards, ArrayList<Card> playedCards, GameType gameType) {
 		Suit trumpf = null;
 		for (Suit s : Suit.values()) {
 			if (s.toString().equals(gameType.toString()))
 				trumpf = s;
 		}
+		//get the highest played trumpf card
 		Card highestTrumpf = new Card(trumpf, Rank.Six); //start off with the 6 of trumpf (lowest possible)
 		for (Card c : playedCards) {
-			//TODO bur & nell???
-			if (c.compareTo(highestTrumpf) > 0 && c.getSuit() == trumpf)
+			if (c.getSuit() == trumpf && c.getRank().getTrumpfValue() > highestTrumpf.getRank().getTrumpfValue())
 				highestTrumpf = c;
 		}
-		for (Card c : hand) {
-			if (c.compareTo(highestTrumpf) < 0)
-				hand.remove(c);
+		//remove all trumpf cards that are less worthy than the highest played trumpf card
+		for (Card c : playableCards) {
+			if (c.getSuit() == trumpf && c.getRank().getTrumpfValue() < highestTrumpf.getRank().getTrumpfValue())
+				playableCards.remove(c);
 		}
 	}
 		
@@ -222,12 +214,16 @@ public class Validation {
 		}
 		else {
 			/*
+			while (übrige Karten >= 3) {
+				if (übrige Karten >= 4)
+					suche nach vierlingen; gefunden? karten entfernen;
+				suche nach weiteren blättern; gefunden? karten entfernen
+			}
+			
 			 * TODO Bei 5-Blatt oder Kleiner noch nach vierlingen suchen und nach weiteren Blättern
 			 * Dazu Karten, die schon in einem Wiis verwendet werden, entfernen
 			 */
 		}
-		
-		
 		return null;
 	}
 	
