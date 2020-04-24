@@ -123,7 +123,7 @@ public class ClientController {
 			view.loginView.toggleCnBtn();
 		}else {
 			view.loginView.deactivateLoginFields();
-			/*TODO mach no schöne
+			/*TODO mach no schoene
 			Alert
 			*/			
 		}
@@ -141,7 +141,10 @@ public class ClientController {
 		view.loginView.deactivateLoginFields();
 		
 	}
-	
+	/**
+	 * @author Luca Meyer
+	 * starts the Lobbyview and sets all the buttons on action
+	 */
 	
 	private void startLobby(Stage stage) {
 		this.stage = stage;
@@ -155,7 +158,7 @@ public class ClientController {
 		});
 		
 		view.lobbyView.gameMenu.karten.setOnAction(event -> {
-			processKartenStyle();
+			processCardStyle();
 		});
 		
 		view.lobbyView.gameMenu.regeln.setOnAction(event ->{
@@ -193,13 +196,17 @@ public class ClientController {
 	public void joinGameApproved(Game game) {
 		model.currentGame = game;
 		try {
-			startGame(); //TODO wieder lÃ¶schen
+			//startGame(); //TODO wieder löschen
 			startSplash();
 		} catch (Exception e1) {
 			e1.printStackTrace();
 		}
 	}
 
+	/**
+	 * @author Luca Meyer
+	 * Creates Window to select game options
+	 */
 	private void createNewGame(Event e) {
 		
 		stage.close();
@@ -233,9 +240,7 @@ public class ClientController {
 				model.newGame(isSchieber,isGermanCards,
 						numOfRounds,winningPoints);
 				stage2.close();
-				startGame();
-				// TODO wieder aktivieren
-				//startSplash(e);
+				startSplash();
 				
 				
 			} catch (Exception e1) {
@@ -245,7 +250,10 @@ public class ClientController {
 		});
 		
 	}
-	
+	/**
+	 * @author Luca Meyer
+	 * Creates splashscreen
+	 */
 	private void startSplash() throws Exception {
 		splashScreen = new WaitingScreen_Preloader();
 		view.lobbyView.stage.close();
@@ -281,7 +289,7 @@ public class ClientController {
 	}
 	
 
-	public void processKartenStyle() {
+	public void processCardStyle() {
 		int cardStyle=ClientModel.cardStyle;
 		CardStyleView cardStyleView = new CardStyleView();
 		cardStyleView.setSelectedStyle(cardStyle);
@@ -386,16 +394,14 @@ public class ClientController {
 	 */
 	public void startGame() {
 		try {
-			//splashScreen.stop();
 			view.showGameView(stage);
 		
 			view.gameView.gameMenu.statistik.setOnAction(event ->{
 				processStatisitc();
 			});
 		
-		
 			view.gameView.gameMenu.karten.setOnAction(event -> {
-				processKartenStyle();
+				processCardStyle();
 			});
 			/*gameView.gameMenu.sprache.setOnAction(event ->{
 				processSprache();
@@ -412,6 +418,7 @@ public class ClientController {
 			view.gameView.gameMenu.exit.setOnAction(event -> {
 				processExitGame(event, stage);
 			});
+			
 		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -432,24 +439,6 @@ public class ClientController {
 		stage2.close();
 		startLobby(stage);
 		model.updateGameList();
-	
-	/**
-	 * Start the Game;
-	
-	public void startGame() {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Spielstart");
-		alert.setHeaderText(null);
-		alert.setContentText("Spiel gestartet");
-		alert.showAndWait();
-		*/
-		/*try {
-			splashScreen.stop();
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 	
 	}
 	
