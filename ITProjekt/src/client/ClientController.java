@@ -196,7 +196,7 @@ public class ClientController {
 	public void joinGameApproved(Game game) {
 		model.currentGame = game;
 		try {
-			startGame(); //TODO wieder löschen
+			//startGame(); //TODO wieder löschen
 			startSplash();
 		} catch (Exception e1) {
 			e1.printStackTrace();
