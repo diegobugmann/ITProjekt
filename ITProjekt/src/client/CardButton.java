@@ -27,15 +27,19 @@ public class CardButton extends Button {
 		}
 		//copied from R. Bradley		
 		if (card != null) {
+			this.setVisible(true);
 			String fileName = cardToFileName(card);
-			Image image = new Image(this.getClass().getClassLoader().getResourceAsStream("Karten_"+cardStyle+"/" + fileName));
+			System.out.println("client/Karten_"+cardStyle+"/" + fileName);
+			Image image = new Image(this.getClass().getClassLoader().getResourceAsStream("client/Karten_"+cardStyle+"/" + fileName+".jpg"));
 			ImageView imv = new ImageView(image);
 			imv.fitWidthProperty().bind(this.widthProperty());
 			imv.fitHeightProperty().bind(this.heightProperty());
 			imv.setPreserveRatio(true);
 			this.setGraphic(imv);
+			this.setId(fileName);
 		}else {
 			this.setGraphic(null);
+			this.setVisible(false);
 		}
 
 	}
@@ -43,6 +47,6 @@ public class CardButton extends Button {
 	private String cardToFileName(Card card) {
 		String rank = card.getRank().toString();
 		String suit = card.getSuit().toString();
-		return rank + "_" + suit + ".jpg";
+		return rank + "_" + suit;
 	}
 }

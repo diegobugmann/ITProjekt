@@ -13,6 +13,7 @@ import client.CommunicationThread.Status;
 import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Button;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -28,6 +29,7 @@ public class ClientController {
 	protected boolean user;
 	protected boolean pw;
 	protected boolean cn;
+
 
 	protected GameView gameView;
 
@@ -304,8 +306,14 @@ public class ClientController {
 		cardStyleView.confirmBtn.setOnAction(event -> {
 			ClientModel.cardStyle = cardStyleView.getSelectedRadio();
 			stage2.close();
+			
+			if(model.getActualHand().isEmpty()) {
+				//do nothing
+			}else {
+				this.updateCardArea(model.getActualHand());
+			}
 		});
-
+		
 	}
 	
 	/*
@@ -394,6 +402,7 @@ public class ClientController {
 	 */
 	public void startGame() {
 		try {
+			stage.setTitle("");
 			view.showGameView(stage);
 		
 			view.gameView.gameMenu.statistik.setOnAction(event ->{
@@ -419,6 +428,11 @@ public class ClientController {
 				processExitGame(event, stage);
 			});
 			
+			for(Button b : view.gameView.cardArea.cardButtons) {
+				b.setOnAction(event ->{
+					processPlayCard(event);
+				});
+			}
 		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -427,10 +441,9 @@ public class ClientController {
 	}
 	
 	public void updateCardArea(ArrayList<Card> hand) {
-		for(int i = 0; i<hand.size(); i++) {
-			Card card = hand.get(i);
-			gameView.cardArea.setCards(card);
-		}
+		model.setActualHand(hand);
+		view.gameView.cardArea.setCards(hand);
+		
 		
 		
 	}
@@ -440,6 +453,30 @@ public class ClientController {
 		startLobby(stage);
 		model.updateGameList();
 	
+	}
+	
+	public void processPlayCard(Event e) {
+		Button cardBtn = (Button) e.getSource();
+		String cardName = cardBtn.getId();
+		int index = cardName.indexOf("_");
+		String rank =cardName.substring(0, index-1);
+		String suit = cardName.substring(index);
+		Object o = rank+""+suit;
+		boolean found = false;
+		int i = 0;
+		while(i< model.actualHand.size()-1 && found == false) {
+			if(model.actualHand.get(i).toString().contains(cardName)) {
+				found = true;
+			}else {
+				i++;
+			}
+		}
+		Card card = model.actualHand.get(i);
+		//model.actualHand.remove(index);
+		model.playCard(card);
+		
+		
+		
 	}
 	
 	

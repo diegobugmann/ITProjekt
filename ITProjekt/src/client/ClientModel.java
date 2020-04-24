@@ -1,11 +1,9 @@
 package client;
 
 import java.net.Socket;
-
+import java.util.ArrayList;
 import Commons.*;
 import client.CommunicationThread.Status;
-
-
 
 public class ClientModel {
 	
@@ -21,6 +19,7 @@ public class ClientModel {
 	protected CommunicationThread connection;
 	public static int cardStyle=0; // 0 = französisch
 	protected Game currentGame;
+	protected ArrayList<Card> actualHand = new ArrayList<>();
 
 	
 	/**
@@ -168,6 +167,23 @@ public class ClientModel {
 		return isUserNameCreated;
 	}
 	
+	public void playCard(Card card) {
+		System.out.println(card);
+		Message_Turn turn = new Message_Turn(card, ipAddress);
+		connection.sendMessage(turn);
+		
+	}
+	
+	public void setActualHand(ArrayList<Card> hand) {
+		this.actualHand=hand;
+		
+	}
+	
+	public ArrayList<Card> getActualHand(){
+		return this.actualHand;
+	}
+	
+
 
 
 }

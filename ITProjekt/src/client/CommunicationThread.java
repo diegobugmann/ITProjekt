@@ -177,9 +177,7 @@ public class CommunicationThread extends Thread{
 				break;
 			}
 			case hand : {
-				System.out.println("Message Hand");
 				Message_Hand msghand = (Message_Hand) msgIn;
-
 				controller.updateCardArea(msghand.getHand());
 				break;
 			}
