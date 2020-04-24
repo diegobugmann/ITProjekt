@@ -36,6 +36,9 @@ public class CommunicationThread extends Thread{
 	private Status status;
 	private ArrayList<Game> allGames;
 	
+	private int gameId = -1;
+	private Game game;
+	
 	public CommunicationThread(Socket s, ClientController controller) throws IOException {
 		//run the Constructor of Thread
 		super();
@@ -71,6 +74,17 @@ public class CommunicationThread extends Thread{
 	public void sendMessage(Message msg) {
 		msg.setClient(senderName);
 		msg.send(this.socket);
+	}
+	
+	public Game getGamefromList(int id) {
+		Game selectedGame = null;
+		for(Game g : allGames) {
+			if(id == g.getGameId()) {
+				selectedGame = g;
+			}
+		}
+		System.out.println("Joined Game " + selectedGame);
+		return selectedGame;
 	}
 	
     /**
@@ -133,18 +147,24 @@ public class CommunicationThread extends Thread{
 			case gamelist : {
 				Message_GameList msglist = (Message_GameList) msgIn;
 				allGames = msglist.getGames();
+				if(this.gameId != -1 && this.game == null) {
+					this.game = getGamefromList(gameId);
+					if(this.game != null) {
+						status = Status.joinedgame;
+						controller.joinGameApproved(game);
+					}
+				}
 				controller.updateGamelist(msglist.getGames(), status);
 				returnMsg = null;
 				break;
 			}
 			case joinGame : {
 				Message_JoinGame msgJoin = (Message_JoinGame) msgIn;
-				for(Game g : allGames) {
-					if(msgJoin.getGameId() == g.getGameId()) {
-						System.out.println("yes");
-						status = Status.joinedgame;
-						controller.joinGameApproved(g);
-					}
+				this.gameId = msgJoin.getGameId();
+				this.game = getGamefromList(gameId);
+				if(this.game != null) {
+					status = Status.joinedgame;
+					controller.joinGameApproved(game);
 				}
 				returnMsg = null;
 				break;
@@ -155,6 +175,7 @@ public class CommunicationThread extends Thread{
 				break;
 			}
 			case hand : {
+				System.out.println("Message Hand");
 				Message_Hand msghand = (Message_Hand) msgIn;
 
 				controller.updateCardArea(msghand.getHand());
