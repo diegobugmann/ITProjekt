@@ -123,6 +123,7 @@ public class ClientController {
 			view.loginView.toggleCnBtn();
 		}else {
 			view.loginView.deactivateLoginFields();
+
 			/*TODO mach no schoene
 			Alert
 			*/			
@@ -196,7 +197,11 @@ public class ClientController {
 	public void joinGameApproved(Game game) {
 		model.currentGame = game;
 		try {
+<<<<<<< HEAD
 			//startGame(); //TODO wieder löschen
+=======
+			//startGame(); //TODO wieder lÃ¶schen
+>>>>>>> branch 'master' of https://github.com/diegobugmann/ITProjekt
 			startSplash();
 		} catch (Exception e1) {
 			e1.printStackTrace();

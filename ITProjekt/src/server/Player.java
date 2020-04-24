@@ -12,7 +12,7 @@ import Commons.Wiis;
 public class Player extends User {
 	
 	private Game currentGame;
-	private ArrayList<Card> hand;
+	private ArrayList<Card> hand = new ArrayList<Card>();
 	private boolean hisTurn;
 	private int announcedPoints;
 	private Wiis wiis; //muss Wiis[] sein bei mehreren Wiis

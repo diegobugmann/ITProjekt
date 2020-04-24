@@ -19,45 +19,38 @@ public class Validation {
 		if (playedCards.isEmpty()) return hand; //If you are the first to play, you can play whatever you like
 		Suit playedSuit = playedCards.get(0).getSuit();
 		boolean hasSuit = containsSuit(hand, playedSuit);
-		//TODO if (!hasSuit) return hand; kompatibel mit untertrumpfen?
 		ArrayList<Card> playableCards = (ArrayList<Card>) hand.clone();
 		
-		//If player has cards from played suit, he can only play those. If not, he can play whichever card he wants
+		//GameMode BottomsUp or TopsDown
 		if (gameType == GameType.BottomsUp || gameType == GameType.TopsDown) {
-			if (hasSuit) {
+			if (hasSuit)
 				removeNonSuitable(playableCards, playedSuit);
-			}
 			return playableCards;
-		}
-		
-		//TODO bei trumpf sonderheiten: bauer muss nicht angegeben werden, man darf immer stechen, untertrumpfen nur, wenn nicht angegeben werden kann
-		else {
+		} else {
+			//GameMode other than BottomsUp or TopsDows
+			if (containsOnlyTrumpf(playableCards, gameType)) //if all player has left are trumpfs, he can play whatever he likes
+				return playableCards;
 			boolean trumpfAus = playedSuit.toString().equals(gameType.toString());
-			boolean hasBauerNaked = hasBauerNaked(playableCards, gameType);
+			boolean wurdeAbgestochen = (!trumpfAus && containsTrumpf(playedCards, gameType));
 			
 			if (containsTrumpf(playableCards, gameType)) { //if player has trumpf
-				if (containsTrumpf(playedCards, gameType)) { //and trumpf has been played
-					if (trumpfAus) { //was it out first?
-						if (!hasBauerNaked) {
-							removeNonSuitable(playableCards, playedSuit); //if not naked, he has to play trumpf
-						}
-						return playableCards; //if bauer is naked, he can play whichever card he wants
-					} else {
-						
-						//TODO Trumpf wurde gespielt, jedoch nicht als erstes (Aufpassen: UNTERTRUMPFEN + kann ich angeben?)
-						return playableCards;
-						
-					}
-				} else { //player has trumpf and no trumpf has been played yet
-					if (hasSuit) {
+				if (trumpfAus) {
+					if (!hasBauerNaked(playableCards, gameType))
+						removeNonSuitable(playableCards, playedSuit); //has to play trumpf
+					return playableCards; //if he has bauer naked, he can play whichever card he wants
+				} else if (wurdeAbgestochen) {
+					if (hasSuit)
 						removeNonSuitable(playableCards, playedSuit, gameType);
-					}
+					removeLowerTrumpfs(playableCards, playedCards, gameType);
+					return playableCards;
+				} else { //player has trumpf and no trumpf has been played yet
+					if (hasSuit)
+						removeNonSuitable(playableCards, playedSuit, gameType);
 					return playableCards;
 				}
 			} else { //gets called if player has no trumpf
-				if (hasSuit) {
+				if (hasSuit)
 					removeNonSuitable(playableCards, playedSuit); //if he has cards from the played suit, he can only play those
-				}
 				return playableCards;
 			}
 		}
@@ -66,7 +59,6 @@ public class Validation {
 	/**
 	 * @author digib
 	 * @return boolean
-	 * As soon as list contains at least one card from trumpf, it returns true
 	 */
 	private static boolean containsTrumpf(ArrayList<Card> hand, GameType trumpf) {
 		for (Card c : hand) {
@@ -79,7 +71,18 @@ public class Validation {
 	/**
 	 * @author digib
 	 * @return boolean
-	 * As soon as list contains at least one card from suit, it returns true
+	 */
+	private static boolean containsOnlyTrumpf(ArrayList<Card> hand, GameType trumpf) {
+		for (Card c : hand) {
+			if (!c.getSuit().toString().equals(trumpf.toString()))
+				return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * @author digib
+	 * @return boolean
 	 */
 	private static boolean containsSuit(ArrayList<Card> hand, Suit suit) {
 		for (Card c : hand) {
@@ -94,10 +97,10 @@ public class Validation {
 	 * @return void
 	 * Removes all cards that don't match the played suit
 	 */
-	private static void removeNonSuitable(ArrayList<Card> playableCards, Suit playedSuit) {
-		for (Card c : playableCards) {
+	private static void removeNonSuitable(ArrayList<Card> hand, Suit playedSuit) {
+		for (Card c : hand) {
 			if (playedSuit != c.getSuit())
-				playableCards.remove(c);
+				hand.remove(c);
 		}
 	}
 	
@@ -106,20 +109,21 @@ public class Validation {
 	 * @return void
 	 * Removes all cards but the trumpf that don't match the played suit
 	 */
-	private static void removeNonSuitable(ArrayList<Card> playableCards, Suit playedSuit, GameType trumpf) {
-		for (Card c : playableCards) {
+	private static void removeNonSuitable(ArrayList<Card> hand, Suit playedSuit, GameType trumpf) {
+		for (Card c : hand) {
 			if (playedSuit != c.getSuit() && !c.getSuit().toString().equals(trumpf.toString()))
-				playableCards.remove(c);
+				hand.remove(c);
 		}
 	}
 	
 	/**
 	 * @author digib
-	 * @return boolean, if player has the jack on its own
+	 * @return boolean
+	 * return true if player has the jack of trumpf on its own
 	 */
-	private static boolean hasBauerNaked(ArrayList<Card> playableCards, GameType trumpf) {
+	private static boolean hasBauerNaked(ArrayList<Card> hand, GameType trumpf) {
 		ArrayList<Card> trumpfs = new ArrayList<Card>();
-		for (Card c : playableCards) {
+		for (Card c : hand) {
 			if (c.getSuit().toString().equals(trumpf.toString()))
 				trumpfs.add(c);
 		}
@@ -128,6 +132,30 @@ public class Validation {
 				return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * @author digib
+	 * @return void
+	 * remove all trumpf cards that are less worthy than the highest played trumpf card
+	 */
+	private static void removeLowerTrumpfs(ArrayList<Card> playableCards, ArrayList<Card> playedCards, GameType gameType) {
+		Suit trumpf = null;
+		for (Suit s : Suit.values()) {
+			if (s.toString().equals(gameType.toString()))
+				trumpf = s;
+		}
+		//get the highest played trumpf card
+		Card highestTrumpf = new Card(trumpf, Rank.Six); //start off with the 6 of trumpf (lowest possible)
+		for (Card c : playedCards) {
+			if (c.getSuit() == trumpf && c.getRank().getTrumpfValue() > highestTrumpf.getRank().getTrumpfValue())
+				highestTrumpf = c;
+		}
+		//remove all trumpf cards that are less worthy than the highest played trumpf card
+		for (Card c : playableCards) {
+			if (c.getSuit() == trumpf && c.getRank().getTrumpfValue() < highestTrumpf.getRank().getTrumpfValue())
+				playableCards.remove(c);
+		}
 	}
 		
 	
@@ -186,12 +214,16 @@ public class Validation {
 		}
 		else {
 			/*
+			while (übrige Karten >= 3) {
+				if (übrige Karten >= 4)
+					suche nach vierlingen; gefunden? karten entfernen;
+				suche nach weiteren blättern; gefunden? karten entfernen
+			}
+			
 			 * TODO Bei 5-Blatt oder Kleiner noch nach vierlingen suchen und nach weiteren Blättern
 			 * Dazu Karten, die schon in einem Wiis verwendet werden, entfernen
 			 */
 		}
-		
-		
 		return null;
 	}
 	

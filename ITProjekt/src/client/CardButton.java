@@ -15,14 +15,17 @@ public class CardButton extends Button {
 
 		
 	}
-	
+	/**
+	 * @author Luca Meyer
+	 * sets path for german or french cards
+	 */
 	public void setCard(Card card) {
 		if(ClientModel.cardStyle==0) {
 			cardStyle= "franz";
 		}else if(ClientModel.cardStyle==1) {
 			cardStyle = "deutsch";
 		}
-				
+		//copied from R. Bradley		
 		if (card != null) {
 			String fileName = cardToFileName(card);
 			Image image = new Image(this.getClass().getClassLoader().getResourceAsStream("Karten_"+cardStyle+"/" + fileName));

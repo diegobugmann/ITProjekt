@@ -11,6 +11,12 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+/**
+ * 
+ * @author Luca Meyer
+ * creates the view to set the gameinformation
+ *
+ */
 public class NewGameView extends VBox {
 	protected HBox radioBoxType;
 	protected RadioButton rbSchieber;

@@ -8,7 +8,8 @@ public class Card implements Comparable<Card>, Serializable{
 	 */
 	private static final long serialVersionUID = 1L;
 
-	public enum Suit {	ShieldsOrSpades,
+	public enum Suit {	
+		ShieldsOrSpades,
 		RosesOrHearts,
 		AcornsOrDiamonds,
 		BellsOrClubs;
@@ -24,7 +25,17 @@ public class Card implements Comparable<Card>, Serializable{
             return suit;
         }
     };
-    public enum Rank {Six, Seven, Eight, Nine, Ten, Jack, Queen, King, Ace;
+    public enum Rank {Six(0), Seven(1), Eight(2), Nine(7), Ten(3), Jack(8), Queen(4), King(5), Ace(6);
+    	private int trumpfValue;
+    	
+    	private Rank(int trumpfValue) {
+    		this.trumpfValue = trumpfValue;
+    	}
+    	
+    	public int getTrumpfValue() {
+    		return this.trumpfValue;
+    	}
+    	
         @Override
         public String toString() {
             String str = "ace";  // Assume we have an ace, then cover all other cases
