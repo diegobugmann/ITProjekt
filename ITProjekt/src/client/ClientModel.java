@@ -174,6 +174,11 @@ public class ClientModel {
 		
 	}
 	
+	public void setTrumpf(GameType gameType) {
+		Message_Trumpf trumpf = new Message_Trumpf(gameType);
+		connection.sendMessage(trumpf);
+	}
+	
 	public void setActualHand(ArrayList<Card> hand) {
 		this.actualHand=hand;
 		

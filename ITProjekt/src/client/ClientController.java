@@ -6,6 +6,7 @@ import javax.swing.JOptionPane;
 
 import Commons.Card;
 import Commons.Game;
+import Commons.GameType;
 import Commons.Validation_LoginProcess;
 import javafx.event.ActionEvent;
 
@@ -428,11 +429,16 @@ public class ClientController {
 				processExitGame(event, stage);
 			});
 			
+			processSetTrumpf();
+			
 			for(Button b : view.gameView.cardArea.cardButtons) {
+				b.setDisable(false);
 				b.setOnAction(event ->{
 					processPlayCard(event);
 				});
 			}
+			
+			
 		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -455,6 +461,23 @@ public class ClientController {
 	
 	}
 	
+	public void processSetTrumpf() {
+		SelectTrumpfView selectTrumpfView = new SelectTrumpfView();
+	
+		Scene scene2 = new Scene(selectTrumpfView);
+		Stage stage2 = new Stage();
+		stage2.setScene(scene2);
+		stage2.setHeight(300);
+		stage2.setWidth(300);
+		stage2.initStyle(StageStyle.UNDECORATED);
+		stage2.show();
+		selectTrumpfView.confirmBtn.setOnAction(event -> {
+			GameType gameType = selectTrumpfView.getSelectedTrumpf();
+			model.setTrumpf(gameType);
+			stage2.close();
+		});
+	}
+	
 	public void processPlayCard(Event e) {
 		Button cardBtn = (Button) e.getSource();
 		String cardName = cardBtn.getId();
@@ -474,9 +497,7 @@ public class ClientController {
 		Card card = model.actualHand.get(i);
 		//model.actualHand.remove(index);
 		model.playCard(card);
-		
-		
-		
+			
 	}
 	
 	

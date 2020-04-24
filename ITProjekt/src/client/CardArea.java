@@ -43,6 +43,7 @@ public class CardArea extends VBox {
 			Card card = hand.get(i);
 			CardButton cardBtn = (CardButton) hboxCards.getChildren().get(i*2);
     		cardBtn.setCard(card);
+    		cardBtn.setDisable(true);
     		
     		
 		}
@@ -51,16 +52,6 @@ public class CardArea extends VBox {
 	public void setLabelText(String text) {
 		infolbl.setText(text);
 	}
-
-	public Button[] getCardButtons() {
-		return cardButtons;
-	}
-
-	public void setCardButtons(Button[] cardButtons) {
-		this.cardButtons = cardButtons;
-	}
-	
-	
 	
 
 }
