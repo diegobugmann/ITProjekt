@@ -123,7 +123,7 @@ public class ClientController {
 			view.loginView.toggleCnBtn();
 		}else {
 			view.loginView.deactivateLoginFields();
-			/*TODO mach no schöne
+			/*TODO mach no schï¿½ne
 			Alert
 			*/			
 		}
@@ -141,7 +141,10 @@ public class ClientController {
 		view.loginView.deactivateLoginFields();
 		
 	}
-	
+	/**
+	 * @author Luca Meyer
+	 * starts the Lobbyview and sets all the buttons on action
+	 */
 	
 	private void startLobby(Stage stage) {
 		this.stage = stage;

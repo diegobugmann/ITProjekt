@@ -18,6 +18,12 @@ public class CardStyleView extends VBox {
 	protected ToggleGroup tg;
 	protected Button confirmBtn;
 	
+	/**
+	 * @author Luca Meyer
+	 * View to give the option to select between german or french cards
+	 * View instead of Alert because Alerts can't have RadioButtons
+	 */
+	
 	public CardStyleView() {
 		super();
 		tg = new ToggleGroup();

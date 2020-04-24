@@ -18,7 +18,10 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.scene.paint.Color;
 
-/* Kopiert von SWE Modul von R. Bradley*/
+/**
+ * @author Luca Meyer
+ * Copied from SWE Modul von R. Bradley
+ */
 
 public class WaitingScreen_Preloader extends Preloader {
 	private Stage stage;
@@ -77,7 +80,7 @@ public class WaitingScreen_Preloader extends Preloader {
 	}
     
 	/**
-	 * 
+	 * updates the number of missing players
 	 */
 	public void updateAnzahlPers(int numOfPers) {
         anzahlPers = numOfPers;
