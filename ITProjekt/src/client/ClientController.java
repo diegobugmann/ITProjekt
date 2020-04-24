@@ -158,7 +158,7 @@ public class ClientController {
 		});
 		
 		view.lobbyView.gameMenu.karten.setOnAction(event -> {
-			processKartenStyle();
+			processCardStyle();
 		});
 		
 		view.lobbyView.gameMenu.regeln.setOnAction(event ->{
@@ -284,7 +284,7 @@ public class ClientController {
 	}
 	
 
-	public void processKartenStyle() {
+	public void processCardStyle() {
 		int cardStyle=ClientModel.cardStyle;
 		CardStyleView cardStyleView = new CardStyleView();
 		cardStyleView.setSelectedStyle(cardStyle);
@@ -398,7 +398,7 @@ public class ClientController {
 		
 		
 			view.gameView.gameMenu.karten.setOnAction(event -> {
-				processKartenStyle();
+				processCardStyle();
 			});
 			/*gameView.gameMenu.sprache.setOnAction(event ->{
 				processSprache();
@@ -435,24 +435,6 @@ public class ClientController {
 		stage2.close();
 		startLobby(stage);
 		model.updateGameList();
-	
-	/**
-	 * Start the Game;
-	
-	public void startGame() {
-		Alert alert = new Alert(AlertType.INFORMATION);
-		alert.setTitle("Spielstart");
-		alert.setHeaderText(null);
-		alert.setContentText("Spiel gestartet");
-		alert.showAndWait();
-		*/
-		/*try {
-			splashScreen.stop();
-			
-		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
 	
 	}
 	

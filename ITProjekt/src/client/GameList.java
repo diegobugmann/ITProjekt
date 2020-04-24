@@ -24,8 +24,6 @@ public class GameList extends VBox {
 	
 	private TableView<Game> createTableView(){
 		tableView = new TableView<Game>();
-		TableColumn<Table, String> colGames = new TableColumn<>("Spiele");
-		colGames.setPrefWidth(150);
 		
 		TableColumn gameId = new TableColumn("Spiel ID");
 		gameId.setCellValueFactory(new PropertyValueFactory<>("gameId"));
