@@ -12,6 +12,9 @@ public class ClientModel {
 	protected boolean userName;
 	protected boolean password;
 	protected boolean cnAdress;
+	protected boolean isNewUserNameAvailable = false;
+	protected boolean isNewPasswordValid = false;
+	protected boolean isPasswordConfirmed = false;
 	protected String user;
 	protected String pw;
 	protected String ipAddress = "127.0.0.1";
@@ -50,7 +53,8 @@ public class ClientModel {
 	
 	
 	/** 
-	 * @author sarah: connection string (For IP Address: Regex: https://www.oreilly.com/library/view/regular-expressions-cookbook/9780596802837/ch07s16.html, added port manual)
+	 * @author sarah: connection string 
+	 * (For IP Address: Regex: https://www.oreilly.com/library/view/regular-expressions-cookbook/9780596802837/ch07s16.html, added port manual)
 	 * @param newValue
 	 * @return
 	 */
@@ -70,28 +74,27 @@ public class ClientModel {
 		}
 		return cnAdress;
 	}
-	
-	public boolean validateUserName(String newValue) {
-		//userName validierung nur ganz simpelhalte auf der Clientseit die DB abfrage etc wird beim Login auf dem Server gepr�ft!
-		userName = false;
-		
+	/**
+	 * @author sarah
+	 * @param newValue
+	 */
+	public void validateUsername(String newValue) {
+		newValue = newValue.trim();
+		this.isNewUserNameAvailable = false;
 		if(newValue.isEmpty() == false) {
-			userName = true;			
+			Message_UserNameAvailable msg = new Message_UserNameAvailable(newValue);
+			connection.sendMessage(msg);				
 		}
-		return userName;
 	}
 	
-	public boolean validatePassword(String newValue) {
-		//Passwort validierung nur ganz simpelhalte auf der Clientseit die DB abfrage etc wird beim Login auf dem Server gepr�ft!
-		password = false;
-		
-		if(newValue.isEmpty() == false) {
-			password = true;
+	public void validatePassword(String newValue) {	
+		if(Validation_LoginProcess.isPasswordValid(newValue)) {
+			isNewPasswordValid = true;
+		}else {
+			isNewPasswordValid = false;
 		}
-		return password;
 	}
-	
-	
+		
 	public void loginProcess(String user, String pw) {
 		this.user = user;
 		this.pw = pw;
@@ -142,32 +145,40 @@ public class ClientModel {
 	 * create new user
 	 */
 	public boolean isPwValid(String newPasswordtxt) {
-		Validation_LoginProcess vlp = new Validation_LoginProcess();
 		boolean pwValid = false;
-		if(vlp.isPasswordValid(newPasswordtxt)) {
+		if(Validation_LoginProcess .isPasswordValid(newPasswordtxt)) {
 			pwValid = true;
-		} else {
-			//TODO Alert
-		}
+		} 
 		return pwValid;
 	}
-	
-	public boolean confirmPw(String newPasswordtxt, String confirmPasswordtxt) {
-		boolean pwConfirmed = false;		
+	/**
+	 * @author sarah
+	 * @param newPasswordtxt
+	 * @param confirmPasswordtxt
+	 */
+	public void confirmPw(String newPasswordtxt, String confirmPasswordtxt) {		
 		if(newPasswordtxt.equals(confirmPasswordtxt)) {
-			pwConfirmed = true;
+			this.isPasswordConfirmed = true;
 		} else {
-			//TODO Alert
-		}	
-		return pwConfirmed;	
+			this.isPasswordConfirmed = false;
+		}
 	}
-	
-	public boolean createUser() {
-		//TODO Methode fertigstellen nach DB Anbindung
-		boolean isUserNameCreated = false;
-		return isUserNameCreated;
+	/**
+	 * @author sarah
+	 * @param userName
+	 * @param password
+	 */
+	public void createUser(String userName, String password) {
+		userName = userName.trim();
+		Message_Register msg = new Message_Register(userName, password);
+		connection.sendMessage(msg);		
 	}
-	
-
+	/**
+	 * @author sarah
+	 * @param isAvaiable
+	 */
+	public void setisUserNameAvaiable(boolean isAvaiable) {
+		this.isNewUserNameAvailable = isAvaiable;
+	}
 
 }

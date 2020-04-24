@@ -10,10 +10,8 @@ import java.util.logging.Logger;
 
 public class Validation_LoginProcess {
 	
-	private final Logger logger = Logger.getLogger("");
-	
-	public boolean isPasswordValid(String password) {
-			
+	public static boolean isPasswordValid(String password) {
+			final Logger logger = Logger.getLogger("");
 			Boolean isPasswordValid = false;
 			Boolean isUpperCase = false;
 			Boolean isLowerCase = false;

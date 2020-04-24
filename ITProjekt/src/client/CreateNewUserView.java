@@ -13,18 +13,20 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import Commons.Validation_LoginProcess;
 
 public class CreateNewUserView extends VBox{
 	
 	/**
-	 * @author sarah, GUI design by Luca
+	 * @author sarah, GUI design by Luca Meyer
 	 */
 	
 	protected Stage stage;
 	protected Label newUserNamelbl;
 	protected TextField newUserNametxt;
+	protected Label userNameAvailable;
 	protected Label newPasswordlbl;
 	protected PasswordField newPasswordtxt;
 	protected Label confirmPasswordlbl;
@@ -40,6 +42,8 @@ public class CreateNewUserView extends VBox{
 		newUserNamelbl = new Label("Username");
 		newUserNametxt = new TextField();
 		newUserNametxt.setMaxWidth(300);
+		userNameAvailable = new Label("");
+		userNameAvailable.setTextFill(Color.RED);
 		newPasswordlbl = new Label("Password");
 		newPasswordtxt = new PasswordField();
 		newPasswordtxt.setMaxWidth(300);
@@ -72,7 +76,7 @@ public class CreateNewUserView extends VBox{
 		
 		this.setBackground(background);
 		
-		this.getChildren().addAll(region0, newUserNamelbl, newUserNametxt, region1, newPasswordlbl, newPasswordtxt, pwConventionslbl, 
+		this.getChildren().addAll(region0, newUserNamelbl, newUserNametxt, userNameAvailable, region1, newPasswordlbl, newPasswordtxt, pwConventionslbl, 
 				region2, confirmPasswordlbl, confirmPasswordtxt, region3, createUserbtn, region4, cancelbtn);
 		
 		this.setAlignment(Pos.CENTER);
@@ -124,6 +128,22 @@ public class CreateNewUserView extends VBox{
 	
 	public void setCancelBtn(Button cancelbtn) {
 		this.cancelbtn = cancelbtn;
+	}
+	
+	public void setUserNameAvaiable(boolean isUserNameAvaiable) {
+		if(isUserNameAvaiable) {
+			this.userNameAvailable.setText("");
+		} else {
+			this.userNameAvailable.setText("User not avaiable!");
+		}
+	}
+	
+	public void activateNewUserbtn(boolean isNewLoginValid) {
+		if(isNewLoginValid) {
+			this.createUserbtn.setDisable(false);
+		}else {
+			this.createUserbtn.setDisable(true);
+		}
 	}
 	
 }

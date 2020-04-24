@@ -138,7 +138,18 @@ public class CommunicationThread extends Thread{
 					}
 					
 					case registration_accepted:{
-						
+						controller.registrationSucceded();
+						break;
+					}					
+					
+					case Username_accepted:{
+						controller.userNameisAvaiable(true);
+						controller.activateNewUserbtn();
+						break;
+					}
+					
+					case Username_declined:{
+						controller.userNameisAvaiable(false);
 						break;
 					}
 				}
@@ -216,14 +227,20 @@ public class CommunicationThread extends Thread{
 			case error : {
 				Message_Error msgError = (Message_Error) msgIn;
 				switch(msgError.getType()) {
-				case logginfalied :{
-					controller.loginfaild(msgError.getErrorMessage());
-					returnMsg = null;
-					break;
-				}
-				case not_loggedin :{
-					break;
-				}
+					case logginfalied :{
+						controller.loginfaild(msgError.getErrorMessage());
+						returnMsg = null;
+						break;
+					}
+					case not_loggedin :{
+						break;
+					}
+					
+					case Registration_failed :{
+						controller.registerFailed(msgError.getErrorMessage());
+						returnMsg = null;
+						break;
+					}
 				}
 				break;
 			}

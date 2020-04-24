@@ -10,15 +10,15 @@ package Commons;
 public class Message_Register extends Message{
 
 	private String password;
-	private String loginName;
+	private String userName;
 	
 	/**
 	 * Mainconstructor getting a Username and a Password from the client 
 	 */
-	public Message_Register(String loginName, String password) {
+	public Message_Register(String userName, String password) {
 		super();
-		this.loginName = loginName;
-		this.password =password;
+		this.userName = userName;
+		this.password = password;
 	}
 	
 	//Getters no cahnges on the variables needed after creation!
@@ -26,7 +26,7 @@ public class Message_Register extends Message{
 		return password;
 	}
 
-	public String getLoginName() {
-		return loginName;
+	public String getUserName() {
+		return userName;
 	}
 }

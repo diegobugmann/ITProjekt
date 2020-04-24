@@ -15,7 +15,7 @@ public class Message_UserNameAvailable extends Message{
 	
 	//Getters no cahnges on the variables needed after creation!
 	
-	public String getLoginName() {
+	public String getUserName() {
 		return userName;
 	}
 

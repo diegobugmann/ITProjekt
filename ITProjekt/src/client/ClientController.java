@@ -76,14 +76,19 @@ public class ClientController {
 	}
 
 	private void validateUser(String newValue) {
-		user = model.validateUserName(newValue);
-		loginActivate();
+		
+		if (!newValue.isEmpty()) {
+			user = true;
+			loginActivate();
+		}
 	
 	}
 	
 	private void validatePw(String newValue) {
-		pw = model.validatePassword(newValue);
-		loginActivate();
+		if(!newValue.isEmpty()) {
+			pw = true;
+			loginActivate();
+		}
 	
 	}
 	
@@ -349,10 +354,14 @@ public class ClientController {
 		alert.setHeaderText(null);
 		alert.setContentText(message);
 		alert.showAndWait();
-		view.showLoginView(stage, model.ipAddress + ":" + model.port);
-		
-		//TODO login button wird nicht mehr freigegeben
-
+		// Sarah: Stage wird nicht mehr neu geladen, Problem mit Login button somit geloest
+	}
+	/**
+	 * @author sarah
+	 */
+	public void userNameisAvaiable(boolean isUserNameAvaiable) {
+		model.setisUserNameAvaiable(isUserNameAvaiable);
+		this.view.createNewUserView.setUserNameAvaiable(isUserNameAvaiable);
 	}
 /**
  	* Called when the Game list on the Serverlist gets changed and sent to the Client
@@ -378,17 +387,58 @@ public class ClientController {
 		
 	}
 	
-
+/**
+ * @author sarah
+ */
 	public void createNewUserView() {
 		Stage createNewUserStage = new Stage();
 		createNewUserStage.initModality(Modality.NONE);
 		view.showCreateNewUserView(createNewUserStage);
+		view.createNewUserView.newUserNametxt.textProperty().addListener((observable, 
+				oldValue, newValue)-> {model.validateUsername(newValue);activateNewUserbtn();});
+		view.createNewUserView.newPasswordtxt.textProperty().addListener((observable,
+				oldValue, newValue)-> {model.validatePassword(newValue); model.confirmPw(newValue, view.createNewUserView.confirmPasswordtxt.getText());activateNewUserbtn();});
+		view.createNewUserView.confirmPasswordtxt.textProperty().addListener((observable,
+				oldValue, newValue)-> {model.confirmPw(newValue, view.createNewUserView.newPasswordtxt.getText());activateNewUserbtn();});
+		
 		view.createNewUserView.cancelbtn.setOnAction(event ->{
 			createNewUserStage.close();
 		});
 		view.createNewUserView.createUserbtn.setOnAction(event ->{
-			model.createUser();
+			model.createUser(view.createNewUserView.newUserNametxt.getText(), view.createNewUserView.newPasswordtxt.getText());
 		});
+	}
+	/**
+	 * @author sarah
+	 */
+	public void activateNewUserbtn() {
+		if(model.isNewPasswordValid && model.isNewUserNameAvailable && model.isPasswordConfirmed) {
+			view.createNewUserView.activateNewUserbtn(true);
+		}else {
+			view.createNewUserView.activateNewUserbtn(false);
+		}
+	}
+	/**
+	 * @author sarah
+	 */
+	public void registrationSucceded() {
+		String info = "Congratulations! User successfully created";
+		Alert alert = new Alert(AlertType.INFORMATION, info );
+		alert.setHeaderText(null);
+		alert.setTitle(null);
+		alert.showAndWait();
+		view.createNewUserView.stage.close();
+	}
+	
+	/**
+	 * @author sarah
+	 */
+	public void registerFailed(String message) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle("Registration failed");
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.showAndWait();		
 	}
 
 	/**

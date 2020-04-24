@@ -17,6 +17,9 @@ import Commons.Message_JoinGame;
 import Commons.Message_Login;
 import Commons.Message_Trumpf;
 import Commons.Message_Turn;
+import Commons.Message_UserNameAvailable;
+import Commons.Message_Register;
+import Commons.Validation_LoginProcess;
 import Commons.Simple_Message;
 
 import DB.UserData;
@@ -68,9 +71,9 @@ public class User {
 		
 		//Trial code Michael can be deleted as soon as implemented properly
 		case login : {
-			/*UserData ud = new UserData(); 
-			if(ud.check(((Message_Login)msgIn).getLoginName(), ((Message_Login)msgIn).getPassword())){*/
-			if( ((Message_Login)msgIn).getLoginName().equals("m") && ((Message_Login)msgIn).getPassword().equals("m") ) {
+			UserData ud = new UserData(); 
+			if(ud.check(((Message_Login)msgIn).getLoginName(), ((Message_Login)msgIn).getPassword())){
+			//if( ((Message_Login)msgIn).getLoginName().equals("m") && ((Message_Login)msgIn).getPassword().equals("m") ) {
 				msgOut = new Simple_Message(Simple_Message.Msg.Login_accepted);
 				msgOut.send(clientSocket);
 				Message gameUpdate = new Message_GameList(model.getCastedGames());
@@ -155,7 +158,42 @@ public class User {
 			nextPlayer = p.getFollowingPlayer();
 			ArrayList<Card> playableCards = nextPlayer.getPlayableCards();
 			//TODO YourTurn an FollowingPlayer mit playableCards
+			break;
 		}
+		//-------------------------------------------------------------------------------------------------------
+		case newUserName : {
+			UserData ud = new UserData();
+			String userName = ((Message_UserNameAvailable)msgIn).getUserName();
+			if (ud.isUserNameAvailable(userName)) {
+				msgOut = new Simple_Message(Simple_Message.Msg.Username_accepted);
+				msgOut.send(clientSocket);
+			} else {
+				msgOut = new Simple_Message(Simple_Message.Msg.Username_declined);
+				msgOut.send(clientSocket);
+			}
+			break;
+		}
+		//-------------------------------------------------------------------------------------------------------
+		case register : {
+			UserData ud = new UserData();
+			String userName = ((Message_Register)msgIn).getUserName();
+			String password = ((Message_Register)msgIn).getPassword();
+			if(Validation_LoginProcess.isPasswordValid(password)) {
+				if (ud.createUser(userName, password)) {
+					msgOut = new Simple_Message(Simple_Message.Msg.registration_accepted);
+					msgOut.send(clientSocket);
+				} else {
+					msgOut = new Message_Error("Registration failed", Message_Error.ErrorType.Registration_failed);
+					msgOut.send(clientSocket);
+				}
+			} else {
+				msgOut = new Message_Error("Password invalid", Message_Error.ErrorType.Registration_failed);
+				msgOut.send(clientSocket);				
+			}
+			
+			break;
+		}
+		
 		//-------------------------------------------------------------------------------------------------------
 		case simple_Message : {
 			switch(((Simple_Message)msgIn).getType()) {

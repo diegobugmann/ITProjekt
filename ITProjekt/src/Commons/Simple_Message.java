@@ -32,7 +32,8 @@ public class Simple_Message extends Message{
 		//Login related Messages
 		Login_accepted,
 		registration_accepted,
-		Username_accepted;
+		Username_accepted,
+		Username_declined;
 	}
 	
 	private Msg type;

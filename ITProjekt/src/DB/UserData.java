@@ -12,6 +12,12 @@ import java.util.logging.Logger;
 
 import Commons.Validation_LoginProcess;
 
+/**
+ * 
+ * @author sarah
+ *
+ */
+
 public class UserData {
 	
 	private final DB_Connection dbcn = new DB_Connection();
