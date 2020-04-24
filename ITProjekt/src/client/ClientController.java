@@ -197,11 +197,8 @@ public class ClientController {
 	public void joinGameApproved(Game game) {
 		model.currentGame = game;
 		try {
-<<<<<<< HEAD
-			//startGame(); //TODO wieder löschen
-=======
-			//startGame(); //TODO wieder lÃ¶schen
->>>>>>> branch 'master' of https://github.com/diegobugmann/ITProjekt
+			//startGame(); //TODO wieder loeschen
+
 			startSplash();
 		} catch (Exception e1) {
 			e1.printStackTrace();
