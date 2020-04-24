@@ -203,6 +203,10 @@ public class ClientController {
 		}
 	}
 
+	/**
+	 * @author Luca Meyer
+	 * Creates Window to select game options
+	 */
 	private void createNewGame(Event e) {
 		
 		stage.close();
@@ -236,9 +240,7 @@ public class ClientController {
 				model.newGame(isSchieber,isGermanCards,
 						numOfRounds,winningPoints);
 				stage2.close();
-				startGame();
-				// TODO wieder aktivieren
-				//startSplash(e);
+				startSplash();
 				
 				
 			} catch (Exception e1) {
@@ -248,7 +250,10 @@ public class ClientController {
 		});
 		
 	}
-	
+	/**
+	 * @author Luca Meyer
+	 * Creates splashscreen
+	 */
 	private void startSplash() throws Exception {
 		splashScreen = new WaitingScreen_Preloader();
 		view.lobbyView.stage.close();
@@ -389,13 +394,11 @@ public class ClientController {
 	 */
 	public void startGame() {
 		try {
-			//splashScreen.stop();
 			view.showGameView(stage);
 		
 			view.gameView.gameMenu.statistik.setOnAction(event ->{
 				processStatisitc();
 			});
-		
 		
 			view.gameView.gameMenu.karten.setOnAction(event -> {
 				processCardStyle();
@@ -415,6 +418,7 @@ public class ClientController {
 			view.gameView.gameMenu.exit.setOnAction(event -> {
 				processExitGame(event, stage);
 			});
+			
 		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

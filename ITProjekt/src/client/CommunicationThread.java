@@ -11,7 +11,7 @@ import javafx.application.Platform;
  * @author mibe1
  *TODO Michael:
  *-Korrektes Schliessen
- *-Tabelle verschönern
+ *-Tabelle verschï¿½nern
  */
 public class CommunicationThread extends Thread{
 	/**
@@ -156,6 +156,7 @@ public class CommunicationThread extends Thread{
 			}
 			case hand : {
 				Message_Hand msghand = (Message_Hand) msgIn;
+
 				controller.updateCardArea(msghand.getHand());
 				break;
 			}
