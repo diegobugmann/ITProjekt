@@ -429,7 +429,7 @@ public class ClientController {
 				processExitGame(event, stage);
 			});
 			
-			processSetTrumpf();
+			//processSetTrumpf();
 			
 			for(Button b : view.gameView.cardArea.cardButtons) {
 				b.setDisable(false);
