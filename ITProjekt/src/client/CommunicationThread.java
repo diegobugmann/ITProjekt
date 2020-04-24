@@ -159,12 +159,14 @@ public class CommunicationThread extends Thread{
 				break;
 			}
 			case joinGame : {
-				Message_JoinGame msgJoin = (Message_JoinGame) msgIn;
-				this.gameId = msgJoin.getGameId();
-				this.game = getGamefromList(gameId);
-				if(this.game != null) {
-					status = Status.joinedgame;
-					controller.joinGameApproved(game);
+				if(this.status != Status.ingame) {
+					Message_JoinGame msgJoin = (Message_JoinGame) msgIn;
+					this.gameId = msgJoin.getGameId();
+					this.game = getGamefromList(gameId);
+					if(this.game != null) {
+						status = Status.joinedgame;
+						controller.joinGameApproved(game);
+					}
 				}
 				returnMsg = null;
 				break;
