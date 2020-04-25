@@ -218,8 +218,7 @@ public class ClientModel {
 
 
 	public void closeConnection() {
-		// TODO Auto-generated method stub
-		
+		connection.closeConnection();
 	}
 
 }

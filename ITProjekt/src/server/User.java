@@ -1,5 +1,6 @@
 package server;
 
+import java.io.EOFException;
 import java.io.IOException;
 
 import java.net.Socket;
@@ -52,7 +53,10 @@ public class User {
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} catch (IOException e) {
+					}catch (EOFException e) {
+						//TODO send to Logger
+						System.out.println("Connection to User "+ userID + " determined.");
+					}catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
