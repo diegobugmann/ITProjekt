@@ -8,6 +8,9 @@ import Commons.Card;
 import Commons.Game;
 import Commons.GameType;
 import Commons.Validation_LoginProcess;
+import Commons.Wiis;
+import Commons.Wiis.Blatt;
+import javafx.animation.PathTransition;
 import javafx.event.ActionEvent;
 
 import client.CommunicationThread.Status;
@@ -15,11 +18,16 @@ import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.Toggle;
+import javafx.scene.shape.MoveTo;
+import javafx.scene.shape.Path;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.stage.WindowEvent;
+import javafx.util.Duration;
 
 public class ClientController {
 	
@@ -30,6 +38,11 @@ public class ClientController {
 	protected boolean user;
 	protected boolean pw;
 	protected boolean cn;
+	protected boolean validateTrumpf;
+	protected boolean oneChecked = false;
+	protected String actualTrumpf;
+	protected Wiis[] wiisReturn;
+	protected Wiis wiisNew;
 
 
 	protected GameView gameView;
@@ -57,9 +70,9 @@ public class ClientController {
 			connectionProcess();
 		});
 		
-		
 		view.loginView.loginBtn.setOnAction(event -> {
-			model.loginProcess(view.loginView.userName.getText(), view.loginView.passwordField.getText());
+			model.loginProcess(view.loginView.userName.getText(), 
+					view.loginView.passwordField.getText());
 		});
 		
 		view.loginView.newUserLink.setOnAction(event -> {
@@ -205,8 +218,6 @@ public class ClientController {
 	public void joinGameApproved(Game game) {
 		model.currentGame = game;
 		try {
-			//startGame(); //TODO wieder loeschen
-
 			startSplash();
 		} catch (Exception e1) {
 			e1.printStackTrace();
@@ -319,19 +330,21 @@ public class ClientController {
 				//do nothing
 			}else {
 				this.updateCardArea(model.getActualHand());
+				view.gameView.infoView.setTrumpf(actualTrumpf);
 			}
 		});
 		
 	}
 	
-	/*
-	public void processSprache() {
-		
-	}
-	*/
-	
 	public void processRegeln() {
-		//TODO Regeln anzeigen
+		RuleView ruleView = new RuleView();
+	
+		Scene scene2 = new Scene(ruleView);
+		Stage stage2 = new Stage();
+		stage2.setScene(scene2);
+		stage2.setHeight(700);
+		stage2.setWidth(900);
+		stage2.show();
 	}
 	
 	public void processAbout() {
@@ -480,15 +493,7 @@ public class ClientController {
 			view.gameView.gameMenu.exit.setOnAction(event -> {
 				processExitGame(event, stage);
 			});
-			
-			//processSetTrumpf();
-			
-			for(Button b : view.gameView.cardArea.cardButtons) {
-				b.setDisable(false);
-				b.setOnAction(event ->{
-					processPlayCard(event);
-				});
-			}
+						
 			
 			
 		
@@ -500,9 +505,7 @@ public class ClientController {
 	
 	public void updateCardArea(ArrayList<Card> hand) {
 		model.setActualHand(hand);
-		view.gameView.cardArea.setCards(hand);
-		
-		
+		view.gameView.cardArea.setCards(hand);	
 		
 	}
 
@@ -515,6 +518,7 @@ public class ClientController {
 	
 	public void processSetTrumpf() {
 		SelectTrumpfView selectTrumpfView = new SelectTrumpfView();
+		validateTrumpf = false;
 	
 		Scene scene2 = new Scene(selectTrumpfView);
 		Stage stage2 = new Stage();
@@ -523,25 +527,62 @@ public class ClientController {
 		stage2.setWidth(300);
 		stage2.initStyle(StageStyle.UNDECORATED);
 		stage2.show();
+		
+		selectTrumpfView.tg.selectedToggleProperty().addListener((observable, 
+				oldValue, newValue)-> {
+					validateTrumpf(newValue);
+					if(validateTrumpf == true) {
+						selectTrumpfView.confirmBtn.setDisable(false);
+					}
+				});
+		
+			
 		selectTrumpfView.confirmBtn.setOnAction(event -> {
 			GameType gameType = selectTrumpfView.getSelectedTrumpf();
 			model.setTrumpf(gameType);
+			actualTrumpf = gameType.toString();
 			stage2.close();
-		});
+			//processWiis(null); //TODO wieder löschen
+			});
+			
 	}
 	
-	public void processPlayCard(Event e) {
+	private void validateTrumpf(Toggle newValue) {
+		if(newValue.isSelected()) {
+			validateTrumpf = true;
+		}
+	}
+	
+	public void processYourTurn() {
+		// TODO Auto-generated method stub
+		view.gameView.cardArea.infolbl.setText("Du bist am Zug!");
+		
+		for(Button b : view.gameView.cardArea.cardButtons) {
+			b.setDisable(false);
+			b.setOnAction(event ->{
+				processPlayCard(event);
+			});
+		}
+		
+	}
+	
+	private void processPlayCard(Event e) {
 		Button cardBtn = (Button) e.getSource();
 		String cardName = cardBtn.getId();
-		int index = cardName.indexOf("_");
-		String rank =cardName.substring(0, index-1);
-		String suit = cardName.substring(index);
-		Object o = rank+""+suit;
+
+		
 		boolean found = false;
 		int i = 0;
 		while(i< model.actualHand.size()-1 && found == false) {
 			if(model.actualHand.get(i).toString().contains(cardName)) {
 				found = true;
+				
+				Path path = new Path();
+				
+				path.getElements().add(new MoveTo(150, 150));
+				
+				PathTransition move = new PathTransition(Duration.seconds(1), path, (Button) e.getSource());
+				move.play();
 			}else {
 				i++;
 			}
@@ -552,6 +593,51 @@ public class ClientController {
 			
 	}
 	
+	public void processAnsagePoints() {
+		// TODO Auto-generated method stub
+		
+	}
+	public void processWiis(Wiis[] wiis) {
+		
+		wiisReturn=null;
+		oneChecked = false;
+		SelectWiisView selectWiisView = new SelectWiisView(wiis);
+	
+		Scene scene2 = new Scene(selectWiisView);
+		Stage stage2 = new Stage();
+		stage2.setScene(scene2);
+		stage2.setHeight(300);
+		stage2.setWidth(300);
+		stage2.initStyle(StageStyle.UNDECORATED);
+		stage2.show();
+		
+		for(CheckBox c : selectWiisView.checkBoxes) {
+			c.armedProperty().addListener((observable, 
+				oldValue, newValue)-> {
+					
+					if(newValue == true) {
+						selectWiisView.confirmBtn.setDisable(false);
+					}
+					
+					//TODO muss wenn wieder alle abgewählt sind wieder deaktiviert werden
+					
+				});
+		}
+		
+		selectWiisView.confirmBtn.setOnAction(event -> {
+			int i = 0;
+			
+			for(CheckBox c : selectWiisView.checkBoxes) {
+				if(c.isArmed()) {
+					wiisReturn[i]=wiis[i];
+					i++;
+				}
+			}
+			model.sendWiis(wiisReturn);
+			stage2.close();
+			
+			});
+	}
 	
 
 }

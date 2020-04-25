@@ -1,0 +1,70 @@
+Der Schieberjass
+Für ein Spiel werden die 36 Karten gemischt und gleichmässig auf die Spieler verteilt.
+Bei jeder Spielrunde darf ein Spieler die Trumpf-Farbe bestimmen.
+Wer selber den Trumpf nicht festlegen will, kann zu seinem Partner gegenüber schieben und dieser muss dann den Trumpf bestimmen.
+Das Total der Punkte in einer Runde ist 157. Die erreichten Punkte werden mit dem jeweiligen Trumpffaktor multipliziert.
+
+Die Trumpffaktoren sind wie folgt festgelegt:
+Eichle und Rose bzw. Eggen und Herz zählen einfach
+Schälle und Schilte bzw. Schaufel und Kreuz zählen doppelt
+Obenabe und Undenufe zählen dreifach
+
+Das Spiel
+Wer mit trumpfen an der Reihe ist gibt die erste Karte, auch wenn er mit schieben seinen Partner den Trumpf wählen liess.
+Die anderen Spieler geben der Reihe nach entweder eine Karte der gleichen Farbe oder eine Trumpfkarte.
+Wer die höchste Karte bzw. stärkste Trumpfkarte gegeben hat, sticht und erhält die vier gespielten Karten.
+Der Stich hat einen Wert, der dem Punktewert aller vier Karten entspricht.
+
+Der Schieber ist ein Partnerspiel.
+Die beiden gegenüberliegenden Spieler bilden zusammen jeweils ein Team.
+Die erzielten Punkte werden zusammengezählt und gemeinsam geschrieben.
+Beim Spiel mit Trumpf wird der Under/Bube zum Puur und die 9 zum Nell.
+Puur und Nell sind die beiden stärksten Karten im Spiel.
+Beim Undenufe wird die Sechs, beim Obenabe das As zur stärksten Karte.
+Wer mehrere Karten in Folge hat, kann diese als Weis melden.
+Haben mehrere Spieler einen Weis, gilt derjenige, der von der höchsten Karte stammt.
+Der Weis wird beim Spielen der ersten Karte angesagt.
+Ausnahme: Die Stöcke (König und Ober vom Trumpf) werden erst gemeldet, wenn beide Karten im Spiel gegeben wurden.
+Ein gültiger Weis hat einen bestimmten Punktwert, welcher zu den erspielten Punkten addiert wird.
+Auch die Weispunkte werden mit den momentan gültigen Trumpffaktoren multipliziert.
+Gewonnen hat die Partei, welche zuerst die für den Gewinn erforderliche Punktzahl erreicht hat.
+Am Ende jeder Runde und am Ende des Spiels werden die jeweils erreichten Punkte und allfällige Weispunkte sowie die jeweiligen Spielstände angezeigt.
+
+Die Punkte-Vergabe
+Geschrieben werden nur die Punkte der Partei, die den Trumpf gewählt hat.
+Nachdem sämtliche Trumpfarten von beiden Parteien durchgespielt worden sind, werden die Punkte-Totale verglichen.
+Gewonnen hat, wer die meisten Punkte erzielt hat.
+
+Kartenwerte beim Spiel mit oder ohne Trumpf:
+
+Werte für nicht- Trumpfkarten 				Werte beim Trumpf
+
+Karte			Punkte						Karte			Punkte
+As				11							As				11
+König 			4							König			4
+Ober/Dame 		3							Ober/Dame		3
+Under/Bube 		2							Puur			20		
+Banner/Zehn 	10							Banner/Zehn		10
+Neun			-							Nell			14	
+Acht 			-							Acht			-
+Sieben 			-							Sieben			-
+Sechs			-							Sechs			-
+
+
+Werte beim Undenufe							Werte beim Obenabe
+Karte			Punkte						Karte			Punkte
+As				-							As				11
+König 			4							König			4
+Ober/Dame 		3							Ober/Dame		3
+Under/Bube 		2							Under/Bube		2
+Banner/Zehn 	10							Banner/Zehn		10
+Neun			-							Neun			-
+Acht 			8							Acht			8
+Sieben 										Sieben			-
+Sechs			11							Sechs			-
+
+Im Spiel sind immer 152 Punkte. 
+Dazu kommen 5 Punkte für den letzten Stich. 
+Das ergibt das Total von 157 Punkten.
+
+Spielregeln nach https://www.schieber.ch/srules.php

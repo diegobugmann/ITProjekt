@@ -13,7 +13,6 @@ public class GameMenu extends MenuBar {
 	
 	protected Menu einstellungen;
 	protected MenuItem karten;
-	//protected MenuItem sprache;
 	
 	protected Menu help;
 	protected MenuItem regeln;
@@ -30,7 +29,6 @@ public class GameMenu extends MenuBar {
 		
 		einstellungen = new Menu("Einstellngen");
 		karten = new MenuItem("Karten");
-		//sprache = new MenuItem("Sprache");
 		einstellungen.getItems().addAll(karten);
 		
 		help = new Menu("Hilfe");
