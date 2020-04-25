@@ -117,9 +117,11 @@ public class CommunicationThread extends Thread{
 					}
 					case Your_Turn :{
 						status = Status.onturn;
+						controller.processYourTurn();
 						break;
 					}
 					case Ansage_Points :{
+						controller.processAnsagePoints();
 						break;
 					}
 					case GameEnded :{
@@ -127,6 +129,7 @@ public class CommunicationThread extends Thread{
 						break;
 					}
 					case Ansage_Trumpf :{
+						controller.processSetTrumpf();
 						break;
 					}
 					
@@ -197,6 +200,10 @@ public class CommunicationThread extends Thread{
 				break;
 			}
 			case wiis : {
+				Message_Wiis msgWiis = (Message_Wiis) msgIn;
+				if(msgWiis.getWiis().length>0) {
+					controller.processWiis(msgWiis.getWiis());
+				}
 				
 				break;
 			}
@@ -213,7 +220,9 @@ public class CommunicationThread extends Thread{
 				break;
 			}
 			case trumpf : {
-				controller.view.gameView.infoView.setTrumpf(type.toString());
+				Message_Trumpf msgTrumpf = (Message_Trumpf) msgIn;
+				GameType trumpf = msgTrumpf.getTrumpf();
+				controller.view.gameView.infoView.setTrumpf(trumpf.toString());
 				break;
 			}
 			

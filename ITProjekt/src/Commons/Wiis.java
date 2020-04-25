@@ -38,5 +38,16 @@ public class Wiis {
 	public Blatt getBlatt() {
 		return this.blatt;
 	}
+
+	@Override
+	public String toString() {
+		String text ="";
+		text += this.blatt.toString()+"_";
+		text+= this.highestCard.toString();
+		return text;
+				
+	}
+	
+	
 	
 }

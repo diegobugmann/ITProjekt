@@ -18,8 +18,8 @@ public class Team {
 		this.playerList.add(p);
 	}
 	
-	public void updatePoints(int points) {
-		this.score += points; //score wird bei mehreren Spielen jeweils am Anfang zurückgesetzt
+	public void addPoints(int points) {
+		this.score += points; //TODO score wird bei mehreren Spielen jeweils am Anfang zurückgesetzt
 		this.totalScore += points;
 	}
 	

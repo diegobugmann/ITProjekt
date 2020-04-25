@@ -38,26 +38,33 @@ public class Game extends Commons.Game {
 		}
 	}
 	
-	//adds a player to the next possible spot and increases the numOfPlayers
-	public boolean addPlayer(Player p) {
+	/**
+	 * @author digib
+	 * @return int teamNumber
+	 * adds a player to the next possible spot and increases the numOfPlayers
+	 */
+	public int addPlayer(Player p) {
+		int teamNr = -1;
 		if (this.isSchieber()) {
-			if (teams.get(0).getPlayerList().size() < 2)
+			if (teams.get(0).getPlayerList().size() < 2) {
 				teams.get(0).addPlayer(p);
-			else if (teams.get(1).getPlayerList().size() < 2)
+				teamNr = 0;
+			}
+			else if (teams.get(1).getPlayerList().size() < 2) {
 				teams.get(1).addPlayer(p);
-			else return false; //wenn schon 4 Spieler im Spiel sind, wird false zurückgegeben
+				teamNr = 1;
+			}
 			numOfPlayers.set(teams.get(0).getPlayerList().size()+teams.get(1).getPlayerList().size()); //Spielerzahl aktualisieren
-			return true;
 		} else {
 			for (Team t : teams) {
 				if (t.getPlayerList().size() == 0) { //fügt ein Spieler in einem noch leeren Team hinzu
 					t.addPlayer(p);
 					numOfPlayers.setValue(teams.indexOf(t)+1); //Spielerzahl aktualisieren
-					return true;
+					teamNr = teams.indexOf(t);
 				}
 			}
-			return false;
 		}
+		return teamNr;
 	}
 
 	public void setTrumpf(GameType trumpf) {
@@ -66,6 +73,10 @@ public class Game extends Commons.Game {
 	
 	public GameType getTrumpf() {
 		return this.trumpf;
+	}
+	
+	public Team getTeam(int teamNr) {
+		return teams.get(teamNr);
 	}
 	
 	//generates a random trumpf, without bottomsup and topdown

@@ -93,8 +93,9 @@ public class User {
 			int winningPoints = ((Message_CreateGame)msgIn).getWinningPoints();
 			Game g = new Game(isGermanCards, numOfRounds, winningPoints, isSchieber);
 			model.addGame(g);
-			g.addPlayer(p); //Player, welcher Spiel erstellt hat, hinzufügen
-			p.setCurrentGame(g);
+			int teamNr = g.addPlayer(p); //Player, welcher Spiel erstellt hat, hinzufügen
+			Team t = g.getTeam(teamNr);
+			p.setCurrentTeam(t); p.setCurrentGame(g); //set current game and team to player
 			//Send joining message so client knows the game
 			Message_JoinGame msgJoin = new Message_JoinGame(g.getGameId());
 			msgJoin.send(clientSocket);
@@ -104,21 +105,17 @@ public class User {
 		}
 		//-----------------------------------------------------------------------------------------------
 		case joinGame : {
-			boolean added = false;
 			for (Game g : model.getGames()) {
 				if (g.getGameId() == ((Message_JoinGame)msgIn).getGameId()) { //dem richtigen Game hinzufügen
-					added = g.addPlayer(p);
-					p.setCurrentGame(g);
+					int teamNr = g.addPlayer(p);
+					Team t = g.getTeam(teamNr);
+					p.setCurrentTeam(t); p.setCurrentGame(g); //set current game and team to player
 				}	
 			}
-			if (added) {
-				//Send back the join Message so client knows the Game
-				msgIn.send(clientSocket);			
-				msgOut = new Message_GameList(model.getCastedGames());
-				model.broadcast(msgOut);
-			} else {
-				//TODO User benachrichtigen, dass er nicht joinen konnte
-			}
+			//Send back the join Message so client knows the Game
+			msgIn.send(clientSocket);			
+			msgOut = new Message_GameList(model.getCastedGames());
+			model.broadcast(msgOut);
 			break;
 		}
 		//-----------------------------------------------------------------------------------------------
@@ -134,7 +131,7 @@ public class User {
 		case ansage: {
 			int points = ((Message_Ansage)msgIn).getPoints();
 			p.setAnnouncedPoints(points);
-			p.getCurrentGame().incrementNumOfAnsagen(); //bei 4 erhaltenen Ansagen wird das Spiel starten
+			p.getCurrentGame().incrementNumOfAnsagen(); //bei 4 erhaltenen Ansagen wird das Spiel gestartet
 			break;
 		}
 		//------------------------------------------------------------------------------------------------------
@@ -149,10 +146,12 @@ public class User {
 			currentPlay.getPlayedBy().add(p);
 			Player nextPlayer = null;
 			if (currentPlay.getPlayedCards().size() == 4) { //is the play over?
-				currentPlay.validatePoints();
-				nextPlayer = currentPlay.validateWinner(); //TODO validateWinner ausformulieren
-				//TODO add points to winningteam
+				nextPlayer = currentPlay.validateWinner();
+				int playPoints = currentPlay.validatePoints();
+				Team winningTeam = nextPlayer.getCurrentTeam();
+				winningTeam.addPoints(playPoints);
 				currentGame.newPlay(); //creates a new Play object, adds it to the game and sets it as currentPlay
+				//TODO winner-Message, damit er zeigen kann wer den Stich geholt hat und Karten wegräumen kann?
 				//TODO YourTurn mit der ganzen Hand als playableCards an nextPlayer schicken
 			}
 			nextPlayer = p.getFollowingPlayer();

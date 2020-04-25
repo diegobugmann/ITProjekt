@@ -50,7 +50,6 @@ public class ClientModel {
 	}
 	
 	
-	
 	/** 
 	 * @author sarah: connection string 
 	 * (For IP Address: Regex: https://www.oreilly.com/library/view/regular-expressions-cookbook/9780596802837/ch07s16.html, added port manual)
@@ -116,7 +115,7 @@ public class ClientModel {
 			System.out.println("Wrong Status");
 		//TODO Errorhandling
 	}
-	
+
 
 	public void joinGame(int gameId) {
 		//Only join Game when user is in the correct Status to join a Game
@@ -183,9 +182,9 @@ public class ClientModel {
 
 	
 	public void playCard(Card card) {
-		System.out.println(card);
 		Message_Turn turn = new Message_Turn(card, ipAddress);
 		connection.sendMessage(turn);
+		
 		
 	}
 	
@@ -201,6 +200,10 @@ public class ClientModel {
 	
 	public ArrayList<Card> getActualHand(){
 		return this.actualHand;
+	}
+	
+	public void sendWiis(Wiis[] wiisreturn) {
+		
 	}
 	
 

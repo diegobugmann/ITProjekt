@@ -29,7 +29,6 @@ public class CardButton extends Button {
 		if (card != null) {
 			this.setVisible(true);
 			String fileName = cardToFileName(card);
-			System.out.println("client/Karten_"+cardStyle+"/" + fileName);
 			Image image = new Image(this.getClass().getClassLoader().getResourceAsStream("client/Karten_"+cardStyle+"/" + fileName+".jpg"));
 			ImageView imv = new ImageView(image);
 			imv.fitWidthProperty().bind(this.widthProperty());

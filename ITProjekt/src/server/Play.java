@@ -19,12 +19,13 @@ public class Play {
 	}
 	
 	public Player validateWinner() {
-		//TODO
-		return null;
+		winningPlayer = Validation.validateWinner(playedCards, playedBy, trumpf);
+		return winningPlayer;
 	}
 	
-	public void validatePoints() {
-		this.points = Validation.validatePoints(playedCards, trumpf);
+	public int validatePoints() {
+		points = Validation.validatePoints(playedCards, trumpf);
+		return points;
 	}
 	
 	public void addCard(Card c) {

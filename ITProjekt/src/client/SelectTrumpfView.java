@@ -13,7 +13,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
-public class SelectTrumpfView extends HBox {
+public class SelectTrumpfView extends VBox {
 	
 	protected RadioButton rbShieldsOrSpades;
 	protected RadioButton rbRosesOrHearts;
@@ -21,6 +21,8 @@ public class SelectTrumpfView extends HBox {
 	protected RadioButton rbBellsOrClubs;
 	protected ToggleGroup tg;
 	protected Button confirmBtn;
+	protected String cardStyle;
+	protected HBox rbBox;
 	
 	/**
 	 * @author Luca Meyer
@@ -30,56 +32,76 @@ public class SelectTrumpfView extends HBox {
 	
 	public SelectTrumpfView() {
 		super();
+		rbBox = new HBox();
 		tg = new ToggleGroup();
 		
+		if(ClientModel.cardStyle==0) {
+			cardStyle = "franz";
+		}else if(ClientModel.cardStyle==1) {
+			cardStyle = "deutsch";
+		}
+		
 		rbShieldsOrSpades = new RadioButton("");
-		InputStream is1 = getClass().getResourceAsStream("Trumpf_franz/Bilder_franz.png");
+		InputStream is1 = getClass().getResourceAsStream("Trumpf_"+cardStyle+"/Shields or Spades.png");
 		Image img1= new Image(is1);
 		ImageView v1 = new ImageView(img1);
 		v1.setPreserveRatio(true);
-		v1.setFitWidth(200);
-		v1.setFitHeight(20);
+		v1.setFitWidth(30);
+		v1.setFitHeight(30);
 		rbShieldsOrSpades.setGraphic(v1);
 		rbShieldsOrSpades.setToggleGroup(tg);
 		
 		rbRosesOrHearts = new RadioButton("");
-		InputStream is2 = getClass().getResourceAsStream("Bilder/Bilder_deutsch.png");
+		InputStream is2 = getClass().getResourceAsStream("Trumpf_"+cardStyle+"/Roses or Hearts.png");
 		Image img2= new Image(is2);
 		ImageView v2 = new ImageView(img2);
 		v2.setPreserveRatio(true);
-		v2.setFitWidth(200);
-		v2.setFitHeight(20);
+		v2.setFitWidth(30);
+		v2.setFitHeight(30);
 		rbRosesOrHearts.setGraphic(v2);
 		rbRosesOrHearts.setToggleGroup(tg);
 		
 		rbAcornsOrDiamonds = new RadioButton("");
-		InputStream is3 = getClass().getResourceAsStream("Bilder/Bilder_deutsch.png");
+		InputStream is3 = getClass().getResourceAsStream("Trumpf_"+cardStyle+"/Acorns or Diamonds.png");
 		Image img3= new Image(is3);
 		ImageView v3 = new ImageView(img3);
 		v3.setPreserveRatio(true);
-		v3.setFitWidth(200);
-		v3.setFitHeight(20);
+		v3.setFitWidth(30);
+		v3.setFitHeight(30);
 		rbAcornsOrDiamonds.setGraphic(v3);
 		rbAcornsOrDiamonds.setToggleGroup(tg);
 		
 		rbBellsOrClubs = new RadioButton("");
-		InputStream is4 = getClass().getResourceAsStream("Bilder/Bilder_deutsch.png");
+		InputStream is4 = getClass().getResourceAsStream("Trumpf_"+cardStyle+"/Bells or Clubs.png");
 		Image img4= new Image(is4);
 		ImageView v4 = new ImageView(img4);
 		v4.setPreserveRatio(true);
-		v4.setFitWidth(200);
-		v4.setFitHeight(20);
+		v4.setFitWidth(30);
+		v4.setFitHeight(30);
 		rbBellsOrClubs.setGraphic(v4);
 		rbBellsOrClubs.setToggleGroup(tg);
 		
 		confirmBtn = new Button("Trumpf angeben");
+		confirmBtn.setDisable(true);
 		
 		Region spacer1 = new Region();
-		spacer1.setPrefHeight(20);
+		spacer1.setPrefWidth(20);
+		
+		Region spacer2 = new Region();
+		spacer2.setPrefWidth(20);
+		
+		Region spacer3 = new Region();
+		spacer3.setPrefWidth(20);
+		
+		Region spacer4 = new Region();
+		spacer4.setPrefHeight(20);
+		
+		rbBox.setAlignment(Pos.CENTER);
+		rbBox.getChildren().addAll(rbShieldsOrSpades, spacer1, rbRosesOrHearts,
+		spacer2, rbAcornsOrDiamonds, spacer3, rbBellsOrClubs);
 		
 		this.setAlignment(Pos.CENTER);
-		this.getChildren().addAll(rbShieldsOrSpades, rbRosesOrHearts,
-		rbAcornsOrDiamonds,rbBellsOrClubs, spacer1, confirmBtn);
+		this.getChildren().addAll(rbBox, spacer4, confirmBtn);
 		
 	}
 	
