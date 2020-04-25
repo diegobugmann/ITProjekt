@@ -60,8 +60,8 @@ public class Validation {
 	 * @author digib
 	 * @return boolean
 	 */
-	private static boolean containsTrumpf(ArrayList<Card> hand, GameType trumpf) {
-		for (Card c : hand) {
+	private static boolean containsTrumpf(ArrayList<Card> cards, GameType trumpf) {
+		for (Card c : cards) {
 			if (c.getSuit().toString().equals(trumpf.toString()))
 				return true;
 		}
@@ -140,11 +140,7 @@ public class Validation {
 	 * remove all trumpf cards that are less worthy than the highest played trumpf card
 	 */
 	private static void removeLowerTrumpfs(ArrayList<Card> playableCards, ArrayList<Card> playedCards, GameType gameType) {
-		Suit trumpf = null;
-		for (Suit s : Suit.values()) {
-			if (s.toString().equals(gameType.toString()))
-				trumpf = s;
-		}
+		Suit trumpf = getTrumpfAsSuit(gameType);
 		//get the highest played trumpf card
 		Card highestTrumpf = new Card(trumpf, Rank.Six); //start off with the 6 of trumpf (lowest possible)
 		for (Card c : playedCards) {
@@ -157,7 +153,59 @@ public class Validation {
 				playableCards.remove(c);
 		}
 	}
+	
+	/**
+	 * @author digib
+	 * @return Suit
+	 */
+	private static Suit getTrumpfAsSuit(GameType gameType) {
+		Suit trumpf = null;
+		for (Suit s : Suit.values()) {
+			if (s.toString().equals(gameType.toString()))
+				trumpf = s;
+		}
+		return trumpf;
+	}
+	
+	
+	/**
+	 * @author digib
+	 * @return Player winner
+	 */
+	public static Player validateWinner(ArrayList<Card> playedCards, ArrayList<Player> correspondingPlayer, GameType gameType) {
+		Card winningCard = playedCards.get(0); //assume first card wins
+		Suit playedSuit = playedCards.get(0).getSuit();
 		
+		if (gameType == GameType.TopsDown) {
+			for (Card c : playedCards) {
+				if (c.getSuit() == playedSuit && c.compareTo(winningCard) > 0) //highest card of played suit wins
+					winningCard = c;
+			}
+		} else if (gameType == GameType.BottomsUp) {
+			for (Card c : playedCards) {
+				if (c.getSuit() == playedSuit && c.compareTo(winningCard) < 0) //lowest card of played suit wins
+					winningCard = c;
+			}
+		} else {
+			boolean trumpfPlayed = containsTrumpf(playedCards, gameType);
+			Suit trumpf = getTrumpfAsSuit(gameType);
+			if (trumpfPlayed) {
+				for (Card c : playedCards) {
+					if (c.getSuit() == trumpf && c.getRank().getTrumpfValue() > winningCard.getRank().getTrumpfValue())
+						winningCard = c;
+				}
+			} else {
+				for (Card c : playedCards) {
+					if (c.getSuit() == playedSuit && c.compareTo(winningCard) > 0) //highest card of played suit wins
+						winningCard = c;
+				}
+			}
+		}
+		int index = playedCards.indexOf(winningCard);
+		Player winner = correspondingPlayer.get(index);
+		return winner;
+	}
+	
 	
 	/**
 	 * @author digib

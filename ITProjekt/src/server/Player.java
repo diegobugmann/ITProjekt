@@ -17,6 +17,7 @@ public class Player extends User {
 	private int announcedPoints;
 	private Wiis wiis; //muss Wiis[] sein bei mehreren Wiis
 	private Player followingPlayer;
+	private Team currentTeam;
 	
 	public Player(ServerModel model, Socket clientSocket) {
 		super(model, clientSocket);
@@ -89,5 +90,13 @@ public class Player extends User {
 	
 	public void setFollowingPlayer(Player followingPlayer) {
 		this.followingPlayer = followingPlayer;
+	}
+
+	public Team getCurrentTeam() {
+		return currentTeam;
+	}
+	
+	public void setCurrentTeam(Team t) {
+		this.currentTeam = t;
 	}
 }
