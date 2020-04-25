@@ -160,7 +160,7 @@ public class User {
 			}
 			nextPlayer = p.getFollowingPlayer();
 			ArrayList<Card> playableCards = nextPlayer.getPlayableCards();
-			//TODO YourTurn an FollowingPlayer mit playableCards
+			//TODO YourTurn an FollowingPlayer mit playableCards + FALLS noch runde 1, nochmal ein Wiis
 			break;
 		}
 		//-------------------------------------------------------------------------------------------------------
@@ -204,10 +204,15 @@ public class User {
 				//TODO
 				break;
 			}
-			case Get_GameList:{
+			case Get_GameList: {
 				msgOut = new Message_GameList(model.getCastedGames());
 				msgOut.send(clientSocket);
 				break;
+			}
+			case Schiebe: {
+				Player teammate = p.getTeammate(); //get the "Schieber"s teammate
+				msgOut = new Simple_Message(Simple_Message.Msg.Ansage_Trumpf);
+				msgOut.send(teammate.getSocket()); //and tell him to make trumpf
 			}
 			default: {
 				break; //Sollten keine anderen Simple_Messages vom Server empfangen werden

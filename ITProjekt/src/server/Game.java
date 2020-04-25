@@ -176,7 +176,7 @@ public class Game extends Commons.Game {
 		newPlay();
 		ArrayList<Card> playableCards = starter.getHand(); //he can play what he wants at first
 		if (this.isSchieber()) {
-			Wiis w = starter.validateWiis();
+			Wiis w = starter.validateWiis(); //TODO ausformulieren
 			//FirstPlay Message an starter verschicken (inkl. Wiis & playableCards)
 		} else {
 			//FirstPlay Message an starter verschicken (mit playableCards, ohne Wiis)

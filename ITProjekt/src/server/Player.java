@@ -99,4 +99,14 @@ public class Player extends User {
 	public void setCurrentTeam(Team t) {
 		this.currentTeam = t;
 	}
+	
+	public Player getTeammate() {
+		Player teammate = null;
+		for (Player p : currentTeam.getPlayerList()) {
+			if (p != this) {
+				teammate = p;
+			}
+		}
+		return teammate;
+	}
 }

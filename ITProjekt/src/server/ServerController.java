@@ -14,6 +14,10 @@ public class ServerController {
 	private ServerModel model;
 	private ServerView view;
 	
+	/**
+	 * @author digib
+	 * @param model, view
+	 */
 	public ServerController(ServerModel model, ServerView view) {
 		this.model = model;
 		this.view = view;
@@ -27,25 +31,29 @@ public class ServerController {
 		
 		model.getGames().addListener( (ListChangeListener) (c) -> {
 			for (Game g : model.getGames()) {
-				addGameEvents(g); //events auf Game hinzufügen
+				addGameEvents(g);
 			}
 		});
 		
 	}
 	
 	
-	
+	/**
+	 * @author digib
+	 * @param game
+	 * add events to game whenever new game is added
+	 */
 	public void addGameEvents(Game g) {
 		
 		//listener is waiting for 4 players to join a game
 		g.getNumOfPlayersAsProperty().addListener( (obs, oV, nV) -> {
-			//numOfCurrentPlayers im castedGame anpassen
+			//set numOfCurrentPlayers in castinggame
 			for (Commons.Game game : model.getCastedGames()) {
 				if (g.getGameId() == game.getGameId())
 					game.setCurrentNumOfPlayers((int)nV);
 			}
-			System.out.println("Players:" + nV);
-			//Bei 4 Spielern das Spiel starten
+			System.out.println("Players:" + nV); //TODO entfernen?
+			//start game at 4 players
 			if ((int) nV == 4) {
 				g.setFollowingPlayers(); //give every player a following Player (for gamedirection)
 				ArrayList<Player> players = g.getPlayers();

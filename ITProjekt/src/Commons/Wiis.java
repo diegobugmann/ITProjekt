@@ -45,9 +45,10 @@ public class Wiis {
 		text += this.blatt.toString()+"_";
 		text+= this.highestCard.toString();
 		return text;
-				
 	}
 	
-	
+	public Card getHighestCard() {
+		return this.highestCard;
+	}
 	
 }

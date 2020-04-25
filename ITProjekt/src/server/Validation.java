@@ -245,41 +245,58 @@ public class Validation {
 
 	/**
 	 * @author digib
-	 * @return Wiis[] mit allen höchstmöglichen Wiis-Objekten ohne Kollision oder eine leere Liste
+	 * @return ArrayList<Wiis> mit allen höchstmöglichen Wiis-Objekten ohne Kollision oder eine leere Liste
 	 * //TODO weitere Wiis-Validierung sinnvoll gestalten (mit Liste)
 	 */
-	public static Wiis validateWiis(ArrayList<Card> hand) {
-		Wiis currentWiis = isBlatt(hand);
-		//7, 8 und 9-Blatt sind nur einzeln möglich ohne Kollision
-		if (currentWiis.getBlatt() == Blatt.siebenblatt || currentWiis.getBlatt() == Blatt.achtblatt ||
-			currentWiis.getBlatt() == Blatt.neunblatt)
-			return currentWiis;
-		else if (currentWiis.getBlatt() == Blatt.sechsblatt) {
-			/*
-			 * TODO Noch nach einem dreiblatt suchen
-			 * Dazu Karten, die schon in einem Wiis verwendet werden, entfernen
-			 */
-		}
-		else {
+	public static ArrayList<Wiis> validateWiis(ArrayList<Card> hand) {
+		ArrayList<Wiis> wiis = new ArrayList<Wiis>();
+		ArrayList<Card> handCopy = (ArrayList<Card>) hand.clone();
+		Wiis firstWiis = isBlatt(handCopy);
+		Wiis secondWiis;
+		Wiis thirdWiis;
+		
+		//7, 8 und 9-Blatt sind nur einzeln möglich
+		if (firstWiis.getBlatt() == Blatt.siebenblatt || firstWiis.getBlatt() == Blatt.achtblatt ||
+				firstWiis.getBlatt() == Blatt.neunblatt) {
+			wiis.add(firstWiis);
+			
+		//6 und 5-Blatt kann mit Vierlingen oder weiterem Blatt überschneiden
+		} else if (firstWiis.getBlatt() == Blatt.sechsblatt || firstWiis.getBlatt() == Blatt.fuenfblatt) {
+			wiis.add(firstWiis);
+			secondWiis = isVierlinge(hand); //check for vierlinge
+			if (secondWiis != null)
+				wiis.add(secondWiis);
+			else { //check for another blatt, therefore removing the one already found
+				removeBlatt(firstWiis, handCopy);
+				secondWiis = isBlatt(handCopy);
+				if (secondWiis != null)
+					wiis.add(secondWiis);
+			}
+		} else if (firstWiis.getBlatt() == Blatt.vierblatt) {
+			wiis.add(firstWiis);
+			secondWiis = isVierlinge(hand); //check for vierlinge
+			
+			
+			
+			
 			/*
 			while (übrige Karten >= 3) {
 				if (übrige Karten >= 4)
 					suche nach vierlingen; gefunden? karten entfernen;
 				suche nach weiteren blättern; gefunden? karten entfernen
 			}
-			
-			 * TODO Bei 5-Blatt oder Kleiner noch nach vierlingen suchen und nach weiteren Blättern
-			 * Dazu Karten, die schon in einem Wiis verwendet werden, entfernen
+
 			 */
 		}
-		return null;
+		return wiis;
 	}
 	
+
 	/**
 	 * @author digib
 	 * @return Vierlinge als Wiis, ohne Karten zu entfernen - oder null bei Misserfolg
 	 */
-	private static Wiis isVierGleiche(ArrayList<Card> hand) {
+	private static Wiis isVierlinge(ArrayList<Card> hand) {
 		int counter = 0;
 		for (Rank r : Rank.values()) {
 			counter = 0;
@@ -305,17 +322,29 @@ public class Validation {
 	private static Wiis isBlatt(ArrayList<Card> hand) {
 		for (int diff = hand.size()-1; diff >= 2; diff--) {
 			for (int highest = hand.size()-1; highest >= diff; highest--) {
-				if (hand.get(highest).getSuit() == hand.get(highest-diff).getSuit()) { //same suit?
-					if (hand.get(highest).getRank().ordinal() == hand.get(highest-diff).getRank().ordinal()+diff) { //difference = 7 ranks?
-						for (Blatt b : Blatt.values()) {
-							if (diff == b.ordinal()+2) 
-								return new Wiis(b, hand.get(highest));
-						}
+				if (hand.get(highest).getSuit() == hand.get(highest-diff).getSuit() &&   //same suit?
+					hand.get(highest).getRank().ordinal() == hand.get(highest-diff).getRank().ordinal()+diff) {
+					for (Blatt b : Blatt.values()) {
+						if (diff == b.ordinal()+2) 
+							return new Wiis(b, hand.get(highest));
 					}
 				}
 			}
 		}
 		return null;
+	}
+	
+	/**
+	 * @author digib
+	 * removes all the cards corresponding to wiis from the hand
+	 */
+	private static void removeBlatt(Wiis firstWiis, ArrayList<Card> handCopy) {
+		Card highestCard = firstWiis.getHighestCard();
+		int numOfCards = firstWiis.getBlatt().ordinal()+3;
+		int index = handCopy.indexOf(highestCard);
+		for (int i = 0; i < numOfCards; i++) {
+			handCopy.remove(index-i);
+		}
 	}
 	
 	
