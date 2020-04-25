@@ -130,11 +130,11 @@ public class CreateNewUserView extends VBox{
 		this.cancelbtn = cancelbtn;
 	}
 	
-	public void setUserNameAvaiable(boolean isUserNameAvaiable) {
-		if(isUserNameAvaiable) {
+	public void setUserNameAvailable(boolean isUserNameAvailable) {
+		if(isUserNameAvailable) {
 			this.userNameAvailable.setText("");
 		} else {
-			this.userNameAvailable.setText("User not avaiable!");
+			this.userNameAvailable.setText("Username not available!");
 		}
 	}
 	

@@ -28,7 +28,7 @@ public class GameMenu extends MenuBar {
 		exit = new MenuItem("Beenden");
 		spiel.getItems().addAll(statistik, exit);
 		
-		einstellungen = new Menu("Einstellngen");
+		einstellungen = new Menu("Einstellungen");
 		karten = new MenuItem("Karten");
 		//sprache = new MenuItem("Sprache");
 		einstellungen.getItems().addAll(karten);

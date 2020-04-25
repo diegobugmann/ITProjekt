@@ -368,9 +368,9 @@ public class ClientController {
 	/**
 	 * @author sarah
 	 */
-	public void userNameisAvaiable(boolean isUserNameAvaiable) {
-		model.setisUserNameAvaiable(isUserNameAvaiable);
-		this.view.createNewUserView.setUserNameAvaiable(isUserNameAvaiable);
+	public void userNameisAvailable(boolean isUserNameAvailable) {
+		model.setisUserNameAvaiable(isUserNameAvailable);
+		this.view.createNewUserView.setUserNameAvailable(isUserNameAvailable);
 	}
 /**
  	* Called when the Game list on the Serverlist gets changed and sent to the Client

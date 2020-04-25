@@ -143,13 +143,13 @@ public class CommunicationThread extends Thread{
 					}					
 					
 					case Username_accepted:{
-						controller.userNameisAvaiable(true);
+						controller.userNameisAvailable(true);
 						controller.activateNewUserbtn();
 						break;
 					}
 					
 					case Username_declined:{
-						controller.userNameisAvaiable(false);
+						controller.userNameisAvailable(false);
 						break;
 					}
 				}
