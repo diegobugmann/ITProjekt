@@ -19,9 +19,8 @@ public class ClientModel {
 	protected int port = 6666;
 	protected boolean isConnected = false;
 	//Michis Variabel
-	protected CommunicationThread connection;
+	private CommunicationThread connection;
 	public static int cardStyle=0; // 0 = französisch
-	protected Game currentGame;
 	protected ArrayList<Card> actualHand = new ArrayList<>();
 
 	
@@ -205,8 +204,22 @@ public class ClientModel {
 	public void sendWiis(Wiis[] wiisreturn) {
 		
 	}
+
+//Getters from connection---------------------------------------------------------------------------------------------
+	public void setCurretnGame(Game g) {
+		connection.setCurrentGame(g);
+		
+	}
 	
+	public Game getCurrentGame() {
+		return connection.getCurrentGame();
+	}
+//-----------------------------------------------------------------------------------------------------------
 
 
+	public void closeConnection() {
+		// TODO Auto-generated method stub
+		
+	}
 
 }

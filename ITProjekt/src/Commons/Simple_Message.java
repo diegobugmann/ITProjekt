@@ -19,14 +19,13 @@ public class Simple_Message extends Message{
 		Received,
 		//Server to clients start of the Game
 		Game_Start,
-		//Server to client waits for client to play card
-		Your_Turn,
 		//Server to client waits for client to reutrn Message ansage Points
 		Ansage_Points,
 		//Server to Client game has ended
 		GameEnded,
 		//Server to client waits for client to reutrn Message ansage Trumpf
 		Ansage_Trumpf,
+		Schiebe,
 		//Fragt GameListe des Servers ab
 		Get_GameList,
 		//Login related Messages
