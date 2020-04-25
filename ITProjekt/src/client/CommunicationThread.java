@@ -9,9 +9,7 @@ import javafx.application.Platform;
 /**
  * 
  * @author mibe1
- *TODO Michael:
- *-Korrektes Schliessen
- *-
+ *
  */
 public class CommunicationThread extends Thread{
 	/**
