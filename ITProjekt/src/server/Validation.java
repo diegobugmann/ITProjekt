@@ -253,7 +253,7 @@ public class Validation {
 		Wiis firstWiis = isBlatt(handCopy);
 		Wiis secondWiis;
 		Wiis thirdWiis;
-		s
+		
 		//7, 8 und 9-Blatt sind nur einzeln möglich
 		if (firstWiis.getBlatt() == Blatt.siebenblatt || firstWiis.getBlatt() == Blatt.achtblatt ||
 				firstWiis.getBlatt() == Blatt.neunblatt) {
