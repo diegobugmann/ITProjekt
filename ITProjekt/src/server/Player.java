@@ -69,8 +69,8 @@ public class Player extends User {
 		this.announcedPoints = announcedPoints;
 	}
 	
-	public Wiis validateWiis() {
-		Wiis wiis = Validation.validateWiis(hand);
+	public ArrayList<Wiis> validateWiis() {
+		ArrayList<Wiis> wiis = Validation.validateWiis(hand);
 		return wiis;
 	}
 	

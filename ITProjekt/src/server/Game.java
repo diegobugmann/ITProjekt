@@ -7,6 +7,8 @@ import Commons.Card;
 import Commons.GameType;
 import Commons.Message;
 import Commons.Message_Hand;
+import Commons.Message_Wiis;
+import Commons.Message_YourTurn;
 import Commons.Wiis;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -171,16 +173,22 @@ public class Game extends Commons.Game {
 		}
 	}
 	
+	/**
+	 * @author digib
+	 * get the starting player and tell him to start playing, with or without wiis (dependent on the gamemode)
+	 */
 	public void startPlaying() {
+		Message msgOut = null;
 		Player starter = getStartingPlayer();
 		newPlay();
 		ArrayList<Card> playableCards = starter.getHand(); //he can play what he wants at first
 		if (this.isSchieber()) {
-			Wiis w = starter.validateWiis(); //TODO ausformulieren
-			//FirstPlay Message an starter verschicken (inkl. Wiis & playableCards)
-		} else {
-			//FirstPlay Message an starter verschicken (mit playableCards, ohne Wiis)
+			ArrayList<Wiis> wiis = starter.validateWiis();
+			msgOut = new Message_Wiis(wiis);
+			msgOut.send(starter.getSocket());
 		}
+		msgOut = new Message_YourTurn(playableCards);
+		msgOut.send(starter.getSocket());
 	}
 	
 	//creates a new Play object, adds it to the game and sets it as currentPlay

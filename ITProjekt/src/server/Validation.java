@@ -245,8 +245,7 @@ public class Validation {
 
 	/**
 	 * @author digib
-	 * @return ArrayList<Wiis> mit allen höchstmöglichen Wiis-Objekten ohne Kollision oder eine leere Liste
-	 * //TODO weitere Wiis-Validierung sinnvoll gestalten (mit Liste)
+	 * @return ArrayList<Wiis> containing ALL possible Wiis objects for players hand
 	 */
 	public static ArrayList<Wiis> validateWiis(ArrayList<Card> hand) {
 		ArrayList<Wiis> wiis = new ArrayList<Wiis>();
@@ -254,7 +253,7 @@ public class Validation {
 		Wiis firstWiis = isBlatt(handCopy);
 		Wiis secondWiis;
 		Wiis thirdWiis;
-		
+		s
 		//7, 8 und 9-Blatt sind nur einzeln möglich
 		if (firstWiis.getBlatt() == Blatt.siebenblatt || firstWiis.getBlatt() == Blatt.achtblatt ||
 				firstWiis.getBlatt() == Blatt.neunblatt) {
@@ -263,7 +262,7 @@ public class Validation {
 		//6 und 5-Blatt kann mit Vierlingen oder weiterem Blatt überschneiden
 		} else if (firstWiis.getBlatt() == Blatt.sechsblatt || firstWiis.getBlatt() == Blatt.fuenfblatt) {
 			wiis.add(firstWiis);
-			secondWiis = isVierlinge(hand); //check for vierlinge
+			secondWiis = isVierlinge(handCopy); //check for vierlinge
 			if (secondWiis != null)
 				wiis.add(secondWiis);
 			else { //check for another blatt, therefore removing the one already found
@@ -272,21 +271,57 @@ public class Validation {
 				if (secondWiis != null)
 					wiis.add(secondWiis);
 			}
+			
+		//4-Blatt kann mit Vierlingen und/oder weiterem Blatt überschneiden
 		} else if (firstWiis.getBlatt() == Blatt.vierblatt) {
 			wiis.add(firstWiis);
-			secondWiis = isVierlinge(hand); //check for vierlinge
+			secondWiis = isVierlinge(handCopy); //check for vierlinge
+			if (secondWiis != null)
+				wiis.add(secondWiis);
+			removeBlatt(firstWiis, handCopy); //check for another blatt, therefore removing the one already found
+			secondWiis = isBlatt(handCopy);
+			if (secondWiis != null)
+				wiis.add(secondWiis);
 			
-			
-			
-			
-			/*
-			while (übrige Karten >= 3) {
-				if (übrige Karten >= 4)
-					suche nach vierlingen; gefunden? karten entfernen;
-				suche nach weiteren blättern; gefunden? karten entfernen
+		//3-Blatt kann mit (1 oder 2 mal) Vierlingen und/oder 1 oder 2 weiteren Blättern überschneiden
+		} else if (firstWiis.getBlatt() == Blatt.dreiblatt) {
+			wiis.add(firstWiis);
+			secondWiis = isVierlinge(handCopy); //check for vierlinge
+			if (secondWiis != null) {
+				wiis.add(secondWiis);
+				ArrayList<Card> vierlinge = removeVierlinge(secondWiis, handCopy);
+				thirdWiis = isVierlinge(handCopy); //check for another vierlinge after removing the other ones
+				if (thirdWiis != null) {
+					wiis.add(thirdWiis);
+				} else {
+					addVierlinge(handCopy, vierlinge); //readd the vierlinge 
+					removeBlatt(firstWiis, handCopy); //and remove the other blatt
+					thirdWiis = isBlatt(handCopy); //to check for another blatt
+					if (thirdWiis != null)
+						wiis.add(thirdWiis);
+				}
+			} else { //no vierlinge
+				removeBlatt(firstWiis, handCopy);
+				secondWiis = isBlatt(handCopy); //look for a second 3blatt
+				if (secondWiis != null) {
+					wiis.add(secondWiis);
+					removeBlatt(secondWiis, handCopy);
+					thirdWiis = isBlatt(handCopy); //look for a third 3blatt
+					if (thirdWiis != null)
+						wiis.add(thirdWiis);
+				}
 			}
-
-			 */
+			
+		//no blatt, but maybe 1 or even 2 vierlinge?
+		} else {
+			firstWiis = isVierlinge(handCopy);
+			if (firstWiis != null) {
+				wiis.add(firstWiis);
+				removeVierlinge(firstWiis, handCopy);
+				secondWiis = isVierlinge(handCopy); //check for another vierlinge after removing the other ones
+				if (secondWiis != null)
+					wiis.add(secondWiis);
+			}
 		}
 		return wiis;
 	}
@@ -322,7 +357,7 @@ public class Validation {
 	private static Wiis isBlatt(ArrayList<Card> hand) {
 		for (int diff = hand.size()-1; diff >= 2; diff--) {
 			for (int highest = hand.size()-1; highest >= diff; highest--) {
-				if (hand.get(highest).getSuit() == hand.get(highest-diff).getSuit() &&   //same suit?
+				if (hand.get(highest).getSuit() == hand.get(highest-diff).getSuit() &&
 					hand.get(highest).getRank().ordinal() == hand.get(highest-diff).getRank().ordinal()+diff) {
 					for (Blatt b : Blatt.values()) {
 						if (diff == b.ordinal()+2) 
@@ -338,12 +373,39 @@ public class Validation {
 	 * @author digib
 	 * removes all the cards corresponding to wiis from the hand
 	 */
-	private static void removeBlatt(Wiis firstWiis, ArrayList<Card> handCopy) {
-		Card highestCard = firstWiis.getHighestCard();
-		int numOfCards = firstWiis.getBlatt().ordinal()+3;
+	private static void removeBlatt(Wiis wiis, ArrayList<Card> handCopy) {
+		Card highestCard = wiis.getHighestCard();
+		int numOfCards = wiis.getBlatt().ordinal()+3;
 		int index = handCopy.indexOf(highestCard);
 		for (int i = 0; i < numOfCards; i++) {
 			handCopy.remove(index-i);
+		}
+	}
+	
+	/**
+	 * @author digib
+	 * @return ArrayList<Card> with all the removed cards
+	 * removes all the cards corresponding to wiis from the hand
+	 */
+	private static ArrayList<Card> removeVierlinge(Wiis wiis, ArrayList<Card> handCopy) {
+		ArrayList<Card> vierlinge = new ArrayList<Card>();
+		Card vierling = wiis.getHighestCard();
+		for (Card c : handCopy) {
+			if (c.getRank() == vierling.getRank()) {
+				handCopy.remove(c);
+				vierlinge.add(c);
+			}
+		}
+		return vierlinge;
+	}
+	
+	/**
+	 * @author digib
+	 * addes the vierlinge back to the handCopy
+	 */
+	private static void addVierlinge(ArrayList<Card> handCopy, ArrayList<Card> vierlinge) {
+		for (Card c : vierlinge) {
+			handCopy.add(c);
 		}
 	}
 	

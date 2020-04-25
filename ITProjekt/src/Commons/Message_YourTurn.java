@@ -3,14 +3,14 @@ package Commons;
 import java.util.ArrayList;
 
 public class Message_YourTurn extends Message{
-	private ArrayList<Card> hand;
+	private ArrayList<Card> playableCards;
 	
-	public Message_YourTurn(ArrayList<Card> hand) {
-		this.hand = hand;
+	public Message_YourTurn(ArrayList<Card> playableCards) {
+		this.playableCards = playableCards;
 	}
 
 	public ArrayList<Card> getHand() {
-		return hand;
+		return playableCards;
 	}
 	
 	
