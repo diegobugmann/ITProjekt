@@ -178,6 +178,13 @@ public class Game extends Commons.Game {
 			p.organizeHand();
 			msgOut = new Message_Hand(p.getHand());
 			msgOut.send(p.getSocket());
+			/* TODO delete (or leave?)
+			 * ArrayList<Wiis> wiis = p.validateWiis();
+			 * if (!wiis.isEmpty()) {
+				for (Wiis w : wiis)
+					System.out.println(w);
+			}
+			 */
 		}
 	}
 	

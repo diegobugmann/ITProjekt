@@ -1,6 +1,8 @@
 package Commons;
 
-public class Wiis {
+import java.io.Serializable;
+
+public class Wiis implements Serializable {
 	
 	public enum Blatt {
 		dreiblatt(20),

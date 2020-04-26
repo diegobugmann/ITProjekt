@@ -18,8 +18,12 @@ public class Validation {
 	public static ArrayList<Card> getPlayableCards(ArrayList<Card> hand, ArrayList<Card> playedCards, GameType gameType) {
 		if (playedCards.isEmpty()) return hand; //If you are the first to play, you can play whatever you like
 		Suit playedSuit = playedCards.get(0).getSuit();
+		//System.out.println("Played Suit: "+playedSuit);
+		//System.out.println("Trumpf: "+gameType);
 		boolean hasSuit = containsSuit(hand, playedSuit);
-		ArrayList<Card> playableCards = (ArrayList<Card>) hand.clone();
+		ArrayList<Card> playableCards = new ArrayList<Card>();
+		for (Card c : hand)
+			playableCards.add(c); //copy hand onto playableCards
 		
 		//GameMode BottomsUp or TopsDown
 		if (gameType == GameType.BottomsUp || gameType == GameType.TopsDown) {
@@ -254,8 +258,20 @@ public class Validation {
 		Wiis secondWiis;
 		Wiis thirdWiis;
 		
+		//no blatt, but maybe 1 or even 2 vierlinge?
+		if (firstWiis == null) {
+			firstWiis = isVierlinge(handCopy);
+			if (firstWiis != null) {
+				wiis.add(firstWiis);
+				removeVierlinge(firstWiis, handCopy);
+				secondWiis = isVierlinge(handCopy); //check for another vierlinge after removing the other ones
+				if (secondWiis != null)
+					wiis.add(secondWiis);
+			}
+		
+		
 		//7, 8 und 9-Blatt sind nur einzeln möglich
-		if (firstWiis.getBlatt() == Blatt.siebenblatt || firstWiis.getBlatt() == Blatt.achtblatt ||
+		} else if (firstWiis.getBlatt() == Blatt.siebenblatt || firstWiis.getBlatt() == Blatt.achtblatt ||
 				firstWiis.getBlatt() == Blatt.neunblatt) {
 			wiis.add(firstWiis);
 			
@@ -310,17 +326,6 @@ public class Validation {
 					if (thirdWiis != null)
 						wiis.add(thirdWiis);
 				}
-			}
-			
-		//no blatt, but maybe 1 or even 2 vierlinge?
-		} else {
-			firstWiis = isVierlinge(handCopy);
-			if (firstWiis != null) {
-				wiis.add(firstWiis);
-				removeVierlinge(firstWiis, handCopy);
-				secondWiis = isVierlinge(handCopy); //check for another vierlinge after removing the other ones
-				if (secondWiis != null)
-					wiis.add(secondWiis);
 			}
 		}
 		return wiis;
