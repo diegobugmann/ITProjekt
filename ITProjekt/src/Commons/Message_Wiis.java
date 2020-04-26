@@ -10,17 +10,20 @@ import java.util.ArrayList;
 public class Message_Wiis extends Message{
 
 	private ArrayList<Wiis> wiis;
-	public Message_Wiis(ArrayList<Wiis> wiis) {
+	private int userID;
+	
+	public Message_Wiis(ArrayList<Wiis> wiis, int userID) {
 		super();
 		this.wiis = wiis;
+		this.userID = userID;
 	}
+	
 	public ArrayList<Wiis> getWiis() {
 		return wiis;
 	}
+	
 	public void setWiis(ArrayList<Wiis> wiis) {
 		this.wiis = wiis;
 	}
 	
-	
-
 }

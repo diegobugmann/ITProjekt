@@ -81,6 +81,14 @@ public class Game extends Commons.Game {
 		return teams.get(teamNr);
 	}
 	
+	public boolean isFirstPlay() {
+		return this.isFistPlay;
+	}
+	
+	public void setFirstPlay(boolean isFirstPlay) {
+		this.isFistPlay = isFirstPlay;
+	}
+	
 	//generates a random trumpf, without bottomsup and topdown
 	public void createRandomTrumpf() {
 		Random rand = new Random();
@@ -184,14 +192,17 @@ public class Game extends Commons.Game {
 		ArrayList<Card> playableCards = starter.getHand(); //he can play what he wants at first
 		if (this.isSchieber()) {
 			ArrayList<Wiis> wiis = starter.validateWiis();
-			msgOut = new Message_Wiis(wiis);
+			msgOut = new Message_Wiis(wiis, starter.getID());
 			msgOut.send(starter.getSocket());
 		}
 		msgOut = new Message_YourTurn(playableCards);
 		msgOut.send(starter.getSocket());
 	}
 	
-	//creates a new Play object, adds it to the game and sets it as currentPlay
+	/**
+	 * @author digib
+	 * creates a new Play object, adds it to the game and sets it as currentPlay
+	 */
 	public void newPlay() {
 		Play newPlay = new Play(this.trumpf);
 		plays.add(newPlay);
