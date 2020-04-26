@@ -21,9 +21,7 @@ public class Validation {
 		//System.out.println("Played Suit: "+playedSuit);
 		//System.out.println("Trumpf: "+gameType);
 		boolean hasSuit = containsSuit(hand, playedSuit);
-		ArrayList<Card> playableCards = new ArrayList<Card>();
-		for (Card c : hand)
-			playableCards.add(c); //copy hand onto playableCards
+		ArrayList<Card> playableCards = (ArrayList<Card>) hand.clone();
 		
 		//GameMode BottomsUp or TopsDown
 		if (gameType == GameType.BottomsUp || gameType == GameType.TopsDown) {
@@ -102,9 +100,9 @@ public class Validation {
 	 * Removes all cards that don't match the played suit
 	 */
 	private static void removeNonSuitable(ArrayList<Card> hand, Suit playedSuit) {
-		for (Card c : hand) {
-			if (playedSuit != c.getSuit())
-				hand.remove(c);
+		for (int i = hand.size()-1; i >= 0; i--) {
+			if (playedSuit != hand.get(i).getSuit())
+				hand.remove(i);
 		}
 	}
 	
@@ -114,9 +112,9 @@ public class Validation {
 	 * Removes all cards but the trumpf that don't match the played suit
 	 */
 	private static void removeNonSuitable(ArrayList<Card> hand, Suit playedSuit, GameType trumpf) {
-		for (Card c : hand) {
-			if (playedSuit != c.getSuit() && !c.getSuit().toString().equals(trumpf.toString()))
-				hand.remove(c);
+		for (int i = hand.size()-1; i >= 0; i--) {
+			if (playedSuit != hand.get(i).getSuit() && !hand.get(i).getSuit().toString().equals(trumpf.toString()))
+				hand.remove(i);
 		}
 	}
 	
@@ -152,9 +150,9 @@ public class Validation {
 				highestTrumpf = c;
 		}
 		//remove all trumpf cards that are less worthy than the highest played trumpf card
-		for (Card c : playableCards) {
-			if (c.getSuit() == trumpf && c.getRank().getTrumpfValue() < highestTrumpf.getRank().getTrumpfValue())
-				playableCards.remove(c);
+		for (int i = playableCards.size()-1; i >= 0; i--) {
+			if (playableCards.get(i).getSuit() == trumpf && playableCards.get(i).getRank().getTrumpfValue() < highestTrumpf.getRank().getTrumpfValue())
+				playableCards.remove(i);
 		}
 	}
 	
@@ -394,11 +392,11 @@ public class Validation {
 	 */
 	private static ArrayList<Card> removeVierlinge(Wiis wiis, ArrayList<Card> handCopy) {
 		ArrayList<Card> vierlinge = new ArrayList<Card>();
-		Card vierling = wiis.getHighestCard();
-		for (Card c : handCopy) {
-			if (c.getRank() == vierling.getRank()) {
-				handCopy.remove(c);
-				vierlinge.add(c);
+		Rank vierling = wiis.getHighestCard().getRank();
+		for (int i = handCopy.size()-1; i >= 0; i--) {
+			if (handCopy.get(i).getRank() == vierling) {
+				vierlinge.add(handCopy.get(i));
+				handCopy.remove(i);
 			}
 		}
 		return vierlinge;
@@ -438,82 +436,4 @@ public class Validation {
 	}
 	*/
 	
-	
-	
-	
-	/* Alle Methoden werden ersetzt durch isBlatt()
-	 *
-	private static boolean isNeunBlatt(ArrayList<Card> hand) {
-		if (hand.get(0).getSuit() == hand.get(8).getSuit())
-			return true;
-		else 
-			return false;
-	}
-
-	private static boolean isAchtBlatt(ArrayList<Card> hand) {
-		for (int i = hand.size()-1; i >= 7; i--) {
-			if (hand.get(i).getSuit() == hand.get(i-7).getSuit()) { //same suit?
-				if (hand.get(i).getRank().ordinal() == hand.get(i-7).getRank().ordinal()+7) { //difference = 7 ranks?
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	private static boolean isSiebenBlatt(ArrayList<Card> hand) {
-		for (int i = hand.size()-1; i >= 6; i--) {
-			if (hand.get(i).getSuit() == hand.get(i-6).getSuit()) { //same suit?
-				if (hand.get(i).getRank().ordinal() == hand.get(i-6).getRank().ordinal()+6) { //difference = 6 ranks?
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	private static boolean isSechsBlatt(ArrayList<Card> hand) {
-		for (int i = hand.size()-1; i >= 5; i--) {
-			if (hand.get(i).getSuit() == hand.get(i-5).getSuit()) { //same suit?
-				if (hand.get(i).getRank().ordinal() == hand.get(i-5).getRank().ordinal()+5) { //difference = 5 ranks?
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	private static boolean isFuenfBlatt(ArrayList<Card> hand) {
-		for (int i = hand.size()-1; i >= 4; i--) {
-			if (hand.get(i).getSuit() == hand.get(i-4).getSuit()) { //same suit?
-				if (hand.get(i).getRank().ordinal() == hand.get(i-4).getRank().ordinal()+4) { //difference = 4 ranks?
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	private static boolean isVierBlatt(ArrayList<Card> hand) {
-		for (int i = hand.size()-1; i >= 3; i--) {
-			if (hand.get(i).getSuit() == hand.get(i-3).getSuit()) { //same suit?
-				if (hand.get(i).getRank().ordinal() == hand.get(i-3).getRank().ordinal()+3) { //difference = 3 ranks?
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-
-	private static boolean isDreiBlatt(ArrayList<Card> hand) {
-		for (int i = hand.size()-1; i >= 2; i--) {
-			if (hand.get(i).getSuit() == hand.get(i-2).getSuit()) { //same suit?
-				if (hand.get(i).getRank().ordinal() == hand.get(i-2).getRank().ordinal()+2) { //difference = 2 ranks?
-					return true;
-				}
-			}
-		}
-		return false;
-	}
-	*/
 }

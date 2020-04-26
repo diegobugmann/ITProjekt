@@ -157,6 +157,7 @@ public class User {
 			Play currentPlay = currentGame.getCurrentPlay();
 			model.broadcast(currentGame.getPlayers(), msgIn); //broadcast played card
 			Card playedCard = ((Message_Turn)msgIn).getCard();
+			System.out.println("Gespielte Karte: "+playedCard);
 			p.removeCard(playedCard); //remove played card from hand
 			currentPlay.addCard(playedCard);
 			currentPlay.getPlayedBy().add(p);
