@@ -7,6 +7,8 @@ import Commons.Card;
 import Commons.GameType;
 import Commons.Message;
 import Commons.Message_Hand;
+import Commons.Message_Wiis;
+import Commons.Message_YourTurn;
 import Commons.Wiis;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -77,6 +79,14 @@ public class Game extends Commons.Game {
 	
 	public Team getTeam(int teamNr) {
 		return teams.get(teamNr);
+	}
+	
+	public boolean isFirstPlay() {
+		return this.isFistPlay;
+	}
+	
+	public void setFirstPlay(boolean isFirstPlay) {
+		this.isFistPlay = isFirstPlay;
 	}
 	
 	//generates a random trumpf, without bottomsup and topdown
@@ -168,22 +178,38 @@ public class Game extends Commons.Game {
 			p.organizeHand();
 			msgOut = new Message_Hand(p.getHand());
 			msgOut.send(p.getSocket());
+			/* TODO delete (or leave?)
+			 * ArrayList<Wiis> wiis = p.validateWiis();
+			 * if (!wiis.isEmpty()) {
+				for (Wiis w : wiis)
+					System.out.println(w);
+			}
+			 */
 		}
 	}
 	
+	/**
+	 * @author digib
+	 * get the starting player and tell him to start playing, with or without wiis (dependent on the gamemode)
+	 */
 	public void startPlaying() {
+		Message msgOut = null;
 		Player starter = getStartingPlayer();
 		newPlay();
 		ArrayList<Card> playableCards = starter.getHand(); //he can play what he wants at first
 		if (this.isSchieber()) {
-			Wiis w = starter.validateWiis();
-			//FirstPlay Message an starter verschicken (inkl. Wiis & playableCards)
-		} else {
-			//FirstPlay Message an starter verschicken (mit playableCards, ohne Wiis)
+			ArrayList<Wiis> wiis = starter.validateWiis();
+			msgOut = new Message_Wiis(wiis, starter.getID());
+			msgOut.send(starter.getSocket());
 		}
+		msgOut = new Message_YourTurn(playableCards);
+		msgOut.send(starter.getSocket());
 	}
 	
-	//creates a new Play object, adds it to the game and sets it as currentPlay
+	/**
+	 * @author digib
+	 * creates a new Play object, adds it to the game and sets it as currentPlay
+	 */
 	public void newPlay() {
 		Play newPlay = new Play(this.trumpf);
 		plays.add(newPlay);

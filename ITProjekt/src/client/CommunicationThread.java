@@ -9,9 +9,7 @@ import javafx.application.Platform;
 /**
  * 
  * @author mibe1
- *TODO Michael:
- *-Korrektes Schliessen
- *-Tabelle versch�nern
+ *
  */
 public class CommunicationThread extends Thread{
 	/**
@@ -37,7 +35,7 @@ public class CommunicationThread extends Thread{
 	private ArrayList<Game> allGames;
 	
 	private int gameId = -1;
-	private Game game;
+	private Game currentGame;
 	
 	public CommunicationThread(Socket s, ClientController controller) throws IOException {
 		//run the Constructor of Thread
@@ -115,11 +113,6 @@ public class CommunicationThread extends Thread{
 						controller.startGame();
 						break;
 					}
-					case Your_Turn :{
-						status = Status.onturn;
-						controller.processYourTurn();
-						break;
-					}
 					case Ansage_Points :{
 						controller.processAnsagePoints();
 						break;
@@ -161,25 +154,30 @@ public class CommunicationThread extends Thread{
 			case gamelist : {
 				Message_GameList msglist = (Message_GameList) msgIn;
 				allGames = msglist.getGames();
-				if(this.gameId != -1 && this.game == null) {
-					this.game = getGamefromList(gameId);
-					if(this.game != null) {
+				if(this.gameId != -1 && this.currentGame == null) {
+					this.currentGame = getGamefromList(gameId);
+					if(this.currentGame != null) {
 						status = Status.joinedgame;
-						controller.joinGameApproved(game);
+						controller.joinGameApproved(currentGame);
 					}
 				}
 				controller.updateGamelist(msglist.getGames(), status);
 				returnMsg = null;
 				break;
 			}
+			case yourTurn : {
+				status = Status.onturn;
+				controller.processYourTurn();
+				break;
+			}
 			case joinGame : {
 				if(this.status != Status.ingame) {
 					Message_JoinGame msgJoin = (Message_JoinGame) msgIn;
 					this.gameId = msgJoin.getGameId();
-					this.game = getGamefromList(gameId);
-					if(this.game != null) {
+					this.currentGame = getGamefromList(gameId);
+					if(this.currentGame != null) {
 						status = Status.joinedgame;
-						controller.joinGameApproved(game);
+						controller.joinGameApproved(currentGame);
 					}
 				}
 				returnMsg = null;
@@ -274,6 +272,15 @@ public class CommunicationThread extends Thread{
 		this.status = status;
 	}
 
+	public void setCurrentGame(Game g) {
+		this.currentGame = g;
+		
+	}
+	
+	public Game getCurrentGame() {
+		return currentGame;
+	}
+
 	//---------------------------------------------------------------------------------------------------------------------------------
 	/**
 	 * Closes the connection to the Server on shutting down the program
@@ -281,6 +288,8 @@ public class CommunicationThread extends Thread{
 	public void closeConnection() {
 		try { if (socket != null) socket.close(); } catch (IOException e) {}
 	}
+
+
 	
 
 }

@@ -1,5 +1,6 @@
 package server;
 
+import java.io.EOFException;
 import java.io.IOException;
 
 import java.net.Socket;
@@ -18,8 +19,11 @@ import Commons.Message_Login;
 import Commons.Message_Trumpf;
 import Commons.Message_Turn;
 import Commons.Message_UserNameAvailable;
+import Commons.Message_Wiis;
+import Commons.Message_YourTurn;
 import Commons.Message_Register;
 import Commons.Validation_LoginProcess;
+import Commons.Wiis;
 import Commons.Simple_Message;
 
 import DB.UserData;
@@ -36,6 +40,12 @@ public class User {
 	private ServerModel model;
 	private final Logger logger = Logger.getLogger("");
 	
+	
+	/**
+	 * @author digib
+	 * @param clientSocket, model
+	 * waits for messages to come in
+	 */
 	public User(ServerModel model, Socket clientSocket) {
 		this.clientSocket = clientSocket;
 		this.model = model;
@@ -52,7 +62,10 @@ public class User {
 					} catch (ClassNotFoundException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
-					} catch (IOException e) {
+					}catch (EOFException e) {
+						//TODO send to Logger
+						System.out.println("Connection to User "+ userID + " determined.");
+					}catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
@@ -63,6 +76,11 @@ public class User {
 		thread.start();
 	}
 	
+	/**
+	 * @author digib (mostly, database from sarah)
+	 * @param Message
+	 * processes the message from the client and decides what to do for each type, including Simple_Messages
+	 */
 	protected void processMessage(Message msgIn) {
 		logger.info("Message received from client: "+ msgIn.toString());
 		Message msgOut = null;
@@ -122,8 +140,7 @@ public class User {
 		case trumpf: {
 			GameType trumpf = ((Message_Trumpf)msgIn).getTrumpf();
 			p.getCurrentGame().setTrumpf(trumpf);
-			msgOut = msgIn;
-			model.broadcast(p.getCurrentGame().getPlayers(), msgOut); //Trumpf an alle broadcasten
+			model.broadcast(p.getCurrentGame().getPlayers(), msgIn); //Trumpf an alle broadcasten
 			p.getCurrentGame().startPlaying();
 			break;
 		}
@@ -138,25 +155,48 @@ public class User {
 		case turn : {
 			Game currentGame = p.getCurrentGame();
 			Play currentPlay = currentGame.getCurrentPlay();
-			msgOut = msgIn;
-			model.broadcast(currentGame.getPlayers(), msgOut); //broadcast played card
+			model.broadcast(currentGame.getPlayers(), msgIn); //broadcast played card
 			Card playedCard = ((Message_Turn)msgIn).getCard();
+			System.out.println("Gespielte Karte: "+playedCard);
 			p.removeCard(playedCard); //remove played card from hand
 			currentPlay.addCard(playedCard);
 			currentPlay.getPlayedBy().add(p);
-			Player nextPlayer = null;
+			
 			if (currentPlay.getPlayedCards().size() == 4) { //is the play over?
-				nextPlayer = currentPlay.validateWinner();
+				if (currentGame.isFirstPlay() && currentGame.isSchieber()) { //was it the first round and Schieber?
+					//TODO Wiise vergleichen (z.B. currentGame.validateWiisWinner();)
+					//TODO Punkte dem WiisTeam hinzufügen
+					//TODO Message, welche Weise gezählt werden?
+					currentGame.setFirstPlay(false);
+				}
+				Player nextPlayer = currentPlay.validateWinner();
 				int playPoints = currentPlay.validatePoints();
 				Team winningTeam = nextPlayer.getCurrentTeam();
 				winningTeam.addPoints(playPoints);
-				currentGame.newPlay(); //creates a new Play object, adds it to the game and sets it as currentPlay
+				currentGame.newPlay(); //creates a new play object, adds it to the game and sets it as currentPlay
 				//TODO winner-Message, damit er zeigen kann wer den Stich geholt hat und Karten wegräumen kann?
-				//TODO YourTurn mit der ganzen Hand als playableCards an nextPlayer schicken
+				msgOut = new Message_YourTurn(p.getHand());
+				msgOut.send(nextPlayer.getSocket());
+				
+			} else { //play is not over
+				Player nextPlayer = p.getFollowingPlayer();
+				if (currentGame.isFirstPlay() && currentGame.isSchieber()) {
+					ArrayList<Wiis> wiis = nextPlayer.validateWiis();
+					msgOut = new Message_Wiis(wiis, p.getID());
+					msgOut.send(clientSocket); //send player possible wiis
+				}
+				ArrayList<Card> playableCards = nextPlayer.getPlayableCards();
+				msgOut = new Message_YourTurn(playableCards);
+				msgOut.send(clientSocket); //and send him yourTurn with playableCards
 			}
-			nextPlayer = p.getFollowingPlayer();
-			ArrayList<Card> playableCards = nextPlayer.getPlayableCards();
-			//TODO YourTurn an FollowingPlayer mit playableCards
+			break;
+		}
+		//-------------------------------------------------------------------------------------------------------
+		case wiis : {
+			ArrayList<Wiis> wiis = ((Message_Wiis)msgIn).getWiis();
+			if (!wiis.isEmpty()) 
+				p.addWiis(wiis);
+			model.broadcast(p.getCurrentGame().getPlayers(), msgIn);
 			break;
 		}
 		//-------------------------------------------------------------------------------------------------------
@@ -189,10 +229,8 @@ public class User {
 				msgOut = new Message_Error("Password invalid", Message_Error.ErrorType.Registration_failed);
 				msgOut.send(clientSocket);				
 			}
-			
 			break;
 		}
-		
 		//-------------------------------------------------------------------------------------------------------
 		case simple_Message : {
 			switch(((Simple_Message)msgIn).getType()) {
@@ -200,9 +238,15 @@ public class User {
 				//TODO
 				break;
 			}
-			case Get_GameList:{
+			case Get_GameList: {
 				msgOut = new Message_GameList(model.getCastedGames());
 				msgOut.send(clientSocket);
+				break;
+			}
+			case Schiebe: {
+				Player teammate = p.getTeammate(); //get the "Schieber"s teammate
+				msgOut = new Simple_Message(Simple_Message.Msg.Ansage_Trumpf);
+				msgOut.send(teammate.getSocket()); //and tell him to make trumpf
 				break;
 			}
 			default: {
@@ -213,10 +257,6 @@ public class User {
 		}
 	}
 	
-	private void startPlaying() {
-		
-	}
-
 	public void sendReceived() {
 		Simple_Message msg = new Simple_Message(Simple_Message.Msg.Received);
 		msg.send(clientSocket);

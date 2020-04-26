@@ -1,6 +1,8 @@
 package Commons;
 
-public class Wiis {
+import java.io.Serializable;
+
+public class Wiis implements Serializable {
 	
 	public enum Blatt {
 		dreiblatt(20),
@@ -45,9 +47,10 @@ public class Wiis {
 		text += this.blatt.toString()+"_";
 		text+= this.highestCard.toString();
 		return text;
-				
 	}
 	
-	
+	public Card getHighestCard() {
+		return this.highestCard;
+	}
 	
 }

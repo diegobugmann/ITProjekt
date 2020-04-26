@@ -209,14 +209,13 @@ public class ClientController {
 	
 	private void joinGame(Event e) {
 		Game g = this.view.lobbyView.gameList.getSelectedGame();
-		model.currentGame = g;
+		model.setCurretnGame(g);
 		int gameId = g.getGameId();
 		model.joinGame(gameId);
 
 	}
 	
 	public void joinGameApproved(Game game) {
-		model.currentGame = game;
 		try {
 			startSplash();
 		} catch (Exception e1) {
@@ -305,7 +304,7 @@ public class ClientController {
 	
 	public void processExit(Event event, Stage stage) {
 			stage.close();
-			model.connection.closeConnection();
+			model.closeConnection();
 			
 	}
 	
@@ -399,8 +398,8 @@ public class ClientController {
 			int numOfPlayers = 1;
 			for(Game g : games)
 			{
-				if(g.getGameId() == model.currentGame.getGameId()) {
-					model.currentGame = g;
+				if(g.getGameId() == model.getCurrentGame().getGameId()) {
+					model.setCurretnGame(g);
 					numOfPlayers = g.getCurrentNumOfPlayers();
 					this.splashScreen.updateAnzahlPers(numOfPlayers);
 				}

@@ -13,9 +13,8 @@ public class Player extends User {
 	
 	private Game currentGame;
 	private ArrayList<Card> hand = new ArrayList<Card>();
-	private boolean hisTurn;
 	private int announcedPoints;
-	private Wiis wiis; //muss Wiis[] sein bei mehreren Wiis
+	private ArrayList<Wiis> wiis = new ArrayList<Wiis>();
 	private Player followingPlayer;
 	private Team currentTeam;
 	
@@ -29,6 +28,10 @@ public class Player extends User {
 	
 	public ArrayList<Card> getHand() {
 		return this.hand;
+	}
+	
+	public void addWiis(ArrayList<Wiis> wiis) {
+		this.wiis.addAll(wiis);
 	}
 	
 	//Organizing the cards in a certain order (by Michi)
@@ -69,8 +72,8 @@ public class Player extends User {
 		this.announcedPoints = announcedPoints;
 	}
 	
-	public Wiis validateWiis() {
-		Wiis wiis = Validation.validateWiis(hand);
+	public ArrayList<Wiis> validateWiis() {
+		ArrayList<Wiis> wiis = Validation.validateWiis(hand);
 		return wiis;
 	}
 	
@@ -98,5 +101,15 @@ public class Player extends User {
 	
 	public void setCurrentTeam(Team t) {
 		this.currentTeam = t;
+	}
+	
+	public Player getTeammate() {
+		Player teammate = null;
+		for (Player p : currentTeam.getPlayerList()) {
+			if (p != this) {
+				teammate = p;
+			}
+		}
+		return teammate;
 	}
 }
