@@ -357,7 +357,7 @@ public class Validation {
 	 * @author digib
 	 * @return das höchste Blatt als Wiis, ohne Karten zu entfernen - oder null bei Misserfolg
 	 */
-	private static Wiis isBlatt(ArrayList<Card> hand) {
+	protected static Wiis isBlatt(ArrayList<Card> hand) {
 		for (int diff = hand.size()-1; diff >= 2; diff--) {
 			for (int highest = hand.size()-1; highest >= diff; highest--) {
 				if (hand.get(highest).getSuit() == hand.get(highest-diff).getSuit() &&
