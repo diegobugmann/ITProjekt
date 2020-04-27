@@ -10,6 +10,9 @@ import Commons.Message;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
+/**
+ * @author digib
+ */
 public class ServerModel {
 	
 	private final Logger logger = Logger.getLogger("");
@@ -21,6 +24,10 @@ public class ServerModel {
 	
 	private int port;
 	
+	/**
+	 * @author digib
+	 * @param port
+	 */
 	public void startServer(int port) {
 		logger.info("Starting server");
 		logger.info("Listening on Port: "+port);
@@ -48,7 +55,11 @@ public class ServerModel {
 		}
 	}
 	
-	//An alle User broadcasten
+	/**
+	 * @author digib
+	 * @param Message
+	 * broadcast messages to all users
+	 */
 	public void broadcast(Message msg) {
 		logger.info("Broadcasting to all clients");
 		for (User u : users) {
@@ -56,13 +67,20 @@ public class ServerModel {
 		}
 	}
 	
-	//Nur an bestimmte User broadcasten
+	/**
+	 * @author digib
+	 * @param players, Message
+	 * broadcast messages to only certain users
+	 */
 	public void broadcast(ArrayList<Player> players, Message msg) {
 		for (Player p : players) {
 			msg.send(p.getSocket());
 		}
 	}
 	
+	/**
+	 * @author digib
+	 */
 	public void stopServer() {
 		logger.info("Stopping all clients");
 		for (User u : users) {
@@ -95,6 +113,11 @@ public class ServerModel {
 		return castGames;
 	}
 	
+	/**
+	 * @author digib
+	 * @param Game
+	 * adds a game to games and generates a corresponding Commons.Game (with the same ID but less info), used to send to client
+	 */
 	public void addGame(Game g) {
 		this.games.add(g);
 		this.castGames.add(new Commons.Game(g.isGermanCards(), g.getNumOfRounds(), g.getWinningPoints(), g.isSchieber(), g.getGameId()));

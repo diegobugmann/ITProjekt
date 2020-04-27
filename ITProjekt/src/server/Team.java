@@ -2,6 +2,9 @@ package server;
 
 import java.util.ArrayList;
 
+/**
+ * @author digib
+ */
 public class Team {
 	
 	private static int nextID = 1;
@@ -18,6 +21,9 @@ public class Team {
 		this.playerList.add(p);
 	}
 	
+	/**
+	 * @author digib
+	 */
 	public void addPoints(int points) {
 		this.score += points; //TODO score wird bei mehreren Spielen jeweils am Anfang zurückgesetzt
 		this.totalScore += points;

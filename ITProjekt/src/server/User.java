@@ -30,7 +30,6 @@ import DB.UserData;
 
 import Commons.Message_Ansage;
 
-
 public class User {
 	
 	private static int nextID = 1;
@@ -175,7 +174,7 @@ public class User {
 				winningTeam.addPoints(playPoints);
 				currentGame.newPlay(); //creates a new play object, adds it to the game and sets it as currentPlay
 				//TODO winner-Message, damit er zeigen kann wer den Stich geholt hat und Karten wegräumen kann?
-				msgOut = new Message_YourTurn(p.getHand());
+				msgOut = new Message_YourTurn(p.getHand()); //player can player everything he wants
 				msgOut.send(nextPlayer.getSocket());
 				
 			} else { //play is not over
@@ -183,7 +182,7 @@ public class User {
 				if (currentGame.isFirstPlay() && currentGame.isSchieber()) {
 					ArrayList<Wiis> wiis = nextPlayer.validateWiis();
 					msgOut = new Message_Wiis(wiis, p.getID());
-					msgOut.send(clientSocket); //send player possible wiis
+					msgOut.send(clientSocket); //send player possible wiis in the first play
 				}
 				ArrayList<Card> playableCards = nextPlayer.getPlayableCards();
 				msgOut = new Message_YourTurn(playableCards);
@@ -257,6 +256,10 @@ public class User {
 		}
 	}
 	
+	/**
+	 * @author digib
+	 * sends a received Message
+	 */
 	public void sendReceived() {
 		Simple_Message msg = new Simple_Message(Simple_Message.Msg.Received);
 		msg.send(clientSocket);

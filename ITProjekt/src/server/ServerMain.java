@@ -3,6 +3,9 @@ package server;
 import javafx.application.Application;
 import javafx.stage.Stage;
 
+/**
+ * @author digib
+ */
 public class ServerMain extends Application {
 	
 	private ServerModel model;
@@ -12,7 +15,10 @@ public class ServerMain extends Application {
 	public static void main(String[] args) {
 		launch(args);
 	}
-
+	
+	/**
+	 * @author digib
+	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {
 		model = new ServerModel();

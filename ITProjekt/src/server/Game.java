@@ -12,6 +12,9 @@ import Commons.Message_YourTurn;
 import Commons.Wiis;
 import javafx.beans.property.SimpleIntegerProperty;
 
+/**
+ * @author digib
+ */
 public class Game extends Commons.Game {
 	
 	public static int nextID = 1;
@@ -24,6 +27,10 @@ public class Game extends Commons.Game {
 	private SimpleIntegerProperty numOfAnsagen = new SimpleIntegerProperty(0);
 	private Play currentPlay;
 	
+	/**
+	 * @author digib
+	 * @param isGermanCards, rounds, winningPoints, isSchieber
+	 */
 	public Game(boolean isGermanCards, int rounds, int winningPoints, boolean isSchieber) {
 		super(isGermanCards, rounds, winningPoints, isSchieber, nextID++);
 		this.deck = new CardDeck(isGermanCards);
@@ -56,12 +63,12 @@ public class Game extends Commons.Game {
 				teams.get(1).addPlayer(p);
 				teamNr = 1;
 			}
-			numOfPlayers.set(teams.get(0).getPlayerList().size()+teams.get(1).getPlayerList().size()); //Spielerzahl aktualisieren
+			numOfPlayers.set(teams.get(0).getPlayerList().size()+teams.get(1).getPlayerList().size()); //refresh numOfPlayers
 		} else {
 			for (Team t : teams) {
-				if (t.getPlayerList().size() == 0) { //fügt ein Spieler in einem noch leeren Team hinzu
+				if (t.getPlayerList().size() == 0) { //add a player to the first yet empty team
 					t.addPlayer(p);
-					numOfPlayers.setValue(teams.indexOf(t)+1); //Spielerzahl aktualisieren
+					numOfPlayers.setValue(teams.indexOf(t)+1); //refresh numOfPlayers
 					teamNr = teams.indexOf(t);
 				}
 			}
@@ -88,8 +95,11 @@ public class Game extends Commons.Game {
 	public void setFirstPlay(boolean isFirstPlay) {
 		this.isFistPlay = isFirstPlay;
 	}
-	
-	//generates a random trumpf, without bottomsup and topdown
+
+	/**
+	 * @author digib
+	 * generates a random trumpf, without bottomsup and topdown (used only for differenzler)
+	 */
 	public void createRandomTrumpf() {
 		Random rand = new Random();
 		int i = rand.nextInt(4) + 2;
@@ -107,8 +117,10 @@ public class Game extends Commons.Game {
 		return numOfAnsagen;
 	}
 	
-	//give every player a following Player (for gamedirection)
-	//TODO Methode mit Schlaufen lösen
+	/**
+	 * @author digib
+	 * give every player a following Player (for gamedirection)
+	 */
 	public void setFollowingPlayers() {
 		Player playerOne;
 		Player playerTwo;
@@ -132,6 +144,10 @@ public class Game extends Commons.Game {
 		playerFour.setFollowingPlayer(playerOne);
 	}
 	
+	/**
+	 * @author digib
+	 * increases the numOfAnsagen (only for differenzler)
+	 */
 	public void incrementNumOfAnsagen() {
 		this.numOfAnsagen.set(numOfAnsagen.get()+1);
 	}
@@ -140,7 +156,10 @@ public class Game extends Commons.Game {
 		return this.deck;
 	}
 	
-	//returns all the players
+	/**
+	 * @author digib
+	 * @return ArrayList<Player> (all Players from all teams)
+	 */
 	public ArrayList<Player> getPlayers() {
 		ArrayList<Player> players = new ArrayList<Player>();
 		for (Team t : teams) {
@@ -150,14 +169,12 @@ public class Game extends Commons.Game {
 		return players;
 	}
 	
-	//returns the player that joined first
+	/**
+	 * @author digib
+	 * @return Player
+	 */
 	public Player getStartingPlayer() {
 		return teams.get(0).getPlayerList().get(0);
-	}
-	
-	public Player getNextPlayer() {
-		//TODO
-		return null;
 	}
 	
 	public Play getCurrentPlay() {
@@ -168,7 +185,10 @@ public class Game extends Commons.Game {
 		this.currentPlay = play;
 	}
 	
-	//deals cards to all players, organizes them and sends the hand to the client
+	/**
+	 * @author digib
+	 * deals cards to all players, organizes them and sends the hand to the client
+	 */
 	public void dealCards() {
 		Message msgOut = null;
 		ArrayList<Player> players = getPlayers();
@@ -190,7 +210,7 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
-	 * get the starting player and tell him to start playing, with or without wiis (dependent on the gamemode)
+	 * get the starting player and tell him to start playing, with or without wiis (dependent on schieber/differenzler)
 	 */
 	public void startPlaying() {
 		Message msgOut = null;

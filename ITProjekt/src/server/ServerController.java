@@ -9,6 +9,9 @@ import Commons.Message_Trumpf;
 import Commons.Simple_Message;
 import javafx.collections.ListChangeListener;
 
+/**
+ * @author digib
+ */
 public class ServerController {
 	
 	private ServerModel model;

@@ -1,5 +1,8 @@
 package server;
 
+/**
+ * @author digib
+ */
 public enum GameType {
 	TopsDown,
 	BottomsUp,
@@ -8,6 +11,10 @@ public enum GameType {
 	AcornsOrDiamonds,
 	BellsOrClubs;
 	
+	/**
+	 * @author digib
+	 * @return String
+	 */
 	public String toString() {
 		String type = "";
         switch (this) {
