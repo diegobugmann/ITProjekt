@@ -5,6 +5,9 @@ import java.util.ArrayList;
 import Commons.Card;
 import Commons.GameType;
 
+/**
+ * @author digib
+ */
 public class Play {
 	
 	private int points;
@@ -18,13 +21,21 @@ public class Play {
 		this.trumpf = trumpf;
 	}
 	
+	/**
+	 * @author digib
+	 * @return Player
+	 */
 	public Player validateWinner() {
-		winningPlayer = Validation.validateWinner(playedCards, playedBy, trumpf);
+		winningPlayer = PlayValidation.validateWinner(playedCards, playedBy, trumpf);
 		return winningPlayer;
 	}
 	
+	/**
+	 * @author digib
+	 * @return points
+	 */
 	public int validatePoints() {
-		points = Validation.validatePoints(playedCards, trumpf);
+		points = PlayValidation.validatePoints(playedCards, trumpf);
 		return points;
 	}
 	

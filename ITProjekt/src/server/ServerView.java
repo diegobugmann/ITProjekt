@@ -7,6 +7,9 @@ import javafx.scene.control.TextField;
 import javafx.scene.layout.HBox;
 import javafx.stage.Stage;
 
+/**
+ * @author digib
+ */
 public class ServerView {
 	
 	private ServerModel model;
@@ -15,6 +18,9 @@ public class ServerView {
 	protected TextField txtPort = new TextField("6666");
 	protected Button btnStart = new Button("Start");
 	
+	/**
+	 * @author digib
+	 */
 	public ServerView(ServerModel mode, Stage primaryStage) {
 		this.model = model;
 		this.primaryStage = primaryStage;

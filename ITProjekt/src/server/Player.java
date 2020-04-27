@@ -5,10 +5,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import Commons.Card;
-import Commons.Card.Rank;
-import Commons.Card.Suit;
 import Commons.Wiis;
-
+ 
+/**
+  * @author digib
+  */
 public class Player extends User {
 	
 	private Game currentGame;
@@ -34,7 +35,10 @@ public class Player extends User {
 		this.wiis.addAll(wiis);
 	}
 	
-	//Organizing the cards in a certain order (by Michi)
+	/**
+	 * @author michi
+	 * Organizing the cards in a certain order
+	 */
 	public void organizeHand() {
 		ArrayList<Card> spades = new ArrayList<Card>();
 		ArrayList<Card> hearts = new ArrayList<Card>();
@@ -72,14 +76,22 @@ public class Player extends User {
 		this.announcedPoints = announcedPoints;
 	}
 	
+	/**
+	 * @author digib
+	 * @return ArrayList<Wiis>
+	 */
 	public ArrayList<Wiis> validateWiis() {
-		ArrayList<Wiis> wiis = Validation.validateWiis(hand);
+		ArrayList<Wiis> wiis = WiisValidation.validateWiis(hand);
 		return wiis;
 	}
 	
+	/**
+	 * @author digib
+	 * @return ArrayList<Card>
+	 */
 	public ArrayList<Card> getPlayableCards() {
-		ArrayList<Card> playableCards = Validation.getPlayableCards(
-				hand, currentGame.getCurrentPlay().getPlayedCards(), currentGame.getTrumpf());
+		ArrayList<Card> playableCards = PlayValidation.getPlayableCards(
+				hand, currentGame.getCurrentPlay().getPlayedCards(), currentGame.getTrumpf(), currentGame.isSchieber());
 		return playableCards;
 	}
 	
@@ -103,6 +115,10 @@ public class Player extends User {
 		this.currentTeam = t;
 	}
 	
+	/**
+	 * @author digib
+	 * @return Player
+	 */
 	public Player getTeammate() {
 		Player teammate = null;
 		for (Player p : currentTeam.getPlayerList()) {

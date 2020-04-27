@@ -9,15 +9,23 @@ import org.junit.Test;
 
 import Commons.Card;
 import Commons.Wiis;
-import Commons.Card.Rank;
 import Commons.Wiis.Blatt;
 
+/**
+ * @author digib
+ * source: B. Richards, Poker
+ */
 public class ValidationTest {
 	
-	// We define the hands using abbreviations. The code at the bottom
-	// of this class can translate one of these strings into a card.
-	// Another method takes a set of five cards, and translates the whole hand
-	// Yet another method does this for a whole set of hands
+	/**
+	 * @author digib
+	 * source: B. Richards, Poker
+	 * We define the hands using abbreviations. The code at the bottom
+	 * of this class can translate one of these strings into a card.
+	 * Another method takes a set of five cards, and translates the whole hand
+	 * Yet another method does this for a whole set of hands
+	 */
+
 	private static String[][] dreiBlaetter = {
 			{ "6S", "7S", "8S", "QD", "TH", "9C", "JD", "AS", "7H" },
 			{ "6S", "7S", "8S", "QD", "TH", "9C", "JD", "AS", "7H" },
@@ -38,15 +46,14 @@ public class ValidationTest {
 			{ "7C", "8C", "9C", "TC", "QC", "AC", "AD", "AS", "AH" }
 			};
 	
-	// This is where we store the translated hands
+	
 	ArrayList<ArrayList<Card>> dreiBlattHands;
 	ArrayList<ArrayList<Card>> vierBlattHands;
 	ArrayList<ArrayList<Card>> doppelVierlingeHands;
 	
 	/**
-	 * The makeHands method is called before each test method,
-	 * and prepares the translated hands. We recreate these for
-	 * each test method, in case the test method damages the data.
+	 * @author digib
+	 * source: B. Richards, Poker
 	 */
 	@Before
 	public void makeHands() {
@@ -56,16 +63,13 @@ public class ValidationTest {
 	}
 
 	/**
-	 * This is a test method for the isOnePair method in HandType.
-	 * We expect all HighCard hands to be false, all OnePair hands to
-	 * be true, all TwoPair hands to be true, etc.
+	 * @author digib
+	 * source: B. Richards, Poker
 	 */
-	
-	
 	@Test
 	public void testDreiBlatt() {
 		for (ArrayList<Card> hand : dreiBlattHands) {
-			ArrayList<Wiis> wiis = Validation.validateWiis(hand);
+			ArrayList<Wiis> wiis = WiisValidation.validateWiis(hand);
 			for (Wiis w : wiis)
 				assertTrue(w.getBlatt() == Blatt.dreiblatt);
 		}
@@ -75,7 +79,7 @@ public class ValidationTest {
 	@Test
 	public void testVierlinge() {
 		for (ArrayList<Card> hand : doppelVierlingeHands) {
-			ArrayList<Wiis> wiis = Validation.validateWiis(hand);
+			ArrayList<Wiis> wiis = WiisValidation.validateWiis(hand);
 			assertTrue(wiis.get(0).getBlatt() == Blatt.vierblatt);
 			assertTrue(wiis.get(1).getBlatt() == Blatt.viergleiche);
 		}
@@ -84,7 +88,9 @@ public class ValidationTest {
 	
 	
 	/**
+	 * @author digib
 	 * Make an ArrayList of hands from an array of string-arrays
+	 * source: B. Richards, Poker
 	 */
 	private ArrayList<ArrayList<Card>> makeHands(String[][] handsIn) {
 		ArrayList<ArrayList<Card>> handsOut = new ArrayList<>();
@@ -95,7 +101,9 @@ public class ValidationTest {
 	}
 	
 	/**
+	 * @author digib
 	 * Make a hand (ArrayList<Card>) from an array of 9 strings
+	 * source: B. Richards, Poker
 	 */
 	private ArrayList<Card> makeHand(String[] inStrings) {
 		ArrayList<Card> hand = new ArrayList<>();
@@ -106,11 +114,11 @@ public class ValidationTest {
 	}
 	
 	/**
+	 * @author digib
 	 * Create a card from a 2-character String.
 	 * First character is the rank (6-9, T, J, Q, K, A) 
 	 * Second character is the suit (C, D, H, S)
-	 * 
-	 * No validation or error handling!
+	 * source: B. Richards, Poker
 	 */
 	private Card makeCard(String in) {
 		char r = in.charAt(0);
