@@ -18,6 +18,12 @@ public class Message_Wiis extends Message{
 		this.userID = userID;
 	}
 	
+	public Message_Wiis(ArrayList<Wiis> wiis) {
+		super();
+		this.wiis = wiis;
+		this.userID = -1;
+	}
+	
 	public ArrayList<Wiis> getWiis() {
 		return wiis;
 	}

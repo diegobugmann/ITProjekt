@@ -30,7 +30,7 @@ public class CommunicationThread extends Thread{
 	
 	private Socket socket;
 	private ClientController controller;
-	private String senderName = "";
+	private String senderName = "undefined";
 	private Status status;
 	private ArrayList<Game> allGames;
 	
@@ -203,6 +203,11 @@ public class CommunicationThread extends Thread{
 					//TODO Change into ArrayList
 					controller.processWiis(msgWiis.getWiis());
 				}
+				
+				break;
+			}
+			case wiisInfo : {
+				Message_WiisInfo msgWiisInfo = (Message_WiisInfo) msgIn;
 				
 				break;
 			}
