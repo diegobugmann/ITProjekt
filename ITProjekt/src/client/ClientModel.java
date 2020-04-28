@@ -202,7 +202,7 @@ public class ClientModel {
 	}
 	
 	public void sendWiis(ArrayList<Wiis> wiisReturn) {
-		Message_Wiis wiis = new Message_Wiis(wiisReturn, ); //TODO userID mitsenden
+		Message_Wiis wiis = new Message_Wiis(wiisReturn, user); //TODO userID mitsenden
 		connection.sendMessage(wiis);
 	}
 
