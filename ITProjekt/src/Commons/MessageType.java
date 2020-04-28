@@ -16,6 +16,7 @@ public enum MessageType {
 	turn,
 	ansage,
 	wiis,
+	wiisInfo,
 	stich,
 	points,
 	cancel,
@@ -59,6 +60,8 @@ public enum MessageType {
     	else if (msg instanceof Message_Error) type = error;
     	else if (msg instanceof Message_UserNameAvailable) type = newUserName;
     	else if (msg instanceof Message_YourTurn) type = yourTurn;
+    	else if (msg instanceof Message_WiisInfo) type = wiisInfo;
+    	
     	return type;
     }	
 	

@@ -202,7 +202,7 @@ public class ClientModel {
 	}
 	
 	public void sendWiis(ArrayList<Wiis> wiisReturn) {
-		Message_Wiis wiis = new Message_Wiis(wiisReturn, user); //TODO userID mitsenden
+		Message_Wiis wiis = new Message_Wiis(wiisReturn);
 		connection.sendMessage(wiis);
 	}
 
@@ -216,10 +216,33 @@ public class ClientModel {
 		return connection.getCurrentGame();
 	}
 //-----------------------------------------------------------------------------------------------------------
+	/**
+	 * @author mibe1
+	 * Tells the Server about an Exit from the Splashscreen with two Messages:
+	 * cancelWaiting and get current Gamelist
+	 * Sets the Status to logedin
+	 */
+	public void processAbbruch() {
+		Simple_Message cancel = new Simple_Message(Simple_Message.Msg.CancelWaiting);
+		connection.sendMessage(cancel);
+		connection.setStatus(Status.logedin);
+		updateGameList();
+	}
 
+	/**
+	 * @author mibe1
+	 * Exits the onGoing game
+	 * Changes the Status and updates the GameList
+	 */
+	public void exitGame() {
+		Message_Cancel msgCancel = new Message_Cancel();
+		connection.sendMessage(msgCancel);
+		connection.setStatus(Status.logedin);
+		updateGameList();
+		
+	}
 
 	public void closeConnection() {
 		connection.closeConnection();
 	}
-
 }

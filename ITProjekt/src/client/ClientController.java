@@ -286,11 +286,15 @@ public class ClientController {
 	
 	}
 	
+	/**
+	 * Stops the Waiting Screen and tells the model to exit the current game
+	 * @param e
+	 */
 	public void processAbbruch(Event e) {
 		try {
 			splashScreen.stop();
 			startLobby(stage);
-			model.updateGameList();
+			model.processAbbruch();
 			
 		} catch (Exception e1) {
 			// TODO Auto-generated catch block
@@ -511,7 +515,8 @@ public class ClientController {
 	private void processExitGame(ActionEvent event, Stage stage2) {
 		stage2.close();
 		startLobby(stage);
-		model.updateGameList();
+		model.exitGame();
+		
 	
 	}
 	

@@ -28,6 +28,8 @@ public class Simple_Message extends Message{
 		Schiebe,
 		//Fragt GameListe des Servers ab
 		Get_GameList,
+		//Canncel on the Splashscreen
+		CancelWaiting,
 		//Login related Messages
 		Login_accepted,
 		registration_accepted,
