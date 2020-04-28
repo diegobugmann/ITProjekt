@@ -199,8 +199,8 @@ public class CommunicationThread extends Thread{
 			}
 			case wiis : {
 				Message_Wiis msgWiis = (Message_Wiis) msgIn;
-				if(msgWiis.getWiis().length>0) {
-					controller.processWiis(msgWiis.getWiis());
+				if(msgWiis.getWiis().size() >0) {
+					//controller.processWiis(msgWiis.getWiis());
 				}
 				
 				break;
