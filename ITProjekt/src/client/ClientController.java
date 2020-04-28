@@ -41,7 +41,7 @@ public class ClientController {
 	protected boolean validateTrumpf;
 	protected boolean oneChecked = false;
 	protected String actualTrumpf;
-	protected Wiis[] wiisReturn;
+	protected ArrayList<Wiis> wiisReturn;
 	protected Wiis wiisNew;
 
 
@@ -596,11 +596,11 @@ public class ClientController {
 		// TODO Auto-generated method stub
 		
 	}
-	public void processWiis(Wiis[] wiis) {
+	public void processWiis(ArrayList<Wiis> wiisArray) {
 		
 		wiisReturn=null;
 		oneChecked = false;
-		SelectWiisView selectWiisView = new SelectWiisView(wiis);
+		SelectWiisView selectWiisView = new SelectWiisView(wiisArray);
 	
 		Scene scene2 = new Scene(selectWiisView);
 		Stage stage2 = new Stage();
@@ -628,7 +628,7 @@ public class ClientController {
 			
 			for(CheckBox c : selectWiisView.checkBoxes) {
 				if(c.isArmed()) {
-					wiisReturn[i]=wiis[i];
+					wiisReturn.add(wiisArray.get(i));
 					i++;
 				}
 			}

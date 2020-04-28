@@ -181,7 +181,7 @@ public class ClientModel {
 
 	
 	public void playCard(Card card) {
-		Message_Turn turn = new Message_Turn(card, ipAddress);
+		Message_Turn turn = new Message_Turn(card, user);
 		connection.sendMessage(turn);
 		
 		
@@ -201,8 +201,9 @@ public class ClientModel {
 		return this.actualHand;
 	}
 	
-	public void sendWiis(Wiis[] wiisreturn) {
-		
+	public void sendWiis(ArrayList<Wiis> wiisReturn) {
+		Message_Wiis wiis = new Message_Wiis(wiisReturn, ); //TODO userID mitsenden
+		connection.sendMessage(wiis);
 	}
 
 //Getters from connection---------------------------------------------------------------------------------------------

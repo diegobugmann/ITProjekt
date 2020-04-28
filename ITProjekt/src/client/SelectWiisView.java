@@ -36,12 +36,12 @@ public class SelectWiisView extends VBox {
 	
 
 	
-	public SelectWiisView(Wiis[] wiis) {
+	public SelectWiisView(ArrayList<Wiis> wiisArray) {
 		super();
 		
 		checkVBox = new VBox();
 		
-		for(Wiis w : wiis) {
+		for(Wiis w : wiisArray) {
 			String text = w.toString();
 			String textWiis = text.substring(0, text.indexOf("_")-1);
 			String highcardText = text.substring(text.indexOf("_"));
