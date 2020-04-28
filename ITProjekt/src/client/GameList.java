@@ -51,11 +51,10 @@ public class GameList extends VBox {
 	
 	public void setAllGames(ArrayList<Commons.Game> games) {
 		tableView.getItems().clear();
-
 			for(Game g : games) {
-				if(!g.isRunning())
-					System.out.println(g);
+				if(!g.isRunning() && g.getCurrentNumOfPlayers() < 4) {
 					tableView.getItems().add(g);
+				}
 		}
 	}
 	

@@ -18,7 +18,6 @@ public class ClientModel {
 	protected String ipAddress = "127.0.0.1";
 	protected int port = 6666;
 	protected boolean isConnected = false;
-	//Michis Variabel
 	private CommunicationThread connection;
 	public static int cardStyle=0; // 0 = französisch
 	protected ArrayList<Card> actualHand = new ArrayList<>();
