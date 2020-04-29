@@ -91,6 +91,30 @@ public class Game extends Commons.Game {
 				}
 			}
 	}
+	
+	public Team validateWiisWinner() {
+		ArrayList<ArrayList<Wiis>> wiis = new ArrayList<ArrayList<Wiis>>();
+		ArrayList<Player> players = new ArrayList<Player>();
+		for (Team t : teams) {
+			for (Player p : t.getPlayerList()) {
+				if (!p.getWiis().isEmpty()) {
+					wiis.add(p.getWiis());
+					players.add(p);
+				}
+			}
+		}
+		
+		//TODO wenn nur 1 Team gewiesen hat wird das zurückgegeben
+		
+		if (wiis.isEmpty())
+			return null;
+		else {
+			Player winner = WiisValidation.validateWiisWinner(wiis, players, trumpf);
+			Team winningTeam = winner.getCurrentTeam();
+			return null;
+		}
+
+	}
 
 	public void setTrumpf(GameType trumpf) {
 		this.trumpf = trumpf;

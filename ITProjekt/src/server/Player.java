@@ -35,6 +35,10 @@ public class Player extends User {
 		this.wiis.addAll(wiis);
 	}
 	
+	public ArrayList<Wiis> getWiis(){
+		return this.wiis;
+	}
+	
 	/**
 	 * @author michi
 	 * Organizing the cards in a certain order

@@ -163,7 +163,7 @@ public class PlayValidation {
 	 * @author digib
 	 * @return Suit
 	 */
-	private static Suit getTrumpfAsSuit(GameType gameType) {
+	public static Suit getTrumpfAsSuit(GameType gameType) {
 		Suit trumpf = null;
 		for (Suit s : Suit.values()) {
 			if (s.toString().equals(gameType.toString()))

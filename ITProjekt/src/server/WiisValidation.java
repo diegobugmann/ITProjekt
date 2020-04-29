@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import Commons.Card;
 import Commons.Wiis;
 import Commons.Card.Rank;
+import Commons.Card.Suit;
+import Commons.GameType;
 import Commons.Wiis.Blatt;
 
 /**
@@ -181,29 +183,59 @@ public class WiisValidation {
 		}
 	}
 	
+	public static Player validateWiisWinner(ArrayList<ArrayList<Wiis>> wiis, ArrayList<Player> players, GameType gameType) {
+		
+		//BEI GLEICH VIELEN PUNKTEN IST DER TIEFERE ORDINAL DER HÖHERE WEIS
+		
+		boolean isTrumpf = gameType != GameType.TopsDown && gameType != GameType.BottomsUp;
+		Suit trumpf = null;
+		if (isTrumpf) 
+			trumpf = PlayValidation.getTrumpfAsSuit(gameType);
+		Wiis highestWiis = wiis.get(0).get(0); //suppose the first wiis is the highest;
+		Player winningPlayer = players.get(0);
+		for (ArrayList<Wiis> wiisList : wiis) {
+			for (Wiis w : wiisList) {
+				if (highestWiis != w) { //don't compare the first wiis with itself
+					if (w.getBlatt().getPoints() > highestWiis.getBlatt().getPoints()) {
+						highestWiis = w;
+						winningPlayer = (players.get(wiis.indexOf(wiisList)));
+					} else if (w.getBlatt().getPoints() == highestWiis.getBlatt().getPoints()) {
+						if (w.getBlatt() == highestWiis.getBlatt()) { //same blatt?
+							
+							
+							
+							if (w.getHighestCard().compareTo(highestWiis.getHighestCard()) > 0) {
+								highestWiis = w;
+								winningPlayer = (players.get(wiis.indexOf(wiisList)));
+							} else if (w.getHighestCard().compareTo(highestWiis.getHighestCard()) == 0) { //same highest card
+								if (isTrumpf) {
+									if (w.getHighestCard().getSuit() == trumpf) { //does one have the wiis in trumpf suit?
+										highestWiis = w;
+										winningPlayer = (players.get(wiis.indexOf(wiisList)));
+									} else if (highestWiis.getHighestCard().getSuit() != trumpf) {
+										//TODO schauen, wer zuerst dran war
+									}
+								} else {
+									//TODO hier direkt schauen, wer zuerst dran war
+								}
+							}
+							
+
+							
+						} else {
+							//same points but not same blatt: lower ordinal is stronger (according to rules)
+							if (w.getBlatt().ordinal() < highestWiis.getBlatt().ordinal()) {
+								highestWiis = w;
+								winningPlayer = (players.get(wiis.indexOf(wiisList)));
+							}
+						}
+
+					}
+				}
+				
+			}
+		}
+		return null;
+	}
 	
-	/*Methoden ersetzt durch isVierGleiche
-	 * TODO löschen
-	 * 
-	private static Wiis isVierBauern(ArrayList<Card> hand) {
-		int counter = 0;
-		for (Card c : hand) {
-			if (c.getRank() == Rank.Jack)
-				counter++;
-		}
-		if (counter < 4) return new Wiis(Blatt.vierBauern, null);
-		else return null;
-	}
-
-	private static Wiis isVierNeuner(ArrayList<Card> hand) {
-		int counter = 0;
-		for (Card c : hand) {
-			if (c.getRank() == Rank.Nine)
-				counter++;
-		}
-		if (counter < 4) return new Wiis(Blatt.vierNeuner, null);
-		else return null;
-	}
-	*/
-
 }

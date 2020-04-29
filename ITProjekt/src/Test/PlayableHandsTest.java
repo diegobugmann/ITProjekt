@@ -1,21 +1,18 @@
-package server;
+package Test;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
+
 import org.junit.Before;
 import org.junit.Test;
 
 import Commons.Card;
-import Commons.Wiis;
-import Commons.Wiis.Blatt;
+import Commons.GameType;
+import server.PlayValidation;
 
-/**
- * @author digib
- * source: B. Richards, Poker
- */
-public class ValidationTest {
+public class PlayableHandsTest {
 	
 	/**
 	 * @author digib
@@ -26,28 +23,20 @@ public class ValidationTest {
 	 * Yet another method does this for a whole set of hands
 	 */
 
-	private static String[][] dreiBlaetter = {
-			{ "6S", "7S", "8S", "QD", "TH", "9C", "JD", "AS", "7H" },
-			{ "6S", "7S", "8S", "QD", "TH", "9C", "JD", "AS", "7H" },
-			{ "6S", "7S", "8S", "QD", "TH", "9C", "JD", "AS", "7H" },
-			{ "6S", "7S", "8S", "QD", "TH", "9C", "JD", "AS", "7H" }
+	private static String[][] randomHand = {
+			{ "8S", "TS", "JS", "6H", "TH", "JH", "7D", "JD", "AD" },
 			};
 	
-	private static String[][] vierBlaetter = {
-			{ "6S", "9C", "TS", "QD", "TH", "7S", "JD", "AS", "8S" },
-			{ "6S", "9C", "TS", "QD", "TH", "7S", "JD", "AS", "8S" },
-			{ "6S", "9C", "TS", "QD", "TH", "7S", "JD", "AS", "8S" },
-			{ "6S", "9C", "TS", "QD", "TH", "7S", "JD", "AS", "8S" }
+	private static String[][] playedCards = {
+			{ "6C", "9C", "TD"},
 			};
 	
-	private static String[][] doppelVierlinge = {
-			{ "8C", "9C", "TC", "8D", "TD", "8S", "TS", "8H", "TH" },
-			};
-	
-	
-	ArrayList<ArrayList<Card>> dreiBlattHands;
-	ArrayList<ArrayList<Card>> vierBlattHands;
-	ArrayList<ArrayList<Card>> doppelVierlingeHands;
+	ArrayList<ArrayList<Card>> randomHands;
+	ArrayList<ArrayList<Card>> playedCardss;
+	GameType trumpf;
+	boolean isSchieber;
+	ArrayList<Card> pc;
+	ArrayList<Card> hand;
 	
 	/**
 	 * @author digib
@@ -55,9 +44,12 @@ public class ValidationTest {
 	 */
 	@Before
 	public void makeHands() {
-		dreiBlattHands = makeHands(dreiBlaetter);
-		vierBlattHands = makeHands(vierBlaetter);
-		doppelVierlingeHands = makeHands(doppelVierlinge);
+		randomHands = makeHands(randomHand);
+		playedCardss = makeHands(playedCards);
+		trumpf = GameType.AcornsOrDiamonds;
+		isSchieber = true;
+		pc = playedCardss.get(0);
+		hand = randomHands.get(0);
 	}
 
 	/**
@@ -65,25 +57,10 @@ public class ValidationTest {
 	 * source: B. Richards, Poker
 	 */
 	@Test
-	public void testDreiBlatt() {
-		for (ArrayList<Card> hand : dreiBlattHands) {
-			ArrayList<Wiis> wiis = WiisValidation.validateWiis(hand);
-			for (Wiis w : wiis)
-				assertTrue(w.getBlatt() == Blatt.dreiblatt);
-		}
+	public void testPlayableCards() {
+		ArrayList<Card> playableCards = PlayValidation.getPlayableCards(hand, pc, trumpf, isSchieber);
+		assertTrue(playableCards.size() == 8);
 	}
-	
-	
-	@Test
-	public void testVierlingeVierlingeDreiblatt() {
-		for (ArrayList<Card> hand : doppelVierlingeHands) {
-			ArrayList<Wiis> wiis = WiisValidation.validateWiis(hand);
-			assertTrue(wiis.get(0).getBlatt() == Blatt.dreiblatt);
-			assertTrue(wiis.get(1).getBlatt() == Blatt.viergleiche);
-			assertTrue(wiis.get(2).getBlatt() == Blatt.viergleiche);
-		}
-	}
-	
 	
 	
 	/**

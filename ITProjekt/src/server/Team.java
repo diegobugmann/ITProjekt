@@ -9,6 +9,7 @@ public class Team {
 	
 	private static int nextID = 1;
 	private int teamID;
+	private int teamNr;
 	private ArrayList<Player> playerList = new ArrayList<Player>();
 	private int score;
 	private int totalScore;
