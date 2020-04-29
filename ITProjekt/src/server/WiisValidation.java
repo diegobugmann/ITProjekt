@@ -183,59 +183,60 @@ public class WiisValidation {
 		}
 	}
 	
-	public static Player validateWiisWinner(ArrayList<ArrayList<Wiis>> wiis, ArrayList<Player> players, GameType gameType) {
-		
-		//BEI GLEICH VIELEN PUNKTEN IST DER TIEFERE ORDINAL DER HÖHERE WEIS
-		
+	/**
+	 * @author digib
+	 * @return Player with the highest Wiis
+	 * compares all different Wiis-Objects from the players and validates the highest one, considering all special cases
+	 */
+	public static Player validateWiisWinner(ArrayList<Player> players, GameType gameType) {
 		boolean isTrumpf = gameType != GameType.TopsDown && gameType != GameType.BottomsUp;
 		Suit trumpf = null;
 		if (isTrumpf) 
 			trumpf = PlayValidation.getTrumpfAsSuit(gameType);
-		Wiis highestWiis = wiis.get(0).get(0); //suppose the first wiis is the highest;
+		Wiis highestWiis = players.get(0).getWiis().get(0); //suppose the first wiis is the highest;
 		Player winningPlayer = players.get(0);
-		for (ArrayList<Wiis> wiisList : wiis) {
-			for (Wiis w : wiisList) {
+		for (Player p : players) {
+			for (Wiis w : p.getWiis()) {
 				if (highestWiis != w) { //don't compare the first wiis with itself
 					if (w.getBlatt().getPoints() > highestWiis.getBlatt().getPoints()) {
 						highestWiis = w;
-						winningPlayer = (players.get(wiis.indexOf(wiisList)));
+						winningPlayer = p;
 					} else if (w.getBlatt().getPoints() == highestWiis.getBlatt().getPoints()) {
 						if (w.getBlatt() == highestWiis.getBlatt()) { //same blatt?
-							
-							
-							
 							if (w.getHighestCard().compareTo(highestWiis.getHighestCard()) > 0) {
 								highestWiis = w;
-								winningPlayer = (players.get(wiis.indexOf(wiisList)));
+								winningPlayer = p;
 							} else if (w.getHighestCard().compareTo(highestWiis.getHighestCard()) == 0) { //same highest card
 								if (isTrumpf) {
 									if (w.getHighestCard().getSuit() == trumpf) { //does one have the wiis in trumpf suit?
 										highestWiis = w;
-										winningPlayer = (players.get(wiis.indexOf(wiisList)));
+										winningPlayer = p;
 									} else if (highestWiis.getHighestCard().getSuit() != trumpf) {
-										//TODO schauen, wer zuerst dran war
+										if (p.getBeginningOrder() < winningPlayer.getBeginningOrder()) {
+											highestWiis = w;
+											winningPlayer = p;
+										}
 									}
 								} else {
-									//TODO hier direkt schauen, wer zuerst dran war
+									if (p.getBeginningOrder() < winningPlayer.getBeginningOrder()) {
+										highestWiis = w;
+										winningPlayer = p;
+									}
 								}
 							}
-							
-
-							
 						} else {
-							//same points but not same blatt: lower ordinal is stronger (according to rules)
+							//same points but not same blatt: lower ordinal is stronger 
+							//(according to rules and how we organized blatt-Enum)
 							if (w.getBlatt().ordinal() < highestWiis.getBlatt().ordinal()) {
 								highestWiis = w;
-								winningPlayer = (players.get(wiis.indexOf(wiisList)));
+								winningPlayer = p;
 							}
 						}
-
 					}
 				}
-				
 			}
 		}
-		return null;
+		return winningPlayer;
 	}
 	
 }

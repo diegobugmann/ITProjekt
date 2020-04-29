@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import Commons.Card;
+import Commons.GameType;
 import Commons.Wiis;
  
 /**
@@ -14,10 +15,11 @@ public class Player extends User {
 	
 	private Game currentGame;
 	private ArrayList<Card> hand = new ArrayList<Card>();
-	private int announcedPoints;
 	private ArrayList<Wiis> wiis = new ArrayList<Wiis>();
 	private Player followingPlayer;
 	private Team currentTeam;
+	private int announcedPoints;
+	private int beginningOrder;
 	
 	public Player(ServerModel model, Socket clientSocket) {
 		super(model, clientSocket);
@@ -37,6 +39,14 @@ public class Player extends User {
 	
 	public ArrayList<Wiis> getWiis(){
 		return this.wiis;
+	}
+	
+	public int getBeginningOrder() {
+		return this.beginningOrder;
+	}
+	
+	public void setBeginningOrder(int beginningOrder) {
+		this.beginningOrder = beginningOrder;
 	}
 	
 	/**
@@ -78,6 +88,21 @@ public class Player extends User {
 	
 	public void setAnnouncedPoints(int announcedPoints) {
 		this.announcedPoints = announcedPoints;
+	}
+	
+	/**
+	 * @author digib
+	 * adds the points from all wiis-Objects to the currentTeam
+	 */
+	public void addWiisPointsToTeam() {
+		for (Wiis w : wiis) {
+			int points = w.getBlatt().getPoints();
+			if (currentGame.getTrumpf() == GameType.TopsDown || currentGame.getTrumpf() == GameType.BottomsUp)
+				points *= 3;
+			else if (currentGame.getTrumpf() == GameType.BellsOrClubs || currentGame.getTrumpf() == GameType.ShieldsOrSpades)
+				points *= 2;
+			currentTeam.addPoints(points);
+		}
 	}
 	
 	/**
