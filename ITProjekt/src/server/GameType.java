@@ -3,6 +3,10 @@ package server;
 /**
  * @author digib
  */
+
+// TODO check if this class is necessary
+
+
 public enum GameType {
 	TopsDown,
 	BottomsUp,

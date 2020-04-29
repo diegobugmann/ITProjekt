@@ -255,7 +255,8 @@ public class CommunicationThread extends Thread{
 			case trumpf : {
 				Message_Trumpf msgTrumpf = (Message_Trumpf) msgIn;
 				GameType trumpf = msgTrumpf.getTrumpf();
-				controller.view.gameView.infoView.setTrumpf(trumpf.toString());
+				//controller.view.gameView.infoView.setTrumpf(trumpf.toString());
+				controller.infoViewController.model.setTrumpf(trumpf);
 				break;
 			}
 			

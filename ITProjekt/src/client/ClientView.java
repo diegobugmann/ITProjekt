@@ -1,5 +1,6 @@
 package client;
 
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
 public class ClientView {
@@ -14,7 +15,7 @@ public class ClientView {
 	protected GameMenu gameMenu;
 	protected CardArea cardArea;
 	protected CenterView centerView;
-	protected InfoView infoView;
+	protected VBox infoView;
 
 	protected GameView gameView;
 	
@@ -49,9 +50,9 @@ public class ClientView {
 	}
 
 	
-	public void showGameView(Stage stage) {
+	public void showGameView(Stage stage, VBox infoView) {
 		this.stage = stage;
-		gameView = new GameView(stage);
+		gameView = new GameView(stage, infoView);
 		
 	}
 

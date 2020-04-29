@@ -2,19 +2,21 @@ package client;
 
 import javafx.scene.Scene;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 public class GameView extends BorderPane {
-	protected InfoView infoView;
+	protected VBox infoView;
 	protected CardArea cardArea;
 	protected CenterView centerView;
 	protected GameMenu gameMenu;
 	protected Stage stage;
 	
-	public GameView(Stage stage) {
+	public GameView(Stage stage, VBox infoView) {
 		this.stage = stage;
-		infoView = new InfoView();
+		this.infoView = infoView;
+		
 		cardArea = new CardArea();
 		centerView = new CenterView();
 		gameMenu = new GameMenu();

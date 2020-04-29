@@ -27,6 +27,7 @@ public class ClientController {
 	protected ClientModel model;
 	protected ClientView view;
 	protected CreateNewUserController createNewUserController;
+	protected InfoViewController infoViewController;
 	protected WaitingScreen_Preloader splashScreen;
 	protected boolean validateTrumpf;
 	protected boolean oneChecked = false;
@@ -289,6 +290,7 @@ public class ClientController {
 		int cardStyle=ClientModel.cardStyle;
 		CardStyleView cardStyleView = new CardStyleView();
 		cardStyleView.setSelectedStyle(cardStyle);
+		infoViewController.model.setcardStyle(cardStyle);
 		
 		Scene scene2 = new Scene(cardStyleView);
 		Stage stage2 = new Stage();
@@ -304,8 +306,7 @@ public class ClientController {
 			if(model.getActualHand().isEmpty()) {
 				//do nothing
 			}else {
-				this.updateCardArea(model.getActualHand());
-				view.gameView.infoView.setTrumpf(actualTrumpf);
+				this.updateCardArea(model.getActualHand());				
 			}
 		});
 		
@@ -391,8 +392,12 @@ public class ClientController {
 		soundModule.pauseBackgroundSound();
 		try {
 			stage.setTitle("");
-			view.showGameView(stage);
-		
+			this.infoViewController = new InfoViewController(model.getCurrentGame());
+			if(model.getCurrentGame().isSchieber()) {
+				view.showGameView(stage, infoViewController.schView);
+			} else {
+				view.showGameView(stage, infoViewController.diffView);
+			}
 			view.gameView.gameMenu.statistik.setOnAction(event ->{
 				processStatisitc();
 			});
