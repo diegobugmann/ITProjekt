@@ -26,6 +26,7 @@ public class Game extends Commons.Game {
 	private SimpleIntegerProperty numOfPlayers = new SimpleIntegerProperty(0);
 	private SimpleIntegerProperty numOfAnsagen = new SimpleIntegerProperty(0);
 	private Play currentPlay;
+	private Player startingPlayer;
 	
 	/**
 	 * @author digib
@@ -91,6 +92,41 @@ public class Game extends Commons.Game {
 				}
 			}
 	}
+	
+	/**
+	 * @author digib
+	 * @return Team with the highest Wiis
+	 * adds all players with at least 1 Wiis to a list and compares their Wiis-Objects, 
+	 * if more than one team wants to wiis
+	 */
+	public Team validateWiisWinner() {
+		ArrayList<Player> players = new ArrayList<Player>();
+		for (Team t : teams) {
+			for (Player p : t.getPlayerList()) {
+				if (!p.getWiis().isEmpty())
+					players.add(p);
+			}
+		}
+		
+		//check if only one team wants to wiis
+		boolean onlyOneTeamHasWiis = false;
+		if (players.size() == 1)
+			onlyOneTeamHasWiis = true;
+		else if (players.size() == 2) {
+			if (players.get(0).getTeammate() == players.get(1))
+				onlyOneTeamHasWiis = true;
+		}
+		
+		if (players.isEmpty()) //no Wiis - no Validation
+			return null;
+		else if (onlyOneTeamHasWiis) //The only wiising team wins the Wiis-battle
+			return players.get(0).getCurrentTeam();
+		else {
+			Player winner = WiisValidation.validateWiisWinner(players, trumpf);
+			Team winningTeam = winner.getCurrentTeam();
+			return winningTeam;
+		}
+	}
 
 	public void setTrumpf(GameType trumpf) {
 		this.trumpf = trumpf;
@@ -150,14 +186,29 @@ public class Game extends Commons.Game {
 			
 		} else {
 			playerOne = teams.get(0).getPlayerList().get(0);
-			playerTwo = teams.get(1).getPlayerList().get(0);
-			playerThree = teams.get(2).getPlayerList().get(0);
+			playerTwo = teams.get(2).getPlayerList().get(0);
+			playerThree = teams.get(1).getPlayerList().get(0);
 			playerFour = teams.get(3).getPlayerList().get(0);
 		}
 		playerOne.setFollowingPlayer(playerThree);
 		playerTwo.setFollowingPlayer(playerFour);
 		playerThree.setFollowingPlayer(playerTwo);
 		playerFour.setFollowingPlayer(playerOne);
+	}
+	
+	/**
+	 * @author digib
+	 * sets the beginning order based on the starting Player. Used for special cases in validating the highest wiis
+	 */
+	public void setBeginningOrder() {
+		Player first = startingPlayer;
+		first.setBeginningOrder(1);
+		Player second = first.getFollowingPlayer();
+		second.setBeginningOrder(2);
+		Player third = second.getFollowingPlayer();
+		third.setBeginningOrder(3);
+		Player fourth = third.getFollowingPlayer();
+		fourth.setBeginningOrder(4);
 	}
 	
 	/**
@@ -190,7 +241,11 @@ public class Game extends Commons.Game {
 	 * @return Player
 	 */
 	public Player getStartingPlayer() {
-		return teams.get(0).getPlayerList().get(0);
+		return this.startingPlayer;
+	}
+	
+	public void setStartingPlayer(Player starter) {
+		this.startingPlayer = starter;
 	}
 	
 	public Play getCurrentPlay() {

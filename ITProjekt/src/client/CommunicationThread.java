@@ -61,7 +61,7 @@ public class CommunicationThread extends Thread{
 		            @Override public void run() {
 		     			Message msgOut = processMessage(msgIn);
 		     			if(msgOut != null) {
-		     				msgOut.send(socket);
+		     				sendMessage(msgOut);
 		     			}
 		            }
 		        });
@@ -221,7 +221,7 @@ public class CommunicationThread extends Thread{
 				break;
 			}
 			case turn : {
-				
+				//TODO
 				break;
 			}
 			case wiis : {
@@ -249,7 +249,13 @@ public class CommunicationThread extends Thread{
 				break;
 			}
 			case cancel : {
-				
+				if(status == status.ingame || status == status.onturn) {
+					this.status = status.logedin;
+					Message_Cancel msgC = (Message_Cancel) msgIn;
+					controller.showAlert("Spielabbruch", msgC.getClient()+" Hat das Spiel vorzeitig abgebrochen!");
+					controller.processExitGame(null);
+					returnMsg = new Simple_Message(Simple_Message.Msg.Get_GameList);
+				}
 				break;
 			}
 			case trumpf : {
@@ -269,23 +275,6 @@ public class CommunicationThread extends Thread{
 				Message_Error msgError = (Message_Error) msgIn;
 				controller.showAlert(msgError.getType().toString(), msgError.getErrorMessage());
 				returnMsg = null;
-				/*Most likely useless code just here as a backup
-				switch(msgError.getType()) {
-					case logginfalied :{
-						controller.loginfaild(msgError.getErrorMessage());
-						returnMsg = null;
-						break;
-					}
-					case not_loggedin :{
-						break;
-					}
-					
-					case Registration_failed :{
-						controller.registerFailed(msgError.getErrorMessage());
-						returnMsg = null;
-						break;
-					}
-				}*/
 				break;
 			}
 		}

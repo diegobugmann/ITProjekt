@@ -20,6 +20,7 @@ import Commons.Message_Trumpf;
 import Commons.Message_Turn;
 import Commons.Message_UserNameAvailable;
 import Commons.Message_Wiis;
+import Commons.Message_WiisInfo;
 import Commons.Message_YourTurn;
 import Commons.Message_Register;
 import Commons.Validation_LoginProcess;
@@ -165,27 +166,32 @@ public class User {
 			Play currentPlay = currentGame.getCurrentPlay();
 			model.broadcast(currentGame.getPlayers(), msgIn); //broadcast played card
 			Card playedCard = ((Message_Turn)msgIn).getCard();
-			System.out.println("Gespielte Karte: "+playedCard);
+			System.out.println("Gespielte Karte: "+playedCard); //TODO löschen
 			p.removeCard(playedCard); //remove played card from hand
 			currentPlay.addCard(playedCard);
 			currentPlay.getPlayedBy().add(p);
 			
 			if (currentPlay.getPlayedCards().size() == 4) { //is the play over?
 				if (currentGame.isFirstPlay() && currentGame.isSchieber()) { //was it the first round and Schieber?
-					//TODO Wiise vergleichen (z.B. currentGame.validateWiisWinner();)
-					//TODO Punkte dem WiisTeam hinzufügen
-					//TODO Message_WiisInfo verschicken
+					Team wiisWinner = currentGame.validateWiisWinner();
+					if (wiisWinner != null) {
+						Player p1 = wiisWinner.getPlayerList().get(0);
+						p1.addWiisPointsToTeam();
+						Player p2 = wiisWinner.getPlayerList().get(1);
+						p2.addWiisPointsToTeam();
+						msgOut = new Message_WiisInfo(p1.getWiis(), p2.getWiis(), p1.getName(), p2.getName());
+						model.broadcast(currentGame.getPlayers(), msgOut);
+					}
 					currentGame.setFirstPlay(false);
 				}
-				Player nextPlayer = currentPlay.validateWinner();
+				Player winningPlayer = currentPlay.validateWinner();
 				int playPoints = currentPlay.validatePoints();
-				Team winningTeam = nextPlayer.getCurrentTeam();
+				Team winningTeam = winningPlayer.getCurrentTeam();
 				winningTeam.addPoints(playPoints);
 				currentGame.newPlay(); //creates a new play object, adds it to the game and sets it as currentPlay
 				//TODO winner-Message, damit er zeigen kann wer den Stich geholt hat und Karten wegräumen kann?
 				msgOut = new Message_YourTurn(p.getHand()); //player can player everything he wants
-				//msgOut.setClient(name);
-				msgOut.send(nextPlayer.getSocket());
+				msgOut.send(winningPlayer.getSocket());
 				
 			} else { //play is not over
 				Player nextPlayer = p.getFollowingPlayer();
@@ -203,10 +209,12 @@ public class User {
 		//-------------------------------------------------------------------------------------------------------
 		case wiis : {
 			ArrayList<Wiis> wiis = ((Message_Wiis)msgIn).getWiis();
-			if (!wiis.isEmpty()) 
+			if (!wiis.isEmpty()) {
 				p.addWiis(wiis);
-			//model.broadcast(p.getCurrentGame().getPlayers(), msgIn);
-			//TODO Neue message, um zu broadcasten
+				msgOut = new Message_WiisInfo(p.getWiis(), null, p.getName(), null);
+				msgOut.setClient(name);
+				model.broadcast(p.getCurrentGame().getPlayers(), msgOut);
+			}
 			break;
 		}
 		//-------------------------------------------------------------------------------------------------------
@@ -304,6 +312,10 @@ public class User {
 
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	public String getName() {
+		return this.name;
 	}
 	
 	public Socket getSocket() {

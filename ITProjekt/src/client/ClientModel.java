@@ -114,8 +114,6 @@ public class ClientModel {
 	public void playCard(Card card) {
 		Message_Turn turn = new Message_Turn(card, user);
 		connection.sendMessage(turn);
-		
-		
 	}
 	
 	public void setTrumpf(GameType gameType) {
