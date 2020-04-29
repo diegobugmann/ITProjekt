@@ -339,21 +339,6 @@ public class ClientController {
 	public void loginaccepted() {
 		startLobby(stage);
 	}
-	/**
-	 * Most likely useless code just here as a backup
-	 * Login is not accepted from Server, display Errormessage as popup and restart login page
-	 * @param message
-	 * @author mibe1
-	 */
-	/*public void loginfaild(String message) {
-
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Login failed");
-		alert.setHeaderText(null);
-		alert.setContentText(message);
-		alert.showAndWait();
-		// Sarah: Stage wird nicht mehr neu geladen, Problem mit Login button somit geloest
-	}*/
 /**
  	* Called when the Game list on the Serverlist gets changed and sent to the Client
  * @author mibe1 
@@ -413,7 +398,7 @@ public class ClientController {
 			});
 		
 			view.gameView.gameMenu.exit.setOnAction(event -> {
-				processExitGame(event, stage);
+				processExitGame(event);
 			});
 						
 			
@@ -431,10 +416,15 @@ public class ClientController {
 		
 	}
 
-	private void processExitGame(ActionEvent event, Stage stage2) {
-		stage2.close();
+	/**
+	 * Called when the Client exits the game also called when the game is exited by another player
+	 * @param event
+	 */
+	public void processExitGame(ActionEvent event) {
+		stage.close();
 		startLobby(stage);
-		model.exitGame();
+		if(event != null)
+			model.exitGame();
 		
 	
 	}
@@ -525,7 +515,6 @@ public class ClientController {
 		wiisReturn=null;
 		oneChecked = false;
 		SelectWiisView selectWiisView = new SelectWiisView(wiisArray);
-	
 		Scene scene2 = new Scene(selectWiisView);
 		Stage stage2 = new Stage();
 		stage2.setScene(scene2);

@@ -8,7 +8,11 @@ import java.nio.file.Paths;
 import javafx.event.ActionEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-
+/**
+ * Plays game Sounds on deman every sound is implemented as own Mediaplayer so sounds are preloaded an can just be played on demand
+ * @author mibe1
+ *
+ */
 public class SoundModule {
 
 	private MediaPlayer backgroundPlayer;
@@ -30,7 +34,10 @@ public class SoundModule {
 			URL mix = new URL(location+"mix.mp3");
 			Media mixMedia = new Media(mix.toString());
 			mixPlayer = new MediaPlayer(mixMedia);
-			//playBackgroundSound();
+			
+			
+			//TrainingsCode
+			backgroundPlayer.setVolume(0);
 			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -42,6 +49,19 @@ public class SoundModule {
 	
 	public void playBackgroundSound() {
 		backgroundPlayer.play();
+		backgroundPlayer.onEndOfMediaProperty().set(new Runnable(){
+	        public void run(){
+				try {
+					URL background = new URL(location+"background.mp3");
+					Media backgroundMedia = new Media(background.toString());
+					backgroundPlayer = new MediaPlayer(backgroundMedia);
+					backgroundPlayer.play();
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        }
+		});
 	}
 	
 	public void pauseBackgroundSound() {
