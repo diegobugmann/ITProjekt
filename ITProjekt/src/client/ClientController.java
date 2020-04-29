@@ -34,6 +34,7 @@ public class ClientController {
 	protected String actualTrumpf;
 	protected ArrayList<Wiis> wiisReturn;
 	protected Wiis wiisNew;
+	//Sounds
 	private SoundModule soundModule;
 
 	protected GameView gameView;
@@ -43,6 +44,7 @@ public class ClientController {
 		this.model = model;
 		this.view = view;
 		this.stage = stage;
+		//Sounds
 		soundModule = new SoundModule();
 		
 		view.showLoginView(stage, model.ipAddress + ":" + model.port);
@@ -464,6 +466,7 @@ public class ClientController {
 	 * Start the Game;
 	 */
 	public void startGame() {
+		soundModule.pauseBackgroundSound();
 		try {
 			stage.setTitle("");
 			view.showGameView(stage);
