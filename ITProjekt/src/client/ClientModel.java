@@ -7,9 +7,6 @@ import client.CommunicationThread.Status;
 
 public class ClientModel {
 	
-	protected boolean userName;
-	protected boolean password;
-	protected boolean cnAdress;
 	protected String user;
 	protected String pw;
 	protected String ipAddress = "127.0.0.1";
@@ -54,7 +51,7 @@ public class ClientModel {
 	
 	public boolean validateCnAdress(String newValue) {
 		
-		cnAdress = false;
+		boolean cnAdress = false;
 		String pattern = "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." + 
 				"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." + 
 				"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." + 

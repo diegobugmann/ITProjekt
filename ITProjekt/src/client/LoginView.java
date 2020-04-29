@@ -63,7 +63,7 @@ public class LoginView extends VBox{
 		passwordField.setDisable(true);
 		
 		loginBtn = new Button("Login");
-		loginBtn.setDisable(true);	
+		loginBtn.setDisable(true);
 		
 		
 		Region region0 = new Region();

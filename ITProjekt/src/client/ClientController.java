@@ -15,6 +15,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -27,9 +28,6 @@ public class ClientController {
 	protected ClientView view;
 	protected CreateNewUserController createNewUserController;
 	protected WaitingScreen_Preloader splashScreen;
-	protected boolean user;
-	protected boolean pw;
-	protected boolean cn;
 	protected boolean validateTrumpf;
 	protected boolean oneChecked = false;
 	protected String actualTrumpf;
@@ -52,13 +50,13 @@ public class ClientController {
 		
 
 		view.loginView.cnAddress.textProperty().addListener((observable, 
-				oldValue, newValue)-> {validateCn(newValue);});
+				oldValue, newValue)-> {cnActivate(newValue);});
 		
 		view.loginView.userName.textProperty().addListener((observable, 
-				oldValue, newValue)-> {validateUser(newValue);});
+				oldValue, newValue)-> {loginActivate();});
 			
 		view.loginView.passwordField.textProperty().addListener((observable,
-				oldValue, newValue)-> {validatePw(newValue);});
+				oldValue, newValue)-> {loginActivate();});
 		
 		view.loginView.cnBtn.setOnAction(event -> {
 			connectionProcess();
@@ -69,56 +67,32 @@ public class ClientController {
 					view.loginView.passwordField.getText());
 		});
 		
+		view.loginView.setOnKeyPressed(event -> {
+			if(event.getCode() == KeyCode.ENTER && !view.loginView.loginBtn.isDisabled()) {
+				view.loginView.loginBtn.fire();
+				event.consume();
+			}
+		});
+		
 		view.loginView.newUserLink.setOnAction(event -> {
 			createNewUserView();
 		});
 		
 			
 	}
-	/**
-	 * @author sarah 
-	 * @param newValue
-	 */
-	private void validateCn(String newValue) {
-		cn = model.validateCnAdress(newValue);
-		cnActivate();
-		
-	}
-
-	private void validateUser(String newValue) {
-		
-		if (!newValue.isEmpty()) {
-			user = true;
-			loginActivate();
-		}
-	
-	}
-	
-	private void validatePw(String newValue) {
-		if(!newValue.isEmpty()) {
-			pw = true;
-			loginActivate();
-		}
-	
-	}
-	
-	private void loginActivate() {
-		
-		if(user && pw) {
-			view.loginView.loginBtn.setDisable(false);			
-				
+	private void loginActivate() {		
+		if(!view.loginView.userName.getText().isEmpty() && !view.loginView.passwordField.getText().isEmpty()) {
+			view.loginView.loginBtn.setDisable(false);
 		} else {
 			view.loginView.loginBtn.setDisable(true);
 		}
-		
 	};	
 	
 	/**@author sarah
 	 * 
 	 */
-	private void cnActivate() {
-		
-		if(cn) {			
+	private void cnActivate(String newValue) {		
+		if(model.validateCnAdress(newValue)) {			
 			view.loginView.cnBtn.setDisable(false);						
 		} else {
 			view.loginView.cnBtn.setDisable(true);
@@ -304,7 +278,9 @@ public class ClientController {
 	
 	public void processExit(Event event, Stage stage) {
 			stage.close();
-			model.closeConnection();
+			if(model.connection != null && model.connection.isAlive()) {
+				model.closeConnection();
+			}
 			
 	}
 	
