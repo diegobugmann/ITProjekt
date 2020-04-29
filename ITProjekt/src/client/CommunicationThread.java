@@ -152,19 +152,27 @@ public class CommunicationThread extends Thread{
 						break;
 					}
 					
-					case registration_accepted:{
-						controller.registrationSucceded();
+					case Registration_accepted :{
+						controller.createNewUserController.registrationSucceded();
 						break;
-					}					
-					
-					case Username_accepted:{
-						controller.userNameisAvailable(true);
-						controller.activateNewUserbtn();
+					}
+					case Registration_failed :{
+						controller.createNewUserController.registerFailed("Registration failed");
+						break;
+					}
+					case Registration_invalidPW :{
+						controller.createNewUserController.registerFailed("Invalid Password");
 						break;
 					}
 					
-					case Username_declined:{
-						controller.userNameisAvailable(false);
+					case Username_accepted :{
+						controller.createNewUserController.userNameisAvailable(true);
+						controller.createNewUserController.activateNewUserbtn();
+						break;
+					}
+					
+					case Username_declined :{
+						controller.createNewUserController.userNameisAvailable(false);
 						break;
 					}
 				}

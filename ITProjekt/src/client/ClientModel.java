@@ -10,15 +10,12 @@ public class ClientModel {
 	protected boolean userName;
 	protected boolean password;
 	protected boolean cnAdress;
-	protected boolean isNewUserNameAvailable = false;
-	protected boolean isNewPasswordValid = false;
-	protected boolean isPasswordConfirmed = false;
 	protected String user;
 	protected String pw;
 	protected String ipAddress = "127.0.0.1";
 	protected int port = 6666;
 	protected boolean isConnected = false;
-	private CommunicationThread connection;
+	protected CommunicationThread connection;
 	public static int cardStyle=0; // 0 = französisch
 	protected ArrayList<Card> actualHand = new ArrayList<>();
 
@@ -70,27 +67,7 @@ public class ClientModel {
 		}
 		return cnAdress;
 	}
-	/**
-	 * @author sarah
-	 * @param newValue
-	 */
-	public void validateUsername(String newValue) {
-		newValue = newValue.trim();
-		this.isNewUserNameAvailable = false;
-		if(newValue.isEmpty() == false) {
-			Message_UserNameAvailable msg = new Message_UserNameAvailable(newValue);
-			connection.sendMessage(msg);				
-		}
-	}
-	
-	public void validatePassword(String newValue) {	
-		if(Validation_LoginProcess.isPasswordValid(newValue)) {
-			isNewPasswordValid = true;
-		}else {
-			isNewPasswordValid = false;
-		}
-	}
-		
+
 	public void loginProcess(String user, String pw) {
 		this.user = user;
 		this.pw = pw;
@@ -136,48 +113,6 @@ public class ClientModel {
 		Simple_Message msg = new Simple_Message(Simple_Message.Msg.Get_GameList);
 		connection.sendMessage(msg);
 	}
-	
-	/**@author sarah
-	 * create new user
-	 */
-	public boolean isPwValid(String newPasswordtxt) {
-		boolean pwValid = false;
-		if(Validation_LoginProcess .isPasswordValid(newPasswordtxt)) {
-			pwValid = true;
-		} 
-		return pwValid;
-	}
-	/**
-	 * @author sarah
-	 * @param newPasswordtxt
-	 * @param confirmPasswordtxt
-	 */
-	public void confirmPw(String newPasswordtxt, String confirmPasswordtxt) {		
-		if(newPasswordtxt.equals(confirmPasswordtxt)) {
-			this.isPasswordConfirmed = true;
-		} else {
-			this.isPasswordConfirmed = false;
-		}
-	}
-	/**
-	 * @author sarah
-	 * @param userName
-	 * @param password
-	 */
-	public void createUser(String userName, String password) {
-		userName = userName.trim();
-		Message_Register msg = new Message_Register(userName, password);
-		connection.sendMessage(msg);		
-	}
-
-	/**
-	 * @author sarah
-	 * @param isAvaiable
-	 */
-	public void setisUserNameAvaiable(boolean isAvaiable) {
-		this.isNewUserNameAvailable = isAvaiable;
-	}
-
 	
 	public void playCard(Card card) {
 		Message_Turn turn = new Message_Turn(card, user);

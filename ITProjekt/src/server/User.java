@@ -227,16 +227,17 @@ public class User {
 			UserData ud = new UserData();
 			String userName = ((Message_Register)msgIn).getUserName();
 			String password = ((Message_Register)msgIn).getPassword();
+			//TODO REname Validation_LoginProcess to Validation_RegisteRProcess
 			if(Validation_LoginProcess.isPasswordValid(password)) {
 				if (ud.createUser(userName, password)) {
-					msgOut = new Simple_Message(Simple_Message.Msg.registration_accepted);
+					msgOut = new Simple_Message(Simple_Message.Msg.Registration_accepted);
 					this.sendMessage(msgOut);
 				} else {
-					msgOut = new Message_Error("Registration failed", Message_Error.ErrorType.Registration_failed);
+					msgOut = new Simple_Message(Simple_Message.Msg.Registration_failed);
 					this.sendMessage(msgOut);
 				}
 			} else {
-				msgOut = new Message_Error("Password invalid", Message_Error.ErrorType.Registration_failed);
+				msgOut = new Simple_Message(Simple_Message.Msg.Registration_invalidPW);
 				this.sendMessage(msgOut);			
 			}
 			break;

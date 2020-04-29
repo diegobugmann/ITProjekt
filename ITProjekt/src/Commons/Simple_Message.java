@@ -32,9 +32,11 @@ public class Simple_Message extends Message{
 		CancelWaiting,
 		//Login related Messages
 		Login_accepted,
-		registration_accepted,
+		Registration_accepted,
 		Username_accepted,
-		Username_declined;
+		Username_declined, 
+		Registration_invalidPW, 
+		Registration_failed;
 	}
 	
 	private Msg type;

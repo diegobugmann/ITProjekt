@@ -25,6 +25,7 @@ public class ClientController {
 	protected Stage stage;
 	protected ClientModel model;
 	protected ClientView view;
+	protected CreateNewUserController createNewUserController;
 	protected WaitingScreen_Preloader splashScreen;
 	protected boolean user;
 	protected boolean pw;
@@ -377,13 +378,6 @@ public class ClientController {
 		alert.showAndWait();
 		// Sarah: Stage wird nicht mehr neu geladen, Problem mit Login button somit geloest
 	}*/
-	/**
-	 * @author sarah
-	 */
-	public void userNameisAvailable(boolean isUserNameAvailable) {
-		model.setisUserNameAvaiable(isUserNameAvailable);
-		this.view.createNewUserView.setUserNameAvailable(isUserNameAvailable);
-	}
 /**
  	* Called when the Game list on the Serverlist gets changed and sent to the Client
  * @author mibe1 
@@ -408,60 +402,12 @@ public class ClientController {
 		
 	}
 	
-/**
- * @author sarah
- */
+	/**
+	 * @author sarah
+	 */
 	public void createNewUserView() {
-		Stage createNewUserStage = new Stage();
-		createNewUserStage.initModality(Modality.NONE);
-		view.showCreateNewUserView(createNewUserStage);
-		view.createNewUserView.newUserNametxt.textProperty().addListener((observable, 
-				oldValue, newValue)-> {model.validateUsername(newValue);activateNewUserbtn();});
-		view.createNewUserView.newPasswordtxt.textProperty().addListener((observable,
-				oldValue, newValue)-> {model.validatePassword(newValue); model.confirmPw(newValue, view.createNewUserView.confirmPasswordtxt.getText());activateNewUserbtn();});
-		view.createNewUserView.confirmPasswordtxt.textProperty().addListener((observable,
-				oldValue, newValue)-> {model.confirmPw(newValue, view.createNewUserView.newPasswordtxt.getText());activateNewUserbtn();});
-		
-		view.createNewUserView.cancelbtn.setOnAction(event ->{
-			createNewUserStage.close();
-		});
-		view.createNewUserView.createUserbtn.setOnAction(event ->{
-			model.createUser(view.createNewUserView.newUserNametxt.getText(), view.createNewUserView.newPasswordtxt.getText());
-		});
+		this.createNewUserController = new CreateNewUserController(model.connection);
 	}
-	/**
-	 * @author sarah
-	 */
-	public void activateNewUserbtn() {
-		if(model.isNewPasswordValid && model.isNewUserNameAvailable && model.isPasswordConfirmed) {
-			view.createNewUserView.activateNewUserbtn(true);
-		}else {
-			view.createNewUserView.activateNewUserbtn(false);
-		}
-	}
-	/**
-	 * @author sarah
-	 */
-	public void registrationSucceded() {
-		String info = "Congratulations! User successfully created";
-		Alert alert = new Alert(AlertType.INFORMATION, info );
-		alert.setHeaderText(null);
-		alert.setTitle(null);
-		alert.showAndWait();
-		view.createNewUserView.stage.close();
-	}
-	
-	/**
-	 * @author sarah
-	 */
-	public void registerFailed(String message) {
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Registration failed");
-		alert.setHeaderText(null);
-		alert.setContentText(message);
-		alert.showAndWait();		
-	}
-
 	/**
 	 * Start the Game;
 	 */
