@@ -1,19 +1,11 @@
 package client;
 
 import java.util.ArrayList;
-
-import javax.swing.JOptionPane;
-
-import Commons.Card;
-import Commons.Game;
-import Commons.GameType;
-import Commons.Validation_LoginProcess;
-import Commons.Wiis;
-import Commons.Wiis.Blatt;
+import Commons.*;
+import Soundmodule.SoundModule;
+import client.CommunicationThread.Status;
 import javafx.animation.PathTransition;
 import javafx.event.ActionEvent;
-
-import client.CommunicationThread.Status;
 import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -26,7 +18,6 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.stage.WindowEvent;
 import javafx.util.Duration;
 
 public class ClientController {
@@ -43,7 +34,8 @@ public class ClientController {
 	protected String actualTrumpf;
 	protected ArrayList<Wiis> wiisReturn;
 	protected Wiis wiisNew;
-
+	//Sounds
+	private SoundModule soundModule;
 
 	protected GameView gameView;
 
@@ -52,7 +44,8 @@ public class ClientController {
 		this.model = model;
 		this.view = view;
 		this.stage = stage;
-		
+		//Sounds
+		soundModule = new SoundModule();
 		
 		view.showLoginView(stage, model.ipAddress + ":" + model.port);
 		
@@ -277,6 +270,7 @@ public class ClientController {
 	private void startSplash() throws Exception {
 		splashScreen = new WaitingScreen_Preloader();
 		view.lobbyView.stage.close();
+		soundModule.playBackgroundSound();
 		splashScreen.start(stage);
 		
 		splashScreen.abbruchBtn.setOnAction(event -> {
@@ -292,6 +286,7 @@ public class ClientController {
 	 */
 	public void processAbbruch(Event e) {
 		try {
+			soundModule.pauseBackgroundSound();
 			splashScreen.stop();
 			startLobby(stage);
 			model.processAbbruch();
@@ -368,11 +363,12 @@ public class ClientController {
 		startLobby(stage);
 	}
 	/**
+	 * Most likely useless code just here as a backup
 	 * Login is not accepted from Server, display Errormessage as popup and restart login page
 	 * @param message
 	 * @author mibe1
 	 */
-	public void loginfaild(String message) {
+	/*public void loginfaild(String message) {
 
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Login failed");
@@ -380,7 +376,7 @@ public class ClientController {
 		alert.setContentText(message);
 		alert.showAndWait();
 		// Sarah: Stage wird nicht mehr neu geladen, Problem mit Login button somit geloest
-	}
+	}*/
 	/**
 	 * @author sarah
 	 */
@@ -470,6 +466,7 @@ public class ClientController {
 	 * Start the Game;
 	 */
 	public void startGame() {
+		soundModule.pauseBackgroundSound();
 		try {
 			stage.setTitle("");
 			view.showGameView(stage);
@@ -643,5 +640,18 @@ public class ClientController {
 			});
 	}
 	
+	/**
+	 * @author mibe1
+	 * @param title
+	 * @param message
+	 * Shows an alterbox of the type Error to tell the user about an error messae or an exception
+	 */
+	public void showAlert(String title, String message) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.showAndWait();
+	}
 
 }

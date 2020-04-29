@@ -9,7 +9,11 @@ import javafx.application.Platform;
 /**
  * 
  * @author mibe1
- *
+ *The Commncation Thread handles all communication between Server and client.
+ *It listens for messages and processes them
+ *It prepares all Messages before sending and sends them
+ *It controls the Status of the client and checks if the client is allowned to send a certain message or not
+ *This class runs as own thread!! 
  */
 public class CommunicationThread extends Thread{
 	/**
@@ -27,13 +31,12 @@ public class CommunicationThread extends Thread{
 		onturn
 	}
 	
-	
 	private Socket socket;
 	private ClientController controller;
 	private String senderName = "undefined";
 	private Status status;
 	private ArrayList<Game> allGames;
-	
+	//Information about the current Game
 	private int gameId = -1;
 	private Game currentGame;
 	
@@ -65,15 +68,31 @@ public class CommunicationThread extends Thread{
 
 			this.run();
          } catch (Exception e) {
+        	//TODO process Exception
          }    
-
     }
     
+    /**
+     * Prepare a Message msg for sendig by setting sender id
+     * This is an option to do last checks for a message such as if it is null
+     * @param msg
+     */
 	public void sendMessage(Message msg) {
-		msg.setClient(senderName);
-		msg.send(this.socket);
+		if(msg != null) {
+			msg.setClient(senderName);
+			msg.send(this.socket);
+		}
+		else {
+			controller.showAlert("Outgoing Message is Null","The Sending Message is null an was not sent.");
+		}
 	}
 	
+	/**
+	 * @author mibe1
+	 * Get a Game form the list of all Games by its GameId
+	 * @param id
+	 * @return game
+	 */
 	public Game getGamefromList(int id) {
 		Game selectedGame = null;
 		for(Game g : allGames) {
@@ -81,11 +100,11 @@ public class CommunicationThread extends Thread{
 				selectedGame = g;
 			}
 		}
-		System.out.println("Joined Game " + selectedGame);
 		return selectedGame;
 	}
 	
     /**
+     * @author mibe1
      * process the message based on the Messagetype and gives advice to the controller
      * @param msgIn Incomming Message
      * @return 
@@ -239,6 +258,9 @@ public class CommunicationThread extends Thread{
 			
 			case error : {
 				Message_Error msgError = (Message_Error) msgIn;
+				controller.showAlert(msgError.getType().toString(), msgError.getErrorMessage());
+				returnMsg = null;
+				/*Most likely useless code just here as a backup
 				switch(msgError.getType()) {
 					case logginfalied :{
 						controller.loginfaild(msgError.getErrorMessage());
@@ -254,7 +276,7 @@ public class CommunicationThread extends Thread{
 						returnMsg = null;
 						break;
 					}
-				}
+				}*/
 				break;
 			}
 		}
@@ -294,10 +316,9 @@ public class CommunicationThread extends Thread{
 	 * Closes the connection to the Server on shutting down the program
 	 */
 	public void closeConnection() {
-		try { if (socket != null) socket.close(); } catch (IOException e) {}
+		try { if (socket != null) socket.close(); } 
+		catch (IOException e) {
+			//TODO Process 
+		}
 	}
-
-
-	
-
 }

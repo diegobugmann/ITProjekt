@@ -49,7 +49,7 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
-	 * @return int teamNumber
+	 * @return int teamNumber (-1 if failed)
 	 * adds a player to the next possible spot and increases the numOfPlayers
 	 */
 	public int addPlayer(Player p) {
@@ -68,12 +68,28 @@ public class Game extends Commons.Game {
 			for (Team t : teams) {
 				if (t.getPlayerList().size() == 0) { //add a player to the first yet empty team
 					t.addPlayer(p);
-					numOfPlayers.setValue(teams.indexOf(t)+1); //refresh numOfPlayers
+					numOfPlayers.setValue(numOfPlayers.get()+1); //refresh numOfPlayers
 					teamNr = teams.indexOf(t);
 				}
 			}
 		}
 		return teamNr;
+	}
+	
+	public void removeAllPlayers() {
+		for (Team t : teams)
+			t.getPlayerList().clear();
+		numOfPlayers.setValue(0);
+	}
+	
+	public void removePlayer(Player p) {
+		for (Team t : teams)
+			for (int i = t.getPlayerList().size()-1; i >=0; i--) {
+				if (t.getPlayerList().get(i) == p) {
+					t.getPlayerList().remove(i);
+					numOfPlayers.setValue(numOfPlayers.get()-1);
+				}
+			}
 	}
 
 	public void setTrumpf(GameType trumpf) {
@@ -235,5 +251,5 @@ public class Game extends Commons.Game {
 		plays.add(newPlay);
 		this.currentPlay = newPlay;
 	}
-
+	
 }
