@@ -2,6 +2,7 @@ package client;
 
 import java.util.ArrayList;
 import Commons.*;
+import Soundmodule.SoundModule;
 import client.CommunicationThread.Status;
 import javafx.animation.PathTransition;
 import javafx.event.ActionEvent;
@@ -33,7 +34,7 @@ public class ClientController {
 	protected String actualTrumpf;
 	protected ArrayList<Wiis> wiisReturn;
 	protected Wiis wiisNew;
-
+	private SoundModule soundModule;
 
 	protected GameView gameView;
 
@@ -42,7 +43,7 @@ public class ClientController {
 		this.model = model;
 		this.view = view;
 		this.stage = stage;
-		
+		soundModule = new SoundModule();
 		
 		view.showLoginView(stage, model.ipAddress + ":" + model.port);
 		
@@ -267,6 +268,7 @@ public class ClientController {
 	private void startSplash() throws Exception {
 		splashScreen = new WaitingScreen_Preloader();
 		view.lobbyView.stage.close();
+		soundModule.playBackgroundSound();
 		splashScreen.start(stage);
 		
 		splashScreen.abbruchBtn.setOnAction(event -> {
@@ -282,6 +284,7 @@ public class ClientController {
 	 */
 	public void processAbbruch(Event e) {
 		try {
+			soundModule.pauseBackgroundSound();
 			splashScreen.stop();
 			startLobby(stage);
 			model.processAbbruch();
