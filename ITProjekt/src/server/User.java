@@ -63,7 +63,8 @@ public class User {
 						e.printStackTrace();
 					}catch (EOFException e) {
 						//TODO send to Logger
-						System.out.println("Connection to User "+ userID + " determined.");
+						logger.info("Connection to "+name+" (User "+userID+") determined");
+						model.removeUser(User.this);
 					}catch (IOException e) {
 						// TODO Auto-generated catch block
 						e.printStackTrace();
@@ -239,6 +240,7 @@ public class User {
 			for (Player player : p.getCurrentGame().getPlayers())
 				player.setCurrentGame(null);
 			model.broadcast(msgIn);
+			break;
 		}
 		//-------------------------------------------------------------------------------------------------------
 		case simple_Message : {
@@ -254,7 +256,9 @@ public class User {
 			}
 			case CancelWaiting: {
 				p.getCurrentGame().removePlayer(p);
-				//TODO zurückschicken?
+				msgOut = new Message_GameList(model.getCastedGames());
+				model.broadcast(msgOut);
+				break;
 			}
 			case Schiebe: {
 				Player teammate = p.getTeammate(); //get the "Schieber"s teammate
@@ -287,6 +291,7 @@ public class User {
 	public void sendMessage(Message msg) {
 		msg.setClient(name);
 		msg.send(clientSocket);
+		logger.info("Message sent to client: "+msg.toString());
 	}
 
 	public void setName(String name) {

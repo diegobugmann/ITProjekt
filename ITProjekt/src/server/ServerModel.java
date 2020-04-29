@@ -43,7 +43,7 @@ public class ServerModel {
 							User user = new Player(ServerModel.this, socket); //upcasting
 							users.add(user);
 						} catch (Exception e) {
-							logger.info(e.toString());
+							logger.info("Server successfully closed");
 						}
 					}
 				}
@@ -61,7 +61,7 @@ public class ServerModel {
 	 * broadcast messages to all users
 	 */
 	public void broadcast(Message msg) {
-		logger.info("Broadcasting to all clients");
+		logger.info("Broadcasting to all clients ("+msg.toString()+")");
 		for (User u : users) {
 			msg.send(u.getSocket()); //Methode, um Msg zu versenden
 		}
@@ -73,6 +73,7 @@ public class ServerModel {
 	 * broadcast messages to only certain users
 	 */
 	public void broadcast(ArrayList<Player> players, Message msg) {
+		logger.info("Broadcasting to all clients in corresponding game ("+msg.toString()+")");
 		for (Player p : players) {
 			msg.send(p.getSocket());
 		}
@@ -99,6 +100,10 @@ public class ServerModel {
 				logger.info(e.toString());
 			}
 		}
+	}
+	
+	public void removeUser(User u) {
+		users.remove(u);
 	}
 	
 	public ArrayList<User> getUsers() {
