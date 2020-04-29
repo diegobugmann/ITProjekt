@@ -49,7 +49,7 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
-	 * @return int teamNumber
+	 * @return int teamNumber (-1 if failed)
 	 * adds a player to the next possible spot and increases the numOfPlayers
 	 */
 	public int addPlayer(Player p) {

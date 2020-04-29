@@ -24,6 +24,7 @@ import Commons.Message_YourTurn;
 import Commons.Message_Register;
 import Commons.Validation_LoginProcess;
 import Commons.Wiis;
+import Commons.Message_Error.ErrorType;
 import Commons.Simple_Message;
 
 import DB.UserData;
@@ -127,8 +128,14 @@ public class User {
 			for (Game g : model.getGames()) {
 				if (g.getGameId() == ((Message_JoinGame)msgIn).getGameId()) { //dem richtigen Game hinzufügen
 					int teamNr = g.addPlayer(p);
-					Team t = g.getTeam(teamNr);
-					p.setCurrentTeam(t); p.setCurrentGame(g); //set current game and team to player
+					if (teamNr == -1) { //game already full?
+						msgOut = new Message_Error("failed to join - game full", ErrorType.failedToJoin);
+						this.sendMessage(msgOut);
+						return;
+					} else {
+						Team t = g.getTeam(teamNr);
+						p.setCurrentTeam(t); p.setCurrentGame(g); //set current game and team to player
+					}
 				}	
 			}
 			//Send back the join Message so client knows the Game
