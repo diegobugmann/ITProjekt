@@ -127,6 +127,15 @@ public class Game extends Commons.Game {
 			return winningTeam;
 		}
 	}
+	
+	public void addLastStich(Team winningTeam) {
+		int points = 5;
+		if (trumpf == GameType.TopsDown || trumpf == GameType.BottomsUp)
+			points *= 3;
+		if (trumpf == GameType.BellsOrClubs || trumpf == GameType.ShieldsOrSpades)
+			points *= 2;
+		winningTeam.addPoints(points);
+	}
 
 	public void setTrumpf(GameType trumpf) {
 		this.trumpf = trumpf;
@@ -146,6 +155,10 @@ public class Game extends Commons.Game {
 	
 	public void setFirstPlay(boolean isFirstPlay) {
 		this.isFistPlay = isFirstPlay;
+	}
+	
+	public int getNumOfPlays() {
+		return this.plays.size();
 	}
 
 	/**
