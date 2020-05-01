@@ -54,6 +54,7 @@ public class GameList extends VBox {
 			for(Game g : games) {
 				if(!g.isRunning() && g.getCurrentNumOfPlayers() < 4) {
 					tableView.getItems().add(g);
+					
 				}
 		}
 	}

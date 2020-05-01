@@ -66,10 +66,10 @@ public class SoundModule {
 		waitingPlayer.onEndOfMediaProperty().set(new Runnable(){
 	        public void run(){
 				try {
-					URL background = new URL(location+"waiting.mp3");
-					Media backgroundMedia = new Media(background.toString());
-					waitingPlayer = new MediaPlayer(backgroundMedia);
-					waitingPlayer.play();
+					URL waiting = new URL(location+"waiting.mp3");
+					Media waitingMedia = new Media(waiting.toString());
+					waitingPlayer = new MediaPlayer(waitingMedia);
+					playWaitingSound();
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -90,7 +90,8 @@ public class SoundModule {
 					URL background = new URL(location+"background.mp3");
 					Media backgroundMedia = new Media(background.toString());
 					backgroundPlayer = new MediaPlayer(backgroundMedia);
-					backgroundPlayer.play();
+					playBackgroundSound();
+					
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
