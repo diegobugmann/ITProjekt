@@ -201,7 +201,7 @@ public class User {
 				
 			} else { //play is not over
 				Player nextPlayer = p.getFollowingPlayer();
-				if (currentGame.isFirstPlay() && currentGame.isSchieber()) {
+				if (currentGame.getNumOfPlays() == 1 && currentGame.isSchieber()) {
 					ArrayList<Wiis> wiis = nextPlayer.validateWiis();
 					msgOut = new Message_Wiis(wiis, p.getID());
 					msgOut.send(nextPlayer.getSocket()); //send player possible wiis in the first play
@@ -258,9 +258,12 @@ public class User {
 		}
 		//-------------------------------------------------------------------------------------------------------
 		case cancel : {
-			p.getCurrentGame().removeAllPlayers();
-			for (Player player : p.getCurrentGame().getPlayers())
+			Game g = p.getCurrentGame();
+			for (Player player : g.getPlayers()) {
 				player.setCurrentGame(null);
+				player.clearHand();
+			}
+			g.removeAllPlayers();
 			model.broadcast(msgIn);
 			break;
 		}
