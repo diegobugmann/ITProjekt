@@ -185,7 +185,6 @@ public class User {
 					currentGame.setFirstPlay(false);
 				}
 				Player winningPlayer = currentPlay.validateWinner();
-				System.out.println(winningPlayer.getID());
 				int playPoints = currentPlay.validatePoints();
 				Team winningTeam = winningPlayer.getCurrentTeam();
 				winningTeam.addPoints(playPoints);
