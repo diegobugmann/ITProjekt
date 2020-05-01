@@ -26,5 +26,9 @@ public class InfoViewController {
 			this.diffView = new DifferenzlerInfoView();
 		}
 	}
+	
+	public void setInfoPopUp(String text) {
+		schView.popUp.setText(text);
+	}
 
 }

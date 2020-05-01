@@ -243,7 +243,8 @@ public class CommunicationThread extends Thread{
 			}
 			case points : {
 				Message_Points msgPoints = (Message_Points) msgIn;
-				//TODO anzeigen
+				controller.infoViewController.model.pointsTeam.set(Integer.parseInt(msgPoints.getPlayerI()));
+				controller.infoViewController.model.pointsOppo.set(Integer.parseInt(msgPoints.getPlayerII()));
 				break;
 			}
 			case cancel : {
@@ -259,7 +260,6 @@ public class CommunicationThread extends Thread{
 			case trumpf : {
 				Message_Trumpf msgTrumpf = (Message_Trumpf) msgIn;
 				GameType trumpf = msgTrumpf.getTrumpf();
-				//controller.view.gameView.infoView.setTrumpf(trumpf.toString());
 				controller.infoViewController.model.setTrump(trumpf);
 				break;
 			}

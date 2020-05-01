@@ -656,6 +656,9 @@ public class ClientController {
 			}
 		}
 		
+		infoViewController.setInfoPopUp(content);
+		
+		/*
 		Alert wiisInfo = new Alert(AlertType.INFORMATION);
 		wiisInfo.setTitle(null);
 		wiisInfo.setHeaderText(null);
@@ -663,6 +666,7 @@ public class ClientController {
 		wiisInfo.initModality(Modality.APPLICATION_MODAL);
         wiisInfo.initOwner(stage);
 		wiisInfo.showAndWait();
+		*/
 	}
 	
 	public void processStich(Message_Stich msgStich) {

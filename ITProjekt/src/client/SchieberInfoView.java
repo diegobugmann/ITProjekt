@@ -20,8 +20,10 @@ public class SchieberInfoView extends VBox{
 	protected Label goalPoints;
 	protected Label trumpflbl;
 	protected Label picTrump;
+	protected Label popUplbl;
+	protected Label popUp;
 	
-	//TODO Pop-up-Box
+	
 
 	
 	public SchieberInfoView() {
@@ -38,9 +40,11 @@ public class SchieberInfoView extends VBox{
 		goalPointslbl = new Label("Ziel Punkte");
 		goalPoints = new Label("");
 		
-		//TODO Trump Bild
 		trumpflbl = new Label("Trumpf");
-		picTrump = new Label("");	
+		picTrump = new Label("");
+		
+		popUplbl = new Label("Info");
+		popUp = new Label("");
 		
 		
 		Region spacer1 = new Region();
@@ -60,7 +64,7 @@ public class SchieberInfoView extends VBox{
 		
 		//TODO Trump Bild
 		this.getChildren().addAll(pointsTeamlbl, pointsTeam, spacer1, pointsOppolbl, pointsOppo, 
-				spacer2, goalPointslbl, goalPoints, spacer3, trumpflbl, picTrump);
+				spacer2, goalPointslbl, goalPoints, spacer3, trumpflbl, picTrump, spacer4, popUplbl, popUp);
 		
 		}
 
