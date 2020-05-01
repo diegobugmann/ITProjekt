@@ -185,12 +185,13 @@ public class User {
 					currentGame.setFirstPlay(false);
 				}
 				Player winningPlayer = currentPlay.validateWinner();
+				System.out.println(winningPlayer.getID());
 				int playPoints = currentPlay.validatePoints();
 				Team winningTeam = winningPlayer.getCurrentTeam();
 				winningTeam.addPoints(playPoints);
 				currentGame.newPlay(); //creates a new play object, adds it to the game and sets it as currentPlay
 				//TODO winner-Message, damit er zeigen kann wer den Stich geholt hat und Karten wegräumen kann?
-				msgOut = new Message_YourTurn(p.getHand()); //player can player everything he wants
+				msgOut = new Message_YourTurn(winningPlayer.getHand()); //player can player everything he wants
 				msgOut.send(winningPlayer.getSocket());
 				
 			} else { //play is not over
