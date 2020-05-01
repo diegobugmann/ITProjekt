@@ -3,6 +3,7 @@ package client;
 import java.util.ArrayList;
 import Commons.*;
 import Soundmodule.SoundModule;
+import Soundmodule.SoundSettingsView;
 import client.CommunicationThread.Status;
 import javafx.animation.PathTransition;
 import javafx.event.ActionEvent;
@@ -139,6 +140,7 @@ public class ClientController {
 	 */
 	private void startLobby(Stage stage) {
 		this.stage = stage;
+		soundModule.playBackgroundSound();
 		view.showLobbyView(stage);
 		
 		view.lobbyView.gameMenu.statistik.setOnAction(event ->{
@@ -150,6 +152,10 @@ public class ClientController {
 		
 		view.lobbyView.gameMenu.karten.setOnAction(event -> {
 			processCardStyle();
+		});
+		
+		view.lobbyView.gameMenu.sound.setOnAction(event -> {
+			processSoundSettings();
 		});
 		
 		view.lobbyView.gameMenu.regeln.setOnAction(event ->{
@@ -175,7 +181,7 @@ public class ClientController {
 			}
 		});
 	}
-	
+
 	private void joinGame(Event e) {
 		Game g = this.view.lobbyView.gameList.getSelectedGame();
 		model.setCurretnGame(g);
@@ -274,7 +280,8 @@ public class ClientController {
 	private void startSplash() throws Exception {
 		splashScreen = new WaitingScreen_Preloader();
 		view.lobbyView.stage.close();
-		soundModule.playBackgroundSound();
+		soundModule.pauseBackgroundSound();
+		soundModule.playWaitingSound();
 		splashScreen.start(stage);
 		
 		splashScreen.abbruchBtn.setOnAction(event -> {
@@ -289,7 +296,7 @@ public class ClientController {
 	 */
 	public void processAbbruch(Event e) {
 		try {
-			soundModule.pauseBackgroundSound();
+			soundModule.pauseWaitingSound();
 			splashScreen.stop();
 			startLobby(stage);
 			model.processAbbruch();
@@ -335,6 +342,11 @@ public class ClientController {
 			}
 		});
 		
+	}
+	
+	private void processSoundSettings() {
+	SoundSettingsView soundSettingsView = new SoundSettingsView(soundModule);
+	soundSettingsView.show();		
 	}
 	
 	public void processRegeln() {
@@ -401,7 +413,9 @@ public class ClientController {
 	 * Start the Game;
 	 */
 	public void startGame() {
-		soundModule.pauseBackgroundSound();
+		System.out.println("Stop waitingSound");
+		soundModule.pauseWaitingSound();
+		soundModule.playBackgroundSound();
 		try {
 			stage.setTitle("Player: "+model.user);
 			this.infoViewController = new InfoViewController(model.getCurrentGame());
@@ -446,6 +460,7 @@ public class ClientController {
 	 * @param event
 	 */
 	public void processExitGame(ActionEvent event) {
+		soundModule.pauseBackgroundSound();
 		stage.close();
 		startLobby(stage);
 		if(event != null)
@@ -657,16 +672,6 @@ public class ClientController {
 		}
 		
 		infoViewController.setInfoPopUp(content);
-		
-		/*
-		Alert wiisInfo = new Alert(AlertType.INFORMATION);
-		wiisInfo.setTitle(null);
-		wiisInfo.setHeaderText(null);
-		wiisInfo.setContentText(content);
-		wiisInfo.initModality(Modality.APPLICATION_MODAL);
-        wiisInfo.initOwner(stage);
-		wiisInfo.showAndWait();
-		*/
 	}
 	
 	public void processStich(Message_Stich msgStich) {

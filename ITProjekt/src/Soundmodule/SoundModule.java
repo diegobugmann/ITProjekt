@@ -14,30 +14,44 @@ import javafx.scene.media.MediaPlayer;
  *
  */
 public class SoundModule {
-
+	//Players
 	private MediaPlayer backgroundPlayer;
+	private MediaPlayer waitingPlayer;
 	private MediaPlayer drawPlayer;
 	private MediaPlayer mixPlayer;
+	//FileLocation
 	private String location;
-	
+	/**
+	 * Volumes
+	 */
+	private double waitingVolume = 0.0;
+	private double backgroundvolume = 0.0;
+	private double gameVolume = 0.5;
+
 	public SoundModule() {
-		
+		//Initalizing all the Mediaplayers and sets the defaultsound
 		location = Paths.get("").toUri()+ "src/Soundmodule/";
 		location.replace(" ", "%20");
 		try {
 			URL background = new URL(location+"background.mp3");
 			Media backgroundMedia = new Media(background.toString());
 			backgroundPlayer = new MediaPlayer(backgroundMedia);
+			backgroundPlayer.setVolume(backgroundvolume);
+			
+			URL waiting = new URL(location+"waiting.mp3");
+			Media waitingMedia = new Media(waiting.toString());
+			waitingPlayer = new MediaPlayer(waitingMedia);
+			waitingPlayer.setVolume(waitingVolume);
+			
 			URL draw = new URL(location + "draw.mp3");
 			Media drawMedia = new Media(draw.toString());
 			drawPlayer = new MediaPlayer(drawMedia);
+			drawPlayer.setVolume(gameVolume);
+			
 			URL mix = new URL(location+"mix.mp3");
 			Media mixMedia = new Media(mix.toString());
 			mixPlayer = new MediaPlayer(mixMedia);
-			
-			
-			//TrainingsCode
-			backgroundPlayer.setVolume(0);
+			mixPlayer.setVolume(gameVolume);
 			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
@@ -45,6 +59,27 @@ public class SoundModule {
 		}
 		
 		
+	}
+	
+	public void playWaitingSound() {
+		waitingPlayer.play();
+		waitingPlayer.onEndOfMediaProperty().set(new Runnable(){
+	        public void run(){
+				try {
+					URL background = new URL(location+"waiting.mp3");
+					Media backgroundMedia = new Media(background.toString());
+					waitingPlayer = new MediaPlayer(backgroundMedia);
+					waitingPlayer.play();
+				} catch (MalformedURLException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+	        }
+		});
+	}
+	
+	public void pauseWaitingSound() {
+		waitingPlayer.pause();
 	}
 	
 	public void playBackgroundSound() {
@@ -66,19 +101,6 @@ public class SoundModule {
 	
 	public void pauseBackgroundSound() {
 		backgroundPlayer.pause();
-		backgroundPlayer.onEndOfMediaProperty().set(new Runnable(){
-	        public void run(){
-				try {
-					URL background = new URL(location+"background.mp3");
-					Media backgroundMedia = new Media(background.toString());
-					backgroundPlayer = new MediaPlayer(backgroundMedia);
-					backgroundPlayer.play();
-				} catch (MalformedURLException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-	        }
-		});
 	}
 
 	public void playDraw(ActionEvent e) {
@@ -116,6 +138,35 @@ public class SoundModule {
 				}
 	        }
 		});
+	}
+	
+	public double getWaitingVolume() {
+		return waitingVolume;
+	}
+
+	public void setWaitingVolume(double waitingVolume) {
+		this.waitingVolume = waitingVolume;
+		//Update the Playervolume
+		waitingPlayer.setVolume(waitingVolume);
+	}
+
+	public double getBackgroundvolume() {
+		return backgroundvolume;
+	}
+
+	public void setBackgroundvolume(double backgroundvolume) {
+		this.backgroundvolume = backgroundvolume;
+		backgroundPlayer.setVolume(backgroundvolume);
+	}
+
+	public double getGameVolume() {
+		return gameVolume;
+	}
+
+	public void setGameVolume(double gameVolume) {
+		this.gameVolume = gameVolume;
+		mixPlayer.setVolume(gameVolume);
+		drawPlayer.setVolume(gameVolume);
 	}
 
 }

@@ -13,6 +13,7 @@ public class GameMenu extends MenuBar {
 	
 	protected Menu einstellungen;
 	protected MenuItem karten;
+	protected MenuItem sound;
 	
 	protected Menu help;
 	protected MenuItem regeln;
@@ -29,7 +30,8 @@ public class GameMenu extends MenuBar {
 		
 		einstellungen = new Menu("Einstellungen");
 		karten = new MenuItem("Karten");
-		einstellungen.getItems().addAll(karten);
+		sound = new MenuItem("Soundeinstellungen");
+		einstellungen.getItems().addAll(karten, sound);
 		
 		help = new Menu("Hilfe");
 		regeln = new MenuItem("Regeln");
