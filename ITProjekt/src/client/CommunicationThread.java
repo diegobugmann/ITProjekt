@@ -194,7 +194,8 @@ public class CommunicationThread extends Thread{
 			}
 			case yourTurn : {
 				status = Status.onturn;
-				controller.processYourTurn();
+				Message_YourTurn msgYourTurn = (Message_YourTurn) msgIn;
+				controller.processYourTurn(msgYourTurn.getHand());
 				break;
 			}
 			case joinGame : {
@@ -226,26 +227,25 @@ public class CommunicationThread extends Thread{
 			}
 			case wiis : {
 				Message_Wiis msgWiis = (Message_Wiis) msgIn;
-
 				if(msgWiis.getWiis().size()>0) {
-					//TODO Change into ArrayList
 					controller.processWiis(msgWiis.getWiis());
-
+					System.out.println("ComThread: "+msgWiis.getWiis());
 				}
 				
 				break;
 			}
 			case wiisInfo : {
 				Message_WiisInfo msgWiisInfo = (Message_WiisInfo) msgIn;
-				
+				controller.processWiisInfo(msgWiisInfo);
 				break;
 			}
 			case stich : {
+				Message_Stich msgStich = (Message_Stich) msgIn;
 				
 				break;
 			}
 			case points : {
-				
+				Message_Points msgPoints = (Message_Points) msgIn;
 				break;
 			}
 			case cancel : {

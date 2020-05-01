@@ -12,6 +12,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Toggle;
+import javafx.scene.shape.LineTo;
 import javafx.scene.shape.MoveTo;
 import javafx.scene.shape.Path;
 import javafx.scene.control.Alert.AlertType;
@@ -194,7 +195,9 @@ public class ClientController {
 
 	/**
 	 * @author Luca Meyer
-	 * Creates Window to select game options
+	 * Creates a view with the gamecontrols
+	 * Changing the visibiliy of the controls, depending on the selcted GameType 
+	 * @param wiisArray
 	 */
 	private void createNewGame(Event e) {
 		
@@ -207,7 +210,32 @@ public class ClientController {
 		stage2.setHeight(300);
 		stage2.setWidth(300);
 		stage2.initStyle(StageStyle.UNDECORATED);
+		stage2.initModality(Modality.APPLICATION_MODAL); /* *** */
+		stage2.initOwner(stage);
 		stage2.show();
+		
+		newGameView.rbSchieber.armedProperty().addListener((observable, 
+				oldValue, newValue)-> {
+					if(newValue) {
+						newGameView.numOfRounds.setVisible(false);
+						newGameView.numOfRoundslbl.setVisible(false);
+						newGameView.rb1000.setVisible(true);
+						newGameView.rb2500.setVisible(true);
+						newGameView.pointslbl.setVisible(true);
+					}
+				});
+		
+		newGameView.rbDifferenzler.armedProperty().addListener((observable, 
+				oldValue, newValue)-> {
+					if(newValue) {
+						newGameView.numOfRounds.setVisible(true);
+						newGameView.numOfRoundslbl.setVisible(true);
+						newGameView.rb1000.setVisible(false);
+						newGameView.rb2500.setVisible(false);
+						newGameView.pointslbl.setVisible(false);
+					}
+				});
+		
 		
 		newGameView.okBtn.setOnAction(event -> {
 			boolean isSchieber = true;
@@ -251,8 +279,7 @@ public class ClientController {
 		
 		splashScreen.abbruchBtn.setOnAction(event -> {
 			processAbbruch(event);
-		});
-		
+		});	
 	
 	}
 	
@@ -281,11 +308,9 @@ public class ClientController {
 			stage.close();
 			if(model.connection != null && model.connection.isAlive()) {
 				model.closeConnection();
-			}
-			
+			}	
 	}
 	
-
 	public void processCardStyle() {
 		int cardStyle=ClientModel.cardStyle;
 		CardStyleView cardStyleView = new CardStyleView();
@@ -376,7 +401,7 @@ public class ClientController {
 	public void startGame() {
 		soundModule.pauseBackgroundSound();
 		try {
-			stage.setTitle("");
+			stage.setTitle("Player: "+model.user);
 			this.infoViewController = new InfoViewController(model.getCurrentGame());
 			if(model.getCurrentGame().isSchieber()) {
 				view.showGameView(stage, infoViewController.schView);
@@ -390,9 +415,6 @@ public class ClientController {
 			view.gameView.gameMenu.karten.setOnAction(event -> {
 				processCardStyle();
 			});
-			/*gameView.gameMenu.sprache.setOnAction(event ->{
-				processSprache();
-			});*/
 		
 			view.gameView.gameMenu.regeln.setOnAction(event ->{
 				processRegeln();
@@ -405,9 +427,7 @@ public class ClientController {
 			view.gameView.gameMenu.exit.setOnAction(event -> {
 				processExitGame(event);
 			});
-						
-			
-			
+							
 		
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -417,8 +437,7 @@ public class ClientController {
 	
 	public void updateCardArea(ArrayList<Card> hand) {
 		model.setActualHand(hand);
-		view.gameView.cardArea.setCards(hand);	
-		
+		view.gameView.cardArea.setCards(hand);		
 	}
 
 	/**
@@ -430,20 +449,22 @@ public class ClientController {
 		startLobby(stage);
 		if(event != null)
 			model.exitGame();
-		
-	
 	}
 	
 	public void processSetTrumpf() {
 		SelectTrumpfView selectTrumpfView = new SelectTrumpfView();
+		selectTrumpfView.userlbl.setText("Player: "+model.user);
 		validateTrumpf = false;
 	
 		Scene scene2 = new Scene(selectTrumpfView);
 		Stage stage2 = new Stage();
+		
 		stage2.setScene(scene2);
 		stage2.setHeight(300);
 		stage2.setWidth(300);
 		stage2.initStyle(StageStyle.UNDECORATED);
+		stage2.initModality(Modality.APPLICATION_MODAL); /* *** */
+		stage2.initOwner(stage);
 		stage2.show();
 		
 		selectTrumpfView.tg.selectedToggleProperty().addListener((observable, 
@@ -459,8 +480,8 @@ public class ClientController {
 			GameType gameType = selectTrumpfView.getSelectedTrumpf();
 			model.setTrumpf(gameType);
 			actualTrumpf = gameType.toString();
+			
 			stage2.close();
-			//processWiis(null); //TODO wieder löschen
 			});
 			
 	}
@@ -471,89 +492,114 @@ public class ClientController {
 		}
 	}
 	
-	public void processYourTurn() {
-		// TODO Auto-generated method stub
+	public void processYourTurn(ArrayList<Card> validCards) {
 		view.gameView.cardArea.infolbl.setText("Du bist am Zug!");
+		System.out.println("processYourTurn: "+validCards);
+		
+		//only valide Cards made clickable
+		for(Card c: validCards) {
+			for(Button b : view.gameView.cardArea.cardButtons) {
+				
+				if(b.getId().contains(c.getRank().toString()) && 
+						b.getId().contains(c.getSuit().toString())) {
+					b.setDisable(false);
+				}
+			}
+			
+		}
 		
 		for(Button b : view.gameView.cardArea.cardButtons) {
-			b.setDisable(false);
 			b.setOnAction(event ->{
-				processPlayCard(event);
+				processPlayCard(event, validCards);
 			});
 		}
 		
 	}
 	
-	private void processPlayCard(Event e) {
+	private void processPlayCard(Event e, ArrayList<Card> validCards) {
 		Button cardBtn = (Button) e.getSource();
-		String cardName = cardBtn.getId();
-
-		
 		boolean found = false;
-		int i = 0;
-		while(i< model.actualHand.size()-1 && found == false) {
-			if(model.actualHand.get(i).toString().contains(cardName)) {
-				found = true;
-				
-				Path path = new Path();
-				
-				path.getElements().add(new MoveTo(150, 150));
-				
-				PathTransition move = new PathTransition(Duration.seconds(1), path, (Button) e.getSource());
-				move.play();
-			}else {
-				i++;
-			}
-		}
-		Card card = model.actualHand.get(i);
-		//model.actualHand.remove(index);
-		model.playCard(card);
-			
+		
+		while(!found) {
+			for(Card c: validCards) {
+					
+						if(cardBtn.getId().contains(c.getRank().toString()) && 
+								cardBtn.getId().contains(c.getSuit().toString())) {
+							found = true;
+							
+							
+							//TODO Animation
+							Path path = new Path();
+							
+							path.getElements().add(new MoveTo(150, 150));
+							path.getElements().add(new LineTo(150, 150));
+							
+							PathTransition move = new PathTransition(Duration.seconds(1), path, (Button) e.getSource());
+							move.play();
+							
+							model.playCard(c);
+							for(Button b : view.gameView.cardArea.cardButtons) {
+									b.setDisable(true);
+							}
+							view.gameView.cardArea.infolbl.setText("");
+							
+							break;
+							
+						}
+					
+				}
+			}				
 	}
 	
 	public void processAnsagePoints() {
 		// TODO Auto-generated method stub
 		
 	}
+	
+	/**
+	 * @author Luca Meyer
+	 * Creates a view to show all possible Wiis and sends the selected to the model
+	 * @param wiisArray
+	 */
 	public void processWiis(ArrayList<Wiis> wiisArray) {
-		
-		wiisReturn=null;
+		wiisReturn = new ArrayList<>();
 		oneChecked = false;
+		
 		SelectWiisView selectWiisView = new SelectWiisView(wiisArray);
+		selectWiisView.userlbl.setText("Player: " +model.user);
 		Scene scene2 = new Scene(selectWiisView);
 		Stage stage2 = new Stage();
+		
 		stage2.setScene(scene2);
 		stage2.setHeight(300);
 		stage2.setWidth(300);
 		stage2.initStyle(StageStyle.UNDECORATED);
+		stage2.initModality(Modality.APPLICATION_MODAL); /* *** */
+        stage2.initOwner(stage);
 		stage2.show();
 		
-		for(CheckBox c : selectWiisView.checkBoxes) {
-			c.armedProperty().addListener((observable, 
-				oldValue, newValue)-> {
-					
-					if(newValue == true) {
-						selectWiisView.confirmBtn.setDisable(false);
-					}
-					
-					//TODO muss wenn wieder alle abgewählt sind wieder deaktiviert werden
-					
-				});
-		}
-		
 		selectWiisView.confirmBtn.setOnAction(event -> {
-			int i = 0;
 			
-			for(CheckBox c : selectWiisView.checkBoxes) {
-				if(c.isArmed()) {
-					wiisReturn.add(wiisArray.get(i));
-					i++;
+			boolean found = false;
+			
+			while(!found) {
+				for(Wiis w: wiisArray) {
+					for(CheckBox c : selectWiisView.checkBoxes) {
+						
+							if(c.getId().contains(w.getBlatt().toString()) && 
+									c.getId().contains(w.getHighestCard().toString())) {
+								found = true;
+								wiisReturn.add(w);
+								}
+								
+							}
+						
+					}
 				}
-			}
 			model.sendWiis(wiisReturn);
 			stage2.close();
 			
-			});
+		});
 	}
 	
 	/**
@@ -567,7 +613,46 @@ public class ClientController {
 		alert.setTitle(title);
 		alert.setHeaderText(null);
 		alert.setContentText(message);
+		alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
 		alert.showAndWait();
+	}
+	
+	public void processWiisInfo(Message_WiisInfo msgWiisInfo) {
+		String player1 = msgWiisInfo.getPlayerI();
+		ArrayList<Wiis> wiisPlayer1 = new ArrayList<>(msgWiisInfo.getWiisPlayerI());
+
+		String player2 = msgWiisInfo.getPlayerII();
+		System.out.println(player2);
+		ArrayList<Wiis> wiisPlayer2 = new ArrayList<>();
+		
+		if(player2 != null) {
+			wiisPlayer2 = msgWiisInfo.getWiisPlayerII();
+			
+		}
+		
+		String content = "Player " +player1+" weist:\n";
+		
+		for(Wiis w : wiisPlayer1) {
+			content += w.toString()+"\n"; 
+		}
+		
+		
+		if(player2 != null) {
+			content += "Player "+player2+" weist:\n";
+			for(Wiis w : wiisPlayer2) {
+				content += w.toString()+"\n"; 
+			}
+		}
+		
+		
+		Alert wiisInfo = new Alert(AlertType.INFORMATION);
+		wiisInfo.setTitle(null);
+		wiisInfo.setHeaderText(null);
+		wiisInfo.setContentText(content);
+		wiisInfo.initModality(Modality.APPLICATION_MODAL);
+        wiisInfo.initOwner(stage);
+		wiisInfo.showAndWait();
 	}
 
 }

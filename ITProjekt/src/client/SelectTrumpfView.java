@@ -5,6 +5,7 @@ import java.io.InputStream;
 import Commons.GameType;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.image.Image;
@@ -14,7 +15,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 public class SelectTrumpfView extends VBox {
-	
+	protected Label userlbl;
 	protected RadioButton rbShieldsOrSpades;
 	protected RadioButton rbRosesOrHearts;
 	protected RadioButton rbAcornsOrDiamonds;
@@ -93,15 +94,22 @@ public class SelectTrumpfView extends VBox {
 		Region spacer3 = new Region();
 		spacer3.setPrefWidth(20);
 		
-		Region spacer4 = new Region();
-		spacer4.setPrefHeight(20);
+		
 		
 		rbBox.setAlignment(Pos.CENTER);
 		rbBox.getChildren().addAll(rbShieldsOrSpades, spacer1, rbRosesOrHearts,
 		spacer2, rbAcornsOrDiamonds, spacer3, rbBellsOrClubs);
 		
+		userlbl = new Label("");
+		
+		Region spacer4 = new Region();
+		spacer4.setPrefHeight(50);
+		
+		Region spacer5 = new Region();
+		spacer5.setPrefHeight(20);
+		
 		this.setAlignment(Pos.CENTER);
-		this.getChildren().addAll(rbBox, spacer4, confirmBtn);
+		this.getChildren().addAll(userlbl, spacer4, rbBox, spacer5, confirmBtn);
 		
 	}
 	

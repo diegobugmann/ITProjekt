@@ -45,9 +45,9 @@ public class NewGameView extends VBox {
 		typeGroup = new ToggleGroup();
 		rbSchieber.setToggleGroup(typeGroup);
 		rbDifferenzler.setToggleGroup(typeGroup);
-		typeGroup.selectToggle(rbSchieber);
 		
 		radioBoxType = new HBox();
+		radioBoxType.setAlignment(Pos.CENTER);
 		radioBoxType.getChildren().addAll(rbSchieber, rbDifferenzler);
 		
 		Region spacer1 = new Region();
@@ -62,6 +62,7 @@ public class NewGameView extends VBox {
 		pointsGroup.selectToggle(rb1000);
 		
 		radioBoxPoints = new HBox();
+		radioBoxPoints.setAlignment(Pos.CENTER);
 		radioBoxPoints.getChildren().addAll(rb1000, rb2500);
 		
 		numOfRoundslbl = new Label("Anzahl Runden:");
@@ -76,6 +77,11 @@ public class NewGameView extends VBox {
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, initialValue);
  
         numOfRounds.setValueFactory(valueFactory);
+        
+        
+        typeGroup.selectToggle(rbSchieber);
+        numOfRoundslbl.setVisible(false);
+        numOfRounds.setVisible(false);
 		
 		
 		Region spacer2 = new Region();

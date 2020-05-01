@@ -114,6 +114,7 @@ public class ClientModel {
 	public void playCard(Card card) {
 		Message_Turn turn = new Message_Turn(card, user);
 		connection.sendMessage(turn);
+		System.out.println("ModelplayCard: "+card); //TODO löschen
 	}
 	
 	public void setTrumpf(GameType gameType) {
@@ -133,6 +134,7 @@ public class ClientModel {
 	public void sendWiis(ArrayList<Wiis> wiisReturn) {
 		Message_Wiis wiis = new Message_Wiis(wiisReturn);
 		connection.sendMessage(wiis);
+		System.out.println("ModelWiis: "+wiisReturn); //TODO löschen
 	}
 
 //Getters from connection---------------------------------------------------------------------------------------------

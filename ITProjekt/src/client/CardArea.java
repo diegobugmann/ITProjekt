@@ -21,7 +21,8 @@ public class CardArea extends VBox {
 	public CardArea() {
 		super();
 		
-		
+		infolbl.setStyle("-fx-font-weight: bold;");
+		this.setAlignment(Pos.CENTER);
 		this.getChildren().addAll(hboxCards, infolbl);
 		
 		 // Add CardButtons and Spacers for the cards
