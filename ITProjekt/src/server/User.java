@@ -190,6 +190,8 @@ public class User {
 				winningTeam.addPoints(playPoints);
 				currentGame.newPlay(); //creates a new play object, adds it to the game and sets it as currentPlay
 				//TODO winner-Message, damit er zeigen kann wer den Stich geholt hat und Karten wegräumen kann?
+				for (Card c : winningPlayer.getHand())
+					System.out.println(c);
 				msgOut = new Message_YourTurn(winningPlayer.getHand()); //player can player everything he wants
 				msgOut.send(winningPlayer.getSocket());
 				

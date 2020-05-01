@@ -125,7 +125,12 @@ public class Player extends User {
 	}
 	
 	public void removeCard(Card c) {
-		hand.remove(c);
+		Card cardToRemove = null;
+		for (Card card : hand) {
+			if (c.getRank() == card.getRank() && c.getSuit() == card.getSuit())
+				cardToRemove = card;
+		}
+		hand.remove(cardToRemove);
 	}
 	
 	public Player getFollowingPlayer() {
