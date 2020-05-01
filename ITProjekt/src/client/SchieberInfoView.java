@@ -1,10 +1,15 @@
 package client;
 
+import javafx.beans.property.SimpleIntegerProperty;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+
+import java.io.InputStream;
+
+import Commons.GameType;
 
 public class SchieberInfoView extends VBox{
 	protected Label pointsTeamlbl;
@@ -14,6 +19,9 @@ public class SchieberInfoView extends VBox{
 	protected Label goalPointslbl;
 	protected Label goalPoints;
 	protected Label trumpflbl;
+	protected Label picTrump;
+	
+	//TODO Pop-up-Box
 
 	
 	public SchieberInfoView() {
@@ -32,7 +40,7 @@ public class SchieberInfoView extends VBox{
 		
 		//TODO Trump Bild
 		trumpflbl = new Label("Trumpf");
-		//ivModel.picTrumpf = new Label("");	
+		picTrump = new Label("");	
 		
 		
 		Region spacer1 = new Region();
@@ -52,34 +60,34 @@ public class SchieberInfoView extends VBox{
 		
 		//TODO Trump Bild
 		this.getChildren().addAll(pointsTeamlbl, pointsTeam, spacer1, pointsOppolbl, pointsOppo, 
-				spacer2, goalPointslbl, goalPoints, spacer3, trumpflbl);
+				spacer2, goalPointslbl, goalPoints, spacer3, trumpflbl, picTrump);
 		
-	}
+		}
+
 	
-	/*
-	 * Moved to InfoViewModel
-	 * 
-	 * public void setTrumpf(String trumpf) {
-		
-		if(ClientModel.cardStyle==0) {
-			cardStyle= "franz";
-		}else if(ClientModel.cardStyle==1) {
-			cardStyle = "deutsch";
+		public void updateTrump(int trump, int cardStyle) {
+			
+			if((Integer) trump != null) {
+			
+				String cStyle;
+				
+				if(cardStyle==0) {
+					cStyle= "franz";
+				} else {
+					cStyle = "deutsch";
+				}
+				
+				InputStream is1 = getClass().getResourceAsStream("Trumpf_"+ cStyle +"/"+ GameType.values()[trump]+".png");
+				Image image = new Image(is1);
+				ImageView imv = new ImageView(image);
+				imv.setFitWidth(40);
+				imv.setFitHeight(40);
+				imv.setPreserveRatio(true);
+				picTrump.setGraphic(imv);
+			} else {
+				picTrump.setGraphic(null);
+			}
+			
 		}
-		
-		if(trumpf != null) {
-			InputStream is1 = getClass().getResourceAsStream("Trumpf_"+cardStyle+"/"+trumpf+".png");
-			Image image = new Image(is1);
-			ImageView imv = new ImageView(image);
-			imv.setFitWidth(40);
-			imv.setFitHeight(40);
-			imv.setPreserveRatio(true);
-			picTrumpf.setGraphic(imv);
-		}else {
-			picTrumpf.setGraphic(null);
-		}
-	}
-	*/
-
-
+	
 }

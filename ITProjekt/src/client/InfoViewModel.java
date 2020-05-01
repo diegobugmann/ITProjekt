@@ -6,16 +6,17 @@ import javafx.beans.value.ObservableValue;
 
 public class InfoViewModel {
 	
-	protected GameType currentTrump;
-	protected int cardStyle;
+	//protected GameType currentTrump;
+	protected SimpleIntegerProperty cardStyle;
 	//protected Label picTrumpf;
 	//protected String cardStyle;
 	
 	protected SimpleIntegerProperty pointsTeam;
 	protected SimpleIntegerProperty pointsOppo;
-	protected SimpleIntegerProperty goalPoints;
-	protected SimpleIntegerProperty numOfRoundsRemain;
-	protected SimpleIntegerProperty numOfRoundsTotal;
+	protected final SimpleIntegerProperty goalPoints;
+	protected SimpleIntegerProperty trump;
+	//protected SimpleIntegerProperty numOfRoundsRemain; -> Diff
+	//protected SimpleIntegerProperty numOfRoundsTotal; -> Diff
 	
 	public InfoViewModel(int goalPoints) {
 		this.goalPoints = new SimpleIntegerProperty();
@@ -24,14 +25,17 @@ public class InfoViewModel {
 		this.pointsOppo.set(0);
 		this.pointsTeam = new SimpleIntegerProperty();
 		this.pointsTeam.set(0);
+		this.cardStyle = new SimpleIntegerProperty();
+		this.trump = new SimpleIntegerProperty();
 	}
 	
-	public void setTrumpf(GameType currentTrump) {
-		this.currentTrump = currentTrump;			
+	public void setTrump(GameType currentTrump) {
+		this.trump.set(currentTrump.ordinal());
+		
 	}
 	
 	public void setcardStyle(int cardStyle) {
-		this.cardStyle = cardStyle;
+		this.cardStyle.set(cardStyle);
 	}
 	
 }

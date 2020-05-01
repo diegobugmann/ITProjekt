@@ -82,6 +82,8 @@ public class SelectTrumpfView extends VBox {
 		rbBellsOrClubs.setGraphic(v4);
 		rbBellsOrClubs.setToggleGroup(tg);
 		
+		//TODO Topsdown and bottomup for Schieber
+		
 		confirmBtn = new Button("Trumpf angeben");
 		confirmBtn.setDisable(true);
 		
