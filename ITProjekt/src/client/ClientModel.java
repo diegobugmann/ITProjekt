@@ -134,6 +134,15 @@ public class ClientModel {
 		return this.actualHand;
 	}
 	
+	public void removeCard(Card c) {
+		Card cardToRemove = null;
+		for (Card card : actualHand) {
+			if (c.getRank() == card.getRank() && c.getSuit() == card.getSuit())
+				cardToRemove = card;
+		}
+		actualHand.remove(cardToRemove);
+	}
+	
 	public void sendWiis(ArrayList<Wiis> wiisReturn) {
 		Message_Wiis wiis = new Message_Wiis(wiisReturn);
 		connection.sendMessage(wiis);

@@ -544,7 +544,7 @@ public class ClientController {
 							
 							
 							view.gameView.cardArea.infolbl.setText("");
-							model.actualHand.remove(c);
+							model.removeCard(c);
 							
 							updateCardArea(model.getActualHand());
 							break;
