@@ -29,6 +29,14 @@ public class Team {
 		this.totalScore += points;
 	}
 	
+	public int getScore() {
+		return this.score;
+	}
+	
+	public int totalScore() {
+		return this.totalScore;
+	}
+	
 	public ArrayList<Player> getPlayerList() {
 		return this.playerList;
 	}

@@ -65,6 +65,7 @@ public class ServerController {
 				Message msgOut = new Simple_Message(Simple_Message.Msg.Game_Start);
 				model.broadcast(players, msgOut); 
 				g.dealCards();
+				System.out.println("KARTEN VERTEILT");
 				//TODO broadcast GameList? gem. Diagramm, um zu zeigen, dass das Spiel am laufen ist
 				if (g.isSchieber()) {
 					Player starter = g.getStartingPlayer();

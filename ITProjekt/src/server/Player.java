@@ -133,6 +133,10 @@ public class Player extends User {
 		hand.remove(cardToRemove);
 	}
 	
+	public void clearHand() {
+		hand.clear();
+	}
+	
 	public Player getFollowingPlayer() {
 		return this.followingPlayer;
 	}

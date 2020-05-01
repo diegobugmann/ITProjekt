@@ -166,13 +166,12 @@ public class User {
 			Play currentPlay = currentGame.getCurrentPlay();
 			model.broadcast(currentGame.getPlayers(), msgIn); //broadcast played card
 			Card playedCard = ((Message_Turn)msgIn).getCard();
-			System.out.println("Gespielte Karte: "+playedCard); //TODO löschen
 			p.removeCard(playedCard); //remove played card from hand
 			currentPlay.addCard(playedCard);
 			currentPlay.getPlayedBy().add(p);
 			
 			if (currentPlay.getPlayedCards().size() == 4) { //is the play over?
-				if (currentGame.isFirstPlay() && currentGame.isSchieber()) { //was it the first round and Schieber?
+				if (currentGame.getNumOfPlays() == 1 && currentGame.isSchieber()) { //was it the first round and Schieber?
 					Team wiisWinner = currentGame.validateWiisWinner();
 					if (wiisWinner != null) {
 						Player p1 = wiisWinner.getPlayerList().get(0);
@@ -182,20 +181,27 @@ public class User {
 						msgOut = new Message_WiisInfo(p1.getWiis(), p2.getWiis(), p1.getName(), p2.getName());
 						model.broadcast(currentGame.getPlayers(), msgOut);
 					}
-					currentGame.setFirstPlay(false);
 				}
 				Player winningPlayer = currentPlay.validateWinner();
 				int playPoints = currentPlay.validatePoints();
 				Team winningTeam = winningPlayer.getCurrentTeam();
 				winningTeam.addPoints(playPoints);
-				currentGame.newPlay(); //creates a new play object, adds it to the game and sets it as currentPlay
-				//TODO winner-Message, damit er zeigen kann wer den Stich geholt hat und Karten wegräumen kann?
-				msgOut = new Message_YourTurn(winningPlayer.getHand()); //player can player everything he wants
-				msgOut.send(winningPlayer.getSocket());
+				if (currentGame.getNumOfPlays() == 9) { //End of game?
+					currentGame.addLastStich(winningTeam);
+					System.out.println(currentGame.getTeam(0).getScore()); //TODO löschen
+					System.out.println(currentGame.getTeam(1).getScore()); //TODO löschen
+					//TODO match handlen
+					//TODO wird weitergespielt? auf game auslagern (g.prepareNewGameIfNeeded() oder so)
+				} else {
+					currentGame.newPlay(); //creates a new play object, adds it to the game and sets it as currentPlay
+					//TODO winner-Message, damit er zeigen kann wer den Stich geholt hat und Karten wegräumen kann?
+					msgOut = new Message_YourTurn(winningPlayer.getHand()); //player can player everything he wants
+					msgOut.send(winningPlayer.getSocket());
+				}
 				
 			} else { //play is not over
 				Player nextPlayer = p.getFollowingPlayer();
-				if (currentGame.isFirstPlay() && currentGame.isSchieber()) {
+				if (currentGame.getNumOfPlays() == 1 && currentGame.isSchieber()) {
 					ArrayList<Wiis> wiis = nextPlayer.validateWiis();
 					msgOut = new Message_Wiis(wiis, p.getID());
 					msgOut.send(nextPlayer.getSocket()); //send player possible wiis in the first play
@@ -252,9 +258,12 @@ public class User {
 		}
 		//-------------------------------------------------------------------------------------------------------
 		case cancel : {
-			p.getCurrentGame().removeAllPlayers();
-			for (Player player : p.getCurrentGame().getPlayers())
+			Game g = p.getCurrentGame();
+			for (Player player : g.getPlayers()) {
 				player.setCurrentGame(null);
+				player.clearHand();
+			}
+			g.removeAllPlayers();
 			model.broadcast(msgIn);
 			break;
 		}

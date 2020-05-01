@@ -21,7 +21,6 @@ public class Game extends Commons.Game {
 	private ArrayList<Team> teams = new ArrayList<Team>();
 	private GameType trumpf;
 	private CardDeck deck;
-	private boolean isFistPlay;
 	private ArrayList<Play> plays;
 	private SimpleIntegerProperty numOfPlayers = new SimpleIntegerProperty(0);
 	private SimpleIntegerProperty numOfAnsagen = new SimpleIntegerProperty(0);
@@ -35,7 +34,6 @@ public class Game extends Commons.Game {
 	public Game(boolean isGermanCards, int rounds, int winningPoints, boolean isSchieber) {
 		super(isGermanCards, rounds, winningPoints, isSchieber, nextID++);
 		this.deck = new CardDeck(isGermanCards);
-		this.isFistPlay = true;
 		plays = new ArrayList<Play>();
 		
 		//create 2 teams for schieber and 4 teams for differenzler
@@ -127,6 +125,15 @@ public class Game extends Commons.Game {
 			return winningTeam;
 		}
 	}
+	
+	public void addLastStich(Team winningTeam) {
+		int points = 5;
+		if (trumpf == GameType.TopsDown || trumpf == GameType.BottomsUp)
+			points *= 3;
+		if (trumpf == GameType.BellsOrClubs || trumpf == GameType.ShieldsOrSpades)
+			points *= 2;
+		winningTeam.addPoints(points);
+	}
 
 	public void setTrumpf(GameType trumpf) {
 		this.trumpf = trumpf;
@@ -140,12 +147,8 @@ public class Game extends Commons.Game {
 		return teams.get(teamNr);
 	}
 	
-	public boolean isFirstPlay() {
-		return this.isFistPlay;
-	}
-	
-	public void setFirstPlay(boolean isFirstPlay) {
-		this.isFistPlay = isFirstPlay;
+	public int getNumOfPlays() {
+		return this.plays.size();
 	}
 
 	/**
