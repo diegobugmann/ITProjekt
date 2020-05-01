@@ -35,11 +35,9 @@ public class ClientController {
 	protected String actualTrumpf;
 	protected ArrayList<Wiis> wiisReturn;
 	protected Wiis wiisNew;
+	protected GameView gameView;
 	//Sounds
 	private SoundModule soundModule;
-
-	protected GameView gameView;
-
 	
 	public ClientController(ClientModel model, ClientView view, Stage stage) {
 		this.model = model;
@@ -82,6 +80,7 @@ public class ClientController {
 		
 			
 	}
+	
 	private void loginActivate() {		
 		if(!view.loginView.userName.getText().isEmpty() && !view.loginView.passwordField.getText().isEmpty()) {
 			view.loginView.loginBtn.setDisable(false);
@@ -104,7 +103,6 @@ public class ClientController {
 	/**@author sarah
 	 * connect to server
 	 */
-	
 	private void connectionProcess() {
 		if(model.connect(this)) {
 			view.loginView.activateLoginFields();
@@ -120,6 +118,7 @@ public class ClientController {
 			*/			
 		}
 	}
+	
 	/**
 	 * @author sarah
 	 * disconnect from server
@@ -133,11 +132,11 @@ public class ClientController {
 		view.loginView.deactivateLoginFields();
 		
 	}
+	
 	/**
 	 * @author Luca Meyer
 	 * starts the Lobbyview and sets all the buttons on action
 	 */
-	
 	private void startLobby(Stage stage) {
 		this.stage = stage;
 		view.showLobbyView(stage);
@@ -267,6 +266,7 @@ public class ClientController {
 		});
 		
 	}
+	
 	/**
 	 * @author Luca Meyer
 	 * Creates splashscreen
@@ -331,7 +331,7 @@ public class ClientController {
 			if(model.getActualHand().isEmpty()) {
 				//do nothing
 			}else {
-				this.updateCardArea(model.getActualHand());				
+				updateCardArea(model.getActualHand());				
 			}
 		});
 		
@@ -365,6 +365,7 @@ public class ClientController {
 	public void loginaccepted() {
 		startLobby(stage);
 	}
+	
 /**
  	* Called when the Game list on the Serverlist gets changed and sent to the Client
  * @author mibe1 
@@ -395,6 +396,7 @@ public class ClientController {
 	public void createNewUserView() {
 		this.createNewUserController = new CreateNewUserController(model.connection);
 	}
+	
 	/**
 	 * Start the Game;
 	 */
@@ -436,8 +438,7 @@ public class ClientController {
 	}
 	
 	public void updateCardArea(ArrayList<Card> hand) {
-		model.setActualHand(hand);
-		view.gameView.cardArea.setCards(hand);		
+		view.gameView.cardArea.setCards(hand);
 	}
 
 	/**
@@ -494,7 +495,7 @@ public class ClientController {
 	
 	public void processYourTurn(ArrayList<Card> validCards) {
 		view.gameView.cardArea.infolbl.setText("Du bist am Zug!");
-		System.out.println("processYourTurn: "+validCards);
+		System.out.println("Controller Valide Karten: "+validCards);
 		
 		//only valide Cards made clickable
 		for(Card c: validCards) {
@@ -526,29 +527,36 @@ public class ClientController {
 						if(cardBtn.getId().contains(c.getRank().toString()) && 
 								cardBtn.getId().contains(c.getSuit().toString())) {
 							found = true;
-							
+							System.out.println("Controller Played Card: "+c);
 							
 							//TODO Animation
+							/**
 							Path path = new Path();
 							
-							path.getElements().add(new MoveTo(150, 150));
-							path.getElements().add(new LineTo(150, 150));
+							path.getElements().add(new MoveTo(0, 0));
+							path.getElements().add(new LineTo(0, 0));
 							
-							PathTransition move = new PathTransition(Duration.seconds(1), path, (Button) e.getSource());
+							PathTransition move = new PathTransition(Duration.seconds(1), path, cardBtn);
 							move.play();
+							*/
 							
 							model.playCard(c);
-							for(Button b : view.gameView.cardArea.cardButtons) {
-									b.setDisable(true);
-							}
-							view.gameView.cardArea.infolbl.setText("");
 							
+							
+							view.gameView.cardArea.infolbl.setText("");
+							model.actualHand.remove(c);
+							
+							updateCardArea(model.getActualHand());
 							break;
 							
 						}
 					
 				}
-			}				
+			}
+		//setDisable all Cards
+		for(Button b : view.gameView.cardArea.cardButtons) {
+				b.setDisable(true);
+		}
 	}
 	
 	public void processAnsagePoints() {
@@ -618,12 +626,15 @@ public class ClientController {
 		alert.showAndWait();
 	}
 	
+	/**
+	 * @author Luca Meyer
+	 * @param msgWiisInfo
+	 */
 	public void processWiisInfo(Message_WiisInfo msgWiisInfo) {
 		String player1 = msgWiisInfo.getPlayerI();
 		ArrayList<Wiis> wiisPlayer1 = new ArrayList<>(msgWiisInfo.getWiisPlayerI());
 
 		String player2 = msgWiisInfo.getPlayerII();
-		System.out.println(player2);
 		ArrayList<Wiis> wiisPlayer2 = new ArrayList<>();
 		
 		if(player2 != null) {
@@ -645,7 +656,6 @@ public class ClientController {
 			}
 		}
 		
-		
 		Alert wiisInfo = new Alert(AlertType.INFORMATION);
 		wiisInfo.setTitle(null);
 		wiisInfo.setHeaderText(null);
@@ -653,6 +663,11 @@ public class ClientController {
 		wiisInfo.initModality(Modality.APPLICATION_MODAL);
         wiisInfo.initOwner(stage);
 		wiisInfo.showAndWait();
+	}
+	
+	public void processStich(Message_Stich msgStich) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

@@ -83,7 +83,7 @@ public class CommunicationThread extends Thread{
 			msg.send(this.socket);
 		}
 		else {
-			controller.showAlert("Outgoing Message is Null","The Sending Message is null an was not sent.");
+			controller.showAlert("Outgoing Message is Null","The Sending Message is null and was not sent.");
 		}
 	}
 	
@@ -144,14 +144,12 @@ public class CommunicationThread extends Thread{
 						controller.processSetTrumpf();
 						break;
 					}
-					
 					case Login_accepted :{
 				        this.status = Status.logedin;
 						controller.loginaccepted();
 						returnMsg = null;
 						break;
 					}
-					
 					case Registration_accepted :{
 						controller.createNewUserController.registrationSucceded();
 						break;
@@ -195,6 +193,7 @@ public class CommunicationThread extends Thread{
 			case yourTurn : {
 				status = Status.onturn;
 				Message_YourTurn msgYourTurn = (Message_YourTurn) msgIn;
+				System.out.println("ComThred valide Karten: "+msgYourTurn.getHand()); //TODO löschen
 				controller.processYourTurn(msgYourTurn.getHand());
 				break;
 			}
@@ -211,7 +210,6 @@ public class CommunicationThread extends Thread{
 				returnMsg = null;
 				break;
 			}
-			
 			case players : {
 				
 				break;
@@ -219,6 +217,7 @@ public class CommunicationThread extends Thread{
 			case hand : {
 				Message_Hand msghand = (Message_Hand) msgIn;
 				controller.updateCardArea(msghand.getHand());
+				controller.model.setActualHand(msghand.getHand());
 				break;
 			}
 			case turn : {
@@ -229,9 +228,7 @@ public class CommunicationThread extends Thread{
 				Message_Wiis msgWiis = (Message_Wiis) msgIn;
 				if(msgWiis.getWiis().size()>0) {
 					controller.processWiis(msgWiis.getWiis());
-					System.out.println("ComThread: "+msgWiis.getWiis());
 				}
-				
 				break;
 			}
 			case wiisInfo : {
@@ -241,11 +238,12 @@ public class CommunicationThread extends Thread{
 			}
 			case stich : {
 				Message_Stich msgStich = (Message_Stich) msgIn;
-				
+				controller.processStich(msgStich);
 				break;
 			}
 			case points : {
 				Message_Points msgPoints = (Message_Points) msgIn;
+				//TODO anzeigen
 				break;
 			}
 			case cancel : {
@@ -265,12 +263,10 @@ public class CommunicationThread extends Thread{
 				controller.infoViewController.model.setTrumpf(trumpf);
 				break;
 			}
-			
 			case endResults : {
-				
+				//TODO
 				break;
 			}
-			
 			case error : {
 				Message_Error msgError = (Message_Error) msgIn;
 				controller.showAlert(msgError.getType().toString(), msgError.getErrorMessage());

@@ -114,7 +114,10 @@ public class ClientModel {
 	public void playCard(Card card) {
 		Message_Turn turn = new Message_Turn(card, user);
 		connection.sendMessage(turn);
-		System.out.println("ModelplayCard: "+card); //TODO löschen
+		//TODO löschen
+		System.out.println("Model Gespielte Karte: "+card); 
+		System.out.println("Model ActualHand: "+actualHand);
+		System.out.println("Model Zug Fertig\n");
 	}
 	
 	public void setTrumpf(GameType gameType) {
