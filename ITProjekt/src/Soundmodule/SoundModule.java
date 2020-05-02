@@ -117,6 +117,7 @@ public class SoundModule {
 					URL draw = new URL(location + "draw.mp3");
 					Media drawMedia = new Media(draw.toString());
 					drawPlayer = new MediaPlayer(drawMedia);
+					drawPlayer.setVolume(gameVolume);
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -135,6 +136,7 @@ public class SoundModule {
 					URL mix = new URL(location+"mix.mp3");
 					Media mixMedia = new Media(mix.toString());
 					mixPlayer = new MediaPlayer(mixMedia);
+					mixPlayer.setVolume(gameVolume);
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
