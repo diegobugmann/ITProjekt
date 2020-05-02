@@ -2,7 +2,7 @@ package Commons;
 
 import java.io.Serializable;
 
-public class Wiis implements Serializable {
+public class Wiis implements Serializable, Comparable<Wiis> {
 	
 	public enum Blatt {
 		dreiblatt(20),
@@ -51,6 +51,11 @@ public class Wiis implements Serializable {
 	
 	public Card getHighestCard() {
 		return this.highestCard;
+	}
+
+	@Override
+	public int compareTo(Wiis o) {
+		return this.blatt.compareTo(o.blatt);		
 	}
 	
 }

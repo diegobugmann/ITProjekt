@@ -233,7 +233,7 @@ public class CommunicationThread extends Thread{
 			}
 			case wiisInfo : {
 				Message_WiisInfo msgWiisInfo = (Message_WiisInfo) msgIn;
-				controller.processWiisInfo(msgWiisInfo);
+				controller.infoViewController.processWiisInfo(msgWiisInfo);
 				break;
 			}
 			case stich : {

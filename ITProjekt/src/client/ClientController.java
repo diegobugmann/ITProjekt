@@ -315,7 +315,6 @@ public class ClientController {
 		int cardStyle=ClientModel.cardStyle;
 		CardStyleView cardStyleView = new CardStyleView();
 		cardStyleView.setSelectedStyle(cardStyle);
-		infoViewController.model.setcardStyle(cardStyle);
 		
 		Scene scene2 = new Scene(cardStyleView);
 		Stage stage2 = new Stage();
@@ -326,6 +325,9 @@ public class ClientController {
 		stage2.show();
 		cardStyleView.confirmBtn.setOnAction(event -> {
 			ClientModel.cardStyle = cardStyleView.getSelectedRadio();
+			if(infoViewController != null) {
+				infoViewController.model.setcardStyle(cardStyle);
+			}
 			stage2.close();
 			
 			if(model.getActualHand().isEmpty()) {
@@ -333,6 +335,7 @@ public class ClientController {
 			}else {
 				updateCardArea(model.getActualHand());				
 			}
+
 		});
 		
 	}
@@ -404,7 +407,7 @@ public class ClientController {
 		soundModule.pauseBackgroundSound();
 		try {
 			stage.setTitle("Player: "+model.user);
-			this.infoViewController = new InfoViewController(model.getCurrentGame());
+			this.infoViewController = new InfoViewController(model.getCurrentGame(), ClientModel.cardStyle);
 			if(model.getCurrentGame().isSchieber()) {
 				view.showGameView(stage, infoViewController.schView);
 			} else {
@@ -624,49 +627,6 @@ public class ClientController {
 		alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
 		alert.showAndWait();
-	}
-	
-	/**
-	 * @author Luca Meyer
-	 * @param msgWiisInfo
-	 */
-	public void processWiisInfo(Message_WiisInfo msgWiisInfo) {
-		String player1 = msgWiisInfo.getPlayerI();
-		ArrayList<Wiis> wiisPlayer1 = new ArrayList<>(msgWiisInfo.getWiisPlayerI());
-
-		String player2 = msgWiisInfo.getPlayerII();
-		ArrayList<Wiis> wiisPlayer2 = new ArrayList<>();
-		
-		if(player2 != null) {
-			wiisPlayer2 = msgWiisInfo.getWiisPlayerII();
-			
-		}
-		
-		String content = "Player " +player1+" weist:\n";
-		
-		for(Wiis w : wiisPlayer1) {
-			content += w.toString()+"\n"; 
-		}
-		
-		
-		if(player2 != null) {
-			content += "Player "+player2+" weist:\n";
-			for(Wiis w : wiisPlayer2) {
-				content += w.toString()+"\n"; 
-			}
-		}
-		
-		infoViewController.setInfoPopUp(content);
-		
-		/*
-		Alert wiisInfo = new Alert(AlertType.INFORMATION);
-		wiisInfo.setTitle(null);
-		wiisInfo.setHeaderText(null);
-		wiisInfo.setContentText(content);
-		wiisInfo.initModality(Modality.APPLICATION_MODAL);
-        wiisInfo.initOwner(stage);
-		wiisInfo.showAndWait();
-		*/
 	}
 	
 	public void processStich(Message_Stich msgStich) {

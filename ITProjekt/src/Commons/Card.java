@@ -73,7 +73,7 @@ public class Card implements Comparable<Card>, Serializable{
     
     @Override
     public String toString() {
-        return rank.toString() + suit.toString();
+        return rank.toString() + " " + suit.toString();
     }
 
 	@Override
