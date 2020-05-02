@@ -69,6 +69,7 @@ public class SoundModule {
 					URL waiting = new URL(location+"waiting.mp3");
 					Media waitingMedia = new Media(waiting.toString());
 					waitingPlayer = new MediaPlayer(waitingMedia);
+					waitingPlayer.setVolume(waitingVolume);
 					playWaitingSound();
 				} catch (MalformedURLException e) {
 					// TODO Auto-generated catch block
@@ -90,6 +91,7 @@ public class SoundModule {
 					URL background = new URL(location+"background.mp3");
 					Media backgroundMedia = new Media(background.toString());
 					backgroundPlayer = new MediaPlayer(backgroundMedia);
+					backgroundPlayer.setVolume(backgroundvolume);
 					playBackgroundSound();
 					
 				} catch (MalformedURLException e) {
