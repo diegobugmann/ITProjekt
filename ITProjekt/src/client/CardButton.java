@@ -38,7 +38,7 @@ public class CardButton extends Button {
 			this.setId(fileName);
 		}else {
 			this.setGraphic(null);
-			this.setVisible(false);
+			//this.setVisible(false);
 		}
 
 	}

@@ -26,7 +26,14 @@ public class CardArea extends VBox {
 		this.getChildren().addAll(hboxCards, infolbl);
 		
 		 // Add CardButtons and Spacers for the cards
-		for (int i = 0; i < 9; i++) {
+		
+		hboxCards.setAlignment(Pos.CENTER);
+			
+	}
+	
+	public void setButtons(ArrayList<Card> hand) {
+		hboxCards.getChildren().clear();
+		for (int i = 0; i < hand.size(); i++) {
         	Button cardBtn = new CardButton();
             Region spacer = new Region();
             spacer.setPrefWidth(10);
@@ -35,18 +42,15 @@ public class CardArea extends VBox {
             cardButtons.add(i, cardBtn);
             
 		}
-		hboxCards.setAlignment(Pos.CENTER);
-			
 	}
 	
 	public void setCards(ArrayList<Card> hand) {
+		
 		for(int i = 0; i<hand.size(); i++) {
 			Card card = hand.get(i);
 			CardButton cardBtn = (CardButton) hboxCards.getChildren().get(i*2);
     		cardBtn.setCard(card);
     		cardBtn.setDisable(true);
-    		
-    		
 		}
 	}
 	

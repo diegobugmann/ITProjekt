@@ -5,7 +5,11 @@ import Commons.*;
 import Soundmodule.SoundModule;
 import Soundmodule.SoundSettingsView;
 import client.CommunicationThread.Status;
+import javafx.animation.Animation;
 import javafx.animation.PathTransition;
+import javafx.animation.RotateTransition;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.Scene;
@@ -455,7 +459,8 @@ public class ClientController {
 	}
 	
 	public void updateCardArea(ArrayList<Card> hand) {
-		view.gameView.cardArea.setCards(hand);
+			view.gameView.cardArea.setButtons(hand);
+			view.gameView.cardArea.setCards(hand);
 	}
 
 	/**
@@ -511,9 +516,14 @@ public class ClientController {
 		}
 	}
 	
+	/**
+	 * @author Luca Meyer
+	 * Methode to handle the yourTurnMessage. Shows a label to the player, and makes all valide Cards clickable
+	 */
 	public void processYourTurn(ArrayList<Card> validCards) {
 		view.gameView.cardArea.infolbl.setText("Du bist am Zug!");
 		System.out.println("Controller Valide Karten: "+validCards);
+		System.out.println("Controller actualHand: "+model.actualHand);
 		
 		//only valide Cards made clickable
 		for(Card c: validCards) {
@@ -534,9 +544,12 @@ public class ClientController {
 		}
 		
 	}
-	
-	private void processPlayCard(Event e, ArrayList<Card> validCards) {
-		Button cardBtn = (Button) e.getSource();
+	/**
+	 * @author Luca Meyer
+	 * Methode to process the played card, sends it to the model
+	 */
+	private void processPlayCard(Event event1, ArrayList<Card> validCards) {
+		Button cardBtn = (Button) event1.getSource();
 		boolean found = false;
 		
 		while(!found) {
@@ -545,26 +558,46 @@ public class ClientController {
 						if(cardBtn.getId().contains(c.getRank().toString()) && 
 								cardBtn.getId().contains(c.getSuit().toString())) {
 							found = true;
-							System.out.println("Controller Played Card: "+c);
+							System.out.println("Controller Played Card: "+c); //TODO löschen
 							
 							//TODO Animation
 							/**
 							Path path = new Path();
 							
-							path.getElements().add(new MoveTo(0, 0));
-							path.getElements().add(new LineTo(0, 0));
+							path.getElements().add(new MoveTo(view.gameView.centerView.getBoundsInParent().getHeight()/2, 
+									view.gameView.centerView.getBoundsInParent().getWidth()/2));
+							path.getElements().add(new LineTo(view.gameView.centerView.getBoundsInParent().getHeight()/2, 
+									view.gameView.centerView.getBoundsInParent().getWidth()/2));
 							
-							PathTransition move = new PathTransition(Duration.seconds(1), path, cardBtn);
+							PathTransition move = new PathTransition(Duration.seconds(1), path, (Button) event1.getSource());
 							move.play();
 							*/
 							
-							model.playCard(c);
-							
-							
-							view.gameView.cardArea.infolbl.setText("");
 							model.removeCard(c);
+							model.playCard(c);
+							view.gameView.cardArea.infolbl.setText("");
+							
 							
 							updateCardArea(model.getActualHand());
+							
+							/**
+
+							move.statusProperty().addListener(new ChangeListener<Animation.Status>() {
+								
+								public void changed(ObservableValue<? extends Animation.Status> observable, 
+										Animation.Status oldValue, Animation.Status newValue) {
+									System.out.println("Move old value: "+oldValue);
+									System.out.println("Move old value: "+newValue);
+									
+									if(newValue == Animation.Status.STOPPED) {
+										
+											
+									}else if(newValue == Animation.Status.RUNNING) {
+										oldValue = null;
+									}
+								}
+							});
+							*/	
 							break;
 							
 						}

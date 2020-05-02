@@ -140,6 +140,7 @@ public class ClientModel {
 			if (c.getRank() == card.getRank() && c.getSuit() == card.getSuit())
 				cardToRemove = card;
 		}
+		System.out.println("Model cardToRemove: "+cardToRemove); //TODO löschen
 		actualHand.remove(cardToRemove);
 	}
 	
