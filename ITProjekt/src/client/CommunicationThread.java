@@ -190,6 +190,13 @@ public class CommunicationThread extends Thread{
 				returnMsg = null;
 				break;
 			}
+			case chat : {
+				Message_Chat chatmsg = (Message_Chat) msgIn;
+				controller.view.gameView.chatBox.receiveChatMessage(chatmsg.getClient(), chatmsg.getMessage());
+				returnMsg = null;
+				break;
+			}
+			
 			case yourTurn : {
 				status = Status.onturn;
 				Message_YourTurn msgYourTurn = (Message_YourTurn) msgIn;

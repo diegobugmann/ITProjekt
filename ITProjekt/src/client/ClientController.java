@@ -420,7 +420,6 @@ public class ClientController {
 	 * Start the Game;
 	 */
 	public void startGame() {
-		System.out.println("Stop waitingSound");
 		soundModule.pauseWaitingSound();
 		soundModule.playBackgroundSound();
 		try {
@@ -449,6 +448,10 @@ public class ClientController {
 		
 			view.gameView.gameMenu.exit.setOnAction(event -> {
 				processExitGame(event);
+			});
+			view.gameView.chatBox.getSend().setOnAction(event ->{
+				model.sendMessage(view.gameView.chatBox.getInput().getText());
+				view.gameView.chatBox.getInput().setText("");
 			});
 							
 		

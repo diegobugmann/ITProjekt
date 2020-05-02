@@ -4,6 +4,7 @@ import java.net.Socket;
 import java.util.ArrayList;
 import Commons.*;
 import client.CommunicationThread.Status;
+import javafx.scene.control.TextField;
 
 public class ClientModel {
 	
@@ -188,5 +189,11 @@ public class ClientModel {
 
 	public void closeConnection() {
 		connection.closeConnection();
+	}
+
+
+	public void sendMessage(String input) {
+		Message_Chat msg = new Message_Chat(input);
+		connection.sendMessage(msg);
 	}
 }

@@ -7,30 +7,14 @@ import java.net.Socket;
 import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import Commons.Card;
-import Commons.GameType;
-import Commons.Message;
-import Commons.MessageType;
-import Commons.Message_CreateGame;
-import Commons.Message_Error;
-import Commons.Message_GameList;
-import Commons.Message_JoinGame;
-import Commons.Message_Login;
-import Commons.Message_Trumpf;
-import Commons.Message_Turn;
-import Commons.Message_UserNameAvailable;
-import Commons.Message_Wiis;
-import Commons.Message_WiisInfo;
-import Commons.Message_YourTurn;
-import Commons.Message_Register;
-import Commons.Validation_LoginProcess;
-import Commons.Wiis;
-import Commons.Message_Error.ErrorType;
-import Commons.Simple_Message;
+import Commons.*;
+
 
 import DB.UserData;
 
 import Commons.Message_Ansage;
+import Commons.Message_Chat;
+import Commons.Message_Error.ErrorType;
 
 public class User {
 	
@@ -143,6 +127,12 @@ public class User {
 			this.sendMessage(msgIn);		
 			msgOut = new Message_GameList(model.getCastedGames());
 			model.broadcast(msgOut);
+			break;
+		}
+		//-----------------------------------------------------------------------------------------------
+		//Code Michael
+		case chat: {
+			model.broadcast(p.getCurrentGame().getPlayers(), msgIn);
 			break;
 		}
 		//-----------------------------------------------------------------------------------------------

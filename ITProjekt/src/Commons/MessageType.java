@@ -24,7 +24,8 @@ public enum MessageType {
 	endResults,
 	error,
 	newUserName,
-	yourTurn
+	yourTurn,
+	chat
 	;
 	
     public static MessageType parseType(String typeName) {
@@ -61,7 +62,7 @@ public enum MessageType {
     	else if (msg instanceof Message_UserNameAvailable) type = newUserName;
     	else if (msg instanceof Message_YourTurn) type = yourTurn;
     	else if (msg instanceof Message_WiisInfo) type = wiisInfo;
-    	
+    	else if (msg instanceof Message_Chat) type = chat;
     	return type;
     }	
 	

@@ -11,6 +11,7 @@ public class GameView extends BorderPane {
 	protected CardArea cardArea;
 	protected CenterView centerView;
 	protected GameMenu gameMenu;
+	protected ChatBox chatBox;
 	protected Stage stage;
 	
 	public GameView(Stage stage, VBox infoView) {
@@ -20,10 +21,11 @@ public class GameView extends BorderPane {
 		cardArea = new CardArea();
 		centerView = new CenterView();
 		gameMenu = new GameMenu();
-		
+		chatBox = new ChatBox();
 		
 		this.setTop(gameMenu);
 		this.setRight(infoView);
+		this.setLeft(chatBox);
 		this.setCenter(centerView);
 		this.setBottom(cardArea);
 		
