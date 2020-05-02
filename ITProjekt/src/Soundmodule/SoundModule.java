@@ -116,7 +116,7 @@ public class SoundModule {
 		backgroundPlayer.pause();
 	}
 /**
- * Play and relaod game sounds on demand
+ * Play and relaod draw sound
  * @param e
  */
 	
@@ -138,6 +138,10 @@ public class SoundModule {
 	        }
 		});
 	}
+	/**
+	 * Play and reload mix card sound
+	 * @param e
+	 */
 	public void playMix(ActionEvent e) {
 		mixPlayer.play();
 		mixPlayer.onEndOfMediaProperty().set(new Runnable(){
@@ -156,6 +160,10 @@ public class SoundModule {
 	        }
 		});
 	}
+	/**
+	 * play and reload new Message sound 
+	 * @param e
+	 */
 	public void playNewMesage(ActionEvent e) {
 		msgPlayer.play();
 		msgPlayer.onEndOfMediaProperty().set(new Runnable(){
@@ -172,7 +180,7 @@ public class SoundModule {
 		});
 	}
 	
-	
+	//Getters and setters--------------------------------------------------------------------------------------
 	public double getWaitingVolume() {
 		return waitingVolume;
 	}
@@ -201,5 +209,5 @@ public class SoundModule {
 		mixPlayer.setVolume(gameVolume);
 		drawPlayer.setVolume(gameVolume);
 	}
-
+	//------------------------------------------------------------------------------------------------------------------
 }

@@ -13,6 +13,12 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+/**
+ * Settingsview for Game sounds including 3 sliders and 2 Buttons as controll elements
+ * Volumes can be set between 0 and 100%
+ * @author mibe1
+ *
+ */
 public class SoundSettingsView extends Stage{
 	private SoundModule sm;
 	

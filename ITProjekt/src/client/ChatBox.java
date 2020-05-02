@@ -17,14 +17,20 @@ import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
-
+/**
+ * VBox to process Chat messages from other players
+ * @author mibe1
+ *
+ */
 public class ChatBox extends VBox {
 	private TextArea centerArea = new TextArea();
 	private HBox controls = new HBox(10);
 	private Button send = new Button(">");
 	private TextField input = new TextField();
 	
-	
+	/**
+	 * Intiialze elemetns and set Styles
+	 */
 	public ChatBox() {
 		super(15);
 		centerArea.setEditable(false);
@@ -42,7 +48,7 @@ public class ChatBox extends VBox {
 		});
 		
 		input.setMaxWidth(145);
-		//Send message on Enter
+		//Send message on Enter from Stackoverflow
 		input.setOnKeyPressed(new EventHandler<KeyEvent>()
 	    {
 	        @Override
@@ -60,6 +66,11 @@ public class ChatBox extends VBox {
 		this.setPadding(new Insets(10,10,10,10));
 	}
 	
+	/**
+	 * New Messages get added to the centerArea
+	 * @param sender
+	 * @param message
+	 */
 	public void receiveChatMessage(String sender, String message) {
 		centerArea.setText(centerArea.getText() + "\r\n"+ sender + ": "+message);
 		centerArea.appendText(""); 
