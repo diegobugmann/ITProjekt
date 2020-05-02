@@ -42,7 +42,7 @@ public class ClientController {
 	protected Wiis wiisNew;
 	protected GameView gameView;
 	//Sounds
-	private SoundModule soundModule;
+	protected SoundModule soundModule;
 	
 	public ClientController(ClientModel model, ClientView view, Stage stage) {
 		this.model = model;
@@ -437,7 +437,10 @@ public class ClientController {
 			view.gameView.gameMenu.karten.setOnAction(event -> {
 				processCardStyle();
 			});
-		
+			view.gameView.gameMenu.sound.setOnAction(event -> {
+				processSoundSettings();
+			});
+			
 			view.gameView.gameMenu.regeln.setOnAction(event ->{
 				processRegeln();
 			});

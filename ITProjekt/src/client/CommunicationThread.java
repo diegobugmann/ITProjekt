@@ -193,6 +193,7 @@ public class CommunicationThread extends Thread{
 			case chat : {
 				Message_Chat chatmsg = (Message_Chat) msgIn;
 				controller.view.gameView.chatBox.receiveChatMessage(chatmsg.getClient(), chatmsg.getMessage());
+				controller.soundModule.playNewMesage(null);
 				returnMsg = null;
 				break;
 			}

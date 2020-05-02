@@ -19,6 +19,7 @@ public class SoundModule {
 	private MediaPlayer waitingPlayer;
 	private MediaPlayer drawPlayer;
 	private MediaPlayer mixPlayer;
+	private MediaPlayer msgPlayer;
 	//FileLocation
 	private String location;
 	/**
@@ -53,6 +54,11 @@ public class SoundModule {
 			mixPlayer = new MediaPlayer(mixMedia);
 			mixPlayer.setVolume(gameVolume);
 			
+			URL msg = new URL(location+"newMessage.mp3");
+			Media msgMedia = new Media(msg.toString());
+			msgPlayer = new MediaPlayer(msgMedia);
+			msgPlayer.setVolume(gameVolume);
+			
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -60,7 +66,9 @@ public class SoundModule {
 		
 		
 	}
-	
+	/**
+	 * Play waiting song when ended mediaplayer get reloaded and plays again
+	 */
 	public void playWaitingSound() {
 		waitingPlayer.play();
 		waitingPlayer.onEndOfMediaProperty().set(new Runnable(){
@@ -82,7 +90,9 @@ public class SoundModule {
 	public void pauseWaitingSound() {
 		waitingPlayer.pause();
 	}
-	
+	/**
+	 * Play background song when ended mediaplayer get reloaded and plays again
+	 */
 	public void playBackgroundSound() {
 		backgroundPlayer.play();
 		backgroundPlayer.onEndOfMediaProperty().set(new Runnable(){
@@ -105,9 +115,12 @@ public class SoundModule {
 	public void pauseBackgroundSound() {
 		backgroundPlayer.pause();
 	}
-
+/**
+ * Play and relaod game sounds on demand
+ * @param e
+ */
+	
 	public void playDraw(ActionEvent e) {
-		backgroundPlayer.pause();
 		drawPlayer.play();
 		drawPlayer.onEndOfMediaProperty().set(new Runnable(){
 	        public void run(){
@@ -126,7 +139,6 @@ public class SoundModule {
 		});
 	}
 	public void playMix(ActionEvent e) {
-		backgroundPlayer.pause();
 		mixPlayer.play();
 		mixPlayer.onEndOfMediaProperty().set(new Runnable(){
 	        public void run(){
@@ -144,6 +156,22 @@ public class SoundModule {
 	        }
 		});
 	}
+	public void playNewMesage(ActionEvent e) {
+		msgPlayer.play();
+		msgPlayer.onEndOfMediaProperty().set(new Runnable(){
+	        public void run(){
+	        	backgroundPlayer.play();
+				
+				try {
+					URL msg = new URL(location+"newMessage.mp3");
+					Media msgMedia = new Media(msg.toString());
+					msgPlayer = new MediaPlayer(msgMedia);
+					msgPlayer.setVolume(gameVolume);
+				} catch (MalformedURLException e) {}
+	        }
+		});
+	}
+	
 	
 	public double getWaitingVolume() {
 		return waitingVolume;
