@@ -268,7 +268,6 @@ public class Game extends Commons.Game {
 			ArrayList<Wiis> wiis = starter.validateWiis();
 			msgOut = new Message_Wiis(wiis, starter.getID());
 			starter.sendMessage(msgOut);
-			msgOut.send(starter.getSocket());
 		}
 		msgOut = new Message_YourTurn(playableCards);
 		msgOut.send(starter.getSocket());
