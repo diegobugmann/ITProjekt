@@ -176,20 +176,20 @@ public class User {
 				int playPoints = currentPlay.validatePoints();
 				Team winningTeam = winningPlayer.getCurrentTeam();
 				winningTeam.addPoints(playPoints);
+				msgOut = new Message_Stich(winningPlayer.getName());
+				model.broadcast(currentGame.getPlayers(), msgOut);
 				if (currentGame.getNumOfPlays() == 9) { //End of game?
 					currentGame.addPoints(5, winningTeam);
-					System.out.println(currentGame.getTeam(0).getScore()); //TODO löschen
-					System.out.println(currentGame.getTeam(1).getScore()); //TODO löschen
 					if (currentGame.isMatch())
 						currentGame.addPoints(100, winningTeam);
+					System.out.println("Team 1:"+currentGame.getTeam(0).getScore()); //TODO löschen
+					System.out.println("Team 2:"+currentGame.getTeam(1).getScore()); //TODO löschen
 					boolean keepPlaying = currentGame.prepareNewGameIfNeeded();
 					if (!keepPlaying) {
 						//TODO GEWINNER BEKANNTGEBEN (currentGame.getWinnerTeam() ist GewinnerTeam)
 					}
 				} else {
 					currentGame.newPlay(); //creates a new play object, adds it to the game and sets it as currentPlay
-					msgOut = new Message_Stich(winningPlayer.getName());
-					model.broadcast(currentGame.getPlayers(), msgOut);
 					msgOut = new Message_YourTurn(winningPlayer.getHand()); //player can play everything he wants
 					msgOut.send(winningPlayer.getSocket());
 				}

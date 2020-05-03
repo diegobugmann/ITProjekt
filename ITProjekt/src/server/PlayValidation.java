@@ -194,6 +194,10 @@ public class PlayValidation {
 		} else {
 			boolean trumpfPlayed = containsTrumpf(playedCards, gameType);
 			Suit trumpf = getTrumpfAsSuit(gameType);
+			for (Card c : playedCards) { //assume last played trumpf wins
+				if (c.getSuit() == trumpf)
+					winningCard = c;
+			}
 			if (trumpfPlayed) {
 				for (Card c : playedCards) {
 					if (c.getSuit() == trumpf && c.getRank().getTrumpfValue() > winningCard.getRank().getTrumpfValue())

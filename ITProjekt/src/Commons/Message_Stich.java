@@ -15,4 +15,8 @@ public class Message_Stich extends Message {
 		this.player = player;
 	}
 	
+	public String getPlayer() {
+		return this.player;
+	}
+	
 }
