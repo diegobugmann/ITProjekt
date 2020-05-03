@@ -57,7 +57,7 @@ public class LoginView extends VBox{
 		userName.setDisable(true);
 		
 		
-		pwlbl = new Label("Passwort erstellen:");
+		pwlbl = new Label("Password:");
 		passwordField = new PasswordField();
 		passwordField.setMaxWidth(300);
 		passwordField.setDisable(true);

@@ -37,7 +37,7 @@ public class SelectWiisView extends VBox {
 	
 
 	
-	public SelectWiisView(ArrayList<Wiis> wiisArray) {
+	public SelectWiisView(ArrayList<Wiis> wiisArray, int cardStyle) {
 		super();
 		userlbl = new Label("");
 		
@@ -46,11 +46,7 @@ public class SelectWiisView extends VBox {
 		for(Wiis w : wiisArray) {
 			String text = w.toString();
 			
-			String textWiis = text.substring(0, text.indexOf("_"));
-			
-			String highcardText = text.substring(text.indexOf("_"));
-			
-			CheckBox b = new CheckBox(textWiis+ " ab "+highcardText);
+			CheckBox b = new CheckBox(CardNameTranslator.getBlattName(w) + " von " + CardNameTranslator.getSuitName(w, cardStyle) + " " + w.getHighestCard().getRank());
 			b.setId(text);
 			checkBoxes.add(b);
 			checkVBox.getChildren().add(b);
