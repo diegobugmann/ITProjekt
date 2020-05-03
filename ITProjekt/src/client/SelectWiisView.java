@@ -18,7 +18,11 @@ import javafx.scene.layout.GridPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-
+/**
+ * @author Luca Meyer
+ * View to give the option to select all possible Wiis
+ * 
+ */
 public class SelectWiisView extends VBox {
 	
 	protected VBox checkVBox;
@@ -29,6 +33,7 @@ public class SelectWiisView extends VBox {
 	public ArrayList<CheckBox> checkBoxes = new ArrayList<>();
 	
 	
+
 	/**
 	 * @author Luca Meyer
 	 * View to give the option to select all possible Wiis
@@ -38,6 +43,7 @@ public class SelectWiisView extends VBox {
 
 	
 	public SelectWiisView(ArrayList<Wiis> wiisArray, int cardStyle) {
+
 		super();
 		userlbl = new Label("");
 		

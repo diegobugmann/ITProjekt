@@ -14,7 +14,7 @@ import javafx.scene.layout.VBox;
 /**
  * 
  * @author Luca Meyer
- * creates the view to set the gameinformation
+ * creates the view to select the gameoptions
  *
  */
 public class NewGameView extends VBox {
@@ -72,7 +72,7 @@ public class NewGameView extends VBox {
 		
 		final int initialValue = 5;
 		 
-        // Value factory.
+        //sets the range of the spinner
         SpinnerValueFactory<Integer> valueFactory = //
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, initialValue);
  
