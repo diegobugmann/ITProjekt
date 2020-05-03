@@ -9,11 +9,11 @@
     
     -fx-min-width: 20;
     -fx-pref-width: 110;
-    -fx-max-width: 500;
+    -fx-max-width: 110;
     
     -fx-min-height: 70;
     -fx-pref-height: 160;
-    -fx-max-height: 550;
+    -fx-max-height: 160;
 }
 
 .cardBack {

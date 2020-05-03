@@ -22,8 +22,9 @@ public class CardButton extends Button {
 	}
 	/**
 	 * @author Luca Meyer
-	 * sets path for german or french cards
+	 * sets the playing cards
 	 */
+	//sets path for german or french cards
 	public void setCard(Card card) {
 		if(ClientModel.cardStyle==0) {
 			cardStyle= "franz";
@@ -43,7 +44,6 @@ public class CardButton extends Button {
 			this.setId(fileName);
 		}else {
 			this.setGraphic(null);
-			//this.setVisible(false);
 		}
 
 	}
@@ -52,5 +52,28 @@ public class CardButton extends Button {
 		String rank = card.getRank().toString();
 		String suit = card.getSuit().toString();
 		return rank + "_" + suit;
+	}
+	
+	//Methode to set the centercards but without setting an ID
+	public void setCardCenter(Card card) {
+		if(ClientModel.cardStyle==0) {
+			cardStyle= "franz";
+		}else if(ClientModel.cardStyle==1) {
+			cardStyle = "deutsch";
+		}
+				
+		if (card != null) {
+			this.setVisible(true);
+			String fileName = cardToFileName(card);
+			Image image = new Image(this.getClass().getClassLoader().getResourceAsStream("client/Karten_"+cardStyle+"/" + fileName+".jpg"));
+			ImageView imv = new ImageView(image);
+			imv.fitWidthProperty().bind(this.widthProperty());
+			imv.fitHeightProperty().bind(this.heightProperty());
+			imv.setPreserveRatio(true);
+			this.setGraphic(imv);
+		}else {
+			this.setGraphic(null);
+		}
+
 	}
 }
