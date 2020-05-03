@@ -29,11 +29,15 @@ public class Team {
 		this.totalScore += points;
 	}
 	
+	public void resetScore() {
+		this.score = 0;
+	}
+	
 	public int getScore() {
 		return this.score;
 	}
 	
-	public int totalScore() {
+	public int getTotalScore() {
 		return this.totalScore;
 	}
 	

@@ -7,8 +7,10 @@ import Commons.Card;
 import Commons.GameType;
 import Commons.Message;
 import Commons.Message_Hand;
+import Commons.Message_Trumpf;
 import Commons.Message_Wiis;
 import Commons.Message_YourTurn;
+import Commons.Simple_Message;
 import Commons.Wiis;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -26,6 +28,8 @@ public class Game extends Commons.Game {
 	private SimpleIntegerProperty numOfAnsagen = new SimpleIntegerProperty(0);
 	private Play currentPlay;
 	private Player startingPlayer;
+	private int numOfRoundsPlayed = 0;
+	private Team winnerTeam;
 	
 	/**
 	 * @author digib
@@ -136,15 +140,18 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
-	 * adds the last stich (5points) according to the gameMode to the winningTeam
+	 * adds points according to the gameMode to the winningTeam (used for Last Stich and Match)
 	 */
-	public void addLastStich(Team winningTeam) {
-		int points = 5;
-		if (trumpf == GameType.TopsDown || trumpf == GameType.BottomsUp)
-			points *= 3;
-		if (trumpf == GameType.BellsOrClubs || trumpf == GameType.ShieldsOrSpades)
-			points *= 2;
-		winningTeam.addPoints(points);
+	public void addPoints(int points, Team winningTeam) {
+		if (!isSchieber()) //differenzler has no multiplication depending on trumpf
+			winningTeam.addPoints(points);
+		else {
+			if (trumpf == GameType.TopsDown || trumpf == GameType.BottomsUp) 
+				points *= 3;
+			else if (trumpf == GameType.BellsOrClubs || trumpf == GameType.ShieldsOrSpades) 
+				points *= 2;
+			winningTeam.addPoints(points);
+		}
 	}
 	
 	/**
@@ -254,12 +261,13 @@ public class Game extends Commons.Game {
 	 */
 	public void startPlaying() {
 		Message msgOut = null;
+		this.newPlay();
 		Player starter = getStartingPlayer();
-		newPlay();
 		ArrayList<Card> playableCards = starter.getHand(); //he can play what he wants at first
 		if (this.isSchieber()) {
 			ArrayList<Wiis> wiis = starter.validateWiis();
 			msgOut = new Message_Wiis(wiis, starter.getID());
+			starter.sendMessage(msgOut);
 			msgOut.send(starter.getSocket());
 		}
 		msgOut = new Message_YourTurn(playableCards);
@@ -271,9 +279,87 @@ public class Game extends Commons.Game {
 	 * creates a new Play object, adds it to the game and sets it as currentPlay
 	 */
 	public void newPlay() {
-		Play newPlay = new Play(this.trumpf);
+		Play newPlay = new Play(this.trumpf, this.isSchieber());
 		plays.add(newPlay);
 		this.currentPlay = newPlay;
+	}
+	
+	/**
+	 * @author digib
+	 * sends Ansage_Trumpf to startingPlayer
+	 */
+	public void setUpSchieber() {
+		Player starter = this.startingPlayer;
+		Message msgOut = new Simple_Message(Simple_Message.Msg.Ansage_Trumpf);
+		starter.sendMessage(msgOut);
+	}
+	
+	/**
+	 * @author digib
+	 * generates random trumpf and broadcasts trumpf and Ansage_Points messages to players
+	 */
+	public void setUpDifferenzler() {
+		this.createRandomTrumpf();
+		Message msgTrumpf = new Message_Trumpf(this.trumpf);
+		Message msgAnsage = new Simple_Message(Simple_Message.Msg.Ansage_Points);
+		for (Player p : this.getPlayers()) {
+			p.sendMessage(msgTrumpf);
+			p.sendMessage(msgAnsage);
+		}
+	}
+	
+	/**
+	 * @author digib
+	 * @return boolean
+	 * checks if game is over; if so, sets the winning team and returns false
+	 * if not, prepares new game and returns true
+	 */
+	public boolean prepareNewGameIfNeeded() {
+		if (isSchieber()) {
+			int pointsReached = 0;
+			Team winningTeam = null;
+			for (Team t : teams) {
+				if (t.getTotalScore() > pointsReached) {
+					pointsReached = t.getTotalScore();
+					winningTeam = t;
+				}
+			}
+			if (pointsReached >= this.getWinningPoints()) { //winningPoints reached, game finished
+				this.winnerTeam = winningTeam;
+				return false;
+			}
+		} else {
+			this.increaseNumOfRoundsPlayed();
+			if (this.numOfRoundsPlayed >= this.getNumOfRounds()) { //numOfRounds reached, game finished
+				//TODO VALIDATE AND SET WINNING TEAM (PLAYER)
+				return false;
+			}
+		}
+		
+		for (Team t : teams)
+			t.resetScore(); //reset score for a new round (Totalscore keeps counting)
+		this.setNextStartingPlayer();
+		this.setBeginningOrder();
+		this.dealCards();
+		this.trumpf = null;
+		this.plays = new ArrayList<Play>();
+		//TODO previous plays irgendwo abspeichern?
+		
+		if (isSchieber())
+			this.setUpSchieber();
+		else {
+			this.setNumOfAnsagen(0);
+			this.setUpDifferenzler();
+		}
+		return true;
+	}
+	
+	public boolean isMatch() {
+		for (int i = 1; i < plays.size(); i++) {
+			if (plays.get(0).getWinningTeam() != plays.get(i).getWinningTeam())
+				return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -284,12 +370,31 @@ public class Game extends Commons.Game {
 		this.numOfAnsagen.set(numOfAnsagen.get()+1);
 	}
 	
+	/**
+	 * @author digib
+	 */
+	public void increaseNumOfRoundsPlayed() {
+		this.numOfRoundsPlayed++;
+	}
+	
+	/**
+	 * @author digib
+	 * sets the next startingPlayer (next in the order)
+	 */
+	public void setNextStartingPlayer() {
+		this.startingPlayer = startingPlayer.getFollowingPlayer();
+	}
+	
 	public SimpleIntegerProperty getNumOfPlayersAsProperty() {
 		return numOfPlayers;
 	}
 	
 	public SimpleIntegerProperty getNumOfAnsagenAsProperty() {
 		return numOfAnsagen;
+	}
+	
+	public void setNumOfAnsagen(int i) {
+		this.numOfAnsagen.set(i);
 	}
 	
 	public CardDeck getDeck() {
@@ -326,6 +431,10 @@ public class Game extends Commons.Game {
 	
 	public void setCurrentPlay(Play play) {
 		this.currentPlay = play;
+	}
+	
+	public Team getWinnerTeam() {
+		return this.winnerTeam;
 	}
 	
 }

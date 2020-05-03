@@ -11,14 +11,16 @@ import Commons.GameType;
 public class Play {
 	
 	private int points;
-	private Team playWinner;
+	private Team winningTeam;
 	private Player winningPlayer;
 	private ArrayList<Card> playedCards = new ArrayList<Card>();
 	private ArrayList<Player> playedBy = new ArrayList<Player>(); //linking the player to the cards (same indices)
 	private GameType trumpf;
+	private boolean isSchieber;
 	
-	public Play(GameType trumpf) {
+	public Play(GameType trumpf, boolean isSchieber) {
 		this.trumpf = trumpf;
+		this.isSchieber = isSchieber;
 	}
 	
 	/**
@@ -27,6 +29,7 @@ public class Play {
 	 */
 	public Player validateWinner() {
 		winningPlayer = PlayValidation.validateWinner(playedCards, playedBy, trumpf);
+		winningTeam = winningPlayer.getCurrentTeam();
 		return winningPlayer;
 	}
 	
@@ -35,7 +38,7 @@ public class Play {
 	 * @return points
 	 */
 	public int validatePoints() {
-		points = PlayValidation.validatePoints(playedCards, trumpf);
+		points = PlayValidation.validatePoints(playedCards, trumpf, isSchieber);
 		return points;
 	}
 	
@@ -49,6 +52,10 @@ public class Play {
 	
 	public ArrayList<Player> getPlayedBy(){
 		return this.playedBy;
+	}
+	
+	public Team getWinningTeam() {
+		return this.winningTeam;
 	}
 	
 }

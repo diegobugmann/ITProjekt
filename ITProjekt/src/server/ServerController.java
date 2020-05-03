@@ -68,17 +68,10 @@ public class ServerController {
 				model.broadcast(players, msgOut);
 				g.dealCards();
 				//TODO broadcast GameList? gem. Diagramm, um zu zeigen, dass das Spiel am laufen ist
-				if (g.isSchieber()) {
-					Player starter = g.getStartingPlayer();
-					msgOut = new Simple_Message(Simple_Message.Msg.Ansage_Trumpf);
-					msgOut.send(starter.getSocket());
-				} else {
-					g.createRandomTrumpf();
-					msgOut = new Message_Trumpf(g.getTrumpf());
-					model.broadcast(players, msgOut);
-					msgOut = new Simple_Message(Simple_Message.Msg.Ansage_Points);
-					model.broadcast(players, msgOut);
-				}
+				if (g.isSchieber())
+					g.setUpSchieber();
+				else
+					g.setUpDifferenzler();
 			}
 		});
 		
