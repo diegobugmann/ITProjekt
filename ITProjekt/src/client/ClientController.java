@@ -345,7 +345,7 @@ public class ClientController {
 		cardStyleView.confirmBtn.setOnAction(event -> {
 			ClientModel.cardStyle = cardStyleView.getSelectedRadio();
 			if(infoViewController != null) {
-				infoViewController.model.setcardStyle(cardStyle);
+				infoViewController.model.setcardStyle(ClientModel.cardStyle);
 			}
 			stage2.close();
 			
@@ -642,8 +642,8 @@ public class ClientController {
 		wiisReturn = new ArrayList<>();
 		oneChecked = false;
 		
-		SelectWiisView selectWiisView = new SelectWiisView(wiisArray);
-		selectWiisView.userlbl.setText("Player: " +model.user);
+		SelectWiisView selectWiisView = new SelectWiisView(wiisArray, ClientModel.cardStyle);
+		selectWiisView.userlbl.setText("Player: " + model.user);
 		Scene scene2 = new Scene(selectWiisView);
 		Stage stage2 = new Stage();
 		
@@ -695,41 +695,6 @@ public class ClientController {
 		alert.showAndWait();
 	}
 	
-
-	/**
-	 * @author Luca Meyer
-	 * @param msgWiisInfo
-	 */
-	public void processWiisInfo(Message_WiisInfo msgWiisInfo) {
-		String player1 = msgWiisInfo.getPlayerI();
-		ArrayList<Wiis> wiisPlayer1 = new ArrayList<>(msgWiisInfo.getWiisPlayerI());
-
-		String player2 = msgWiisInfo.getPlayerII();
-		ArrayList<Wiis> wiisPlayer2 = new ArrayList<>();
-		
-		if(player2 != null) {
-			wiisPlayer2 = msgWiisInfo.getWiisPlayerII();
-			
-		}
-		
-		String content = "Player " +player1+" weist:\n";
-		
-		for(Wiis w : wiisPlayer1) {
-			content += w.toString()+"\n"; 
-		}
-		
-		
-		if(player2 != null) {
-			content += "Player "+player2+" weist:\n";
-			for(Wiis w : wiisPlayer2) {
-				content += w.toString()+"\n"; 
-			}
-		}
-		
-		infoViewController.setInfoPopUp(content);
-	}
-	
-
 	public void processStich(Message_Stich msgStich) {
 		// TODO Auto-generated method stub
 		
