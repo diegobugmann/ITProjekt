@@ -184,8 +184,9 @@ public class User {
 					//TODO wird weitergespielt? auf game auslagern (g.prepareNewGameIfNeeded() oder so)
 				} else {
 					currentGame.newPlay(); //creates a new play object, adds it to the game and sets it as currentPlay
-					//TODO winner-Message, damit er zeigen kann wer den Stich geholt hat und Karten wegräumen kann?
-					msgOut = new Message_YourTurn(winningPlayer.getHand()); //player can player everything he wants
+					msgOut = new Message_Stich(winningPlayer.getName());
+					model.broadcast(currentGame.getPlayers(), msgOut);
+					msgOut = new Message_YourTurn(winningPlayer.getHand()); //player can play everything he wants
 					msgOut.send(winningPlayer.getSocket());
 				}
 				
