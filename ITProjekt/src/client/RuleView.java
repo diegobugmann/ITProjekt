@@ -7,7 +7,11 @@ import java.util.Scanner;
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
-
+/**
+ * 
+ * @author lucameyer
+ * Shows the txt file jassHelp in a new ScrollPane
+ */
 public class RuleView extends ScrollPane {
 	private Scanner fileScanner;
 	protected Label content;

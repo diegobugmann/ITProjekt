@@ -322,6 +322,12 @@ public class ClientController {
 			}	
 	}
 	
+	/**
+	 * @author Luca Meyer
+	 * process to change the CardStyle, creates a new Window with the option,
+	 * takes the selected Radiobutton and changes the cardStyle-Number in the model
+	 * sends the new cardStyle to the infoview and re-updates the Cardarea
+	 */
 	public void processCardStyle() {
 		int cardStyle=ClientModel.cardStyle;
 		CardStyleView cardStyleView = new CardStyleView();
@@ -333,6 +339,8 @@ public class ClientController {
 		stage2.setHeight(300);
 		stage2.setWidth(300);
 		stage2.initStyle(StageStyle.UNDECORATED);
+		stage2.initModality(Modality.APPLICATION_MODAL);
+        stage2.initOwner(stage);
 		stage2.show();
 		cardStyleView.confirmBtn.setOnAction(event -> {
 			ClientModel.cardStyle = cardStyleView.getSelectedRadio();
@@ -355,7 +363,10 @@ public class ClientController {
 	SoundSettingsView soundSettingsView = new SoundSettingsView(soundModule);
 	soundSettingsView.show();		
 	}
-	
+	/**
+	 * @author Luca Meyer
+	 * Creates a new Window and creates a RuleView in it
+	 */
 	public void processRegeln() {
 		RuleView ruleView = new RuleView();
 	
@@ -550,6 +561,7 @@ public class ClientController {
 		}
 		
 	}
+	
 	/**
 	 * @author Luca Meyer
 	 * Methode to process the played card, sends it to the model
@@ -581,13 +593,13 @@ public class ClientController {
 							
 							model.removeCard(c);
 							model.playCard(c);
+							//processTurn(c, model.user);
 							view.gameView.cardArea.infolbl.setText("");
 							
 							
 							updateCardArea(model.getActualHand());
 							
 							/**
-
 							move.statusProperty().addListener(new ChangeListener<Animation.Status>() {
 								
 								public void changed(ObservableValue<? extends Animation.Status> observable, 
@@ -720,6 +732,11 @@ public class ClientController {
 
 	public void processStich(Message_Stich msgStich) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	public void processTurn(Card card, String player) {
+		view.gameView.centerView.setCard(card, player);
 		
 	}
 

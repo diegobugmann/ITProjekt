@@ -49,7 +49,6 @@ public class ClientModel {
 	 * @param newValue
 	 * @return
 	 */
-	
 	public boolean validateCnAdress(String newValue) {
 		
 		boolean cnAdress = false;
@@ -111,7 +110,10 @@ public class ClientModel {
 		Simple_Message msg = new Simple_Message(Simple_Message.Msg.Get_GameList);
 		connection.sendMessage(msg);
 	}
-	
+	/**
+	 * @author Luca meyer
+	 * sends the played Card to the CommunicationThread
+	 */
 	public void playCard(Card card) {
 		Message_Turn turn = new Message_Turn(card, user);
 		connection.sendMessage(turn);
@@ -120,7 +122,10 @@ public class ClientModel {
 		System.out.println("Model ActualHand: "+actualHand);
 		System.out.println("Model Zug Fertig\n");
 	}
-	
+	/**
+	 * @author Luca meyer
+	 * sends the selected Trumpf to the CommunicationThread
+	 */
 	public void setTrumpf(GameType gameType) {
 		Message_Trumpf trumpf = new Message_Trumpf(gameType);
 		connection.sendMessage(trumpf);
@@ -134,7 +139,10 @@ public class ClientModel {
 	public ArrayList<Card> getActualHand(){
 		return this.actualHand;
 	}
-	
+	/**
+	 * @author Luca meyer
+	 * removes the played Card out of the actualHand ArrayList
+	 */
 	public void removeCard(Card c) {
 		Card cardToRemove = null;
 		for (Card card : actualHand) {
@@ -144,7 +152,10 @@ public class ClientModel {
 		System.out.println("Model cardToRemove: "+cardToRemove); //TODO löschen
 		actualHand.remove(cardToRemove);
 	}
-	
+	/**
+	 * @author Luca meyer
+	 * sends the selected Wiis to the CommunicationThread
+	 */
 	public void sendWiis(ArrayList<Wiis> wiisReturn) {
 		Message_Wiis wiis = new Message_Wiis(wiisReturn);
 		connection.sendMessage(wiis);

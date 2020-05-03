@@ -223,13 +223,14 @@ public class CommunicationThread extends Thread{
 				break;
 			}
 			case hand : {
-				Message_Hand msghand = (Message_Hand) msgIn;
-				controller.updateCardArea(msghand.getHand());
-				controller.model.setActualHand(msghand.getHand());
+				Message_Hand msgHand = (Message_Hand) msgIn;
+				controller.updateCardArea(msgHand.getHand());
+				controller.model.setActualHand(msgHand.getHand());
 				break;
 			}
 			case turn : {
-				//TODO
+				Message_Turn msgTurn = (Message_Turn) msgIn;
+				controller.processTurn(msgTurn.getCard(), msgTurn.getPlayer());
 				break;
 			}
 			case wiis : {

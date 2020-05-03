@@ -10,8 +10,11 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
+/**
+ * @author lucameyer
+ * parts are coiped from PokerProjekt R. Bradley
+ */
 
-// vieles übernommen aus PokerProjekt von R. Bradley
 public class CardArea extends VBox {
 	protected Label infolbl = new Label("");
 	protected HBox hboxCards = new HBox();
@@ -25,12 +28,12 @@ public class CardArea extends VBox {
 		this.setAlignment(Pos.CENTER);
 		this.getChildren().addAll(hboxCards, infolbl);
 		
-		 // Add CardButtons and Spacers for the cards
+		
 		
 		hboxCards.setAlignment(Pos.CENTER);
 			
 	}
-	
+	 // Add CardButtons and Spacers for the cards
 	public void setButtons(ArrayList<Card> hand) {
 		hboxCards.getChildren().clear();
 		for (int i = 0; i < hand.size(); i++) {

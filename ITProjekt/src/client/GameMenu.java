@@ -3,7 +3,11 @@ package client;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
-
+/**
+ * 
+ * @author lucameyer
+ *MenuBar for the Lobby and the GameView
+ */
 public class GameMenu extends MenuBar {
 	
 	
