@@ -172,6 +172,7 @@ public class User {
 					winningTeam.addPointsToTotal(winningTeam.getScore());
 					//TODO Gewinner (winningTeam) bekanntgeben (mit totalScore)
 					//return
+					System.out.println("fertig!");
 				} else if (currentGame.getNumOfPlays() == 1 && currentGame.isSchieber()) { //was it the first round and Schieber?
 					Team wiisWinner = currentGame.validateWiisWinner();
 					if (wiisWinner != null) {
@@ -186,9 +187,11 @@ public class User {
 							wiisWinner.addPointsToTotal(wiisWinner.getScore());
 							//TODO Gewinner (wiisWinner) bekanntgeben (mit totalScore)
 							//return
+							System.out.println("fertig!");
 						}
 					}
-				} else if (currentGame.getNumOfPlays() == 9) { //was it the last round?
+				}
+				if (currentGame.getNumOfPlays() == 9) { //was it the last round?
 					currentGame.addPoints(5, winningTeam);
 					if (currentGame.isMatch())
 						currentGame.addPoints(100, winningTeam);
@@ -197,6 +200,7 @@ public class User {
 						winningTeam.addPointsToTotal(winningTeam.getScore());
 						//TODO Gewinner (winningTeam) bekanntgeben (mit totalScore)
 						//return
+						System.out.println("fertig!");
 					}
 					if (currentGame.isSchieber()) {
 						for (int i = 0; i < 2; i++) { //send scores for both teams and add to total
