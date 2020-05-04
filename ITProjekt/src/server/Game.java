@@ -42,29 +42,34 @@ public class Game extends Commons.Game {
 		
 		//create 2 teams for schieber and 4 teams for differenzler
 		if (isSchieber) {
-			for (int i = 0; i < 2; i++)
-				teams.add(new Team());
+			for (int i = 0; i < 2; i++) {
+				Team t = new Team();
+				t.setTeamID(i+1);
+				teams.add(t);
+			}
 		} else {
-			for (int i = 0; i < 4; i++)
-				teams.add(new Team());
+			for (int i = 0; i < 4; i++) {
+				Team t = new Team();
+				t.setTeamID(i+1);
+				teams.add(t);
+			}
 		}
 	}
 	
 	/**
 	 * @author digib
-	 * @return int teamNumber (-1 if failed)
+	 * @return int teamIndex (-1 if failed)
 	 * adds a player to the next possible spot and increases the numOfPlayers
 	 */
 	public int addPlayer(Player p) {
-		int teamNr = -1;
+		int teamIndex = -1;
 		if (this.isSchieber()) {
 			if (teams.get(0).getPlayerList().size() < 2) {
 				teams.get(0).addPlayer(p);
-				teamNr = 0;
-			}
-			else if (teams.get(1).getPlayerList().size() < 2) {
+				teamIndex = 0;
+			} else if (teams.get(1).getPlayerList().size() < 2) {
 				teams.get(1).addPlayer(p);
-				teamNr = 1;
+				teamIndex = 1;
 			}
 			numOfPlayers.set(teams.get(0).getPlayerList().size()+teams.get(1).getPlayerList().size()); //refresh numOfPlayers
 		} else {
@@ -72,12 +77,12 @@ public class Game extends Commons.Game {
 				if (t.getPlayerList().size() == 0) { //add a player to the first yet empty team
 					t.addPlayer(p);
 					numOfPlayers.setValue(numOfPlayers.get()+1); //refresh numOfPlayers
-					teamNr = teams.indexOf(t);
-					return teamNr;
+					teamIndex = teams.indexOf(t);
+					return teamIndex;
 				}
 			}
 		}
-		return teamNr;
+		return teamIndex;
 	}
 	
 	/**
@@ -334,7 +339,6 @@ public class Game extends Commons.Game {
 	 * if not, prepares new game and returns true
 	 */
 	public boolean prepareNewGameIfNeeded() {
-		Team winningTeam = null;
 		if (!isSchieber()) {
 			this.increaseNumOfRoundsPlayed();
 			if (this.numOfRoundsPlayed >= this.getNumOfRounds()) { //numOfRounds reached, game finished
@@ -342,7 +346,7 @@ public class Game extends Commons.Game {
 				for (Team t : teams) {
 					if (t.getTotalScore() < lowestPoints) {
 						lowestPoints = t.getTotalScore();
-						winningTeam = t;
+						this.winnerTeam = t;
 					}
 				}
 				return false;
@@ -371,12 +375,25 @@ public class Game extends Commons.Game {
 		return true;
 	}
 	
+	/**
+	 * @author digib
+	 * @return boolean
+	 */
 	public boolean isMatch() {
 		for (int i = 1; i < plays.size(); i++) {
 			if (plays.get(0).getWinningTeam() != plays.get(i).getWinningTeam())
 				return false;
 		}
 		return true;
+	}
+	
+	/**
+	 * @author digib
+	 * adds points from current game to the total score
+	 */
+	public void updateTotalPoints() {
+		for (Team t : teams)
+			t.addPointsToTotal(t.getScore());
 	}
 	
 	/**
@@ -426,8 +443,8 @@ public class Game extends Commons.Game {
 		return this.trumpf;
 	}
 	
-	public Team getTeam(int teamNr) {
-		return teams.get(teamNr);
+	public Team getTeam(int teamIndex) {
+		return teams.get(teamIndex);
 	}
 	
 	public int getNumOfPlays() {

@@ -7,15 +7,10 @@ import java.util.ArrayList;
  */
 public class Team {
 	
-	private static int nextID = 1;
 	private int teamID;
 	private ArrayList<Player> playerList = new ArrayList<Player>();
 	private int score;
 	private int totalScore;
-	
-	public Team() {
-		this.teamID = nextID++;
-	}
 	
 	public void addPlayer(Player p) {
 		this.playerList.add(p);
@@ -60,11 +55,24 @@ public class Team {
 		return this.playerList;
 	}
 	
+	/**
+	 * @author digib
+	 * @return boolean
+	 * true if points from current and previous games add up to the winningPoints
+	 */
 	public boolean isFinished(Game currentGame) {
 		if (this.score + this.totalScore >= currentGame.getWinningPoints())
 			return true;
 		else
 			return false;
+	}
+
+	public void setTeamID(int teamID) {
+		this.teamID = teamID;
+	}
+	
+	public int getTeamID() {
+		return this.teamID;
 	}
 	
 }

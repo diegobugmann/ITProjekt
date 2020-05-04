@@ -68,7 +68,9 @@ public class User {
 	 * processes the message from the client and decides what to do for each type, including Simple_Messages
 	 */
 	protected void processMessage(Message msgIn) {
-		logger.info("Message received from client: "+ msgIn.toString());
+		if (!(MessageType.getType(msgIn) == MessageType.simple_Message && 
+			((Simple_Message)msgIn).getType() == Simple_Message.Msg.Received)) //do not log received-Messages
+			logger.info("Message received from client: "+ msgIn.toString());
 		Message msgOut = null;
 		Player p = (Player) this; //downcasting
 		switch (MessageType.getType(msgIn)) {
@@ -98,8 +100,8 @@ public class User {
 			int winningPoints = ((Message_CreateGame)msgIn).getWinningPoints();
 			Game g = new Game(isGermanCards, numOfRounds, winningPoints, isSchieber);
 			model.addGame(g);
-			int teamNr = g.addPlayer(p); //Player, welcher Spiel erstellt hat, hinzufügen
-			Team t = g.getTeam(teamNr);
+			int teamIndex = g.addPlayer(p); //add player to the game
+			Team t = g.getTeam(teamIndex);
 			p.setCurrentTeam(t); p.setCurrentGame(g); //set current game and team to player
 			//Send joining message so client knows the game
 			Message_JoinGame msgJoin = new Message_JoinGame(g.getGameId());
@@ -111,7 +113,7 @@ public class User {
 		//-----------------------------------------------------------------------------------------------
 		case joinGame : {
 			for (Game g : model.getGames()) {
-				if (g.getGameId() == ((Message_JoinGame)msgIn).getGameId()) { //dem richtigen Game hinzufügen
+				if (g.getGameId() == ((Message_JoinGame)msgIn).getGameId()) { //add player to the correct game
 					int teamNr = g.addPlayer(p);
 					if (teamNr == -1) { //game already full?
 						msgOut = new Message_Error("failed to join - game full", ErrorType.failedToJoin);
@@ -159,21 +161,23 @@ public class User {
 			p.removeCard(playedCard); //remove played card from hand
 			currentPlay.addCard(playedCard);
 			currentPlay.getPlayedBy().add(p);
-			
-			if (currentPlay.getPlayedCards().size() == 4) { //is the play over?
+			//is the play over?
+			if (currentPlay.getPlayedCards().size() == 4) { 
 				Player winningPlayer = currentPlay.validateWinner();
 				int playPoints = currentPlay.validatePoints();
 				Team winningTeam = winningPlayer.getCurrentTeam();
 				winningTeam.addPoints(playPoints);
 				msgOut = new Message_Stich(winningPlayer.getName());
 				model.broadcast(currentGame.getPlayers(), msgOut);
-				if (currentGame.isSchieber() && winningTeam.isFinished(currentGame)) { //has the playWinner reached the points?
+				//has the playWinner reached the points? (Stich before Wiis)
+				if (currentGame.isSchieber() && winningTeam.isFinished(currentGame)) {
 					currentGame.setWinnerTeam(winningTeam);
-					//winningTeam.addPointsToTotal(winningTeam.getScore());
-					//TODO Gewinner (winningTeam) bekanntgeben (mit totalScore)
-					//return
-					System.out.println("fertig!");
-				} else if (currentGame.getNumOfPlays() == 1 && currentGame.isSchieber()) { //was it the first round and Schieber?
+					currentGame.updateTotalPoints();
+					msgOut = new Message_EndResult(winningTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
+					model.broadcast(msgOut);
+					return; //game is over
+				} else if (currentGame.getNumOfPlays() == 1 && currentGame.isSchieber()) {
+					//validate who has the highest wiis
 					Team wiisWinner = currentGame.validateWiisWinner();
 					if (wiisWinner != null) {
 						Player p1 = wiisWinner.getPlayerList().get(0);
@@ -182,12 +186,13 @@ public class User {
 						p2.addWiisPointsToTeam();
 						msgOut = new Message_WiisInfo(p1.getWiis(), p2.getWiis(), p1.getName(), p2.getName());
 						model.broadcast(currentGame.getPlayers(), msgOut);
-						if (wiisWinner.isFinished(currentGame)) { //has the wiisWinner reached the points?
+						//has the wiisWinner reached the points? (Wiis after Stich)
+						if (wiisWinner.isFinished(currentGame)) {
 							currentGame.setWinnerTeam(wiisWinner);
-							//wiisWinner.addPointsToTotal(wiisWinner.getScore());
-							//TODO Gewinner (wiisWinner) bekanntgeben (mit totalScore)
-							//return
-							System.out.println("fertig!");
+							currentGame.updateTotalPoints();
+							msgOut = new Message_EndResult(wiisWinner.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
+							model.broadcast(msgOut);
+							return; //game is over
 						}
 					}
 				}
@@ -195,15 +200,17 @@ public class User {
 					currentGame.addPoints(5, winningTeam);
 					if (currentGame.isMatch())
 						currentGame.addPoints(100, winningTeam);
-					if (currentGame.isSchieber() && winningTeam.isFinished(currentGame)) { //has the playWinner reached the points now?
-						currentGame.setWinnerTeam(winningTeam);
-						//winningTeam.addPointsToTotal(winningTeam.getScore());
-						//TODO Gewinner (winningTeam) bekanntgeben (mit totalScore)
-						//return
-						System.out.println("fertig!");
-					}
 					if (currentGame.isSchieber()) {
-						for (int i = 0; i < 2; i++) { //send scores for both teams and add to total
+						//has the playWinner reached the points now?
+						if (winningTeam.isFinished(currentGame)) {
+							currentGame.setWinnerTeam(winningTeam);
+							currentGame.updateTotalPoints();
+							msgOut = new Message_EndResult(winningTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
+							model.broadcast(msgOut);
+							return; //game is over
+						}
+						//if game is not over, send scores for both teams and add to total
+						for (int i = 0; i < 2; i++) { 
 							Player p1 = currentGame.getTeam(i).getPlayerList().get(0);
 							Player p2 = currentGame.getTeam(i).getPlayerList().get(1);
 							int points = currentGame.getTeam(i).getScore();
@@ -212,7 +219,8 @@ public class User {
 							model.broadcast(currentGame.getPlayers(), msgOut);
 						}
 					} else {
-						for (int i = 0; i < 4; i++) { //send scores for all 4 teams and add to total
+						//send scores for all 4 teams and add to total
+						for (int i = 0; i < 4; i++) {
 							Player p1 = currentGame.getTeam(i).getPlayerList().get(0);
 							int points = Math.abs(currentGame.getTeam(i).getScore() - p1.getAnnouncedPoints());
 							currentGame.getTeam(i).addPointsToTotal(points);
@@ -220,21 +228,23 @@ public class User {
 							model.broadcast(currentGame.getPlayers(), msgOut);
 						}
 					}
-					System.out.println("Team 1:"+currentGame.getTeam(0).getScore()); //TODO löschen
-					System.out.println("Team 1 total:"+currentGame.getTeam(0).getTotalScore()); //TODO löschen
-					System.out.println("Team 2:"+currentGame.getTeam(1).getScore()); //TODO löschen
-					System.out.println("Team 2 total:"+currentGame.getTeam(1).getTotalScore()); //TODO löschen
 					boolean keepPlaying = currentGame.prepareNewGameIfNeeded();
-					if (!keepPlaying) { //can only occur if differenzler has reached numOfRounds
-						//TODO Gewinner (currentGame.getWinnerTeam()) bekanntgeben (mit totalScore)
+					//are numOfRounds reached?
+					if (!keepPlaying) {
+						Team winnerTeam = currentGame.getWinnerTeam();
+						msgOut = new Message_EndResult(winnerTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), 
+							currentGame.getTeam(1).getTotalScore(), currentGame.getTeam(2).getTotalScore(), currentGame.getTeam(3).getTotalScore());
+						model.broadcast(msgOut);
+						return; //game over
 					}
+				//it was not the last round
 				} else {
 					currentGame.newPlay(); //creates a new play object, adds it to the game and sets it as currentPlay
 					msgOut = new Message_YourTurn(winningPlayer.getHand()); //player can play everything he wants
 					msgOut.send(winningPlayer.getSocket());
 				}
-				
-			} else { //play is not over
+			//play is not over
+			} else { 
 				Player nextPlayer = p.getFollowingPlayer();
 				if (currentGame.getNumOfPlays() == 1 && currentGame.isSchieber()) {
 					ArrayList<Wiis> wiis = nextPlayer.validateWiis();
