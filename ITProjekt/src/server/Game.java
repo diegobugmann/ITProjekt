@@ -73,6 +73,7 @@ public class Game extends Commons.Game {
 					t.addPlayer(p);
 					numOfPlayers.setValue(numOfPlayers.get()+1); //refresh numOfPlayers
 					teamNr = teams.indexOf(t);
+					return teamNr;
 				}
 			}
 		}
