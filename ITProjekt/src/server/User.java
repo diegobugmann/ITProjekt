@@ -139,7 +139,7 @@ public class User {
 		case trumpf: {
 			GameType trumpf = ((Message_Trumpf)msgIn).getTrumpf();
 			p.getCurrentGame().setTrumpf(trumpf);
-			model.broadcast(p.getCurrentGame().getPlayers(), msgIn); //Trumpf an alle broadcasten
+			model.broadcast(p.getCurrentGame().getPlayers(), msgIn); //broadcast trumpf to everyone
 			p.getCurrentGame().startPlaying();
 			break;
 		}
@@ -147,7 +147,7 @@ public class User {
 		case ansage: {
 			int points = ((Message_Ansage)msgIn).getPoints();
 			p.setAnnouncedPoints(points);
-			p.getCurrentGame().incrementNumOfAnsagen(); //bei 4 erhaltenen Ansagen wird das Spiel gestartet
+			p.getCurrentGame().incrementNumOfAnsagen();
 			break;
 		}
 		//------------------------------------------------------------------------------------------------------
@@ -176,16 +176,43 @@ public class User {
 				int playPoints = currentPlay.validatePoints();
 				Team winningTeam = winningPlayer.getCurrentTeam();
 				winningTeam.addPoints(playPoints);
-				if (currentGame.getNumOfPlays() == 9) { //End of game?
-					currentGame.addLastStich(winningTeam);
-					System.out.println(currentGame.getTeam(0).getScore()); //TODO löschen
-					System.out.println(currentGame.getTeam(1).getScore()); //TODO löschen
-					//TODO match handlen
-					//TODO wird weitergespielt? auf game auslagern (g.prepareNewGameIfNeeded() oder so)
+				msgOut = new Message_Stich(winningPlayer.getName());
+				model.broadcast(currentGame.getPlayers(), msgOut);
+				
+				if (currentGame.getNumOfPlays() == 9) { //was it the last round?
+					currentGame.addPoints(5, winningTeam);
+					if (currentGame.isMatch())
+						currentGame.addPoints(100, winningTeam);
+					if (currentGame.isSchieber()) {
+						for (int i = 0; i < 2; i++) {
+							Player p1 = currentGame.getTeam(i).getPlayerList().get(0);
+							Player p2 = currentGame.getTeam(i).getPlayerList().get(1);
+							int points = currentGame.getTeam(i).getScore();
+							currentGame.getTeam(i).addPointsToTotal(points);
+							msgOut = new Message_Points(p1.getName(), p2.getName(), points);
+							model.broadcast(currentGame.getPlayers(), msgOut);
+						}
+					} else {
+						for (int i = 0; i < 4; i++) {
+							Player p1 = currentGame.getTeam(i).getPlayerList().get(0);
+							int points = Math.abs(currentGame.getTeam(i).getScore() - p1.getAnnouncedPoints());
+							currentGame.getTeam(i).addPointsToTotal(points);
+							msgOut = new Message_Points(p1.getName(), null, points);
+							model.broadcast(currentGame.getPlayers(), msgOut);
+						}
+					}
+					
+					System.out.println("Team 1:"+currentGame.getTeam(0).getScore()); //TODO löschen
+					System.out.println("Team 1 total:"+currentGame.getTeam(0).getTotalScore()); //TODO löschen
+					System.out.println("Team 2:"+currentGame.getTeam(1).getScore()); //TODO löschen
+					System.out.println("Team 2 total:"+currentGame.getTeam(1).getTotalScore()); //TODO löschen
+					boolean keepPlaying = currentGame.prepareNewGameIfNeeded();
+					if (!keepPlaying) {
+						//TODO GEWINNER BEKANNTGEBEN (currentGame.getWinnerTeam() ist GewinnerTeam)
+					}
 				} else {
 					currentGame.newPlay(); //creates a new play object, adds it to the game and sets it as currentPlay
-					//TODO winner-Message, damit er zeigen kann wer den Stich geholt hat und Karten wegräumen kann?
-					msgOut = new Message_YourTurn(winningPlayer.getHand()); //player can player everything he wants
+					msgOut = new Message_YourTurn(winningPlayer.getHand()); //player can play everything he wants
 					msgOut.send(winningPlayer.getSocket());
 				}
 				
@@ -252,8 +279,11 @@ public class User {
 			for (Player player : g.getPlayers()) {
 				player.setCurrentGame(null);
 				player.clearHand();
+				player.resetWiis();
 			}
 			g.removeAllPlayers();
+			g.resetTeamScores();
+			g.resetPlays();
 			model.broadcast(msgIn);
 			break;
 		}

@@ -1,5 +1,6 @@
 package client;
 
+import javafx.geometry.Insets;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 
@@ -46,7 +47,7 @@ public class SchieberInfoView extends InfoView{
 		Region spacer5 = new Region();
 		spacer5.setPrefHeight(50);
 		
-	
+		this.setPadding(new Insets(5,5,5,5));
 		this.getChildren().addAll(pointsTeamlbl, pointsTeam, spacer1, pointsOppolbl, pointsOppo, 
 				spacer2, goalPointslbl, goalPoints, spacer3, trumpflbl, picTrump, spacer4, popUplbl, popUp);
 		

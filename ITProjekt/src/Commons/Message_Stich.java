@@ -4,21 +4,19 @@ package Commons;
  * @author mibe1
  *
  */
-public class Message_Stich extends Message{
-	private int points;
-	private int StichId;
-	public Message_Stich(int points, int stichId) {
+public class Message_Stich extends Message {
+	
+	//private int StichId; TODO nötig?
+	private String player;
+	
+	public Message_Stich(String player) {
 		super();
-		this.points = points;
-		StichId = stichId;
-	}
-	public int getPoints() {
-		return points;
-	}
-	public int getStichId() {
-		return StichId;
+		//StichId = stichId;
+		this.player = player;
 	}
 	
-
-
+	public String getPlayer() {
+		return this.player;
+	}
+	
 }

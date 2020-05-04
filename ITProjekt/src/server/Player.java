@@ -41,6 +41,10 @@ public class Player extends User {
 		return this.wiis;
 	}
 	
+	public void resetWiis() {
+		this.wiis.clear();
+	}
+	
 	public int getBeginningOrder() {
 		return this.beginningOrder;
 	}
@@ -88,6 +92,10 @@ public class Player extends User {
 	
 	public void setAnnouncedPoints(int announcedPoints) {
 		this.announcedPoints = announcedPoints;
+	}
+	
+	public int getAnnouncedPoints() {
+		return this.announcedPoints;
 	}
 	
 	/**

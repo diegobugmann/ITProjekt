@@ -42,7 +42,7 @@ public class ValidationTest {
 			};
 	
 	private static String[][] doppelVierlinge = {
-			{ "8C", "9C", "TC", "8D", "TD", "8S", "TS", "8H", "TH" },
+			{ "8C", "9C", "TC", "JC", "TD", "TS", "TH", "JH", "QH" },
 			};
 	
 	
@@ -79,9 +79,9 @@ public class ValidationTest {
 	public void testVierlingeVierlingeDreiblatt() {
 		for (ArrayList<Card> hand : doppelVierlingeHands) {
 			ArrayList<Wiis> wiis = WiisValidation.validateWiis(hand);
-			assertTrue(wiis.get(0).getBlatt() == Blatt.dreiblatt);
+			assertTrue(wiis.get(0).getBlatt() == Blatt.vierblatt);
 			assertTrue(wiis.get(1).getBlatt() == Blatt.viergleiche);
-			assertTrue(wiis.get(2).getBlatt() == Blatt.viergleiche);
+			assertTrue(wiis.get(2).getBlatt() == Blatt.dreiblatt);
 		}
 	}
 	

@@ -539,8 +539,8 @@ public class ClientController {
 	 */
 	public void processYourTurn(ArrayList<Card> validCards) {
 		view.gameView.cardArea.infolbl.setText("Du bist am Zug!");
-		System.out.println("Controller Valide Karten: "+validCards);
-		System.out.println("Controller actualHand: "+model.actualHand);
+		//System.out.println("Controller Valide Karten: "+validCards); //TODO löschen
+		//System.out.println("Controller actualHand: "+model.actualHand); //TODO löschen
 		
 		//only valide Cards made clickable
 		for(Card c: validCards) {
@@ -576,7 +576,7 @@ public class ClientController {
 						if(cardBtn.getId().contains(c.getRank().toString()) && 
 								cardBtn.getId().contains(c.getSuit().toString())) {
 							found = true;
-							System.out.println("Controller Played Card: "+c); //TODO löschen
+							//System.out.println("Controller Played Card: "+c); //TODO löschen
 							
 							//TODO Animation
 							/**
@@ -604,8 +604,8 @@ public class ClientController {
 								
 								public void changed(ObservableValue<? extends Animation.Status> observable, 
 										Animation.Status oldValue, Animation.Status newValue) {
-									System.out.println("Move old value: "+oldValue);
-									System.out.println("Move old value: "+newValue);
+									System.out.println("Move old value: "+oldValue); //TODO löschen
+									System.out.println("Move old value: "+newValue); //TODO löschen
 									
 									if(newValue == Animation.Status.STOPPED) {
 										
@@ -695,13 +695,88 @@ public class ClientController {
 		alert.showAndWait();
 	}
 	
-	public void processStich(Message_Stich msgStich) {
-		// TODO Auto-generated method stub
+	public void processStich(String player) {
+		String stichInfo = player+" macht den Stich!";
+		view.gameView.centerView.stichInfo.setText(stichInfo);
+		
+		for(Button b : view.gameView.centerView.centerButtons) {
+			CardButton cardBtn = (CardButton) b;
+			cardBtn.setVisible(false);
+			cardBtn.setCard(null);
+		}
 		
 	}
 
 	public void processTurn(Card card, String player) {
+		view.gameView.centerView.stichInfo.setText("");
 		view.gameView.centerView.setCard(card, player);
+	}
+	
+	/**
+	 * @author Luca Meyer
+	 * Process to set the right order of the players in the centerview
+	 * and set the labels and ids
+	 */
+	public void processPlayers(ArrayList<String> players) {
+		//Case1 this Player is position 0 in array
+		if(players.get(0).contains(model.user)) {
+			view.gameView.centerView.userlblCenterBottom.setText(players.get(0).toString());
+			view.gameView.centerView.userlblRight.setText(players.get(1).toString());
+			view.gameView.centerView.userlblCenterTop.setText(players.get(2).toString());
+			view.gameView.centerView.userlblLeft.setText(players.get(3).toString());
+			
+			view.gameView.centerView.cardBtnCenterBottom.setId(players.get(0).toString());
+			view.gameView.centerView.cardBtnRight.setId(players.get(1).toString());
+			view.gameView.centerView.cardBtnCenterTop.setId(players.get(2).toString());
+			view.gameView.centerView.cardBtnLeft.setId(players.get(3).toString());
+		}
+		//Case2 this Player is position 1 in array
+		else if(players.get(1).contains(model.user)) {
+			view.gameView.centerView.userlblCenterBottom.setText(players.get(1).toString());
+			view.gameView.centerView.userlblRight.setText(players.get(2).toString());
+			view.gameView.centerView.userlblCenterTop.setText(players.get(3).toString());
+			view.gameView.centerView.userlblLeft.setText(players.get(0).toString());
+			
+			view.gameView.centerView.cardBtnCenterBottom.setId(players.get(1).toString());
+			view.gameView.centerView.cardBtnRight.setId(players.get(2).toString());
+			view.gameView.centerView.cardBtnCenterTop.setId(players.get(3).toString());
+			view.gameView.centerView.cardBtnLeft.setId(players.get(0).toString());
+			
+		}
+		//Case3 this Player is position 2 in array
+		else if(players.get(2).contains(model.user)) {
+			view.gameView.centerView.userlblCenterBottom.setText(players.get(2).toString());
+			view.gameView.centerView.userlblRight.setText(players.get(3).toString());
+			view.gameView.centerView.userlblCenterTop.setText(players.get(0).toString());
+			view.gameView.centerView.userlblLeft.setText(players.get(1).toString());
+			
+			view.gameView.centerView.cardBtnCenterBottom.setId(players.get(2).toString());
+			view.gameView.centerView.cardBtnRight.setId(players.get(3).toString());
+			view.gameView.centerView.cardBtnCenterTop.setId(players.get(0).toString());
+			view.gameView.centerView.cardBtnLeft.setId(players.get(1).toString());
+			
+		}
+		//Case4 this Player is position 3 in array
+		else if(players.get(3).contains(model.user)) {
+			view.gameView.centerView.userlblCenterBottom.setText(players.get(3).toString());
+			view.gameView.centerView.userlblRight.setText(players.get(0).toString());
+			view.gameView.centerView.userlblCenterTop.setText(players.get(1).toString());
+			view.gameView.centerView.userlblLeft.setText(players.get(2).toString());
+			
+			view.gameView.centerView.cardBtnCenterBottom.setId(players.get(3).toString());
+			view.gameView.centerView.cardBtnRight.setId(players.get(0).toString());
+			view.gameView.centerView.cardBtnCenterTop.setId(players.get(1).toString());
+			view.gameView.centerView.cardBtnLeft.setId(players.get(2).toString());
+		}
+	
+		
+		
+		
+		
+		
+		
+		
+		
 		
 	}
 

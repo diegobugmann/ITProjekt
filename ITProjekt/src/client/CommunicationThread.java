@@ -201,7 +201,6 @@ public class CommunicationThread extends Thread{
 			case yourTurn : {
 				status = Status.onturn;
 				Message_YourTurn msgYourTurn = (Message_YourTurn) msgIn;
-				System.out.println("ComThred valide Karten: "+msgYourTurn.getHand()); //TODO löschen
 				controller.processYourTurn(msgYourTurn.getHand());
 				break;
 			}
@@ -219,7 +218,8 @@ public class CommunicationThread extends Thread{
 				break;
 			}
 			case players : {
-				
+				Message_Players msgPlayers = (Message_Players) msgIn;
+				controller.processPlayers(msgPlayers.getPlayers());
 				break;
 			}
 			case hand : {
@@ -247,7 +247,7 @@ public class CommunicationThread extends Thread{
 			}
 			case stich : {
 				Message_Stich msgStich = (Message_Stich) msgIn;
-				controller.processStich(msgStich);
+				controller.processStich(msgStich.getPlayer());
 				break;
 			}
 			case points : {

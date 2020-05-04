@@ -7,8 +7,10 @@ import Commons.Card;
 import Commons.GameType;
 import Commons.Message;
 import Commons.Message_Hand;
+import Commons.Message_Trumpf;
 import Commons.Message_Wiis;
 import Commons.Message_YourTurn;
+import Commons.Simple_Message;
 import Commons.Wiis;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -26,6 +28,8 @@ public class Game extends Commons.Game {
 	private SimpleIntegerProperty numOfAnsagen = new SimpleIntegerProperty(0);
 	private Play currentPlay;
 	private Player startingPlayer;
+	private int numOfRoundsPlayed = 0;
+	private Team winnerTeam;
 	
 	/**
 	 * @author digib
@@ -75,12 +79,20 @@ public class Game extends Commons.Game {
 		return teamNr;
 	}
 	
+	/**
+	 * @author digib
+	 * removes all Players from a game (in case a game gets cancelled)
+	 */
 	public void removeAllPlayers() {
 		for (Team t : teams)
 			t.getPlayerList().clear();
 		numOfPlayers.setValue(0);
 	}
 	
+	/**
+	 * @author digib
+	 * removes a certain Player from a game (in case a game is left during loading screen)
+	 */
 	public void removePlayer(Player p) {
 		for (Team t : teams)
 			for (int i = t.getPlayerList().size()-1; i >=0; i--) {
@@ -89,6 +101,25 @@ public class Game extends Commons.Game {
 					numOfPlayers.setValue(numOfPlayers.get()-1);
 				}
 			}
+	}
+	
+	/**
+	 * @author digib
+	 * resets teamScores in case of cancellation
+	 */
+	public void resetTeamScores() {
+		for (Team t : teams) {
+			t.resetScore();
+			t.resetTotalScore();
+		}
+	}
+	
+	/**
+	 * @author digib
+	 * resets plays in case of cancellation
+	 */
+	public void resetPlays() {
+		this.plays = new ArrayList<Play>();
 	}
 	
 	/**
@@ -126,31 +157,22 @@ public class Game extends Commons.Game {
 		}
 	}
 	
-	public void addLastStich(Team winningTeam) {
-		int points = 5;
-		if (trumpf == GameType.TopsDown || trumpf == GameType.BottomsUp)
-			points *= 3;
-		if (trumpf == GameType.BellsOrClubs || trumpf == GameType.ShieldsOrSpades)
-			points *= 2;
-		winningTeam.addPoints(points);
-	}
-
-	public void setTrumpf(GameType trumpf) {
-		this.trumpf = trumpf;
-	}
-	
-	public GameType getTrumpf() {
-		return this.trumpf;
-	}
-	
-	public Team getTeam(int teamNr) {
-		return teams.get(teamNr);
+	/**
+	 * @author digib
+	 * adds points according to the gameMode to the winningTeam (used for Last Stich and Match)
+	 */
+	public void addPoints(int points, Team winningTeam) {
+		if (!isSchieber()) //differenzler has no multiplication depending on trumpf
+			winningTeam.addPoints(points);
+		else {
+			if (trumpf == GameType.TopsDown || trumpf == GameType.BottomsUp) 
+				points *= 3;
+			else if (trumpf == GameType.BellsOrClubs || trumpf == GameType.ShieldsOrSpades) 
+				points *= 2;
+			winningTeam.addPoints(points);
+		}
 	}
 	
-	public int getNumOfPlays() {
-		return this.plays.size();
-	}
-
 	/**
 	 * @author digib
 	 * generates a random trumpf, without bottomsup and topdown (used only for differenzler)
@@ -162,14 +184,6 @@ public class Game extends Commons.Game {
 			if (type.ordinal() == i)
 				this.trumpf = type;
 		}
-	}
-	
-	public SimpleIntegerProperty getNumOfPlayersAsProperty() {
-		return numOfPlayers;
-	}
-	
-	public SimpleIntegerProperty getNumOfAnsagenAsProperty() {
-		return numOfAnsagen;
 	}
 	
 	/**
@@ -186,7 +200,6 @@ public class Game extends Commons.Game {
 			playerTwo = teams.get(0).getPlayerList().get(1);
 			playerThree = teams.get(1).getPlayerList().get(0);
 			playerFour = teams.get(1).getPlayerList().get(1);
-			
 		} else {
 			playerOne = teams.get(0).getPlayerList().get(0);
 			playerTwo = teams.get(2).getPlayerList().get(0);
@@ -216,14 +229,20 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
-	 * increases the numOfAnsagen (only for differenzler)
+	 * @return ArrayList<String>
+	 * Returns a list of the playernames in gameorder
 	 */
-	public void incrementNumOfAnsagen() {
-		this.numOfAnsagen.set(numOfAnsagen.get()+1);
-	}
-	
-	public CardDeck getDeck() {
-		return this.deck;
+	public ArrayList<String> getPlayersInOrder(){
+		Player first = startingPlayer;
+		Player second = first.getFollowingPlayer();
+		Player third = second.getFollowingPlayer();
+		Player fourth = third.getFollowingPlayer();
+		ArrayList<String> playersInOrder = new ArrayList<String>();
+		playersInOrder.add(first.getName());
+		playersInOrder.add(second.getName());
+		playersInOrder.add(third.getName());
+		playersInOrder.add(fourth.getName());
+		return playersInOrder;
 	}
 	
 	/**
@@ -241,8 +260,191 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
-	 * @return Player
+	 * deals cards to all players, organizes them and sends the hand to the client
 	 */
+	public void dealCards() {
+		Message msgOut = null;
+		ArrayList<Player> players = getPlayers();
+		//TODO broadcast GameList? gem. Diagramm
+		this.deck.dealCards(players);
+		for (Player p : players) {
+			p.organizeHand();
+			msgOut = new Message_Hand(p.getHand());
+			msgOut.send(p.getSocket());
+		}
+	}
+	
+	/**
+	 * @author digib
+	 * get the starting player and tell him to start playing, with or without wiis (dependent on schieber/differenzler)
+	 */
+	public void startPlaying() {
+		Message msgOut = null;
+		this.newPlay();
+		Player starter = getStartingPlayer();
+		ArrayList<Card> playableCards = starter.getHand(); //he can play what he wants at first
+		if (this.isSchieber()) {
+			ArrayList<Wiis> wiis = starter.validateWiis();
+			msgOut = new Message_Wiis(wiis, starter.getID());
+			starter.sendMessage(msgOut);
+		}
+		msgOut = new Message_YourTurn(playableCards);
+		msgOut.send(starter.getSocket());
+	}
+	
+	/**
+	 * @author digib
+	 * creates a new Play object, adds it to the game and sets it as currentPlay
+	 */
+	public void newPlay() {
+		Play newPlay = new Play(this.trumpf, this.isSchieber());
+		plays.add(newPlay);
+		this.currentPlay = newPlay;
+	}
+	
+	/**
+	 * @author digib
+	 * sends Ansage_Trumpf to startingPlayer
+	 */
+	public void setUpSchieber() {
+		Player starter = this.startingPlayer;
+		Message msgOut = new Simple_Message(Simple_Message.Msg.Ansage_Trumpf);
+		starter.sendMessage(msgOut);
+	}
+	
+	/**
+	 * @author digib
+	 * generates random trumpf and broadcasts trumpf and Ansage_Points messages to players
+	 */
+	public void setUpDifferenzler() {
+		this.createRandomTrumpf();
+		Message msgTrumpf = new Message_Trumpf(this.trumpf);
+		Message msgAnsage = new Simple_Message(Simple_Message.Msg.Ansage_Points);
+		for (Player p : this.getPlayers()) {
+			p.sendMessage(msgTrumpf);
+			p.sendMessage(msgAnsage);
+		}
+	}
+	
+	/**
+	 * @author digib
+	 * @return boolean
+	 * checks if game is over; if so, sets the winning team and returns false
+	 * if not, prepares new game and returns true
+	 */
+	public boolean prepareNewGameIfNeeded() {
+		Team winningTeam = null;
+		if (isSchieber()) {
+			int pointsReached = 0;
+			for (Team t : teams) {
+				if (t.getTotalScore() > pointsReached) {
+					pointsReached = t.getTotalScore();
+					winningTeam = t;
+				}
+			}
+			if (pointsReached >= this.getWinningPoints()) { //winningPoints reached, game finished
+				this.winnerTeam = winningTeam;
+				return false;
+			}
+		} else {
+			this.increaseNumOfRoundsPlayed();
+			if (this.numOfRoundsPlayed >= this.getNumOfRounds()) { //numOfRounds reached, game finished
+				int lowestPoints = Integer.MAX_VALUE;
+				for (Team t : teams) {
+					if (t.getTotalScore() < lowestPoints) {
+						lowestPoints = t.getTotalScore();
+						winningTeam = t;
+					}
+				}
+				return false;
+			}
+		}
+		
+		for (Team t : teams) {
+			t.resetScore(); //reset score for a new round (Totalscore keeps counting)
+			for (Player p : t.getPlayerList())
+				p.resetWiis(); // the previous wiis
+		}
+			
+		this.setNextStartingPlayer();
+		this.setBeginningOrder();
+		this.dealCards();
+		this.trumpf = null;
+		this.plays = new ArrayList<Play>();
+		//TODO previous plays irgendwo abspeichern?
+		
+		if (isSchieber())
+			this.setUpSchieber();
+		else {
+			this.setNumOfAnsagen(0);
+			this.setUpDifferenzler();
+		}
+		return true;
+	}
+	
+	public boolean isMatch() {
+		for (int i = 1; i < plays.size(); i++) {
+			if (plays.get(0).getWinningTeam() != plays.get(i).getWinningTeam())
+				return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * @author digib
+	 * increases the numOfAnsagen (only for differenzler)
+	 */
+	public void incrementNumOfAnsagen() {
+		this.numOfAnsagen.set(numOfAnsagen.get()+1);
+	}
+	
+	/**
+	 * @author digib
+	 */
+	public void increaseNumOfRoundsPlayed() {
+		this.numOfRoundsPlayed++;
+	}
+	
+	/**
+	 * @author digib
+	 * sets the next startingPlayer (next in the order)
+	 */
+	public void setNextStartingPlayer() {
+		this.startingPlayer = startingPlayer.getFollowingPlayer();
+	}
+	
+	public SimpleIntegerProperty getNumOfPlayersAsProperty() {
+		return numOfPlayers;
+	}
+	
+	public SimpleIntegerProperty getNumOfAnsagenAsProperty() {
+		return numOfAnsagen;
+	}
+	
+	public void setNumOfAnsagen(int i) {
+		this.numOfAnsagen.set(i);
+	}
+	
+	public CardDeck getDeck() {
+		return this.deck;
+	}
+	
+	public void setTrumpf(GameType trumpf) {
+		this.trumpf = trumpf;
+	}
+	
+	public GameType getTrumpf() {
+		return this.trumpf;
+	}
+	
+	public Team getTeam(int teamNr) {
+		return teams.get(teamNr);
+	}
+	
+	public int getNumOfPlays() {
+		return this.plays.size();
+	}
+	
 	public Player getStartingPlayer() {
 		return this.startingPlayer;
 	}
@@ -259,55 +461,8 @@ public class Game extends Commons.Game {
 		this.currentPlay = play;
 	}
 	
-	/**
-	 * @author digib
-	 * deals cards to all players, organizes them and sends the hand to the client
-	 */
-	public void dealCards() {
-		Message msgOut = null;
-		ArrayList<Player> players = getPlayers();
-		//TODO broadcast GameList? gem. Diagramm
-		this.deck.dealCards(players);
-		for (Player p : players) {
-			p.organizeHand();
-			msgOut = new Message_Hand(p.getHand());
-			msgOut.send(p.getSocket());
-			/* TODO delete (or leave?)
-			 * ArrayList<Wiis> wiis = p.validateWiis();
-			 * if (!wiis.isEmpty()) {
-				for (Wiis w : wiis)
-					System.out.println(w);
-			}
-			 */
-		}
-	}
-	
-	/**
-	 * @author digib
-	 * get the starting player and tell him to start playing, with or without wiis (dependent on schieber/differenzler)
-	 */
-	public void startPlaying() {
-		Message msgOut = null;
-		Player starter = getStartingPlayer();
-		newPlay();
-		ArrayList<Card> playableCards = starter.getHand(); //he can play what he wants at first
-		if (this.isSchieber()) {
-			ArrayList<Wiis> wiis = starter.validateWiis();
-			msgOut = new Message_Wiis(wiis, starter.getID());
-			msgOut.send(starter.getSocket());
-		}
-		msgOut = new Message_YourTurn(playableCards);
-		msgOut.send(starter.getSocket());
-	}
-	
-	/**
-	 * @author digib
-	 * creates a new Play object, adds it to the game and sets it as currentPlay
-	 */
-	public void newPlay() {
-		Play newPlay = new Play(this.trumpf);
-		plays.add(newPlay);
-		this.currentPlay = newPlay;
+	public Team getWinnerTeam() {
+		return this.winnerTeam;
 	}
 	
 }

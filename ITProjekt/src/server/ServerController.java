@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import Commons.Message;
 import Commons.Message_GameList;
 import Commons.Message_Hand;
+import Commons.Message_Players;
 import Commons.Message_Trumpf;
 import Commons.Simple_Message;
 import javafx.collections.ListChangeListener;
@@ -40,7 +41,6 @@ public class ServerController {
 		
 	}
 	
-	
 	/**
 	 * @author digib
 	 * @param game
@@ -55,7 +55,6 @@ public class ServerController {
 				if (g.getGameId() == game.getGameId())
 					game.setCurrentNumOfPlayers((int)nV);
 			}
-			System.out.println("Players:" + nV); //TODO entfernen?
 			//start game at 4 players
 			if ((int) nV == 4) {
 				g.setFollowingPlayers(); //give every player a following Player (for gamedirection)
@@ -64,20 +63,15 @@ public class ServerController {
 				ArrayList<Player> players = g.getPlayers();
 				Message msgOut = new Simple_Message(Simple_Message.Msg.Game_Start);
 				model.broadcast(players, msgOut); 
+				ArrayList<String> playersInOrder = g.getPlayersInOrder();
+				msgOut = new Message_Players(playersInOrder);
+				model.broadcast(players, msgOut);
 				g.dealCards();
-				System.out.println("KARTEN VERTEILT");
 				//TODO broadcast GameList? gem. Diagramm, um zu zeigen, dass das Spiel am laufen ist
-				if (g.isSchieber()) {
-					Player starter = g.getStartingPlayer();
-					msgOut = new Simple_Message(Simple_Message.Msg.Ansage_Trumpf);
-					msgOut.send(starter.getSocket());
-				} else {
-					g.createRandomTrumpf();
-					msgOut = new Message_Trumpf(g.getTrumpf());
-					model.broadcast(players, msgOut);
-					msgOut = new Simple_Message(Simple_Message.Msg.Ansage_Points);
-					model.broadcast(players, msgOut);
-				}
+				if (g.isSchieber())
+					g.setUpSchieber();
+				else
+					g.setUpDifferenzler();
 			}
 		});
 		

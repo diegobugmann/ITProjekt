@@ -42,7 +42,6 @@ public class ClientModel {
         }
 	}
 	
-	
 	/** 
 	 * @author sarah: connection string 
 	 * (For IP Address: Regex: https://www.oreilly.com/library/view/regular-expressions-cookbook/9780596802837/ch07s16.html, added port manual)
@@ -110,6 +109,7 @@ public class ClientModel {
 		Simple_Message msg = new Simple_Message(Simple_Message.Msg.Get_GameList);
 		connection.sendMessage(msg);
 	}
+	
 	/**
 	 * @author Luca meyer
 	 * sends the played Card to the CommunicationThread
@@ -117,11 +117,12 @@ public class ClientModel {
 	public void playCard(Card card) {
 		Message_Turn turn = new Message_Turn(card, user);
 		connection.sendMessage(turn);
-		//TODO löschen
-		System.out.println("Model Gespielte Karte: "+card); 
-		System.out.println("Model ActualHand: "+actualHand);
-		System.out.println("Model Zug Fertig\n");
+		
+		//System.out.println("Model Gespielte Karte: "+card); //TODO löschen
+		//System.out.println("Model ActualHand: "+actualHand); //TODO löschen
+		//System.out.println("Model Zug Fertig\n"); //TODO löschen
 	}
+	
 	/**
 	 * @author Luca meyer
 	 * sends the selected Trumpf to the CommunicationThread
@@ -139,6 +140,7 @@ public class ClientModel {
 	public ArrayList<Card> getActualHand(){
 		return this.actualHand;
 	}
+	
 	/**
 	 * @author Luca meyer
 	 * removes the played Card out of the actualHand ArrayList
@@ -149,9 +151,9 @@ public class ClientModel {
 			if (c.getRank() == card.getRank() && c.getSuit() == card.getSuit())
 				cardToRemove = card;
 		}
-		System.out.println("Model cardToRemove: "+cardToRemove); //TODO löschen
 		actualHand.remove(cardToRemove);
 	}
+	
 	/**
 	 * @author Luca meyer
 	 * sends the selected Wiis to the CommunicationThread
@@ -159,7 +161,6 @@ public class ClientModel {
 	public void sendWiis(ArrayList<Wiis> wiisReturn) {
 		Message_Wiis wiis = new Message_Wiis(wiisReturn);
 		connection.sendMessage(wiis);
-		System.out.println("ModelWiis: "+wiisReturn); //TODO löschen
 	}
 
 //Getters from connection---------------------------------------------------------------------------------------------

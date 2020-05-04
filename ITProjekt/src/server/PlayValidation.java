@@ -194,6 +194,10 @@ public class PlayValidation {
 		} else {
 			boolean trumpfPlayed = containsTrumpf(playedCards, gameType);
 			Suit trumpf = getTrumpfAsSuit(gameType);
+			for (Card c : playedCards) { //assume last played trumpf wins
+				if (c.getSuit() == trumpf)
+					winningCard = c;
+			}
 			if (trumpfPlayed) {
 				for (Card c : playedCards) {
 					if (c.getSuit() == trumpf && c.getRank().getTrumpfValue() > winningCard.getRank().getTrumpfValue())
@@ -216,7 +220,7 @@ public class PlayValidation {
 	 * @author digib
 	 * @return int points
 	 */
-	public static int validatePoints(ArrayList<Card> cards, GameType gameType) {
+	public static int validatePoints(ArrayList<Card> cards, GameType gameType, boolean isSchieber) {
 		int points = 0;
 		for (Card c : cards) {
 			switch (c.getRank()) {
@@ -241,9 +245,13 @@ public class PlayValidation {
 				if (gameType == GameType.BottomsUp) points += 11; break;
 			}
 		}
-		if (gameType == GameType.BottomsUp || gameType == GameType.TopsDown) points *= 3;
-		else if (gameType == GameType.BellsOrClubs || gameType == GameType.ShieldsOrSpades) points *= 2;
-		return points;
+		if (!isSchieber) //differenzler has no multiplication depending on trumpf
+			return points;
+		else {
+			if (gameType == GameType.BottomsUp || gameType == GameType.TopsDown) points *= 3;
+			else if (gameType == GameType.BellsOrClubs || gameType == GameType.ShieldsOrSpades) points *= 2;
+			return points;
+		}
 	}
 		
 }
