@@ -105,6 +105,25 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
+	 * resets teamScores in case of cancellation
+	 */
+	public void resetTeamScores() {
+		for (Team t : teams) {
+			t.resetScore();
+			t.resetTotalScore();
+		}
+	}
+	
+	/**
+	 * @author digib
+	 * resets plays in case of cancellation
+	 */
+	public void resetPlays() {
+		this.plays = new ArrayList<Play>();
+	}
+	
+	/**
+	 * @author digib
 	 * @return Team with the highest Wiis
 	 * adds all players with at least 1 Wiis to a list and compares their Wiis-Objects, 
 	 * if more than one team wants to wiis
@@ -314,9 +333,9 @@ public class Game extends Commons.Game {
 	 * if not, prepares new game and returns true
 	 */
 	public boolean prepareNewGameIfNeeded() {
+		Team winningTeam = null;
 		if (isSchieber()) {
 			int pointsReached = 0;
-			Team winningTeam = null;
 			for (Team t : teams) {
 				if (t.getTotalScore() > pointsReached) {
 					pointsReached = t.getTotalScore();
@@ -330,13 +349,23 @@ public class Game extends Commons.Game {
 		} else {
 			this.increaseNumOfRoundsPlayed();
 			if (this.numOfRoundsPlayed >= this.getNumOfRounds()) { //numOfRounds reached, game finished
-				//TODO VALIDATE AND SET WINNING TEAM (PLAYER)
+				int lowestPoints = Integer.MAX_VALUE;
+				for (Team t : teams) {
+					if (t.getTotalScore() < lowestPoints) {
+						lowestPoints = t.getTotalScore();
+						winningTeam = t;
+					}
+				}
 				return false;
 			}
 		}
 		
-		for (Team t : teams)
+		for (Team t : teams) {
 			t.resetScore(); //reset score for a new round (Totalscore keeps counting)
+			for (Player p : t.getPlayerList())
+				p.resetWiis(); // the previous wiis
+		}
+			
 		this.setNextStartingPlayer();
 		this.setBeginningOrder();
 		this.dealCards();

@@ -178,12 +178,34 @@ public class User {
 				winningTeam.addPoints(playPoints);
 				msgOut = new Message_Stich(winningPlayer.getName());
 				model.broadcast(currentGame.getPlayers(), msgOut);
-				if (currentGame.getNumOfPlays() == 9) { //End of game?
+				
+				if (currentGame.getNumOfPlays() == 9) { //was it the last round?
 					currentGame.addPoints(5, winningTeam);
 					if (currentGame.isMatch())
 						currentGame.addPoints(100, winningTeam);
+					if (currentGame.isSchieber()) {
+						for (int i = 0; i < 2; i++) {
+							Player p1 = currentGame.getTeam(i).getPlayerList().get(0);
+							Player p2 = currentGame.getTeam(i).getPlayerList().get(1);
+							int points = currentGame.getTeam(i).getScore();
+							currentGame.getTeam(i).addPointsToTotal(points);
+							msgOut = new Message_Points(p1.getName(), p2.getName(), points);
+							model.broadcast(currentGame.getPlayers(), msgOut);
+						}
+					} else {
+						for (int i = 0; i < 4; i++) {
+							Player p1 = currentGame.getTeam(i).getPlayerList().get(0);
+							int points = Math.abs(currentGame.getTeam(i).getScore() - p1.getAnnouncedPoints());
+							currentGame.getTeam(i).addPointsToTotal(points);
+							msgOut = new Message_Points(p1.getName(), null, points);
+							model.broadcast(currentGame.getPlayers(), msgOut);
+						}
+					}
+					
 					System.out.println("Team 1:"+currentGame.getTeam(0).getScore()); //TODO löschen
+					System.out.println("Team 1 total:"+currentGame.getTeam(0).getTotalScore()); //TODO löschen
 					System.out.println("Team 2:"+currentGame.getTeam(1).getScore()); //TODO löschen
+					System.out.println("Team 2 total:"+currentGame.getTeam(1).getTotalScore()); //TODO löschen
 					boolean keepPlaying = currentGame.prepareNewGameIfNeeded();
 					if (!keepPlaying) {
 						//TODO GEWINNER BEKANNTGEBEN (currentGame.getWinnerTeam() ist GewinnerTeam)
@@ -257,8 +279,11 @@ public class User {
 			for (Player player : g.getPlayers()) {
 				player.setCurrentGame(null);
 				player.clearHand();
+				player.resetWiis();
 			}
 			g.removeAllPlayers();
+			g.resetTeamScores();
+			g.resetPlays();
 			model.broadcast(msgIn);
 			break;
 		}

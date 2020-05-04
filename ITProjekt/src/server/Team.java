@@ -25,12 +25,27 @@ public class Team {
 	 * @author digib
 	 */
 	public void addPoints(int points) {
-		this.score += points; //TODO score wird bei mehreren Spielen jeweils am Anfang zurückgesetzt
+		this.score += points;
+	}
+	
+	public void addPointsToTotal(int points) {
 		this.totalScore += points;
 	}
 	
+	/**
+	 * @author digib
+	 * resets score in case of multiple rounds or cancellation
+	 */
 	public void resetScore() {
 		this.score = 0;
+	}
+	
+	/**
+	 * @author digib
+	 * resets totalScore in case of cancellation
+	 */
+	public void resetTotalScore() {
+		this.totalScore = 0;
 	}
 	
 	public int getScore() {
