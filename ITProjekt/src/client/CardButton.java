@@ -11,13 +11,13 @@ import javafx.scene.image.ImageView;
  * parts copied from R. Bradley PokerProject
  */
 public class CardButton extends Button {
+	protected Card card;
 	protected String cardStyle;
 
 	public CardButton() {
 		super();
 		this.getStylesheets().add(getClass().getResource("CSS/card.css").toExternalForm());
 		this.getStyleClass().add("card");
-
 		
 	}
 	/**
@@ -26,6 +26,7 @@ public class CardButton extends Button {
 	 */
 	//sets path for german or french cards
 	public void setCard(Card card) {
+		this.card = card;
 		if(ClientModel.cardStyle==0) {
 			cardStyle= "franz";
 		}else if(ClientModel.cardStyle==1) {
@@ -56,6 +57,7 @@ public class CardButton extends Button {
 	
 	//Methode to set the centercards but without setting an ID
 	public void setCardCenter(Card card) {
+		this.card = card;
 		if(ClientModel.cardStyle==0) {
 			cardStyle= "franz";
 		}else if(ClientModel.cardStyle==1) {

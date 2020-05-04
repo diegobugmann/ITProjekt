@@ -349,12 +349,12 @@ public class ClientController {
 			}
 			stage2.close();
 			
-			if(model.getActualHand().isEmpty()) {
-				//do nothing
-			}else {
-				updateCardArea(model.getActualHand());				
+			if(!model.getActualHand().isEmpty()) {
+				view.gameView.cardArea.updateCardStyle(model.getActualHand());
 			}
-
+			if(view.gameView != null && view.gameView.centerView != null) {
+				view.gameView.centerView.updateCard();
+			}
 		});
 		
 	}
@@ -474,8 +474,9 @@ public class ClientController {
 			e.printStackTrace();
 		}
 	}
-	
+
 	public void updateCardArea(ArrayList<Card> hand) {
+
 			view.gameView.cardArea.setButtons(hand);
 			view.gameView.cardArea.setCards(hand);
 	}

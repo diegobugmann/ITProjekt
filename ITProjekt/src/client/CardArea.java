@@ -56,10 +56,17 @@ public class CardArea extends VBox {
     		cardBtn.setDisable(true);
 		}
 	}
-	
+		
 	public void setLabelText(String text) {
 		infolbl.setText(text);
 	}
 	
-
+	public void updateCardStyle(ArrayList<Card> hand) {
+		for(int i = 0; i < hand.size(); i++) {
+			Card card = hand.get(i);
+			CardButton cardBtn = (CardButton) hboxCards.getChildren().get(i*2);
+    		cardBtn.setCard(card);
+		}		
+	}
+	
 }

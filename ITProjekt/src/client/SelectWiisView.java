@@ -52,7 +52,7 @@ public class SelectWiisView extends VBox {
 		for(Wiis w : wiisArray) {
 			String text = w.toString();
 			
-			CheckBox b = new CheckBox(CardNameTranslator.getBlattName(w) + " von " + CardNameTranslator.getSuitName(w, cardStyle) + " " + w.getHighestCard().getRank());
+			CheckBox b = new CheckBox(CardNameTranslator.getBlattName(w) + " von " + CardNameTranslator.getSuitName(w, cardStyle) + " " + CardNameTranslator.getRankName(w, cardStyle));
 			b.setId(text);
 			checkBoxes.add(b);
 			checkVBox.getChildren().add(b);

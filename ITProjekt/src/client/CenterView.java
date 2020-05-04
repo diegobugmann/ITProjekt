@@ -110,8 +110,18 @@ public class CenterView extends HBox {
 				cardBtn.setCardCenter(card);
 				cardBtn.setVisible(true);
 			}
+		}	
+	}
+	
+	public void updateCard() {
+		for(Button b : centerButtons) {
+			if(b != null) {
+				CardButton cardBtn = (CardButton) b;
+				if(cardBtn.card != null) {
+					cardBtn.setCardCenter(cardBtn.card);
+				}
+			}
 		}
-		
 	}
 		
 }
