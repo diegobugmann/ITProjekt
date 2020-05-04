@@ -9,7 +9,8 @@ public enum GameType implements Serializable {
 	ShieldsOrSpades,
 	RosesOrHearts,
 	AcornsOrDiamonds,
-	BellsOrClubs;
+	BellsOrClubs,
+	Schieber;
 	
 	public String toString() {
 		String type = "";
@@ -26,7 +27,9 @@ public enum GameType implements Serializable {
         	type = "Tops Down"; break;
         case BottomsUp:
         	type = "Bottoms Up"; break;
-        }
+		case Schieber:
+	    	type = "Schieber"; break;
+	    }
         return type;
 	}
 

@@ -20,10 +20,14 @@ public class SelectTrumpfView extends VBox {
 	protected RadioButton rbRosesOrHearts;
 	protected RadioButton rbAcornsOrDiamonds;
 	protected RadioButton rbBellsOrClubs;
+	protected RadioButton rbTopsDown;
+	protected RadioButton rbBottomUp;
+	protected RadioButton rbSchieber;
 	protected ToggleGroup tg;
 	protected Button confirmBtn;
 	protected String cardStyle;
 	protected HBox rbBox;
+	protected HBox rbBox2;
 	
 	/**
 	 * @author Luca Meyer
@@ -34,6 +38,7 @@ public class SelectTrumpfView extends VBox {
 	public SelectTrumpfView() {
 		super();
 		rbBox = new HBox();
+		rbBox2 = new HBox();
 		tg = new ToggleGroup();
 		
 		if(ClientModel.cardStyle==0) {
@@ -82,7 +87,36 @@ public class SelectTrumpfView extends VBox {
 		rbBellsOrClubs.setGraphic(v4);
 		rbBellsOrClubs.setToggleGroup(tg);
 		
-		//TODO Topsdown and bottomup for Schieber
+		//TODO Topsdown and bottomup and schieber for Schieber
+		rbTopsDown = new RadioButton("");
+		InputStream is5 = getClass().getResourceAsStream("Trumpf_"+cardStyle+"/Tops Down.png");
+		Image img5= new Image(is5);
+		ImageView v5 = new ImageView(img5);
+		v5.setPreserveRatio(true);
+		v5.setFitWidth(30);
+		v5.setFitHeight(30);
+		rbTopsDown.setGraphic(v5);
+		rbTopsDown.setToggleGroup(tg);
+		
+		rbBottomUp = new RadioButton("");
+		InputStream is6 = getClass().getResourceAsStream("Trumpf_"+cardStyle+"/Bottoms Up.png");
+		Image img6= new Image(is6);
+		ImageView v6 = new ImageView(img6);
+		v6.setPreserveRatio(true);
+		v6.setFitWidth(30);
+		v6.setFitHeight(30);
+		rbBottomUp.setGraphic(v6);
+		rbBottomUp.setToggleGroup(tg);
+		
+		rbSchieber = new RadioButton("");
+		InputStream is7 = getClass().getResourceAsStream("Trumpf_"+cardStyle+"/Schieber.png");
+		Image img7= new Image(is7);
+		ImageView v7 = new ImageView(img7);
+		v7.setPreserveRatio(true);
+		v7.setFitWidth(30);
+		v7.setFitHeight(30);
+		rbSchieber.setGraphic(v7);
+		rbSchieber.setToggleGroup(tg);
 		
 		confirmBtn = new Button("Trumpf angeben");
 		confirmBtn.setDisable(true);
@@ -96,11 +130,18 @@ public class SelectTrumpfView extends VBox {
 		Region spacer3 = new Region();
 		spacer3.setPrefWidth(20);
 		
+		Region spacer6 = new Region();
+		spacer6.setPrefWidth(20);
 		
-		
+		Region spacer7 = new Region();
+		spacer7.setPrefWidth(20);
+
 		rbBox.setAlignment(Pos.CENTER);
 		rbBox.getChildren().addAll(rbShieldsOrSpades, spacer1, rbRosesOrHearts,
 		spacer2, rbAcornsOrDiamonds, spacer3, rbBellsOrClubs);
+		
+		rbBox2.setAlignment(Pos.CENTER);
+		rbBox2.getChildren().addAll(rbTopsDown, spacer6, rbBottomUp, spacer7, rbSchieber);
 		
 		userlbl = new Label("");
 		
@@ -110,8 +151,11 @@ public class SelectTrumpfView extends VBox {
 		Region spacer5 = new Region();
 		spacer5.setPrefHeight(20);
 		
+		Region spacer8 = new Region();
+		spacer8.setPrefHeight(10);
+		
 		this.setAlignment(Pos.CENTER);
-		this.getChildren().addAll(userlbl, spacer4, rbBox, spacer5, confirmBtn);
+		this.getChildren().addAll(userlbl, spacer4, rbBox, spacer8, rbBox2, spacer5, confirmBtn);
 		
 	}
 	
@@ -125,6 +169,12 @@ public class SelectTrumpfView extends VBox {
 			gameType = Commons.GameType.AcornsOrDiamonds;
 		}else if(tg.getSelectedToggle()== rbBellsOrClubs) {
 			gameType = Commons.GameType.BellsOrClubs;
+		}else if(tg.getSelectedToggle()== rbTopsDown) {
+			gameType = Commons.GameType.TopsDown;
+		}else if(tg.getSelectedToggle()== rbBottomUp) {
+			gameType = Commons.GameType.BottomsUp;
+		}else if(tg.getSelectedToggle()== rbSchieber) {
+			gameType = Commons.GameType.Schieber;
 		}
 		return gameType;
 	}

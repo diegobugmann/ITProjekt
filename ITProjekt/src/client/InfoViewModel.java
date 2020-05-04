@@ -2,7 +2,9 @@ package client;
 
 import java.util.ArrayList;
 
+import Commons.Game;
 import Commons.GameType;
+import Commons.Message_Points;
 import Commons.Message_WiisInfo;
 import Commons.Wiis;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -26,7 +28,10 @@ public class InfoViewModel {
 	protected SimpleIntegerProperty trump;
 	protected SimpleStringProperty popUp;
 	
-	public InfoViewModel(int goalPoints, int cardStyle, int numOfRoundsTotal) {
+	protected final String player;
+	
+	public InfoViewModel(int goalPoints, int cardStyle, int numOfRoundsTotal, String player) {
+		this.player = player;
 		this.goalPoints = new SimpleIntegerProperty();
 		this.goalPoints.set(goalPoints);
 		this.pointsOppo = new SimpleIntegerProperty();
@@ -109,17 +114,20 @@ public class InfoViewModel {
 			
 		} else {
 			wiisPlayer2 = msgWiisInfo.getWiisPlayerII();
-			
-			String content = "Player " + player1 +" weist:\n";
-			
-			for(Wiis w : wiisPlayer1) {
-				content += CardNameTranslator.getBlattName(w) + " von "+ CardNameTranslator.getSuitName(w, cardStyle.get()) + " " + w.getHighestCard().getRank() +"\n"; 
-			}	
-			
+			String content = "";
+			if(wiisPlayer1.size() > 0) {
+				content = "Player " + player1 +" weist:\n";
+				
+				for(Wiis w : wiisPlayer1) {
+					content += CardNameTranslator.getBlattName(w) + " von "+ CardNameTranslator.getSuitName(w, cardStyle.get()) + " " + 
+							CardNameTranslator.getRankName(w, cardStyle.get()) +"\n"; 
+				}	
+			}
 			if(wiisPlayer2.size() > 0) {
 				content += "Player " + player2 +" weist:\n";
 				for(Wiis w : wiisPlayer2) {
-					content += CardNameTranslator.getBlattName(w) + " von "+ CardNameTranslator.getSuitName(w, cardStyle.get()) + " " + w.getHighestCard().getRank() + "\n"; 
+					content += CardNameTranslator.getBlattName(w) + " von "+ CardNameTranslator.getSuitName(w, cardStyle.get()) + " " + 
+							CardNameTranslator.getRankName(w, cardStyle.get()) +"\n";
 				}
 			}			
 			popUp.set(content);
@@ -143,5 +151,14 @@ public class InfoViewModel {
 	//TODO Aufruf der Methode nach Stich
 	public void setAktuellePoints(int points) {
 		this.aktuellePoints.set(points);
+	}
+
+	public void setPoints(Message_Points msgPoints) {
+		if(msgPoints.getPlayerI().equalsIgnoreCase(player) || msgPoints.getPlayerII().equalsIgnoreCase(player)) {
+			this.pointsTeam.set(msgPoints.getPoints());
+		}else {
+			this.pointsOppo.set(msgPoints.getPoints());
+		}
+		
 	}
 }

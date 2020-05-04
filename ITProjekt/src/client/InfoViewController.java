@@ -8,9 +8,9 @@ public class InfoViewController {
 	protected SchieberInfoView schView;
 	protected DifferenzlerInfoView diffView;	
 	
-	public InfoViewController (Game game, int cardStyle) {
+	public InfoViewController (Game game, int cardStyle, String player) {
 
-		this.model = new InfoViewModel(game.getWinningPoints(), cardStyle, game.getNumOfRounds());
+		this.model = new InfoViewModel(game.getWinningPoints(), cardStyle, game.getNumOfRounds(), player);
 		if (game.isSchieber()) {
 			this.schView = new SchieberInfoView();
 			schView.goalPoints.textProperty().bind(model.goalPoints.asString());

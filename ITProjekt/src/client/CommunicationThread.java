@@ -252,8 +252,9 @@ public class CommunicationThread extends Thread{
 			}
 			case points : {
 				Message_Points msgPoints = (Message_Points) msgIn;
-				controller.infoViewController.model.pointsTeam.set(Integer.parseInt(msgPoints.getPlayerI()));
-				controller.infoViewController.model.pointsOppo.set(Integer.parseInt(msgPoints.getPlayerII()));
+				controller.infoViewController.model.setPoints(msgPoints);
+				//controller.infoViewController.model.pointsTeam.set(Integer.parseInt(msgPoints.getPlayerI()));
+				//controller.infoViewController.model.pointsOppo.set(Integer.parseInt(msgPoints.getPlayerII()));
 				break;
 			}
 			case cancel : {

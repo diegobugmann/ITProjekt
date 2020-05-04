@@ -435,7 +435,7 @@ public class ClientController {
 		soundModule.playBackgroundSound();
 		try {
 			stage.setTitle("Player: "+model.user);
-			this.infoViewController = new InfoViewController(model.getCurrentGame(), ClientModel.cardStyle);
+			this.infoViewController = new InfoViewController(model.getCurrentGame(), ClientModel.cardStyle, model.user);
 			if(model.getCurrentGame().isSchieber()) {
 				view.showGameView(stage, infoViewController.schView);
 			} else {
