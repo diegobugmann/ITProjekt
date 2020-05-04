@@ -60,4 +60,11 @@ public class Team {
 		return this.playerList;
 	}
 	
+	public boolean isFinished(Game currentGame) {
+		if (this.score + this.totalScore >= currentGame.getWinningPoints())
+			return true;
+		else
+			return false;
+	}
+	
 }

@@ -329,24 +329,12 @@ public class Game extends Commons.Game {
 	/**
 	 * @author digib
 	 * @return boolean
-	 * checks if game is over; if so, sets the winning team and returns false
+	 * checks if game is over; if so, sets the winning team and returns false (only possible for differenzler)
 	 * if not, prepares new game and returns true
 	 */
 	public boolean prepareNewGameIfNeeded() {
 		Team winningTeam = null;
-		if (isSchieber()) {
-			int pointsReached = 0;
-			for (Team t : teams) {
-				if (t.getTotalScore() > pointsReached) {
-					pointsReached = t.getTotalScore();
-					winningTeam = t;
-				}
-			}
-			if (pointsReached >= this.getWinningPoints()) { //winningPoints reached, game finished
-				this.winnerTeam = winningTeam;
-				return false;
-			}
-		} else {
+		if (!isSchieber()) {
 			this.increaseNumOfRoundsPlayed();
 			if (this.numOfRoundsPlayed >= this.getNumOfRounds()) { //numOfRounds reached, game finished
 				int lowestPoints = Integer.MAX_VALUE;
@@ -363,7 +351,7 @@ public class Game extends Commons.Game {
 		for (Team t : teams) {
 			t.resetScore(); //reset score for a new round (Totalscore keeps counting)
 			for (Player p : t.getPlayerList())
-				p.resetWiis(); // the previous wiis
+				p.resetWiis(); //reset the previous wiis
 		}
 			
 		this.setNextStartingPlayer();
@@ -463,6 +451,10 @@ public class Game extends Commons.Game {
 	
 	public Team getWinnerTeam() {
 		return this.winnerTeam;
+	}
+	
+	public void setWinnerTeam(Team winnerTeam) {
+		this.winnerTeam = winnerTeam;
 	}
 	
 }
