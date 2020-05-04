@@ -161,7 +161,18 @@ public class User {
 			currentPlay.getPlayedBy().add(p);
 			
 			if (currentPlay.getPlayedCards().size() == 4) { //is the play over?
-				if (currentGame.getNumOfPlays() == 1 && currentGame.isSchieber()) { //was it the first round and Schieber?
+				Player winningPlayer = currentPlay.validateWinner();
+				int playPoints = currentPlay.validatePoints();
+				Team winningTeam = winningPlayer.getCurrentTeam();
+				winningTeam.addPoints(playPoints);
+				msgOut = new Message_Stich(winningPlayer.getName());
+				model.broadcast(currentGame.getPlayers(), msgOut);
+				if (currentGame.isSchieber() && winningTeam.isFinished(currentGame)) { //has the playWinner reached the points?
+					currentGame.setWinnerTeam(winningTeam);
+					winningTeam.addPointsToTotal(winningTeam.getScore());
+					//TODO Gewinner (winningTeam) bekanntgeben (mit totalScore)
+					//return
+				} else if (currentGame.getNumOfPlays() == 1 && currentGame.isSchieber()) { //was it the first round and Schieber?
 					Team wiisWinner = currentGame.validateWiisWinner();
 					if (wiisWinner != null) {
 						Player p1 = wiisWinner.getPlayerList().get(0);
@@ -170,21 +181,25 @@ public class User {
 						p2.addWiisPointsToTeam();
 						msgOut = new Message_WiisInfo(p1.getWiis(), p2.getWiis(), p1.getName(), p2.getName());
 						model.broadcast(currentGame.getPlayers(), msgOut);
+						if (wiisWinner.isFinished(currentGame)) { //has the wiisWinner reached the points?
+							currentGame.setWinnerTeam(wiisWinner);
+							wiisWinner.addPointsToTotal(wiisWinner.getScore());
+							//TODO Gewinner (wiisWinner) bekanntgeben (mit totalScore)
+							//return
+						}
 					}
-				}
-				Player winningPlayer = currentPlay.validateWinner();
-				int playPoints = currentPlay.validatePoints();
-				Team winningTeam = winningPlayer.getCurrentTeam();
-				winningTeam.addPoints(playPoints);
-				msgOut = new Message_Stich(winningPlayer.getName());
-				model.broadcast(currentGame.getPlayers(), msgOut);
-				
-				if (currentGame.getNumOfPlays() == 9) { //was it the last round?
+				} else if (currentGame.getNumOfPlays() == 9) { //was it the last round?
 					currentGame.addPoints(5, winningTeam);
 					if (currentGame.isMatch())
 						currentGame.addPoints(100, winningTeam);
+					if (currentGame.isSchieber() && winningTeam.isFinished(currentGame)) { //has the playWinner reached the points now?
+						currentGame.setWinnerTeam(winningTeam);
+						winningTeam.addPointsToTotal(winningTeam.getScore());
+						//TODO Gewinner (winningTeam) bekanntgeben (mit totalScore)
+						//return
+					}
 					if (currentGame.isSchieber()) {
-						for (int i = 0; i < 2; i++) {
+						for (int i = 0; i < 2; i++) { //send scores for both teams and add to total
 							Player p1 = currentGame.getTeam(i).getPlayerList().get(0);
 							Player p2 = currentGame.getTeam(i).getPlayerList().get(1);
 							int points = currentGame.getTeam(i).getScore();
@@ -193,7 +208,7 @@ public class User {
 							model.broadcast(currentGame.getPlayers(), msgOut);
 						}
 					} else {
-						for (int i = 0; i < 4; i++) {
+						for (int i = 0; i < 4; i++) { //send scores for all 4 teams and add to total
 							Player p1 = currentGame.getTeam(i).getPlayerList().get(0);
 							int points = Math.abs(currentGame.getTeam(i).getScore() - p1.getAnnouncedPoints());
 							currentGame.getTeam(i).addPointsToTotal(points);
@@ -201,14 +216,13 @@ public class User {
 							model.broadcast(currentGame.getPlayers(), msgOut);
 						}
 					}
-					
 					System.out.println("Team 1:"+currentGame.getTeam(0).getScore()); //TODO löschen
 					System.out.println("Team 1 total:"+currentGame.getTeam(0).getTotalScore()); //TODO löschen
 					System.out.println("Team 2:"+currentGame.getTeam(1).getScore()); //TODO löschen
 					System.out.println("Team 2 total:"+currentGame.getTeam(1).getTotalScore()); //TODO löschen
 					boolean keepPlaying = currentGame.prepareNewGameIfNeeded();
-					if (!keepPlaying) {
-						//TODO GEWINNER BEKANNTGEBEN (currentGame.getWinnerTeam() ist GewinnerTeam)
+					if (!keepPlaying) { //can only occur if differenzler has reached numOfRounds
+						//TODO Gewinner (currentGame.getWinnerTeam()) bekanntgeben (mit totalScore)
 					}
 				} else {
 					currentGame.newPlay(); //creates a new play object, adds it to the game and sets it as currentPlay
