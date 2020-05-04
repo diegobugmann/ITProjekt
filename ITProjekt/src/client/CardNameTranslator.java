@@ -94,5 +94,58 @@ public class CardNameTranslator {
 		}
 		return suitName;
 	}
+	
+	public static String getRankName(Wiis w, int isDeutsch) {
+		String rankName = "";
+		
+		switch (w.getHighestCard().getRank()){
+			case Six :{
+				rankName = "Sechs";
+				break; 
+			}
+			case Seven :{
+				rankName = "Sieben";
+				break; 
+			}
+			case Eight :{
+				rankName = "Acht";
+				break; 
+			}
+			case Nine :{
+				rankName = "Neun";
+				break; 
+			}
+			case Ten :{
+				rankName = "Zehn";
+				break; 
+			}
+			case Jack :{
+				if(isDeutsch == 1) {
+					rankName = "Under";					
+				} else {
+					rankName = "Bube";					
+				}
+				break; 
+			}
+			case Queen :{
+				if(isDeutsch == 1) {
+					rankName = "Ober";					
+				} else {
+					rankName = "Dame";					
+				}
+				break; 
+			}
+			case King :{
+				rankName = "König";
+				break; 
+			}
+			case Ace :{
+				rankName = "Ass";
+				break; 
+			}
+		}
+		return rankName;
+		
+	}
 
 }
