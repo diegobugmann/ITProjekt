@@ -169,7 +169,7 @@ public class User {
 				model.broadcast(currentGame.getPlayers(), msgOut);
 				if (currentGame.isSchieber() && winningTeam.isFinished(currentGame)) { //has the playWinner reached the points?
 					currentGame.setWinnerTeam(winningTeam);
-					winningTeam.addPointsToTotal(winningTeam.getScore());
+					//winningTeam.addPointsToTotal(winningTeam.getScore());
 					//TODO Gewinner (winningTeam) bekanntgeben (mit totalScore)
 					//return
 					System.out.println("fertig!");
@@ -184,7 +184,7 @@ public class User {
 						model.broadcast(currentGame.getPlayers(), msgOut);
 						if (wiisWinner.isFinished(currentGame)) { //has the wiisWinner reached the points?
 							currentGame.setWinnerTeam(wiisWinner);
-							wiisWinner.addPointsToTotal(wiisWinner.getScore());
+							//wiisWinner.addPointsToTotal(wiisWinner.getScore());
 							//TODO Gewinner (wiisWinner) bekanntgeben (mit totalScore)
 							//return
 							System.out.println("fertig!");
@@ -197,7 +197,7 @@ public class User {
 						currentGame.addPoints(100, winningTeam);
 					if (currentGame.isSchieber() && winningTeam.isFinished(currentGame)) { //has the playWinner reached the points now?
 						currentGame.setWinnerTeam(winningTeam);
-						winningTeam.addPointsToTotal(winningTeam.getScore());
+						//winningTeam.addPointsToTotal(winningTeam.getScore());
 						//TODO Gewinner (winningTeam) bekanntgeben (mit totalScore)
 						//return
 						System.out.println("fertig!");
