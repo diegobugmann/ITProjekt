@@ -175,7 +175,7 @@ public class User {
 						currentGame.setWinnerTeam(winningTeam);
 						currentGame.updateTotalPoints();
 						msgOut = new Message_EndResult(winningTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
-						model.broadcast(msgOut);
+						model.broadcast(currentGame.getPlayers(), msgOut);
 						return; //game is over
 					}
 					else if (currentGame.getNumOfPlays() == 1) {
@@ -193,7 +193,7 @@ public class User {
 								currentGame.setWinnerTeam(wiisWinner);
 								currentGame.updateTotalPoints();
 								msgOut = new Message_EndResult(wiisWinner.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
-								model.broadcast(msgOut);
+								model.broadcast(currentGame.getPlayers(), msgOut);
 								return; //game is over
 							}
 						}
@@ -211,7 +211,7 @@ public class User {
 							currentGame.setWinnerTeam(winningTeam);
 							currentGame.updateTotalPoints();
 							msgOut = new Message_EndResult(winningTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
-							model.broadcast(msgOut);
+							model.broadcast(currentGame.getPlayers(), msgOut);
 							return; //game is over
 						}
 						//if game is not over, add score to total and send scores for both teams
@@ -229,7 +229,7 @@ public class User {
 							Player p1 = currentGame.getTeam(i).getPlayerList().get(0);
 							int points = Math.abs(currentGame.getTeam(i).getScore() - p1.getAnnouncedPoints());
 							currentGame.getTeam(i).addPointsToTotal(points);
-							msgOut = new Message_Points(p1.getName(), null, points); //TODO andere Message
+							msgOut = new Message_Points(p1.getName(), p1.getName(), points); //TODO andere Message
 							model.broadcast(currentGame.getPlayers(), msgOut);
 						}
 					}

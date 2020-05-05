@@ -851,14 +851,15 @@ public class ClientController {
 				
 			}
 			
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle(null);
-			alert.setHeaderText(null);
-			alert.setContentText(winInfo);
-			alert.initModality(Modality.APPLICATION_MODAL);
-	        alert.initOwner(stage);
-			alert.showAndWait();
 		}
+		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle(null);
+		alert.setHeaderText(null);
+		alert.setContentText(winInfo);
+		alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+		alert.showAndWait();
 		
 	}
 
