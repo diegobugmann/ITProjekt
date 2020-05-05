@@ -185,9 +185,12 @@ public class ClientController {
 
 	private void joinGame(Event e) {
 		Game g = this.view.lobbyView.gameList.getSelectedGame();
-		model.setCurretnGame(g);
+		model.setCurrentGame(g);
 		int gameId = g.getGameId();
 		model.joinGame(gameId);
+		if(this.view.lobbyView.gameList.getSelectedGame().getIsSchieberDisplay()=="Differenzler") {
+			model.isGameTypeSchieber=false;
+		}
 
 	}
 	
@@ -405,7 +408,7 @@ public class ClientController {
 			for(Game g : games)
 			{
 				if(g.getGameId() == model.getCurrentGame().getGameId()) {
-					model.setCurretnGame(g);
+					model.setCurrentGame(g);
 					numOfPlayers = g.getCurrentNumOfPlayers();
 					this.splashScreen.updateAnzahlPers(numOfPlayers);
 				}

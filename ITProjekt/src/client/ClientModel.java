@@ -186,7 +186,7 @@ public class ClientModel {
 	}
 
 //Getters from connection---------------------------------------------------------------------------------------------
-	public void setCurretnGame(Game g) {
+	public void setCurrentGame(Game g) {
 		connection.setCurrentGame(g);
 		
 	}
