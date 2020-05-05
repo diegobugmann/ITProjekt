@@ -745,6 +745,7 @@ public class ClientController {
 	public void processPlayers(ArrayList<String> players) {
 		// ArrayList players is in gameorder of the players
 		//Store Teams
+		model.teams.clear();
 		if(model.isGameTypeSchieber == true) {
 			//Team1 player 1 & 3 of the gameorder
 			model.teams.add(0, players.get(0));
