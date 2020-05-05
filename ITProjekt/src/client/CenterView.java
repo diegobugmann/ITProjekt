@@ -11,7 +11,7 @@ import javafx.scene.layout.VBox;
 
 /**
  * 
- * @author lucameyer
+ * @author Luca Meyer
  *Creates the centerview with 4 buttons and Labes with the usernames to show the played cards
  *Buttons because then it can reused the CardButton, if the buttons are not
  *set on action, nothing happens

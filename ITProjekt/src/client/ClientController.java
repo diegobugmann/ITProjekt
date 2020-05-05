@@ -147,9 +147,6 @@ public class ClientController {
 		soundModule.playBackgroundSound();
 		view.showLobbyView(stage);
 		
-		view.lobbyView.gameMenu.statistik.setOnAction(event ->{
-			processStatisitc();
-		});
 		view.lobbyView.gameMenu.exit.setOnAction(event -> {
 			processExit(event, stage);
 		});
@@ -262,6 +259,7 @@ public class ClientController {
 					winningPoints = 2500;
 				}
 				int numOfRounds = newGameView.numOfRounds.getValue();
+				System.out.println(numOfRounds);
 				
 				model.newGame(isSchieber,isGermanCards,
 						numOfRounds,winningPoints);
@@ -428,7 +426,7 @@ public class ClientController {
 	}
 	
 	/**
-	 * Start the Game;
+	 * Starts the Game;
 	 */
 	public void startGame() {
 		soundModule.pauseWaitingSound();
@@ -441,9 +439,6 @@ public class ClientController {
 			} else {
 				view.showGameView(stage, infoViewController.diffView);
 			}
-			view.gameView.gameMenu.statistik.setOnAction(event ->{
-				processStatisitc();
-			});
 		
 			view.gameView.gameMenu.karten.setOnAction(event -> {
 				processCardStyle();
@@ -476,7 +471,6 @@ public class ClientController {
 	}
 
 	public void updateCardArea(ArrayList<Card> hand) {
-
 			view.gameView.cardArea.setButtons(hand);
 			view.gameView.cardArea.setCards(hand);
 	}
@@ -505,7 +499,7 @@ public class ClientController {
 		stage2.setHeight(300);
 		stage2.setWidth(300);
 		stage2.initStyle(StageStyle.UNDECORATED);
-		stage2.initModality(Modality.APPLICATION_MODAL); /* *** */
+		stage2.initModality(Modality.APPLICATION_MODAL);
 		stage2.initOwner(stage);
 		stage2.show();
 		
@@ -517,7 +511,6 @@ public class ClientController {
 					}
 				});
 		
-			
 		selectTrumpfView.confirmBtn.setOnAction(event -> {
 			GameType gameType = selectTrumpfView.getSelectedTrumpf();
 			model.setTrumpf(gameType);
@@ -525,7 +518,6 @@ public class ClientController {
 			
 			stage2.close();
 			});
-			
 	}
 	
 	private void validateTrumpf(Toggle newValue) {
@@ -629,9 +621,34 @@ public class ClientController {
 		}
 	}
 	
+	/**
+	 * @author Luca Meyer
+	 * creates a new Window to choose the points for differenzler and sends them to the model
+	 * There is no check needed if letters are written. The getValue() only takes the first
+	 * numbers until the first letter, if the number is higher than the max it takes
+	 * the factoryValue
+	 */
 	public void processAnsagePoints() {
-		// TODO Auto-generated method stub
 		
+		AnsagePointsView ansagePointsView = new AnsagePointsView();
+		
+		Scene scene2 = new Scene(ansagePointsView);
+		Stage stage2 = new Stage();
+		stage2.setScene(scene2);
+		stage2.setHeight(300);
+		stage2.setWidth(300);
+		stage2.initStyle(StageStyle.UNDECORATED);
+		stage2.initModality(Modality.APPLICATION_MODAL);
+		stage2.initOwner(stage);
+		stage2.show();
+		
+		
+		ansagePointsView.okBtn.setOnAction(event-> {
+			
+			int ansagePoints = ansagePointsView.numOfPoints.getValue();
+			model.sendAnsagePoints(ansagePoints);
+			stage2.close();
+		});
 	}
 	
 	/**
@@ -696,6 +713,10 @@ public class ClientController {
 		alert.showAndWait();
 	}
 	
+	/**
+	 * @author Luca Meyer
+	 * Shows the player who made the stich and removes all played cards from the center
+	 */
 	public void processStich(String player) {
 		String stichInfo = player+" macht den Stich!";
 		view.gameView.centerView.stichInfo.setText(stichInfo);
@@ -708,6 +729,13 @@ public class ClientController {
 		
 	}
 
+	/**
+	 * @author Luca Meyer
+	 * resets the text in the middle of the gamefield 
+	 * and sends the played card to the setCard Method in the centerView
+	 * @param card
+	 * @param player
+	 */
 	public void processTurn(Card card, String player) {
 		view.gameView.centerView.stichInfo.setText("");
 		view.gameView.centerView.setCard(card, player);
@@ -769,15 +797,6 @@ public class ClientController {
 			view.gameView.centerView.cardBtnCenterTop.setId(players.get(1).toString());
 			view.gameView.centerView.cardBtnLeft.setId(players.get(2).toString());
 		}
-	
-		
-		
-		
-		
-		
-		
-		
-		
 		
 	}
 

@@ -155,12 +155,22 @@ public class ClientModel {
 	}
 	
 	/**
-	 * @author Luca meyer
+	 * @author Luca Meyer
 	 * sends the selected Wiis to the CommunicationThread
 	 */
 	public void sendWiis(ArrayList<Wiis> wiisReturn) {
 		Message_Wiis wiis = new Message_Wiis(wiisReturn);
 		connection.sendMessage(wiis);
+	}
+	
+	/**
+	 * @author Luca Meyer
+	 * @param ansagePoints
+	 * sends the ansagePoints to the server
+	 */
+	public void sendAnsagePoints(int ansagePoints) {
+		Message_Ansage ansage = new Message_Ansage(ansagePoints);
+		connection.sendMessage(ansage);
 	}
 
 //Getters from connection---------------------------------------------------------------------------------------------
@@ -208,4 +218,5 @@ public class ClientModel {
 		Message_Chat msg = new Message_Chat(input);
 		connection.sendMessage(msg);
 	}
+
 }

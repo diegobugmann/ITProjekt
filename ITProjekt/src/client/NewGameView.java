@@ -65,7 +65,7 @@ public class NewGameView extends VBox {
 		radioBoxPoints.setAlignment(Pos.CENTER);
 		radioBoxPoints.getChildren().addAll(rb1000, rb2500);
 		
-		numOfRoundslbl = new Label("Anzahl Runden:");
+		numOfRoundslbl = new Label("Anzahl Runden (1-20):");
 		
 		//https://o7planning.org/de/11185/anleitung-javafx-spinner
 		numOfRounds = new Spinner<Integer>();
@@ -77,6 +77,7 @@ public class NewGameView extends VBox {
                 new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 20, initialValue);
  
         numOfRounds.setValueFactory(valueFactory);
+        numOfRounds.setEditable(true);
         
         
         typeGroup.selectToggle(rbSchieber);

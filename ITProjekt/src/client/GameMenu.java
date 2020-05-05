@@ -5,14 +5,13 @@ import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
 /**
  * 
- * @author lucameyer
+ * @author Luca Meyer
  *MenuBar for the Lobby and the GameView
  */
 public class GameMenu extends MenuBar {
 	
 	
 	protected Menu spiel;
-	protected MenuItem statistik;
 	protected MenuItem exit;
 	
 	protected Menu einstellungen;
@@ -28,9 +27,8 @@ public class GameMenu extends MenuBar {
 		super();
 		
 		spiel = new Menu("Spiel");
-		statistik = new MenuItem("Statistik");
 		exit = new MenuItem("Beenden");
-		spiel.getItems().addAll(statistik, exit);
+		spiel.getItems().add(exit);
 		
 		einstellungen = new Menu("Einstellungen");
 		karten = new MenuItem("Karten");

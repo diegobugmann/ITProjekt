@@ -6,7 +6,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 /**
  * 
- * @author lucameyer
+ * @author Luca Meyer
  * creates a Button with the picture of the card
  * parts copied from R. Bradley PokerProject
  */

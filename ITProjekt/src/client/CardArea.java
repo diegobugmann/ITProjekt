@@ -11,7 +11,7 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
 /**
- * @author lucameyer
+ * @author Luca Meyer
  * parts are coiped from PokerProjekt R. Bradley
  */
 
