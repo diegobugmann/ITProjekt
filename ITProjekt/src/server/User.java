@@ -162,7 +162,7 @@ public class User {
 			currentPlay.addCard(playedCard);
 			currentPlay.getPlayedBy().add(p);
 			//is the play over?
-			if (currentPlay.getPlayedCards().size() == 4) { 
+			if (currentPlay.getPlayedCards().size() == 4) {
 				Player winningPlayer = currentPlay.validateWinner();
 				int playPoints = currentPlay.validatePoints();
 				Team winningTeam = winningPlayer.getCurrentTeam();
@@ -170,37 +170,42 @@ public class User {
 				msgOut = new Message_Stich(winningPlayer.getName());
 				model.broadcast(currentGame.getPlayers(), msgOut);
 				//has the playWinner reached the points? (Stich before Wiis)
-				if (currentGame.isSchieber() && winningTeam.isFinished(currentGame)) {
-					currentGame.setWinnerTeam(winningTeam);
-					currentGame.updateTotalPoints();
-					msgOut = new Message_EndResult(winningTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
-					model.broadcast(msgOut);
-					return; //game is over
-				} else if (currentGame.getNumOfPlays() == 1 && currentGame.isSchieber()) {
-					//validate who has the highest wiis
-					Team wiisWinner = currentGame.validateWiisWinner();
-					if (wiisWinner != null) {
-						Player p1 = wiisWinner.getPlayerList().get(0);
-						p1.addWiisPointsToTeam();
-						Player p2 = wiisWinner.getPlayerList().get(1);
-						p2.addWiisPointsToTeam();
-						msgOut = new Message_WiisInfo(p1.getWiis(), p2.getWiis(), p1.getName(), p2.getName());
-						model.broadcast(currentGame.getPlayers(), msgOut);
-						//has the wiisWinner reached the points? (Wiis after Stich)
-						if (wiisWinner.isFinished(currentGame)) {
-							currentGame.setWinnerTeam(wiisWinner);
-							currentGame.updateTotalPoints();
-							msgOut = new Message_EndResult(wiisWinner.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
-							model.broadcast(msgOut);
-							return; //game is over
+				if (currentGame.isSchieber()) {
+					if (winningTeam.isFinished(currentGame)) {
+						currentGame.setWinnerTeam(winningTeam);
+						currentGame.updateTotalPoints();
+						msgOut = new Message_EndResult(winningTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
+						model.broadcast(msgOut);
+						return; //game is over
+					}
+					else if (currentGame.getNumOfPlays() == 1) {
+						//validate who has the highest wiis
+						Team wiisWinner = currentGame.validateWiisWinner();
+						if (wiisWinner != null) {
+							Player p1 = wiisWinner.getPlayerList().get(0);
+							p1.addWiisPointsToTeam();
+							Player p2 = wiisWinner.getPlayerList().get(1);
+							p2.addWiisPointsToTeam();
+							msgOut = new Message_WiisInfo(p1.getWiis(), p2.getWiis(), p1.getName(), p2.getName());
+							model.broadcast(currentGame.getPlayers(), msgOut);
+							//has the wiisWinner reached the points? (Wiis after Stich)
+							if (wiisWinner.isFinished(currentGame)) {
+								currentGame.setWinnerTeam(wiisWinner);
+								currentGame.updateTotalPoints();
+								msgOut = new Message_EndResult(wiisWinner.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
+								model.broadcast(msgOut);
+								return; //game is over
+							}
 						}
 					}
 				}
-				if (currentGame.getNumOfPlays() == 9) { //was it the last round?
+				//was it the last round?
+				if (currentGame.getNumOfPlays() == 9) {
 					currentGame.addPoints(5, winningTeam);
-					if (currentGame.isMatch())
-						currentGame.addPoints(100, winningTeam);
 					if (currentGame.isSchieber()) {
+						//check for match (only when schieber)
+						if (currentGame.isMatch())
+							currentGame.addPoints(100, winningTeam);
 						//has the playWinner reached the points now?
 						if (winningTeam.isFinished(currentGame)) {
 							currentGame.setWinnerTeam(winningTeam);
@@ -209,8 +214,8 @@ public class User {
 							model.broadcast(msgOut);
 							return; //game is over
 						}
-						//if game is not over, send scores for both teams and add to total
-						for (int i = 0; i < 2; i++) { 
+						//if game is not over, add score to total and send scores for both teams
+						for (int i = 0; i < 2; i++) {
 							Player p1 = currentGame.getTeam(i).getPlayerList().get(0);
 							Player p2 = currentGame.getTeam(i).getPlayerList().get(1);
 							int points = currentGame.getTeam(i).getScore();
@@ -219,12 +224,12 @@ public class User {
 							model.broadcast(currentGame.getPlayers(), msgOut);
 						}
 					} else {
-						//send scores for all 4 teams and add to total
+						//add score to total and send scores for all 4 teams (for Differenzler)
 						for (int i = 0; i < 4; i++) {
 							Player p1 = currentGame.getTeam(i).getPlayerList().get(0);
 							int points = Math.abs(currentGame.getTeam(i).getScore() - p1.getAnnouncedPoints());
 							currentGame.getTeam(i).addPointsToTotal(points);
-							msgOut = new Message_Points(p1.getName(), null, points);
+							msgOut = new Message_Points(p1.getName(), null, points); //TODO andere Message
 							model.broadcast(currentGame.getPlayers(), msgOut);
 						}
 					}
@@ -243,17 +248,17 @@ public class User {
 					msgOut = new Message_YourTurn(winningPlayer.getHand()); //player can play everything he wants
 					msgOut.send(winningPlayer.getSocket());
 				}
-			//play is not over
-			} else { 
+			//play is not over: send the next player a yourTurn-Message (and a wiis-Message if it's the first round)
+			} else {
 				Player nextPlayer = p.getFollowingPlayer();
 				if (currentGame.getNumOfPlays() == 1 && currentGame.isSchieber()) {
 					ArrayList<Wiis> wiis = nextPlayer.validateWiis();
 					msgOut = new Message_Wiis(wiis, p.getID());
-					msgOut.send(nextPlayer.getSocket()); //send player possible wiis in the first play
+					msgOut.send(nextPlayer.getSocket());
 				}
 				ArrayList<Card> playableCards = nextPlayer.getPlayableCards();
 				msgOut = new Message_YourTurn(playableCards);
-				msgOut.send(nextPlayer.getSocket()); //and send him yourTurn with playableCards
+				msgOut.send(nextPlayer.getSocket());
 			}
 			break;
 		}
