@@ -833,7 +833,7 @@ public class ClientController {
 				
 			}else if(winningTeamID == 2) {
 				winInfo += model.teams.get(2)+ " und " +model.teams.get(3)+
-						" bedanken sich.";
+				" bedanken sich. \n\n";
 				winInfo += pointsTeamII+ " zu "+pointsTeamI;
 			}
 		}else if(model.isGameTypeSchieber== false) {
