@@ -239,7 +239,7 @@ public class User {
 						Team winnerTeam = currentGame.getWinnerTeam();
 						msgOut = new Message_EndResult(winnerTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), 
 							currentGame.getTeam(1).getTotalScore(), currentGame.getTeam(2).getTotalScore(), currentGame.getTeam(3).getTotalScore());
-						model.broadcast(msgOut);
+						model.broadcast(currentGame.getPlayers(), msgOut);
 						return; //game over
 					}
 				//it was not the last round

@@ -203,7 +203,10 @@ public class WiisValidation {
 						winningPlayer = p;
 					} else if (w.getBlatt().getPoints() == highestWiis.getBlatt().getPoints()) {
 						if (w.getBlatt() == highestWiis.getBlatt()) { //same blatt?
-							if (w.getHighestCard().compareTo(highestWiis.getHighestCard()) > 0) {
+							if (w.getHighestCard().compareTo(highestWiis.getHighestCard()) < 0 && gameType == GameType.BottomsUp) {
+								highestWiis = w;
+								winningPlayer = p;
+							} else if (w.getHighestCard().compareTo(highestWiis.getHighestCard()) > 0 && gameType != GameType.BottomsUp) { 
 								highestWiis = w;
 								winningPlayer = p;
 							} else if (w.getHighestCard().compareTo(highestWiis.getHighestCard()) == 0) { //same highest card
