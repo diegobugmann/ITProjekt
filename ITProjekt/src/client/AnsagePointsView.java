@@ -3,11 +3,8 @@ package client;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
 import javafx.scene.control.Spinner;
 import javafx.scene.control.SpinnerValueFactory;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 
@@ -18,26 +15,23 @@ import javafx.scene.layout.VBox;
  *
  */
 public class AnsagePointsView extends VBox {
-	
 	protected Label numOfPointslbl;
 	protected Spinner<Integer> numOfPoints;
-	
 	protected Button okBtn;
-	
 	
 	public AnsagePointsView() {
 		super();
 		
-		numOfPointslbl = new Label("Ansage Punkte (1-1000):");
+		numOfPointslbl = new Label("Ansage Punkte (0-157):");
 		
 		//https://o7planning.org/de/11185/anleitung-javafx-spinner
 		numOfPoints = new Spinner<Integer>();
 		
-		final int initialValue = 100;
+		final int initialValue = 75;
 		 
         //sets the range of the spinner
         SpinnerValueFactory<Integer> valueFactory = //
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 1000, initialValue);
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 157, initialValue);
  
         numOfPoints.setValueFactory(valueFactory);
         numOfPoints.setEditable(true);
@@ -49,10 +43,8 @@ public class AnsagePointsView extends VBox {
 		spacer2.setPrefHeight(10);
 		
 		okBtn = new Button("Ansagen");
-		okBtn.setDisable(true);
 		
 		this.setAlignment(Pos.CENTER);
-		
 		this.getChildren().addAll(numOfPointslbl, spacer1,
 				numOfPoints, spacer2, okBtn);
 

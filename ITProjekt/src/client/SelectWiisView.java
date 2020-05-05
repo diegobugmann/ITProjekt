@@ -1,25 +1,17 @@
 package client;
 
-import java.io.InputStream;
 import java.util.ArrayList;
-
-import Commons.GameType;
 import Commons.Wiis;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Label;
-import javafx.scene.control.RadioButton;
-import javafx.scene.control.ToggleGroup;
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-import javafx.scene.layout.GridPane;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+
 /**
- * @author Luca Meyer
+ * @author Luca Meyer & Sarah
  * View to give the option to select all possible Wiis
  * 
  */
@@ -27,21 +19,11 @@ public class SelectWiisView extends VBox {
 	
 	protected VBox checkVBox;
 	protected Label userlbl;
-	
 	protected Button confirmBtn;
 	protected Insets insets;
 	public ArrayList<CheckBox> checkBoxes = new ArrayList<>();
 	
-	
 
-	/**
-	 * @author Luca Meyer
-	 * View to give the option to select all possible Wiis
-	 * 
-	 */
-	
-
-	
 	public SelectWiisView(ArrayList<Wiis> wiisArray, int cardStyle) {
 
 		super();

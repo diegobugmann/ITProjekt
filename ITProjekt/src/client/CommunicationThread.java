@@ -274,7 +274,14 @@ public class CommunicationThread extends Thread{
 				break;
 			}
 			case endResults : {
-				//TODO
+				Message_EndResult msgEndResults = (Message_EndResult) msgIn;
+				int winningTeamID = msgEndResults.getWinningTeamID();
+				int pointsTeamI = msgEndResults.getPointsTeamI();
+				int pointsTeamII = msgEndResults.getPointsTeamII();
+				int pointsTeamIII = msgEndResults.getPointsTeamIII();
+				int pointsTeamIV = msgEndResults.getPointsTeamIV();
+				controller.processEndResults(winningTeamID, pointsTeamI,
+						pointsTeamII, pointsTeamIII, pointsTeamIV);
 				break;
 			}
 			case error : {

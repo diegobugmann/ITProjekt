@@ -16,6 +16,8 @@ public class ClientModel {
 	protected CommunicationThread connection;
 	public static int cardStyle=0; // 0 = französisch
 	protected ArrayList<Card> actualHand = new ArrayList<>();
+	protected ArrayList<String> teams = new ArrayList<>();
+	protected boolean isGameTypeSchieber = true;
 
 	
 	/**
@@ -76,6 +78,11 @@ public class ClientModel {
 	 * Code Michi Creates a game based on the Inputs form the GUI via controller and sends creation to Server via connection thread
 	 */
 	public void newGame(boolean isSchieber, boolean isGermanCards, int numOfRounds, int winningPoints) {
+		if(isSchieber == true) {
+			isGameTypeSchieber = true;
+		}else if(isSchieber == false) {
+			isGameTypeSchieber = false;
+		}
 		//Only create Game when user is in the correct Status to create a Game
 		if(connection.getStatus() == Status.logedin) {
 			connection.setStatus(Status.joingamerequested);

@@ -24,11 +24,8 @@ public class CardArea extends VBox {
 	public CardArea() {
 		super();
 		
-		
 		this.setAlignment(Pos.CENTER);
 		this.getChildren().addAll(hboxCards, infolbl);
-		
-		
 		
 		hboxCards.setAlignment(Pos.CENTER);
 			

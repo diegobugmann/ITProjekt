@@ -67,4 +67,41 @@ Im Spiel sind immer 152 Punkte.
 Dazu kommen 5 Punkte für den letzten Stich. 
 Das ergibt das Total von 157 Punkten.
 
+
+Der Differenzlerjass
+
+Trumpf und Ansage
+Für ein Spiel werden die 36 Karten gemischt und verteilt. Jeder Spieler erhält 9 Karten. 
+Bei jeder Spielrunde wird durch Zufall die Trumpf-Farbe bestimmt. 
+Die Spieler schätzen nun, wie viele Punkte sie mit ihrem Blatt erreichen werden. 
+Die Schätzung wird entweder offen oder verdeckt angesagt. 
+Bei der verdeckten Ansage erfahren die anderen Mitspieler erst nach Ende der Runde wie viel jeder angesagt hat. 
+Hingegen wird beim offenen Differenzler die Ansage für die anderen Mitspieler bereits am Anfang der Runde angezeigt.
+
+Das Spiel
+Das Spiel beginnt nachdem alle Spieler ihre Ansage gemacht haben. 
+Der erste Spieler gibt eine Karte und die anderen Spieler geben der Reihe nach entweder eine Karte der gleichen Farbe oder eine Trumpfkarte. 
+Wer die höchste Karte bzw. stärkste Trumpfkarte gegeben hat, sticht und erhält die vier gespielten Karten. 
+Der Stich hat einen Wert, der dem Punktewert aller vier Karten entspricht. 
+Alle Stiche werden zusammengezählt und am Ende der Runde mit der angesagten Punktzahl verglichen. 
+Die Differenzpunkte jeder Runde werden zusammengezählt und gewonnen hat, wer am Spielende am wenigsten Differenzpunkte erzielt hat.
+
+Kartenwerte beim Spiel mit oder ohne Trumpf:
+
+Werte für nicht-Trumpfkarten:				Werte beim Trumpf:
+Karte			Punkte						Karte			Punkte
+As				11							As				11
+König			4							König			4
+Ober/Dame		3							Ober/Dame		3
+Under/Bube		2							Puur			20
+Banner/Zehn		10							Banner/Zehn		10
+Neun			-							Nell			14
+Acht			-							Acht			-
+Sieben			-							Sieben			-
+Sechs			-							Sechs			-
+
+Im Spiel sind immer 152 Punkte. 
+Dazu kommen 5 Punkte für den letzten Stich. Das ergibt das Total von 157 Punkten.
+
 Spielregeln nach https://www.schieber.ch/srules.php
+und nach https://www.differenzler.ch/drules.php

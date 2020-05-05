@@ -62,7 +62,7 @@ public class ChatBox extends VBox {
 	    });
 		controls.getChildren().addAll(input, send);
 		this.getChildren().addAll(centerArea, controls);
-		this.setBorder(new Border(new BorderStroke(Color.valueOf("#9E9E9E"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3))));
+		//this.setBorder(new Border(new BorderStroke(Color.valueOf("#9E9E9E"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3))));
 		this.setPadding(new Insets(10,10,10,10));
 	}
 	

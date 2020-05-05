@@ -309,10 +309,6 @@ public class ClientController {
 		}
 	}
 	
-	public void processStatisitc() {
-		//TODO Statistik holen und anzeigen
-	}
-	
 	public void processExit(Event event, Stage stage) {
 			stage.close();
 			if(model.connection != null && model.connection.isAlive()) {
@@ -674,23 +670,20 @@ public class ClientController {
 		stage2.show();
 		
 		selectWiisView.confirmBtn.setOnAction(event -> {
-			
-			boolean found = false;
-			
-			while(!found) {
-				for(Wiis w: wiisArray) {
-					for(CheckBox c : selectWiisView.checkBoxes) {
+			for(Wiis w: wiisArray) {
+				for(CheckBox c : selectWiisView.checkBoxes) {
 						
-							if(c.getId().contains(w.getBlatt().toString()) && 
-									c.getId().contains(w.getHighestCard().toString())) {
-								found = true;
-								wiisReturn.add(w);
-								}
+						if(c.getId().contains(w.getBlatt().toString()) && 
+								c.getId().contains(w.getHighestCard().toString())
+								&& c.isSelected()) {
 								
+								wiisReturn.add(w);
 							}
+							
+						}
 						
 					}
-				}
+				
 			model.sendWiis(wiisReturn);
 			stage2.close();
 			
@@ -747,6 +740,23 @@ public class ClientController {
 	 * and set the labels and ids
 	 */
 	public void processPlayers(ArrayList<String> players) {
+		// ArrayList players is in gameorder of the players
+		//Store Teams
+		if(model.isGameTypeSchieber == true) {
+			//Team1 player 1 & 3 of the gameorder
+			model.teams.add(0, players.get(0));
+			model.teams.add(1, players.get(2));
+			//Team2 player 2 & 4 of the gameorder
+			model.teams.add(2, players.get(1));
+			model.teams.add(3, players.get(3));
+			
+		}else if(model.isGameTypeSchieber== false) {
+			//Each player is a team
+			model.teams.add(0, players.get(0));
+			model.teams.add(1, players.get(1));
+			model.teams.add(2, players.get(2));
+			model.teams.add(3, players.get(3));
+		}
 		//Case1 this Player is position 0 in array
 		if(players.get(0).contains(model.user)) {
 			view.gameView.centerView.userlblCenterBottom.setText(players.get(0).toString());
@@ -796,6 +806,58 @@ public class ClientController {
 			view.gameView.centerView.cardBtnRight.setId(players.get(0).toString());
 			view.gameView.centerView.cardBtnCenterTop.setId(players.get(1).toString());
 			view.gameView.centerView.cardBtnLeft.setId(players.get(2).toString());
+		}
+		
+	}
+	
+	/**
+	 * @author Luca Meyer
+	 * 
+	 */
+
+	public void processEndResults(int winningTeamID, int pointsTeamI, int pointsTeamII, int pointsTeamIII,
+			int pointsTeamIV) {
+		view.gameView.centerView.stichInfo.setText("");
+		//Remove all played Cards
+		for(Button b : view.gameView.centerView.centerButtons) {
+			CardButton cardBtn = (CardButton) b;
+			cardBtn.setVisible(false);
+			cardBtn.setCard(null);
+		}
+		String winInfo = "";
+		if(model.isGameTypeSchieber==true) {
+			if(winningTeamID == 1) {
+				winInfo += model.teams.get(0)+ " und " +model.teams.get(1)+
+				" bedanken sich. \n\n";
+				winInfo += pointsTeamI+ " zu "+pointsTeamII;
+				
+			}else if(winningTeamID == 2) {
+				winInfo += model.teams.get(2)+ " und " +model.teams.get(3)+
+						" bedanken sich.";
+				winInfo += pointsTeamII+ " zu "+pointsTeamI;
+			}
+		}else if(model.isGameTypeSchieber== false) {
+			if(winningTeamID == 1) {
+				winInfo += model.teams.get(0)+ " bedankt sich.";
+				
+			}else if(winningTeamID == 2) {
+				winInfo += model.teams.get(0)+ " bedankt sich.";
+				
+			}else if(winningTeamID == 3) {
+				winInfo += model.teams.get(0)+ " bedankt sich.";
+				
+			}else if(winningTeamID == 4) {
+				winInfo += model.teams.get(0)+ " bedankt sich.";
+				
+			}
+			
+			Alert alert = new Alert(AlertType.INFORMATION);
+			alert.setTitle(null);
+			alert.setHeaderText(null);
+			alert.setContentText(winInfo);
+			alert.initModality(Modality.APPLICATION_MODAL);
+	        alert.initOwner(stage);
+			alert.showAndWait();
 		}
 		
 	}
