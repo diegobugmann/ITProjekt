@@ -483,8 +483,8 @@ public class ClientController {
 			model.exitGame();
 	}
 	
-	public void processSetTrumpf() {
-		SelectTrumpfView selectTrumpfView = new SelectTrumpfView();
+	public void processSetTrumpf(boolean isGeschoben) {
+		SelectTrumpfView selectTrumpfView = new SelectTrumpfView(isGeschoben);
 		selectTrumpfView.userlbl.setText("Player: "+model.user);
 		validateTrumpf = false;
 	

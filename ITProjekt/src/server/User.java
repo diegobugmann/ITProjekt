@@ -340,7 +340,7 @@ public class User {
 			}
 			case Schiebe: {
 				Player teammate = p.getTeammate(); //get the "Schieber"s teammate
-				msgOut = new Simple_Message(Simple_Message.Msg.Ansage_Trumpf);
+				msgOut = new Simple_Message(Simple_Message.Msg.Schiebe_Trumpf);
 				msgOut.setClient(name);
 				msgOut.send(teammate.getSocket()); //and tell him to make trumpf
 				break;

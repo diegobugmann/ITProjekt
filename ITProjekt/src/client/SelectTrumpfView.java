@@ -35,7 +35,7 @@ public class SelectTrumpfView extends VBox {
 	 * View instead of Alert because Alerts can't have RadioButtons
 	 */
 	
-	public SelectTrumpfView() {
+	public SelectTrumpfView(boolean isGeschoben) {
 		super();
 		rbBox = new HBox();
 		rbBox2 = new HBox();
@@ -109,6 +109,9 @@ public class SelectTrumpfView extends VBox {
 		rbBottomUp.setToggleGroup(tg);
 		
 		rbSchieber = new RadioButton("");
+		if (isGeschoben) {
+			rbSchieber.setDisable(true);
+		}
 		InputStream is7 = getClass().getResourceAsStream("Trumpf_"+cardStyle+"/Schieber.png");
 		Image img7= new Image(is7);
 		ImageView v7 = new ImageView(img7);

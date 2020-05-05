@@ -135,7 +135,12 @@ public class ClientModel {
 	 * sends the selected Trumpf to the CommunicationThread
 	 */
 	public void setTrumpf(GameType gameType) {
-		Message_Trumpf trumpf = new Message_Trumpf(gameType);
+		Message trumpf;
+		if(gameType == GameType.Schieber) {
+			trumpf = new Simple_Message(Simple_Message.Msg.Schiebe);
+		}else {
+			trumpf = new Message_Trumpf(gameType);
+		}
 		connection.sendMessage(trumpf);
 	}
 	

@@ -141,7 +141,11 @@ public class CommunicationThread extends Thread{
 						break;
 					}
 					case Ansage_Trumpf :{
-						controller.processSetTrumpf();
+						controller.processSetTrumpf(false);
+						break;
+					}
+					case Schiebe_Trumpf :{
+						controller.processSetTrumpf(true);
 						break;
 					}
 					case Login_accepted :{

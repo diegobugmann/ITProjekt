@@ -26,6 +26,7 @@ public class Simple_Message extends Message{
 		//Server to client waits for client to reutrn Message ansage Trumpf
 		Ansage_Trumpf,
 		Schiebe,
+		Schiebe_Trumpf,
 		//Fragt GameListe des Servers ab
 		Get_GameList,
 		//Canncel on the Splashscreen
