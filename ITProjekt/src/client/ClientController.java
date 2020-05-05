@@ -833,7 +833,7 @@ public class ClientController {
 				
 			}else if(winningTeamID == 2) {
 				winInfo += model.teams.get(2)+ " und " +model.teams.get(3)+
-						" bedanken sich.";
+				" bedanken sich. \n\n";
 				winInfo += pointsTeamII+ " zu "+pointsTeamI;
 			}
 		}else if(model.isGameTypeSchieber== false) {
@@ -851,14 +851,15 @@ public class ClientController {
 				
 			}
 			
-			Alert alert = new Alert(AlertType.INFORMATION);
-			alert.setTitle(null);
-			alert.setHeaderText(null);
-			alert.setContentText(winInfo);
-			alert.initModality(Modality.APPLICATION_MODAL);
-	        alert.initOwner(stage);
-			alert.showAndWait();
 		}
+		
+		Alert alert = new Alert(AlertType.INFORMATION);
+		alert.setTitle(null);
+		alert.setHeaderText(null);
+		alert.setContentText(winInfo);
+		alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+		alert.showAndWait();
 		
 	}
 
