@@ -167,9 +167,8 @@ public class User {
 				//has a player played both stoeck?
 				if (p.hasPlayedStoeck()) {
 					currentGame.addPoints(20, p.getCurrentTeam());
-					System.out.println("STÖCK GWIESE VOM "+p.getName()); //TODO löschen
 					msgOut = new Message_Stoeck(p.getName());
-					//model.broadcast(currentGame.getPlayers(), msgOut);      TODO wieder reinnehmen
+					model.broadcast(currentGame.getPlayers(), msgOut);
 					//has the stoeckPlayer reached the points? (Stoeck count before a regular stich)
 					if (p.getCurrentTeam().isFinished(currentGame)) {
 						currentGame.setWinnerTeam(p.getCurrentTeam());
@@ -193,9 +192,8 @@ public class User {
 							if (pp.getCurrentTeam().isFinished(currentGame)) {
 								currentGame.setWinnerTeam(pp.getCurrentTeam());
 								currentGame.updateTotalPoints();
-								System.out.println("STÖCK GWIESE VOM "+pp.getName()+" ALS SPIELFINALE"); //TODO löschen
 								msgOut = new Message_Stoeck(pp.getName());
-								//model.broadcast(currentGame.getPlayers(), msgOut);      TODO wieder reinnehmen
+								model.broadcast(currentGame.getPlayers(), msgOut);
 								msgOut = new Message_EndResult(pp.getCurrentTeam().getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 								model.broadcast(currentGame.getPlayers(), msgOut);
 								return; //game is over
@@ -217,9 +215,8 @@ public class User {
 							for (Wiis w : pp.getWiis()) {
 								if (w.containsStoeck(currentGame.getTrumpf())) {
 									currentGame.addPoints(20, pp.getCurrentTeam());
-									System.out.println("STÖCK GWIESE VOM "+pp.getName()); //TODO löschen
 									msgOut = new Message_Stoeck(pp.getName());
-									//model.broadcast(currentGame.getPlayers(), msgOut);      TODO wieder reinnehmen
+									model.broadcast(currentGame.getPlayers(), msgOut);
 									pp.setHasStoeck(false); //stoeck are now already wiised
 								}
 							}
