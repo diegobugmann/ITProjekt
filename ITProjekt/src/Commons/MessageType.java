@@ -15,6 +15,7 @@ public enum MessageType {
 	hand,
 	turn,
 	ansage,
+	stoeck,
 	wiis,
 	wiisInfo,
 	stich,
@@ -63,6 +64,7 @@ public enum MessageType {
     	else if (msg instanceof Message_YourTurn) type = yourTurn;
     	else if (msg instanceof Message_WiisInfo) type = wiisInfo;
     	else if (msg instanceof Message_Chat) type = chat;
+    	else if (msg instanceof Message_Stoeck) type = stoeck;
     	return type;
     }	
 	

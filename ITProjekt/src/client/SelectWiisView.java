@@ -33,8 +33,15 @@ public class SelectWiisView extends VBox {
 		
 		for(Wiis w : wiisArray) {
 			String text = w.toString();
-			
-			CheckBox b = new CheckBox(CardNameTranslator.getBlattName(w) + " von " + CardNameTranslator.getSuitName(w, cardStyle) + " " + CardNameTranslator.getRankName(w, cardStyle));
+			CheckBox b = null;
+			if (w.getBlatt() == Wiis.Blatt.viergleiche) {
+				b = new CheckBox(CardNameTranslator.getBlattName(w, cardStyle) + " von " + CardNameTranslator.getRankName(w, cardStyle));
+			} else if (w.getBlatt()== Wiis.Blatt.vierNeuner || w.getBlatt()== Wiis.Blatt.vierBauern) {
+				b = new CheckBox(CardNameTranslator.getBlattName(w, cardStyle));
+			} else {
+				b = new CheckBox(CardNameTranslator.getBlattName(w, cardStyle) + " von " + CardNameTranslator.getSuitName(w, cardStyle) + " " 
+				+ CardNameTranslator.getRankName(w, cardStyle));
+			}
 			b.setId(text);
 			checkBoxes.add(b);
 			checkVBox.getChildren().add(b);

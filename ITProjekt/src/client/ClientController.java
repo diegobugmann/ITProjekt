@@ -716,13 +716,13 @@ public class ClientController {
 	public void processStich(String player) {
 		String stichInfo = player+" macht den Stich!";
 		view.gameView.centerView.stichInfo.setText(stichInfo);
-		
+		//TODO Zeitverzoegerung fuer Anzeige von Stich und weiteren Infos
 		for(Button b : view.gameView.centerView.centerButtons) {
 			CardButton cardBtn = (CardButton) b;
 			cardBtn.setVisible(false);
 			cardBtn.setCard(null);
 		}
-		
+		infoViewController.model.setInfoPopUp("");
 	}
 
 	/**

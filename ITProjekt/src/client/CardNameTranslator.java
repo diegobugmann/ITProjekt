@@ -4,7 +4,7 @@ import Commons.Wiis;
 
 public class CardNameTranslator {
 	
-	public static String getBlattName(Wiis w) {
+	public static String getBlattName(Wiis w, int isDeutsch) {
 		String blattName = "";
 		switch (w.getBlatt()){
 			case dreiblatt :{
@@ -44,8 +44,12 @@ public class CardNameTranslator {
 				break;
 			}
 			case vierBauern :{
-				blattName = "Vier Bauern";
-				break;
+				if(isDeutsch == 1) {
+					blattName = "Vier Under";					
+				} else {
+					blattName = "Vier Buure";					
+				}
+				break; 
 			}
 		}
 		return blattName;
@@ -123,7 +127,7 @@ public class CardNameTranslator {
 				if(isDeutsch == 1) {
 					rankName = "Under";					
 				} else {
-					rankName = "Bube";					
+					rankName = "Buur";					
 				}
 				break; 
 			}

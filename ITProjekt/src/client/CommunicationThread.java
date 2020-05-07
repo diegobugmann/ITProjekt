@@ -237,6 +237,11 @@ public class CommunicationThread extends Thread{
 				controller.processTurn(msgTurn.getCard(), msgTurn.getPlayer());
 				break;
 			}
+			case stoeck : {
+				Message_Stoeck msgStoeck = (Message_Stoeck) msgIn;
+				controller.infoViewController.model.setStoeck(msgStoeck.getName());
+				break;
+			}
 			case wiis : {
 				Message_Wiis msgWiis = (Message_Wiis) msgIn;
 				if(msgWiis.getWiis().size()>0) {
@@ -257,8 +262,6 @@ public class CommunicationThread extends Thread{
 			case points : {
 				Message_Points msgPoints = (Message_Points) msgIn;
 				controller.infoViewController.model.setPoints(msgPoints);
-				//controller.infoViewController.model.pointsTeam.set(Integer.parseInt(msgPoints.getPlayerI()));
-				//controller.infoViewController.model.pointsOppo.set(Integer.parseInt(msgPoints.getPlayerII()));
 				break;
 			}
 			case cancel : {

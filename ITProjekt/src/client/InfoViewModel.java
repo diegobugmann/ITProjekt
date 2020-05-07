@@ -2,11 +2,11 @@ package client;
 
 import java.util.ArrayList;
 
-import Commons.Game;
 import Commons.GameType;
 import Commons.Message_Points;
 import Commons.Message_WiisInfo;
 import Commons.Wiis;
+import Commons.Wiis.Blatt;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -105,7 +105,7 @@ public class InfoViewModel {
 					mvw = w;
 				}
 			}						
-			String content = "Player " + player1 +" sagt " + CardNameTranslator.getBlattName(mvw) + " an.";
+			String content = "Player " + player1 +" sagt " + CardNameTranslator.getBlattName(mvw, cardStyle.get()) + " an.";
 			if(popUp.get() == null) {
 				popUp.set(content);
 			}else {
@@ -119,15 +119,29 @@ public class InfoViewModel {
 				content = "Player " + player1 +" weist:\n";
 				
 				for(Wiis w : wiisPlayer1) {
-					content += CardNameTranslator.getBlattName(w) + " von "+ CardNameTranslator.getSuitName(w, cardStyle.get()) + " " + 
-							CardNameTranslator.getRankName(w, cardStyle.get()) +"\n"; 
+					if(w.getBlatt()== Wiis.Blatt.viergleiche) {
+						content += CardNameTranslator.getBlattName(w, cardStyle.get()) + " von "+ 
+								CardNameTranslator.getRankName(w, cardStyle.get()) +"\n";
+					}else if(w.getBlatt()== Wiis.Blatt.vierNeuner || w.getBlatt()== Wiis.Blatt.vierBauern){
+						content += CardNameTranslator.getBlattName(w, cardStyle.get());
+					}else {			
+					content += CardNameTranslator.getBlattName(w, cardStyle.get()) + " von "+ CardNameTranslator.getSuitName(w, cardStyle.get()) + " " + 
+							CardNameTranslator.getRankName(w, cardStyle.get()) +"\n";
+					}
 				}	
 			}
 			if(wiisPlayer2.size() > 0) {
 				content += "Player " + player2 +" weist:\n";
 				for(Wiis w : wiisPlayer2) {
-					content += CardNameTranslator.getBlattName(w) + " von "+ CardNameTranslator.getSuitName(w, cardStyle.get()) + " " + 
+					if(w.getBlatt()== Wiis.Blatt.viergleiche) {
+						content += CardNameTranslator.getBlattName(w, cardStyle.get()) + " von "+ 
+								CardNameTranslator.getRankName(w, cardStyle.get()) +"\n";
+					}else if(w.getBlatt()== Wiis.Blatt.vierNeuner || w.getBlatt()== Wiis.Blatt.vierBauern){
+						content += CardNameTranslator.getBlattName(w, cardStyle.get());
+					}else {			
+					content += CardNameTranslator.getBlattName(w, cardStyle.get()) + " von "+ CardNameTranslator.getSuitName(w, cardStyle.get()) + " " + 
 							CardNameTranslator.getRankName(w, cardStyle.get()) +"\n";
+					}
 				}
 			}			
 			popUp.set(content);
@@ -160,5 +174,9 @@ public class InfoViewModel {
 			this.pointsOppo.set(msgPoints.getPoints());
 		}
 		
+	}
+	
+	public void setStoeck(String playerName) {
+		this.popUp.set(playerName + " hat Stöck gewiesen.");
 	}
 }
