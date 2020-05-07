@@ -209,6 +209,10 @@ public class Player extends User {
 		return hasStoeck;
 	}
 	
+	public void setHasStoeck(boolean hasStoeck) {
+		this.hasStoeck = hasStoeck;
+	}
+	
 	/**
 	 * @author digib
 	 * @return Player

@@ -2,6 +2,10 @@ package Commons;
 
 import java.io.Serializable;
 
+import Commons.Card.Rank;
+import Commons.Card.Suit;
+import server.PlayValidation;
+
 public class Wiis implements Serializable, Comparable<Wiis> {
 	
 	public enum Blatt {
@@ -56,6 +60,23 @@ public class Wiis implements Serializable, Comparable<Wiis> {
 	@Override
 	public int compareTo(Wiis o) {
 		return this.blatt.compareTo(o.blatt);		
+	}
+	
+	/**
+	 * @author digib
+	 * @param gameType
+	 * @return boolean if wiis contains stoeck
+	 */
+	public boolean containsStoeck(GameType gameType) {
+		Suit trumpf = PlayValidation.getTrumpfAsSuit(gameType);
+		if (blatt != Blatt.viergleiche && blatt != Blatt.vierBauern && blatt != Blatt.vierNeuner) {
+			if (highestCard.getRank() == Rank.Ace || highestCard.getRank() == Rank.King) {
+				if (highestCard.getSuit() == trumpf) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 	
 }

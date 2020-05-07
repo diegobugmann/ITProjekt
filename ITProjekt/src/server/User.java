@@ -167,7 +167,7 @@ public class User {
 				//has a player played both stoeck?
 				if (p.hasPlayedStoeck()) {
 					currentGame.addPoints(20, p.getCurrentTeam());
-					System.out.println("STÖCK GWIESE VOM "+p.getName());
+					System.out.println("STÖCK GWIESE VOM "+p.getName()); //TODO löschen
 					msgOut = new Message_Stoeck(p.getName());
 					//model.broadcast(currentGame.getPlayers(), msgOut);      TODO wieder reinnehmen
 					//has the stoeckPlayer reached the points? (Stoeck count before a regular stich)
@@ -193,7 +193,7 @@ public class User {
 							if (pp.getCurrentTeam().isFinished(currentGame)) {
 								currentGame.setWinnerTeam(pp.getCurrentTeam());
 								currentGame.updateTotalPoints();
-								System.out.println("LOLSTÖCK GWIESE VOM "+pp.getName()+" ALS SPIELFINALE");
+								System.out.println("STÖCK GWIESE VOM "+pp.getName()+" ALS SPIELFINALE"); //TODO löschen
 								msgOut = new Message_Stoeck(pp.getName());
 								//model.broadcast(currentGame.getPlayers(), msgOut);      TODO wieder reinnehmen
 								msgOut = new Message_EndResult(pp.getCurrentTeam().getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
@@ -212,6 +212,18 @@ public class User {
 						p2.addWiisPointsToTeam();
 						msgOut = new Message_WiisInfo(p1.getWiis(), p2.getWiis(), p1.getName(), p2.getName());
 						model.broadcast(currentGame.getPlayers(), msgOut);
+						//does a wiis contain the stoeck?
+						for (Player pp : wiisWinner.getPlayerList()) {
+							for (Wiis w : pp.getWiis()) {
+								if (w.containsStoeck(currentGame.getTrumpf())) {
+									currentGame.addPoints(20, pp.getCurrentTeam());
+									System.out.println("STÖCK GWIESE VOM "+pp.getName()); //TODO löschen
+									msgOut = new Message_Stoeck(pp.getName());
+									//model.broadcast(currentGame.getPlayers(), msgOut);      TODO wieder reinnehmen
+									pp.setHasStoeck(false); //stoeck are now already wiised
+								}
+							}
+						}
 						//has the wiisWinner reached the points? (Stöck - Wys - Stich)
 						if (wiisWinner.isFinished(currentGame)) {
 							currentGame.setWinnerTeam(wiisWinner);
