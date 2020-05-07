@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import Commons.Card;
+import Commons.Card.Rank;
+import Commons.Card.Suit;
 import Commons.GameType;
 import Commons.Wiis;
  
@@ -20,6 +22,7 @@ public class Player extends User {
 	private Team currentTeam;
 	private int announcedPoints;
 	private int beginningOrder;
+	private boolean hasStoeck;
 	
 	public Player(ServerModel model, Socket clientSocket) {
 		super(model, clientSocket);
@@ -105,11 +108,7 @@ public class Player extends User {
 	public void addWiisPointsToTeam() {
 		for (Wiis w : wiis) {
 			int points = w.getBlatt().getPoints();
-			if (currentGame.getTrumpf() == GameType.TopsDown || currentGame.getTrumpf() == GameType.BottomsUp)
-				points *= 3;
-			else if (currentGame.getTrumpf() == GameType.BellsOrClubs || currentGame.getTrumpf() == GameType.ShieldsOrSpades)
-				points *= 2;
-			currentTeam.addPoints(points);
+			this.currentGame.addPoints(points, this.currentTeam);
 		}
 	}
 	
@@ -159,6 +158,55 @@ public class Player extends User {
 	
 	public void setCurrentTeam(Team t) {
 		this.currentTeam = t;
+	}
+	
+	/**
+	 * @author digib
+	 * looks whether a player has the stoeck or not. If so, sets boolean to true
+	 */
+	public void lookForStoeck() {
+		Suit trumpf = PlayValidation.getTrumpfAsSuit(currentGame.getTrumpf());
+		boolean hasQueen = false;
+		boolean hasKing = false;
+		//only look for stoeck if trumpf is neither bottomsup nor topsdown
+		if (trumpf != null) {
+			for (Card c : hand) {
+				if (c.getSuit() == trumpf && c.getRank() == Rank.King)
+					hasKing = true;
+				else if (c.getSuit() == trumpf && c.getRank() == Rank.Queen)
+					hasQueen = true;
+			}
+		}
+		if (hasQueen && hasKing)
+			this.hasStoeck = true;
+		else
+			this.hasStoeck = false;
+	}
+	
+	/**
+	 * @author digib
+	 * @return boolean
+	 * looks whether a player has played both of the stoeck. If so, return true
+	 */
+	public boolean hasPlayedStoeck() {
+		Suit trumpf = PlayValidation.getTrumpfAsSuit(currentGame.getTrumpf());
+		boolean hasQueen = false;
+		boolean hasKing = false;
+		for (Card c : hand) {
+			if (c.getSuit() == trumpf && c.getRank() == Rank.King)
+				hasKing = true;
+			else if (c.getSuit() == trumpf && c.getRank() == Rank.Queen)
+				hasQueen = true;
+		}
+		if (!hasQueen && !hasKing) {
+			this.hasStoeck = false;
+			return true;
+		} else
+			return false;
+	}
+	
+	public boolean hasStoeck() {
+		return hasStoeck;
 	}
 	
 	/**

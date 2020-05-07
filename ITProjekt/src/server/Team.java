@@ -23,6 +23,17 @@ public class Team {
 		this.score += points;
 	}
 	
+	/**
+	 * @author digib
+	 * only used to delete stoeck in case they cannot be wiised in the first round
+	 */
+	public void removePoints(int points) {
+		this.score -= points;
+	}
+	
+	/**
+	 * @author digib
+	 */
 	public void addPointsToTotal(int points) {
 		this.totalScore += points;
 	}

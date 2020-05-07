@@ -142,6 +142,8 @@ public class User {
 			GameType trumpf = ((Message_Trumpf)msgIn).getTrumpf();
 			p.getCurrentGame().setTrumpf(trumpf);
 			model.broadcast(p.getCurrentGame().getPlayers(), msgIn); //broadcast trumpf to everyone
+			for (Player pp : p.getCurrentGame().getPlayers())
+				pp.lookForStoeck(); //look if any player has the stoeck
 			p.getCurrentGame().startPlaying();
 			break;
 		}
@@ -161,45 +163,80 @@ public class User {
 			p.removeCard(playedCard); //remove played card from hand
 			currentPlay.addCard(playedCard);
 			currentPlay.getPlayedBy().add(p);
+			if (currentGame.isSchieber() && p.hasStoeck()) {
+				//has a player played both stoeck?
+				if (p.hasPlayedStoeck()) {
+					currentGame.addPoints(20, p.getCurrentTeam());
+					System.out.println("STÖCK GWIESE VOM "+p.getName());
+					msgOut = new Message_Stoeck(p.getName());
+					//model.broadcast(currentGame.getPlayers(), msgOut);      TODO wieder reinnehmen
+					//has the stoeckPlayer reached the points? (Stoeck count before a regular stich)
+					if (p.getCurrentTeam().isFinished(currentGame)) {
+						currentGame.setWinnerTeam(p.getCurrentTeam());
+						currentGame.updateTotalPoints();
+						msgOut = new Message_EndResult(p.getCurrentTeam().getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
+						model.broadcast(currentGame.getPlayers(), msgOut);
+						return; //game is over
+					}
+				}
+			}
+			
 			//is the play over?
 			if (currentPlay.getPlayedCards().size() == 4) {
+				//FIRST PLAY OF THE ROUND
+				if (currentGame.getNumOfPlays() == 1 && currentGame.isSchieber()) {
+					for (Player pp : currentGame.getPlayers()) {
+						//check if someone has the stoeck
+						if (pp.hasStoeck()) {
+							currentGame.addPoints(20, pp.getCurrentTeam());
+							//has the stoeckWiiser reached the points? (Stöck - Wys - Stich)
+							if (pp.getCurrentTeam().isFinished(currentGame)) {
+								currentGame.setWinnerTeam(pp.getCurrentTeam());
+								currentGame.updateTotalPoints();
+								System.out.println("LOLSTÖCK GWIESE VOM "+pp.getName()+" ALS SPIELFINALE");
+								msgOut = new Message_Stoeck(pp.getName());
+								//model.broadcast(currentGame.getPlayers(), msgOut);      TODO wieder reinnehmen
+								msgOut = new Message_EndResult(pp.getCurrentTeam().getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
+								model.broadcast(currentGame.getPlayers(), msgOut);
+								return; //game is over
+							} else
+								currentGame.removePoints(20, pp.getCurrentTeam()); //not allowed to wiis stöck if game is not over in first round
+						}
+					}
+					//validate who has the highest wiis
+					Team wiisWinner = currentGame.validateWiisWinner();
+					if (wiisWinner != null) {
+						Player p1 = wiisWinner.getPlayerList().get(0);
+						p1.addWiisPointsToTeam();
+						Player p2 = wiisWinner.getPlayerList().get(1);
+						p2.addWiisPointsToTeam();
+						msgOut = new Message_WiisInfo(p1.getWiis(), p2.getWiis(), p1.getName(), p2.getName());
+						model.broadcast(currentGame.getPlayers(), msgOut);
+						//has the wiisWinner reached the points? (Stöck - Wys - Stich)
+						if (wiisWinner.isFinished(currentGame)) {
+							currentGame.setWinnerTeam(wiisWinner);
+							currentGame.updateTotalPoints();
+							msgOut = new Message_EndResult(wiisWinner.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
+							model.broadcast(currentGame.getPlayers(), msgOut);
+							return; //game is over
+						}
+					}
+				}
 				Player winningPlayer = currentPlay.validateWinner();
 				int playPoints = currentPlay.validatePoints();
 				Team winningTeam = winningPlayer.getCurrentTeam();
 				winningTeam.addPoints(playPoints);
 				msgOut = new Message_Stich(winningPlayer.getName());
 				model.broadcast(currentGame.getPlayers(), msgOut);
-				//has the playWinner reached the points? (Stich before Wiis)
-				if (currentGame.isSchieber()) {
-					if (winningTeam.isFinished(currentGame)) {
-						currentGame.setWinnerTeam(winningTeam);
-						currentGame.updateTotalPoints();
-						msgOut = new Message_EndResult(winningTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
-						model.broadcast(currentGame.getPlayers(), msgOut);
-						return; //game is over
-					}
-					else if (currentGame.getNumOfPlays() == 1) {
-						//validate who has the highest wiis
-						Team wiisWinner = currentGame.validateWiisWinner();
-						if (wiisWinner != null) {
-							Player p1 = wiisWinner.getPlayerList().get(0);
-							p1.addWiisPointsToTeam();
-							Player p2 = wiisWinner.getPlayerList().get(1);
-							p2.addWiisPointsToTeam();
-							msgOut = new Message_WiisInfo(p1.getWiis(), p2.getWiis(), p1.getName(), p2.getName());
-							model.broadcast(currentGame.getPlayers(), msgOut);
-							//has the wiisWinner reached the points? (Wiis after Stich)
-							if (wiisWinner.isFinished(currentGame)) {
-								currentGame.setWinnerTeam(wiisWinner);
-								currentGame.updateTotalPoints();
-								msgOut = new Message_EndResult(wiisWinner.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
-								model.broadcast(currentGame.getPlayers(), msgOut);
-								return; //game is over
-							}
-						}
-					}
+				//has the playWinner reached the points? (Stöck - Wys - Stich)
+				if (currentGame.isSchieber() && winningTeam.isFinished(currentGame)) {
+					currentGame.setWinnerTeam(winningTeam);
+					currentGame.updateTotalPoints();
+					msgOut = new Message_EndResult(winningTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
+					model.broadcast(currentGame.getPlayers(), msgOut);
+					return; //game is over
 				}
-				//was it the last round?
+				//LAST PLAY OF THE ROUND
 				if (currentGame.getNumOfPlays() == 9) {
 					currentGame.addPoints(5, winningTeam);
 					if (currentGame.isSchieber()) {

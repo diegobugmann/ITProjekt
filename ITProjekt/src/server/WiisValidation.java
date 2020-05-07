@@ -36,7 +36,6 @@ public class WiisValidation {
 					wiis.add(secondWiis);
 			}
 		
-		
 		//7, 8 and 9-Blatt are only possible on its own
 		} else if (firstWiis.getBlatt() == Blatt.siebenblatt || firstWiis.getBlatt() == Blatt.achtblatt ||
 				firstWiis.getBlatt() == Blatt.neunblatt) {

@@ -165,18 +165,28 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
-	 * adds points according to the gameMode to the winningTeam (used for Last Stich and Match)
+	 * adds points according to the gameMode to the team (used for Last Stich, Match, Wiis and Stöck)
 	 */
-	public void addPoints(int points, Team winningTeam) {
+	public void addPoints(int points, Team team) {
 		if (!isSchieber()) //differenzler has no multiplication depending on trumpf
-			winningTeam.addPoints(points);
+			team.addPoints(points);
 		else {
 			if (trumpf == GameType.TopsDown || trumpf == GameType.BottomsUp) 
 				points *= 3;
 			else if (trumpf == GameType.BellsOrClubs || trumpf == GameType.ShieldsOrSpades) 
 				points *= 2;
-			winningTeam.addPoints(points);
+			team.addPoints(points);
 		}
+	}
+	
+	/**
+	 * @author digib
+	 * removes points according to the gameMode from the team (used only for stoeck during schieber, if cannot be wiised at start)
+	 */
+	public void removePoints(int points, Team team) {
+		if (trumpf == GameType.BellsOrClubs || trumpf == GameType.ShieldsOrSpades) 
+			points *= 2;
+		team.removePoints(points);
 	}
 	
 	/**
