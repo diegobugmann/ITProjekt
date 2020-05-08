@@ -27,28 +27,16 @@ public class ValidationTest {
 	 * Yet another method does this for a whole set of hands
 	 */
 
-	private static String[][] dreiBlaetter = {
-			{ "6S", "7S", "8S", "QD", "TH", "9C", "JD", "AS", "7H" },
-			{ "6S", "7S", "8S", "QD", "TH", "9C", "JD", "AS", "7H" },
-			{ "6S", "7S", "8S", "QD", "TH", "9C", "JD", "AS", "7H" },
-			{ "6S", "7S", "8S", "QD", "TH", "9C", "JD", "AS", "7H" }
-			};
+	private static String[][] differentHands = {
+		{ "6S", "7S", "8S", "QD", "TH", "9C", "JD", "AS", "7H" }, //single dreiblatt
+		{ "6S", "7S", "QS", "9H", "TH", "JH", "QH", "KH", "AD" }, //single fuenfblatt
+		{ "6S", "7S", "8S", "9S", "TS", "JS", "QS", "KS", "8D" }, //achtblatt
+		{ "8S", "9S", "TS", "QS", "QH", "KH", "AH", "8D", "JC" }, //double dreiblatt
+		{ "8S", "QS", "KS", "8H", "TH", "KH", "8D", "8C", "9C" }, //single vierlinge
+		{ "8C", "9C", "TC", "JC", "TD", "TS", "TH", "JH", "QH" }, //vierblatt, dreiblatt + vierlinge
+		};
 	
-	private static String[][] vierBlaetter = {
-			{ "6S", "9C", "TS", "QD", "TH", "7S", "JD", "AS", "8S" },
-			{ "6S", "9C", "TS", "QD", "TH", "7S", "JD", "AS", "8S" },
-			{ "6S", "9C", "TS", "QD", "TH", "7S", "JD", "AS", "8S" },
-			{ "6S", "9C", "TS", "QD", "TH", "7S", "JD", "AS", "8S" }
-			};
-	
-	private static String[][] doppelVierlinge = {
-			{ "8C", "9C", "TC", "JC", "TD", "TS", "TH", "JH", "QH" },
-			};
-	
-	
-	ArrayList<ArrayList<Card>> dreiBlattHands;
-	ArrayList<ArrayList<Card>> vierBlattHands;
-	ArrayList<ArrayList<Card>> doppelVierlingeHands;
+	ArrayList<ArrayList<Card>> hands;
 	
 	/**
 	 * @author digib
@@ -56,9 +44,7 @@ public class ValidationTest {
 	 */
 	@Before
 	public void makeHands() {
-		dreiBlattHands = makeHands(dreiBlaetter);
-		vierBlattHands = makeHands(vierBlaetter);
-		doppelVierlingeHands = makeHands(doppelVierlinge);
+		hands = makeHands(differentHands);
 	}
 
 	/**
@@ -66,24 +52,50 @@ public class ValidationTest {
 	 * source: B. Richards, Poker
 	 */
 	@Test
-	public void testDreiBlatt() {
-		for (ArrayList<Card> hand : dreiBlattHands) {
-			ArrayList<Wiis> wiis = WiisValidation.validateWiis(hand);
-			for (Wiis w : wiis)
-				assertTrue(w.getBlatt() == Blatt.dreiblatt);
-		}
+	public void testHands() {
+		ArrayList<Card> hand;
+		ArrayList<Wiis> wiis;
+		
+		//test single dreiblatt
+		hand = hands.get(0);
+		wiis = WiisValidation.validateWiis(hand);
+		assertTrue(wiis.get(0).getBlatt() == Blatt.dreiblatt);
+		assertTrue(wiis.size() == 1);
+		
+		//test single fuenfblatt
+		hand = hands.get(1);
+		wiis = WiisValidation.validateWiis(hand);
+		assertTrue(wiis.get(0).getBlatt() == Blatt.fuenfblatt);
+		assertTrue(wiis.size() == 1);
+		
+		//test achtblatt
+		hand = hands.get(2);
+		wiis = WiisValidation.validateWiis(hand);
+		assertTrue(wiis.get(0).getBlatt() == Blatt.achtblatt);
+		assertTrue(wiis.size() == 1);
+		
+		//test double dreiblatt
+		hand = hands.get(3);
+		wiis = WiisValidation.validateWiis(hand);
+		assertTrue(wiis.get(0).getBlatt() == Blatt.dreiblatt);
+		assertTrue(wiis.get(1).getBlatt() == Blatt.dreiblatt);
+		assertTrue(wiis.size() == 2);
+		
+		//test single vierlinge
+		hand = hands.get(4);
+		wiis = WiisValidation.validateWiis(hand);
+		assertTrue(wiis.get(0).getBlatt() == Blatt.viergleiche);
+		assertTrue(wiis.size() == 1);
+		
+		//test vierblatt, dreiblatt + vierlinge
+		hand = hands.get(5);
+		wiis = WiisValidation.validateWiis(hand);
+		assertTrue(wiis.get(0).getBlatt() == Blatt.vierblatt);
+		assertTrue(wiis.get(1).getBlatt() == Blatt.viergleiche);
+		assertTrue(wiis.get(2).getBlatt() == Blatt.dreiblatt);
+		assertTrue(wiis.size() == 3);
 	}
 	
-	
-	@Test
-	public void testVierlingeVierlingeDreiblatt() {
-		for (ArrayList<Card> hand : doppelVierlingeHands) {
-			ArrayList<Wiis> wiis = WiisValidation.validateWiis(hand);
-			assertTrue(wiis.get(0).getBlatt() == Blatt.vierblatt);
-			assertTrue(wiis.get(1).getBlatt() == Blatt.viergleiche);
-			assertTrue(wiis.get(2).getBlatt() == Blatt.dreiblatt);
-		}
-	}
 	
 	
 	
