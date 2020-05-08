@@ -441,7 +441,7 @@ public class ClientController {
 			
 			view.gameView.gameMenu.regeln.setOnAction(event ->{
 				processRegeln();
-			});
+			}); 
 		
 			view.gameView.gameMenu.about.setOnAction(event ->{
 				processAbout();
