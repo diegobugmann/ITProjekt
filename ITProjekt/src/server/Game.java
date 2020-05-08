@@ -30,6 +30,7 @@ public class Game extends Commons.Game {
 	private Player startingPlayer;
 	private int numOfRoundsPlayed = 0;
 	private Team winnerTeam;
+	private boolean hasEvents = false;
 	
 	/**
 	 * @author digib
@@ -286,7 +287,9 @@ public class Game extends Commons.Game {
 		for (Player p : players) {
 			p.organizeHand();
 			msgOut = new Message_Hand(p.getHand());
-			msgOut.send(p.getSocket());
+			p.sendMessage(msgOut);
+			for (Card c : p.getHand())
+				System.out.println(c);
 		}
 	}
 	
@@ -483,6 +486,14 @@ public class Game extends Commons.Game {
 	
 	public void setWinnerTeam(Team winnerTeam) {
 		this.winnerTeam = winnerTeam;
+	}
+	
+	public boolean hasEvents() {
+		return hasEvents;
+	}
+
+	public void setHasEvents(boolean hasEvents) {
+		this.hasEvents = hasEvents;
 	}
 	
 }

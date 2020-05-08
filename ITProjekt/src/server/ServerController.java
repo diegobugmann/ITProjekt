@@ -35,7 +35,10 @@ public class ServerController {
 		
 		model.getGames().addListener( (ListChangeListener) (c) -> {
 			for (Game g : model.getGames()) {
-				addGameEvents(g);
+				if (!g.hasEvents()) {
+					addGameEvents(g);
+					g.setHasEvents(true);
+				}
 			}
 		});
 		
