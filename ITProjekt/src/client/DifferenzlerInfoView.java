@@ -50,7 +50,7 @@ public class DifferenzlerInfoView extends InfoView {
 			Region spacer5 = new Region();
 			spacer5.setPrefHeight(50);
 			
-			this.setBackground(new Background(new BackgroundFill(Color.WHITE, null, null)));
+			
 			this.setPadding(new Insets(5,5,5,5));
 			this.getChildren().addAll(numOfRoundslbl, numOfRounds, spacer1, 
 					angesagtPointslbl, angesagtPoints, spacer2, aktuellePointslbl, aktuellePoints, 

@@ -49,7 +49,7 @@ public class GameView extends BorderPane {
 		stage.setScene(scene);
 		stage.setHeight(880);
 		stage.setWidth(1000);
-		stage.setResizable(false);
+		//stage.setResizable(false); //TODO evtl. wieder aktivieren
 		stage.show();
 	}
 

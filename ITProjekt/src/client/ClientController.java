@@ -491,6 +491,7 @@ public class ClientController {
 	
 	public void processSetTrumpf(boolean isGeschoben) {
 		view.gameView.stage.setAlwaysOnTop(true); // bring the player on turn to top
+		
 		SelectTrumpfView selectTrumpfView = new SelectTrumpfView(isGeschoben);
 		selectTrumpfView.userlbl.setText("Player: "+model.user);
 		validateTrumpf = false;
@@ -837,7 +838,7 @@ public class ClientController {
 		}
 		String winInfo = "";
 		//Schieber
-		if(model.isGameTypeSchieber==true) {
+		if(model.isGameTypeSchieber) {
 			if(winningTeamID == 1) {
 				winInfo += model.teams.get(0)+ " und " +model.teams.get(1)+
 				" bedanken sich. \n\n";
@@ -849,7 +850,7 @@ public class ClientController {
 				winInfo += pointsTeamII+ " zu "+pointsTeamI;
 			}
 		//Differenzler
-		}else if(model.isGameTypeSchieber== false) {
+		}else if(!model.isGameTypeSchieber) {
 			if(winningTeamID == 1) {
 				winInfo += model.teams.get(0)+ " bedankt sich.\n";
 				

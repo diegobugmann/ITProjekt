@@ -47,8 +47,8 @@ public class CreateNewUserView extends VBox{
 		newPasswordlbl = new Label("Passwort");
 		newPasswordtxt = new PasswordField();
 		newPasswordtxt.setMaxWidth(300);
-		pwConventionslbl = new Label("mindestens 6 Zeichen, Gross- und Kleinschreibung, mindestens 1 Zahl");
-		confirmPasswordlbl = new Label ("Passwor wiederholen");
+		pwConventionslbl = new Label("mindestens 6 Zeichen, Gross- und Kleinschreibung,\n mindestens 1 Zahl");
+		confirmPasswordlbl = new Label ("Passwort wiederholen");
 		confirmPasswordtxt = new PasswordField();
 		confirmPasswordtxt.setMaxWidth(300);
 		createUserbtn = new Button("Neuen Benutzer erstellen");
