@@ -360,6 +360,7 @@ public class ClientController {
 	SoundSettingsView soundSettingsView = new SoundSettingsView(soundModule);
 	soundSettingsView.show();		
 	}
+	
 	/**
 	 * @author Luca Meyer
 	 * Creates a new Window and creates a RuleView in it
@@ -864,9 +865,9 @@ public class ClientController {
 				
 			}
 			winInfo += model.teams.get(0)+ " " +pointsTeamI+ " Punkte\n";
-			winInfo += model.teams.get(1)+ " " +pointsTeamI+ " Punkte\n";
-			winInfo += model.teams.get(2)+ " " +pointsTeamI+ " Punkte\n";
-			winInfo += model.teams.get(3)+ " " +pointsTeamI+ " Punkte\n";
+			winInfo += model.teams.get(1)+ " " +pointsTeamII+ " Punkte\n";
+			winInfo += model.teams.get(2)+ " " +pointsTeamIII+ " Punkte\n";
+			winInfo += model.teams.get(3)+ " " +pointsTeamIV+ " Punkte\n";
 			
 		}
 		

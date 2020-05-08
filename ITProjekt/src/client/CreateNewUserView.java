@@ -39,21 +39,21 @@ public class CreateNewUserView extends VBox{
 		
 		this.stage = stage;
 		
-		newUserNamelbl = new Label("Username");
+		newUserNamelbl = new Label("Benutzername");
 		newUserNametxt = new TextField();
 		newUserNametxt.setMaxWidth(300);
 		userNameAvailable = new Label("");
 		userNameAvailable.setTextFill(Color.RED);
-		newPasswordlbl = new Label("Password");
+		newPasswordlbl = new Label("Passwort");
 		newPasswordtxt = new PasswordField();
 		newPasswordtxt.setMaxWidth(300);
-		pwConventionslbl = new Label("at least 6 characters, upper and lower case letters, at least 1 number");
-		confirmPasswordlbl = new Label ("Confirm Password");
+		pwConventionslbl = new Label("mindestens 6 Zeichen, Gross- und Kleinschreibung, mindestens 1 Zahl");
+		confirmPasswordlbl = new Label ("Passwor wiederholen");
 		confirmPasswordtxt = new PasswordField();
 		confirmPasswordtxt.setMaxWidth(300);
-		createUserbtn = new Button("Create new user");
+		createUserbtn = new Button("Neuen Benutzer erstellen");
 		createUserbtn.setDisable(true);
-		cancelbtn = new Button("Cancel");
+		cancelbtn = new Button("Abbrechen");
 		
 		Region region0 = new Region();
 		region0.setPrefHeight(10);
@@ -88,7 +88,7 @@ public class CreateNewUserView extends VBox{
 		
 		stage.setHeight(800);
 		stage.setWidth(800);
-		stage.setTitle("Create new user");
+		stage.setTitle("Neuen Benutzer erstellen");
 		stage.setScene(scene);
 		stage.show();
 		

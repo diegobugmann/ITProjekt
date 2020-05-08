@@ -55,7 +55,7 @@ public class CreateNewUserController {
 	 * @author sarah
 	 */
 	public void registrationSucceded() {
-		String info = "Congratulations! User successfully created";
+		String info = "Neuer Benutzer erfolgreich erstellt";
 		Alert alert = new Alert(AlertType.INFORMATION, info );
 		alert.setHeaderText(null);
 		alert.setTitle(null);
@@ -68,7 +68,7 @@ public class CreateNewUserController {
 	 */
 	public void registerFailed(String message) {
 		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle("Registration failed");
+		alert.setTitle("Registration fehlgeschlagen");
 		alert.setHeaderText(null);
 		alert.setContentText(message);
 		alert.showAndWait();		

@@ -44,20 +44,20 @@ public class LoginView extends VBox{
 		cnlbl = new Label("IP/Port");
 		cnAddress = new TextField(address);
 		cnAddress.setMaxWidth(300);
-		cnBtn = new Button("Connect");
+		cnBtn = new Button("Verbinden");
 		
 		
-		newUserLink = new Hyperlink("create new user");
+		newUserLink = new Hyperlink("Neuen Benutzer erstellen");
 		newUserLink.setDisable(true);
 		
 		
-		textlbl = new Label("Username:");
+		textlbl = new Label("Benutzername:");
 		userName = new TextField();
 		userName.setMaxWidth(300);
 		userName.setDisable(true);
 		
 		
-		pwlbl = new Label("Password:");
+		pwlbl = new Label("Passwort:");
 		passwordField = new PasswordField();
 		passwordField.setMaxWidth(300);
 		passwordField.setDisable(true);
@@ -145,10 +145,10 @@ public class LoginView extends VBox{
 	}
 	
 	public void toggleCnBtn() {
-		if(this.cnBtn.getText() == "Connect") {
-			this.cnBtn.setText("Disconnect");
+		if(this.cnBtn.getText() == "Verbinden") {
+			this.cnBtn.setText("Abbrechen");
 		} else {
-			this.cnBtn.setText("Connect");
+			this.cnBtn.setText("Verbinden");
 		}
 	}
 	public void activateLoginFields() {

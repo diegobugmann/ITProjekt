@@ -157,11 +157,11 @@ public class CommunicationThread extends Thread{
 						break;
 					}
 					case Registration_failed :{
-						controller.createNewUserController.registerFailed("Registration failed");
+						controller.createNewUserController.registerFailed("Registration fehlgeschlagen");
 						break;
 					}
 					case Registration_invalidPW :{
-						controller.createNewUserController.registerFailed("Invalid Password");
+						controller.createNewUserController.registerFailed("Ungültiges Passwort");
 						break;
 					}
 					
