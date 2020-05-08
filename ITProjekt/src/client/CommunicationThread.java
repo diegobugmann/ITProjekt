@@ -223,6 +223,7 @@ public class CommunicationThread extends Thread{
 			}
 			case hand : {
 				Message_Hand msgHand = (Message_Hand) msgIn;
+				controller.soundModule.playMix(null);
 				controller.updateCardArea(msgHand.getHand());
 				controller.model.setActualHand(msgHand.getHand());
 				break;

@@ -429,7 +429,9 @@ public class ClientController {
 			} else {
 				view.showGameView(stage, infoViewController.diffView);
 			}
-		
+			stage.setOnCloseRequest(event -> {
+				processExitGame(event);
+			});
 			view.gameView.gameMenu.karten.setOnAction(event -> {
 				processCardStyle();
 			});
@@ -454,6 +456,8 @@ public class ClientController {
 					view.gameView.chatBox.getInput().setText("");
 				}
 			});
+			
+			
 							
 		
 		} catch (Exception e) {
@@ -471,7 +475,7 @@ public class ClientController {
 	 * Called when the Client exits the game also called when the game is exited by another player
 	 * @param event
 	 */
-	public void processExitGame(ActionEvent event) {
+	public void processExitGame(Event event) {
 		soundModule.pauseBackgroundSound();
 		stage.close();
 		startLobby(stage);
@@ -569,7 +573,7 @@ public class ClientController {
 							model.playCard(c);
 							//processTurn(c, model.user);
 							view.gameView.cardArea.infolbl.setText("");
-							
+							soundModule.playDraw(null);
 							updateCardArea(model.getActualHand());	
 							break;
 							
@@ -696,6 +700,7 @@ public class ClientController {
 	 * @param player
 	 */
 	public void processTurn(Card card, String player) {
+		soundModule.playDraw(null);
 		view.gameView.centerView.stichInfo.setText("");
 		view.gameView.centerView.setCard(card, player);
 	}
