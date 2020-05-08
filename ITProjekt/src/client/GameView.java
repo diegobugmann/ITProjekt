@@ -47,8 +47,9 @@ public class GameView extends BorderPane {
 		
 		Scene scene = new Scene(this);
 		stage.setScene(scene);
-		stage.setHeight(800);
+		stage.setHeight(880);
 		stage.setWidth(1000);
+		stage.setResizable(false);
 		stage.show();
 	}
 

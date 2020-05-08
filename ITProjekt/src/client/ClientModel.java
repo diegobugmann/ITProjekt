@@ -17,7 +17,7 @@ public class ClientModel {
 	public static int cardStyle=0; // 0 = französisch
 	protected ArrayList<Card> actualHand = new ArrayList<>();
 	protected ArrayList<String> teams = new ArrayList<>();
-	protected boolean isGameTypeSchieber = true;
+	protected boolean isGameTypeSchieber = true; //= Schieber
 
 	
 	/**

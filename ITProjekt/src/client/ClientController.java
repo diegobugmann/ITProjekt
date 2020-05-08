@@ -188,7 +188,7 @@ public class ClientController {
 		model.setCurrentGame(g);
 		int gameId = g.getGameId();
 		model.joinGame(gameId);
-		if(this.view.lobbyView.gameList.getSelectedGame().getIsSchieberDisplay()=="Differenzler") {
+		if(this.view.lobbyView.gameList.getSelectedGame().isSchieber()== false) {
 			model.isGameTypeSchieber=false;
 		}
 
@@ -489,6 +489,7 @@ public class ClientController {
 	}
 	
 	public void processSetTrumpf(boolean isGeschoben) {
+		view.gameView.stage.setAlwaysOnTop(true); // bring the player on turn to top
 		SelectTrumpfView selectTrumpfView = new SelectTrumpfView(isGeschoben);
 		selectTrumpfView.userlbl.setText("Player: "+model.user);
 		validateTrumpf = false;
@@ -519,6 +520,8 @@ public class ClientController {
 			
 			stage2.close();
 			});
+		view.gameView.stage.setAlwaysOnTop(false); //remove the setOnTop
+
 	}
 	
 	private void validateTrumpf(Toggle newValue) {
@@ -533,6 +536,7 @@ public class ClientController {
 	 */
 	public void processYourTurn(ArrayList<Card> validCards) {
 		view.gameView.cardArea.infolbl.setText("Du bist am Zug!");
+		view.stage.setAlwaysOnTop(true); // bring the player on turn to top
 		//System.out.println("Controller Valide Karten: "+validCards); //TODO löschen
 		//System.out.println("Controller actualHand: "+model.actualHand); //TODO löschen
 		
@@ -553,7 +557,7 @@ public class ClientController {
 				processPlayCard(event, validCards);
 			});
 		}
-		
+		view.stage.setAlwaysOnTop(false); //remove the setOnTop
 	}
 	
 	/**
@@ -831,6 +835,7 @@ public class ClientController {
 			cardBtn.setCard(null);
 		}
 		String winInfo = "";
+		//Schieber
 		if(model.isGameTypeSchieber==true) {
 			if(winningTeamID == 1) {
 				winInfo += model.teams.get(0)+ " und " +model.teams.get(1)+
@@ -842,20 +847,26 @@ public class ClientController {
 				" bedanken sich. \n\n";
 				winInfo += pointsTeamII+ " zu "+pointsTeamI;
 			}
+		//Differenzler
 		}else if(model.isGameTypeSchieber== false) {
 			if(winningTeamID == 1) {
-				winInfo += model.teams.get(0)+ " bedankt sich.";
+				winInfo += model.teams.get(0)+ " bedankt sich.\n";
+				
 				
 			}else if(winningTeamID == 2) {
-				winInfo += model.teams.get(0)+ " bedankt sich.";
+				winInfo += model.teams.get(1)+ " bedankt sich.";
 				
 			}else if(winningTeamID == 3) {
-				winInfo += model.teams.get(0)+ " bedankt sich.";
+				winInfo += model.teams.get(2)+ " bedankt sich.";
 				
 			}else if(winningTeamID == 4) {
-				winInfo += model.teams.get(0)+ " bedankt sich.";
+				winInfo += model.teams.get(3)+ " bedankt sich.";
 				
 			}
+			winInfo += model.teams.get(0)+ " " +pointsTeamI+ " Punkte\n";
+			winInfo += model.teams.get(1)+ " " +pointsTeamI+ " Punkte\n";
+			winInfo += model.teams.get(2)+ " " +pointsTeamI+ " Punkte\n";
+			winInfo += model.teams.get(3)+ " " +pointsTeamI+ " Punkte\n";
 			
 		}
 		

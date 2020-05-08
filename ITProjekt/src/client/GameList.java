@@ -18,6 +18,7 @@ public class GameList extends VBox {
 		private String winningPoints;
 		private String currentNumOfPlayersString;
 		private Game game;
+		
 		public DisplayGame(Game g) {
 			this.game = g;
 			this.gameId = g.getGameId();
