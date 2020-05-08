@@ -87,7 +87,7 @@ public class User {
 				this.sendMessage(gameUpdate);
 			}
 			else {
-				msgOut = new Message_Error("Username or PW not corrrect", Message_Error.ErrorType.logginfalied);
+				msgOut = new Message_Error("Benutzername oder Passwort nicht korrekt", Message_Error.ErrorType.logginfalied);
 				this.sendMessage(msgOut);
 			}
 			break;

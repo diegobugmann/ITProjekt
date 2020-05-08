@@ -22,7 +22,7 @@ public class AnsagePointsView extends VBox {
 	public AnsagePointsView() {
 		super();
 		
-		numOfPointslbl = new Label("Ansage Punkte (0-157):");
+		numOfPointslbl = new Label("Ansage Punkte (1-157):");
 		
 		//https://o7planning.org/de/11185/anleitung-javafx-spinner
 		numOfPoints = new Spinner<Integer>();
