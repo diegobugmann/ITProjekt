@@ -35,8 +35,8 @@ public class ChatBox extends VBox {
 		super(15);
 		centerArea.setEditable(false);
 		centerArea.setWrapText(true);
-		centerArea.setMaxSize(180, 450);
-		centerArea.setMinSize(180, 450);
+		centerArea.setMaxWidth(180);
+		centerArea.setMinWidth(180);
 		
 		//Stackoverflow code to scroll to the Bottom when the Text is changed
 		centerArea.textProperty().addListener(new ChangeListener<Object>() {

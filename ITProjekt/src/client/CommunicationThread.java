@@ -112,7 +112,7 @@ public class CommunicationThread extends Thread{
      */
 	private Message processMessage(Message msgIn) {
 		//The default answer is a Simpe_Message received so the client can interact with the user without blocking the communication.
-		Message returnMsg = new Simple_Message(Simple_Message.Msg.Received);
+		Message returnMsg = null;
 		
 		MessageType type = MessageType.getType(msgIn);
 		switch(type){
@@ -124,7 +124,6 @@ public class CommunicationThread extends Thread{
 				switch(msg.getType()) {
 				//If the Message is a received message from the Server the communication has ended (block loops)	
 					case Received :{
-						returnMsg = null;
 						break;
 					}
 					case Game_Start :{
@@ -151,7 +150,6 @@ public class CommunicationThread extends Thread{
 					case Login_accepted :{
 				        this.status = Status.logedin;
 						controller.loginaccepted();
-						returnMsg = null;
 						break;
 					}
 					case Registration_accepted :{
@@ -191,14 +189,12 @@ public class CommunicationThread extends Thread{
 					}
 				}
 				controller.updateGamelist(msglist.getGames(), status);
-				returnMsg = null;
 				break;
 			}
 			case chat : {
 				Message_Chat chatmsg = (Message_Chat) msgIn;
 				controller.view.gameView.chatBox.receiveChatMessage(chatmsg.getClient(), chatmsg.getMessage());
 				controller.soundModule.playNewMesage(null);
-				returnMsg = null;
 				break;
 			}
 			
@@ -218,7 +214,6 @@ public class CommunicationThread extends Thread{
 						controller.joinGameApproved(currentGame);
 					}
 				}
-				returnMsg = null;
 				break;
 			}
 			case players : {
@@ -294,7 +289,6 @@ public class CommunicationThread extends Thread{
 			case error : {
 				Message_Error msgError = (Message_Error) msgIn;
 				controller.showAlert(msgError.getType().toString(), msgError.getErrorMessage());
-				returnMsg = null;
 				break;
 			}
 		}

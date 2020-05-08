@@ -458,8 +458,10 @@ public class ClientController {
 				processExitGame(event);
 			});
 			view.gameView.chatBox.getSend().setOnAction(event ->{
-				model.sendMessage(view.gameView.chatBox.getInput().getText());
-				view.gameView.chatBox.getInput().setText("");
+				if(view.gameView.chatBox.getInput().getText() != "") {
+					model.sendMessage(view.gameView.chatBox.getInput().getText());
+					view.gameView.chatBox.getInput().setText("");
+				}
 			});
 							
 		
