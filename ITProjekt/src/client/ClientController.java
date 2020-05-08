@@ -5,11 +5,6 @@ import Commons.*;
 import Soundmodule.SoundModule;
 import Soundmodule.SoundSettingsView;
 import client.CommunicationThread.Status;
-import javafx.animation.Animation;
-import javafx.animation.PathTransition;
-import javafx.animation.RotateTransition;
-import javafx.beans.value.ChangeListener;
-import javafx.beans.value.ObservableValue;
 import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.Scene;
@@ -17,15 +12,11 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Toggle;
-import javafx.scene.shape.LineTo;
-import javafx.scene.shape.MoveTo;
-import javafx.scene.shape.Path;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.Duration;
 
 public class ClientController {
 	
@@ -261,9 +252,8 @@ public class ClientController {
 				if(newGameView.rb2500.isSelected()) {
 					winningPoints = 2500;
 				}
-				int numOfRounds = newGameView.numOfRounds.getValue();
-				System.out.println(numOfRounds);
 				
+				int numOfRounds = newGameView.numOfRounds.getValue();
 				model.newGame(isSchieber,isGermanCards,
 						numOfRounds,winningPoints);
 				stage2.close();
@@ -539,8 +529,6 @@ public class ClientController {
 	public void processYourTurn(ArrayList<Card> validCards) {
 		view.gameView.cardArea.infolbl.setText("Du bist am Zug!");
 		view.stage.setAlwaysOnTop(true); // bring the player on turn to top
-		//System.out.println("Controller Valide Karten: "+validCards); //TODO löschen
-		//System.out.println("Controller actualHand: "+model.actualHand); //TODO löschen
 		
 		//only valide Cards made clickable
 		for(Card c: validCards) {
@@ -576,46 +564,13 @@ public class ClientController {
 						if(cardBtn.getId().contains(c.getRank().toString()) && 
 								cardBtn.getId().contains(c.getSuit().toString())) {
 							found = true;
-							//System.out.println("Controller Played Card: "+c); //TODO löschen
-							
-							//TODO Animation
-							/**
-							Path path = new Path();
-							
-							path.getElements().add(new MoveTo(view.gameView.centerView.getBoundsInParent().getHeight()/2, 
-									view.gameView.centerView.getBoundsInParent().getWidth()/2));
-							path.getElements().add(new LineTo(view.gameView.centerView.getBoundsInParent().getHeight()/2, 
-									view.gameView.centerView.getBoundsInParent().getWidth()/2));
-							
-							PathTransition move = new PathTransition(Duration.seconds(1), path, (Button) event1.getSource());
-							move.play();
-							*/
 							
 							model.removeCard(c);
 							model.playCard(c);
 							//processTurn(c, model.user);
 							view.gameView.cardArea.infolbl.setText("");
 							
-							
-							updateCardArea(model.getActualHand());
-							
-							/**
-							move.statusProperty().addListener(new ChangeListener<Animation.Status>() {
-								
-								public void changed(ObservableValue<? extends Animation.Status> observable, 
-										Animation.Status oldValue, Animation.Status newValue) {
-									System.out.println("Move old value: "+oldValue); //TODO löschen
-									System.out.println("Move old value: "+newValue); //TODO löschen
-									
-									if(newValue == Animation.Status.STOPPED) {
-										
-											
-									}else if(newValue == Animation.Status.RUNNING) {
-										oldValue = null;
-									}
-								}
-							});
-							*/	
+							updateCardArea(model.getActualHand());	
 							break;
 							
 						}
@@ -854,15 +809,14 @@ public class ClientController {
 			if(winningTeamID == 1) {
 				winInfo += model.teams.get(0)+ " bedankt sich.\n";
 				
-				
 			}else if(winningTeamID == 2) {
-				winInfo += model.teams.get(1)+ " bedankt sich.";
+				winInfo += model.teams.get(1)+ " bedankt sich.\n";
 				
 			}else if(winningTeamID == 3) {
-				winInfo += model.teams.get(2)+ " bedankt sich.";
+				winInfo += model.teams.get(2)+ " bedankt sich.\n";
 				
 			}else if(winningTeamID == 4) {
-				winInfo += model.teams.get(3)+ " bedankt sich.";
+				winInfo += model.teams.get(3)+ " bedankt sich.\n";
 				
 			}
 			winInfo += model.teams.get(0)+ " " +pointsTeamI+ " Punkte\n";

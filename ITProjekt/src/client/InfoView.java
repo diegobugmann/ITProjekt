@@ -25,7 +25,7 @@ public abstract class InfoView extends VBox{
 	}
 	
 	public void updateTrump(int trump, int cardStyle) {		
-		if((Integer) trump != null) {		
+		if((Integer) trump != null && (Integer) trump != 7) {		
 			String cStyle;			
 			if(cardStyle==0) {
 				cStyle= "franz";
@@ -40,7 +40,9 @@ public abstract class InfoView extends VBox{
 			imv.setFitHeight(40);
 			imv.setPreserveRatio(true);
 			picTrump.setGraphic(imv);
-		} else {
+		} else if((Integer) trump == 7) {
+			picTrump.setGraphic(null);
+		}else {
 			picTrump.setGraphic(null);		}
 		
 	}

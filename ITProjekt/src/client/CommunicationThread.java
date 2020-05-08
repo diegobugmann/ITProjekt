@@ -257,6 +257,7 @@ public class CommunicationThread extends Thread{
 			case points : {
 				Message_Points msgPoints = (Message_Points) msgIn;
 				controller.infoViewController.model.setPoints(msgPoints);
+				controller.infoViewController.model.setTrump(GameType.noTrumpf);
 				break;
 			}
 			case cancel : {
@@ -284,6 +285,7 @@ public class CommunicationThread extends Thread{
 				int pointsTeamIV = msgEndResults.getPointsTeamIV();
 				controller.processEndResults(winningTeamID, pointsTeamI,
 						pointsTeamII, pointsTeamIII, pointsTeamIV);
+				controller.infoViewController.model.setTrump(GameType.noTrumpf);
 				break;
 			}
 			case error : {

@@ -60,16 +60,14 @@ public class WaitingScreen_Preloader extends Preloader {
         
         root.setBottom(vBox);
        
+        //Showing the missing persons and changes from plural to singular
         anzahlPers = 1;
         lblStatus.setText("Es "+((4-anzahlPers == 1) ? "fehlt noch" : "fehlen noch")+ " " +(4-anzahlPers)+ " "+
         ((4-anzahlPers == 1) ? "Person" : "Personen"));
-        
        
         Scene scene = new Scene(root, 200, 200);
         scene.getStylesheets().add(getClass().getResource("CSS/splash.css").toExternalForm());
-         
         stage.setScene(scene);
-
         stage.show();
         
     }
@@ -80,7 +78,7 @@ public class WaitingScreen_Preloader extends Preloader {
 	}
     
 	/**
-	 * updates the number of missing players
+	 * updates the number of missing players and changes from plural to singular
 	 */
 	public void updateAnzahlPers(int numOfPers) {
         anzahlPers = numOfPers;

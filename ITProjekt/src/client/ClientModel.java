@@ -4,7 +4,6 @@ import java.net.Socket;
 import java.util.ArrayList;
 import Commons.*;
 import client.CommunicationThread.Status;
-import javafx.scene.control.TextField;
 
 public class ClientModel {
 	
@@ -75,7 +74,8 @@ public class ClientModel {
 	}
 	
 	/**
-	 * Code Michi Creates a game based on the Inputs form the GUI via controller and sends creation to Server via connection thread
+	 * @author mibe1
+	 * Creates a game based on the Inputs form the GUI via controller and sends creation to Server via connection thread
 	 */
 	public void newGame(boolean isSchieber, boolean isGermanCards, int numOfRounds, int winningPoints) {
 		if(isSchieber == true) {
@@ -124,10 +124,6 @@ public class ClientModel {
 	public void playCard(Card card) {
 		Message_Turn turn = new Message_Turn(card, user);
 		connection.sendMessage(turn);
-		
-		//System.out.println("Model Gespielte Karte: "+card); //TODO löschen
-		//System.out.println("Model ActualHand: "+actualHand); //TODO löschen
-		//System.out.println("Model Zug Fertig\n"); //TODO löschen
 	}
 	
 	/**

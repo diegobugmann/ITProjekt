@@ -1,7 +1,6 @@
 package client;
 
 import java.util.ArrayList;
-
 import Commons.GameType;
 import Commons.Message_Points;
 import Commons.Message_WiisInfo;
@@ -177,6 +176,6 @@ public class InfoViewModel {
 	}
 	
 	public void setStoeck(String playerName) {
-		this.popUp.set(playerName + " hat Stöck gewiesen.");
+		this.popUp.set(playerName + " hat Stï¿½ck gewiesen.");
 	}
 }
