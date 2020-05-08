@@ -6,12 +6,12 @@ public class Game implements Serializable {
 	private int gameId;
 	private boolean isRunning;
 	private boolean isSchieber;
-	private String isSchieberDisplay;
+
 	private int numOfRounds;
 	private int winningPoints;
 	private boolean isGermanCards;
 	private int currentNumOfPlayers;
-	private String currentNumOfPlayersString;
+
 	
 	public Game(boolean isGermanCards, int rounds, int winningPoints, boolean isSchieber, int gameId) {
 		this.isGermanCards = isGermanCards;
@@ -20,19 +20,11 @@ public class Game implements Serializable {
 		this.isSchieber = isSchieber;
 		this.gameId = gameId;
 		this.currentNumOfPlayers = 1;
-		this.currentNumOfPlayersString = currentNumOfPlayers + " / 4";
-		if(isSchieber)
-			this.isSchieberDisplay = "Schieber";
-		else
-			this.isSchieberDisplay = "Differenzler";
+
 
 	}
 	
 	//Getters and Setters ---------------------------------------------------------------------------------------------------------
-	public String getIsSchieberDisplay() {
-		return isSchieberDisplay;
-	}
-
 	public int getGameId() {
 		return gameId;
 	}
@@ -63,11 +55,6 @@ public class Game implements Serializable {
 	
 	public void setCurrentNumOfPlayers(int i) {
 		this.currentNumOfPlayers = i;
-		currentNumOfPlayersString = i + " / 4";
-	}
-	
-	public String getCurrentNumOfPlayersString() {
-		return currentNumOfPlayersString;
 
 	}
 

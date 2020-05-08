@@ -11,19 +11,63 @@ import javafx.scene.layout.VBox;
 
 public class GameList extends VBox {
 	
-	protected TableView<Game> tableView;
+	public class DisplayGame{
+		private int gameId;
+		private String isSchieberDisplay;
+		private String numOfRounds;
+		private String winningPoints;
+		private String currentNumOfPlayersString;
+		private Game game;
+		public DisplayGame(Game g) {
+			this.game = g;
+			this.gameId = g.getGameId();
+			this.currentNumOfPlayersString = g.getCurrentNumOfPlayers() + " / 4";
+			if(game.isSchieber()) {
+				this.isSchieberDisplay = "Schieber";
+				this.winningPoints = Integer.toString(game.getWinningPoints());
+				this.numOfRounds = "-";
+			}
+			else {
+				this.isSchieberDisplay = "Differenzler";
+				this.winningPoints = "-";
+				this.numOfRounds = Integer.toString(game.getNumOfRounds());
+			}
+			
+		}
+		private Game getGame() {
+			return this.game;
+		}
+		public int getGameId() {
+			return gameId;
+		}
+		public String getIsSchieberDisplay() {
+			return isSchieberDisplay;
+		}
+		public String getNumOfRounds() {
+			return numOfRounds;
+		}
+		public String getWinningPoints() {
+			return winningPoints;
+		}
+		public String getCurrentNumOfPlayersString() {
+			return currentNumOfPlayersString;
+		}
+		
+	}
+	
+	protected TableView<DisplayGame> tableView;
 
 	
 	public GameList() {
 		super();
 		
-		TableView<Game> tableView = createTableView();
+		TableView<DisplayGame> tableView = createTableView();
 		
 		this.getChildren().add(tableView);
 	}
 	
-	private TableView<Game> createTableView(){
-		tableView = new TableView<Game>();
+	private TableView<DisplayGame> createTableView(){
+		tableView = new TableView<DisplayGame>();
 		
 		TableColumn gameId = new TableColumn("Spiel ID");
 		gameId.setCellValueFactory(new PropertyValueFactory<>("gameId"));
@@ -53,14 +97,17 @@ public class GameList extends VBox {
 		tableView.getItems().clear();
 			for(Game g : games) {
 				if(!g.isRunning() && g.getCurrentNumOfPlayers() < 4) {
-					tableView.getItems().add(g);
+					DisplayGame dg = new DisplayGame(g);
+					tableView.getItems().add(dg);
 					
 				}
 		}
 	}
 	
 	public Game getSelectedGame() {
-		Game g = tableView.getSelectionModel().getSelectedItem();
+		DisplayGame dg = tableView.getSelectionModel().getSelectedItem();
+		Game g = dg.getGame();
+		
 		return g;
 	}
 
