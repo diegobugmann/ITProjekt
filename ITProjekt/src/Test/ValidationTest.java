@@ -1,6 +1,5 @@
 package Test;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -28,12 +27,18 @@ public class ValidationTest {
 	 */
 
 	private static String[][] differentHands = {
-		{ "6S", "7S", "8S", "QD", "TH", "9C", "JD", "AS", "7H" }, //single dreiblatt
-		{ "6S", "7S", "QS", "9H", "TH", "JH", "QH", "KH", "AD" }, //single fuenfblatt
+		{ "6S", "7S", "8S", "QD", "TH", "9C", "JD", "AS", "7H" }, //dreiblatt
+		{ "6S", "7S", "QS", "9H", "TH", "JH", "QH", "KH", "AD" }, //fuenfblatt
 		{ "6S", "7S", "8S", "9S", "TS", "JS", "QS", "KS", "8D" }, //achtblatt
-		{ "8S", "9S", "TS", "QS", "QH", "KH", "AH", "8D", "JC" }, //double dreiblatt
-		{ "8S", "QS", "KS", "8H", "TH", "KH", "8D", "8C", "9C" }, //single vierlinge
-		{ "8C", "9C", "TC", "JC", "TD", "TS", "TH", "JH", "QH" }, //vierblatt, dreiblatt + vierlinge
+		{ "8S", "9S", "TS", "QS", "QH", "KH", "AH", "8D", "JC" }, //dreiblatt 2x
+		{ "8S", "QS", "KS", "8H", "TH", "KH", "8D", "8C", "9C" }, //vierlinge
+		{ "8S", "QS", "KS", "AS", "KH", "6D", "8D", "KD", "KC" }, //dreiblatt + vierlinge
+		{ "9S", "7H", "8H", "9H", "TH", "JH", "9D", "9C", "AC" }, //fuenfblatt + 4nell
+		{ "JS", "JH", "JD", "9C", "TC", "JC", "QC", "KC", "AC" }, //sechsblatt + 4bauern
+		{ "8S", "9S", "QS", "9H", "QH", "9D", "QD", "9C", "QC" }, //4nell + vierlinge
+		{ "8C", "9C", "TC", "JC", "TD", "TS", "TH", "JH", "QH" }, //vierblatt + dreiblatt + vierlinge
+		{ "TC", "JC", "QC", "JD", "QD", "JS", "QS", "JH", "QH" }, //dreiblatt + vierlinge + 4bauern
+		{ "6C", "7C", "8C", "9C", "TC", "9H", "TH", "JH", "QH" }, //fuenfblatt + vierblatt
 		};
 	
 	ArrayList<ArrayList<Card>> hands;
@@ -56,13 +61,13 @@ public class ValidationTest {
 		ArrayList<Card> hand;
 		ArrayList<Wiis> wiis;
 		
-		//test single dreiblatt
+		//test dreiblatt
 		hand = hands.get(0);
 		wiis = WiisValidation.validateWiis(hand);
 		assertTrue(wiis.get(0).getBlatt() == Blatt.dreiblatt);
 		assertTrue(wiis.size() == 1);
 		
-		//test single fuenfblatt
+		//test fuenfblatt
 		hand = hands.get(1);
 		wiis = WiisValidation.validateWiis(hand);
 		assertTrue(wiis.get(0).getBlatt() == Blatt.fuenfblatt);
@@ -74,26 +79,70 @@ public class ValidationTest {
 		assertTrue(wiis.get(0).getBlatt() == Blatt.achtblatt);
 		assertTrue(wiis.size() == 1);
 		
-		//test double dreiblatt
+		//test dreiblatt 2x
 		hand = hands.get(3);
 		wiis = WiisValidation.validateWiis(hand);
 		assertTrue(wiis.get(0).getBlatt() == Blatt.dreiblatt);
 		assertTrue(wiis.get(1).getBlatt() == Blatt.dreiblatt);
 		assertTrue(wiis.size() == 2);
 		
-		//test single vierlinge
+		//test vierlinge
 		hand = hands.get(4);
 		wiis = WiisValidation.validateWiis(hand);
 		assertTrue(wiis.get(0).getBlatt() == Blatt.viergleiche);
 		assertTrue(wiis.size() == 1);
 		
-		//test vierblatt, dreiblatt + vierlinge
+		//test dreiblatt + vierlinge
 		hand = hands.get(5);
+		wiis = WiisValidation.validateWiis(hand);
+		assertTrue(wiis.get(0).getBlatt() == Blatt.dreiblatt);
+		assertTrue(wiis.get(1).getBlatt() == Blatt.viergleiche);
+		assertTrue(wiis.size() == 2);
+		
+		//test fuenfblatt + 4nell
+		hand = hands.get(6);
+		wiis = WiisValidation.validateWiis(hand);
+		assertTrue(wiis.get(0).getBlatt() == Blatt.fuenfblatt);
+		assertTrue(wiis.get(1).getBlatt() == Blatt.vierNeuner);
+		assertTrue(wiis.size() == 2);
+		
+		//test sechsblatt + 4bauern
+		hand = hands.get(7);
+		wiis = WiisValidation.validateWiis(hand);
+		assertTrue(wiis.get(0).getBlatt() == Blatt.sechsblatt);
+		assertTrue(wiis.get(1).getBlatt() == Blatt.vierBauern);
+		assertTrue(wiis.size() == 2);
+		
+		//test 4nell + vierlinge
+		hand = hands.get(8);
+		wiis = WiisValidation.validateWiis(hand);
+		assertTrue(wiis.get(0).getBlatt() == Blatt.vierNeuner);
+		assertTrue(wiis.get(1).getBlatt() == Blatt.viergleiche);
+		assertTrue(wiis.size() == 2);
+		
+		//test vierblatt + dreiblatt + vierlinge
+		hand = hands.get(9);
 		wiis = WiisValidation.validateWiis(hand);
 		assertTrue(wiis.get(0).getBlatt() == Blatt.vierblatt);
 		assertTrue(wiis.get(1).getBlatt() == Blatt.viergleiche);
 		assertTrue(wiis.get(2).getBlatt() == Blatt.dreiblatt);
 		assertTrue(wiis.size() == 3);
+		
+		//test dreiblatt + vierlinge + 4bauern
+		hand = hands.get(10);
+		wiis = WiisValidation.validateWiis(hand);
+		assertTrue(wiis.get(0).getBlatt() == Blatt.dreiblatt);
+		assertTrue(wiis.get(1).getBlatt() == Blatt.vierBauern);
+		assertTrue(wiis.get(2).getBlatt() == Blatt.viergleiche);
+		assertTrue(wiis.size() == 3);
+		
+		//test fuenfblatt + vierblatt
+		hand = hands.get(11);
+		wiis = WiisValidation.validateWiis(hand);
+		assertTrue(wiis.get(0).getBlatt() == Blatt.fuenfblatt);
+		assertTrue(wiis.get(1).getBlatt() == Blatt.vierblatt);
+		assertTrue(wiis.size() == 2);
+		
 	}
 	
 	
