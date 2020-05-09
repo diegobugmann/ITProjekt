@@ -11,6 +11,7 @@ import Commons.Message_Trumpf;
 import Commons.Message_Wiis;
 import Commons.Message_YourTurn;
 import Commons.Simple_Message;
+import Commons.Simple_Message.Msg;
 import Commons.Wiis;
 import javafx.beans.property.SimpleIntegerProperty;
 

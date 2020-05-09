@@ -12,10 +12,8 @@ import Commons.*;
 
 
 import DB.UserData;
-
-import Commons.Message_Ansage;
-import Commons.Message_Chat;
 import Commons.Message_Error.ErrorType;
+import Commons.Simple_Message.Msg;
 
 public class User {
 	
@@ -236,20 +234,20 @@ public class User {
 				int playPoints = currentPlay.validatePoints();
 				Team winningTeam = winningPlayer.getCurrentTeam();
 				winningTeam.addPoints(playPoints);
-				/**
+				
 				//https://javabeginners.de/Grundlagen/Zeitsteuerung_ohne_Threads.php
 				long ende = (new Date()).getTime() + 1100; //set time in future
 		        while( (new Date()).getTime() < ende ){
 		        	//waiting until set time is reached
 		            //waitingtime that the last played card can be set, before removed
 		        }
-		        */
+		        
 				msgOut = new Message_Stich(winningPlayer.getName());
 				model.broadcast(currentGame.getPlayers(), msgOut);
 				//update user with the points made in this round in differenzler
-				if (!currentGame.isSchieber()) {
+				if (!currentGame.isSchieber() && !(currentGame.getNumOfPlays() == 9)) {
 					msgOut = new Message_PointUpdateDifferenzler(winningTeam.getScore());
-					this.sendMessage(msgOut);
+					winningTeam.getPlayerList().get(0).sendMessage(msgOut);
 				}
 				//has the playWinner reached the points? (Stöck - Wys - Stich)
 				if (currentGame.isSchieber() && winningTeam.isFinished(currentGame)) {
@@ -284,13 +282,16 @@ public class User {
 							model.broadcast(currentGame.getPlayers(), msgOut);
 						}
 					} else {
+						//send pointupdate considering last stich
+						msgOut = new Message_PointUpdateDifferenzler(winningTeam.getScore());
+						winningTeam.getPlayerList().get(0).sendMessage(msgOut);
 						//add score to total and send scores for all 4 teams (for Differenzler)
 						for (int i = 0; i < 4; i++) {
 							Player p1 = currentGame.getTeam(i).getPlayerList().get(0);
 							int points = Math.abs(currentGame.getTeam(i).getScore() - p1.getAnnouncedPoints());
 							currentGame.getTeam(i).addPointsToTotal(points);
-							msgOut = new Message_Points(p1.getName(), p1.getName(), points); //TODO andere Message
-							model.broadcast(currentGame.getPlayers(), msgOut);
+							//msgOut = new Message_Points(p1.getName(), p1.getName(), points); //TODO andere Message
+							//model.broadcast(currentGame.getPlayers(), msgOut);
 						}
 					}
 					boolean keepPlaying = currentGame.prepareNewGameIfNeeded();
@@ -301,6 +302,9 @@ public class User {
 							currentGame.getTeam(1).getTotalScore(), currentGame.getTeam(2).getTotalScore(), currentGame.getTeam(3).getTotalScore());
 						model.broadcast(currentGame.getPlayers(), msgOut);
 						return; //game over
+					} else if (!currentGame.isSchieber()) {
+						msgOut = new Simple_Message(Msg.nextRound);
+						model.broadcast(currentGame.getPlayers(), msgOut);
 					}
 				//it was not the last round
 				} else {
