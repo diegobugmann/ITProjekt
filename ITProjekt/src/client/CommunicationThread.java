@@ -261,6 +261,16 @@ public class CommunicationThread extends Thread{
 				controller.infoViewController.model.setTrump(GameType.noTrumpf);
 				break;
 			}
+			case pointUpdateDifferenzler : {
+				Message_PointUpdateDifferenzler msg = (Message_PointUpdateDifferenzler) msgIn;
+				controller.infoViewController.model.setAktuellePoints(msg.getaktuellePoints());
+				break;
+			}
+			case pointsDifferenzler : {
+				//TODO
+				break;
+			}
+			
 			case cancel : {
 				if(status == status.ingame || status == status.onturn) {
 					this.status = status.logedin;
