@@ -83,6 +83,7 @@ public class ClientModel {
 		}else if(isSchieber == false) {
 			isGameTypeSchieber = false;
 		}
+		System.out.println("Create game: "+isGameTypeSchieber);
 		//Only create Game when user is in the correct Status to create a Game
 		if(connection.getStatus() == Status.logedin) {
 			connection.setStatus(Status.joingamerequested);
