@@ -12,9 +12,9 @@ package Commons;
 public class Message_PointUpdateDifferenzler extends Message {
 	private int aktuellePoints;
 
-	public Message_PointUpdateDifferenzler(int pointsToGo) {
+	public Message_PointUpdateDifferenzler(int aktuellePoints) {
 		super();
-		this.aktuellePoints = pointsToGo;
+		this.aktuellePoints = aktuellePoints;
 	}
 
 	public int getaktuellePoints() {

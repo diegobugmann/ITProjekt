@@ -237,6 +237,11 @@ public class User {
 				winningTeam.addPoints(playPoints);
 				msgOut = new Message_Stich(winningPlayer.getName());
 				model.broadcast(currentGame.getPlayers(), msgOut);
+				//update user with the points made in this round in differenzler
+				if (!currentGame.isSchieber()) {
+					msgOut = new Message_PointUpdateDifferenzler(winningTeam.getScore());
+					this.sendMessage(msgOut);
+				}
 				//has the playWinner reached the points? (Stöck - Wys - Stich)
 				if (currentGame.isSchieber() && winningTeam.isFinished(currentGame)) {
 					currentGame.setWinnerTeam(winningTeam);
