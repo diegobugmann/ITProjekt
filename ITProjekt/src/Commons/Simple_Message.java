@@ -27,6 +27,8 @@ public class Simple_Message extends Message{
 		Ansage_Trumpf,
 		Schiebe,
 		Schiebe_Trumpf,
+		//info that a new round starts
+		nextRound,
 		//Fragt GameListe des Servers ab
 		Get_GameList,
 		//Canncel on the Splashscreen

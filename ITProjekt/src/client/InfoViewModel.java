@@ -43,7 +43,7 @@ public class InfoViewModel {
 		this.aktuellePoints = new SimpleIntegerProperty();
 		this.diffPoints = new SimpleIntegerProperty();
 		this.numOfRoundsTotal = numOfRoundsTotal;
-		setNumberOfRounds(1);
+		this.numOfRoundsCurrent = 1;
 		
 		
 		this.cardStyle = new SimpleIntegerProperty();
@@ -73,9 +73,9 @@ public class InfoViewModel {
 			}
 		}
 	}
-	//TODO Wenn neue Runde in Differenzler diese Methode aufrufen
-	public void setNumberOfRounds(int numOfRoundsCurrent) {
-		this.numOfRoundsCurrent = numOfRoundsCurrent;
+	//increments 1 on the int currentRound and updates the view
+	public void incrementNumberOfRounds() {
+		this.numOfRoundsCurrent++;
 		this.numOfRounds.set(this.numOfRoundsCurrent + "/" + this.numOfRoundsTotal);
 	}
 	//Wird ev. benoetigt

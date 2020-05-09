@@ -1,13 +1,10 @@
 package client;
 
 import java.util.ArrayList;
-import java.util.Date;
-
 import Commons.*;
 import Soundmodule.SoundModule;
 import Soundmodule.SoundSettingsView;
 import client.CommunicationThread.Status;
-import javafx.event.ActionEvent;
 import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;

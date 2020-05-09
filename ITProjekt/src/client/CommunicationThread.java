@@ -148,6 +148,10 @@ public class CommunicationThread extends Thread{
 						controller.processSetTrumpf(true);
 						break;
 					}
+					case nextRound:{
+						controller.infoViewController.model.incrementNumberOfRounds();
+						break;
+					}
 					case Login_accepted :{
 				        this.status = Status.logedin;
 						controller.loginaccepted();
@@ -253,9 +257,10 @@ public class CommunicationThread extends Thread{
 			}
 			case stich : {
 				//https://javabeginners.de/Grundlagen/Zeitsteuerung_ohne_Threads.php
-				long ende = (new Date()).getTime() + 2500;
+				long ende = (new Date()).getTime() + 2500; //set time in future
 		        while( (new Date()).getTime() < ende ){
-		           //waitingtime that the last played card can be set, before removed
+		        	//waiting until set time is reached
+		            //waitingtime that the last played card can be set, before removed
 		        }
 				Message_Stich msgStich = (Message_Stich) msgIn;
 				controller.processStich(msgStich.getPlayer());
