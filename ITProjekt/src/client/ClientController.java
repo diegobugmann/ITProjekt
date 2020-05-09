@@ -612,6 +612,7 @@ public class ClientController {
 			
 			int ansagePoints = ansagePointsView.numOfPoints.getValue();
 			model.sendAnsagePoints(ansagePoints);
+			infoViewController.model.setAngesagtePoints(ansagePoints);
 			stage2.close();
 		});
 	}

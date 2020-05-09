@@ -3,19 +3,14 @@ package client;
 
 import javafx.geometry.Insets;
 import javafx.scene.control.Label;
-import javafx.scene.layout.Background;
-import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.Region;
-import javafx.scene.paint.Color;
 
 public class DifferenzlerInfoView extends InfoView {
 	
 		protected Label numOfRoundslbl;
 		protected Label numOfRounds;
-		protected Label angesagtPointslbl;
-		protected Label angesagtPoints;
-		protected Label aktuellePointslbl;
-		protected Label aktuellePoints;
+		protected Label pointslbl;
+		protected Label points;
 		protected Label diffPointslbl;
 		protected Label diffPoints;		
 		
@@ -26,13 +21,10 @@ public class DifferenzlerInfoView extends InfoView {
 			numOfRoundslbl = new Label("Spielrunden");
 			numOfRounds = new Label("");
 			
-			angesagtPointslbl = new Label("Punkte angesagt");
-			angesagtPoints = new Label ("");
+			pointslbl = new Label("Punkte");
+			points = new Label ("");
 			
-			aktuellePointslbl = new Label("Aktuelle Punktzahl:");
-			aktuellePoints = new Label("");
-			
-			diffPointslbl = new Label("Differenz:");
+			diffPointslbl = new Label("Differenz total");
 			diffPoints = new Label("");			
 			
 			Region spacer1 = new Region();
@@ -47,13 +39,9 @@ public class DifferenzlerInfoView extends InfoView {
 			Region spacer4 = new Region();
 			spacer4.setPrefHeight(50);
 			
-			Region spacer5 = new Region();
-			spacer5.setPrefHeight(50);
-			
 			
 			this.setPadding(new Insets(5,5,5,5));
-			this.getChildren().addAll(numOfRoundslbl, numOfRounds, spacer1, 
-					angesagtPointslbl, angesagtPoints, spacer2, aktuellePointslbl, aktuellePoints, 
-					spacer3, diffPointslbl, diffPoints, spacer4, trumpflbl, picTrump, spacer5, popUplbl, popUp);			
+			this.getChildren().addAll(numOfRoundslbl, numOfRounds, spacer1, pointslbl, points, 
+					spacer2, diffPointslbl, diffPoints, spacer3, trumpflbl, picTrump, spacer4, popUplbl, popUp);			
 		}
 }

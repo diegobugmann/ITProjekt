@@ -5,7 +5,6 @@ import Commons.GameType;
 import Commons.Message_Points;
 import Commons.Message_WiisInfo;
 import Commons.Wiis;
-import Commons.Wiis.Blatt;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
@@ -18,8 +17,9 @@ public class InfoViewModel {
 	protected final SimpleIntegerProperty goalPoints;
 	
 	protected SimpleStringProperty numOfRounds; 
-	protected SimpleIntegerProperty angesagtPoints;
-	protected SimpleIntegerProperty aktuellePoints;
+	protected SimpleStringProperty points;
+	protected int angesagtePoints = 0;
+	protected int aktuellePoints = 0;
 	protected SimpleIntegerProperty diffPoints;	
 	protected final int numOfRoundsTotal;
 	protected int numOfRoundsCurrent;
@@ -39,11 +39,11 @@ public class InfoViewModel {
 		this.pointsTeam.set(0);
 		
 		this.numOfRounds = new SimpleStringProperty();
-		this.angesagtPoints = new SimpleIntegerProperty();
-		this.aktuellePoints = new SimpleIntegerProperty();
+		this.points = new SimpleStringProperty();
 		this.diffPoints = new SimpleIntegerProperty();
 		this.numOfRoundsTotal = numOfRoundsTotal;
 		this.numOfRoundsCurrent = 1;
+		this.numOfRounds.set(this.numOfRoundsCurrent + "/" + this.numOfRoundsTotal);
 		
 		
 		this.cardStyle = new SimpleIntegerProperty();
@@ -84,7 +84,11 @@ public class InfoViewModel {
 	}
 	//Wird ev. benoetigt
 	public void addInfoPopUp(String text) {
-		popUp.set(popUp.get() + "\n" + text);
+		if(this.popUp.get() == "") {
+			popUp.set(text);
+		}else {
+			popUp.set(popUp.get() + "\n" + text);
+		}
 	}
 	/**
 	 * @author Luca Meyer (sarah: angepasst fuer infobox)
@@ -105,7 +109,7 @@ public class InfoViewModel {
 				}
 			}						
 			String content = "Player " + player1 +" sagt " + CardNameTranslator.getBlattName(mvw, cardStyle.get()) + " an.";
-			if(popUp.get() == null) {
+			if(popUp.get() == "") {
 				popUp.set(content);
 			}else {
 				popUp.set(popUp.get() + "\n" + content);
@@ -147,11 +151,11 @@ public class InfoViewModel {
 		}
 	}
 	public void setDiffPoints() {
-		if(this.angesagtPoints != null) {
-			if(this.aktuellePoints != null) {
-				this.diffPoints.set(this.angesagtPoints.get() - this.aktuellePoints.get());
+		if(this.angesagtePoints != 0) {
+			if(this.aktuellePoints != 0) {
+				this.diffPoints.set(this.angesagtePoints - this.aktuellePoints);
 			}else {
-				this.diffPoints.set(this.angesagtPoints.get());
+				this.diffPoints.set(this.angesagtePoints);
 			}
 		}else {
 			this.diffPoints = null;
@@ -159,11 +163,13 @@ public class InfoViewModel {
 	}
 	//TODO Aufruf der Methode nach Punkte ansage
 	public void setAngesagtePoints(int points) {
-		this.angesagtPoints.set(points);
+		this.angesagtePoints = points;
+		this.points.set(this.aktuellePoints + "/" + this.angesagtePoints);
 	}
 	//TODO Aufruf der Methode nach Stich
 	public void setAktuellePoints(int points) {
-		this.aktuellePoints.set(points);
+		this.aktuellePoints = points;
+		this.points.set(this.aktuellePoints + "/" + this.angesagtePoints);
 	}
 
 	public void setPoints(Message_Points msgPoints) {
@@ -176,6 +182,10 @@ public class InfoViewModel {
 	}
 	
 	public void setStoeck(String playerName) {
-		this.popUp.set(playerName + " hat St�ck gewiesen.");
+		if(this.popUp.get() == "") {
+			this.popUp.set(playerName + " hat Stoeck gewiesen.");
+		}else {
+			this.popUp.set(this.popUp.get() + "\n" + playerName + " hat Stoeck gewiesen.");
+		}
 	}
 }

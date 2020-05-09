@@ -278,7 +278,7 @@ public class CommunicationThread extends Thread{
 				break;
 			}
 			case pointsDifferenzler : {
-				//TODO
+				//TODO Punkte aller Spieler
 				break;
 			}
 			

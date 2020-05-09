@@ -24,10 +24,9 @@ public class InfoViewController {
 		} else {
 			this.diffView = new DifferenzlerInfoView();
 			diffView.numOfRounds.textProperty().bind(model.numOfRounds);
-			diffView.angesagtPoints.textProperty().bind(model.angesagtPoints.asString());
-			diffView.aktuellePoints.textProperty().bind(model.aktuellePoints.asString());
+			diffView.points.textProperty().bind(model.points);
 			diffView.diffPoints.textProperty().bind(model.diffPoints.asString());
-			model.aktuellePoints.addListener((observable, 
+			model.points.addListener((observable, 
 					oldValue, newValue)-> {model.setDiffPoints();});
 			model.trump.addListener((observable, 
 					oldValue, newValue)-> {diffView.updateTrump(model.trump.get(), model.cardStyle.get());});
