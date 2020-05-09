@@ -1,6 +1,8 @@
 package client;
 
 import java.util.ArrayList;
+import java.util.Date;
+
 import Commons.*;
 import Soundmodule.SoundModule;
 import Soundmodule.SoundSettingsView;
@@ -564,14 +566,14 @@ public class ClientController {
 		
 		while(!found) {
 			for(Card c: validCards) {
-					
+				//search the played card in the valid cards depending on the buttonsID
 						if(cardBtn.getId().contains(c.getRank().toString()) && 
 								cardBtn.getId().contains(c.getSuit().toString())) {
 							found = true;
 							
 							model.removeCard(c);
 							model.playCard(c);
-							//processTurn(c, model.user);
+						
 							view.gameView.cardArea.infolbl.setText("");
 							soundModule.playDraw(null);
 							updateCardArea(model.getActualHand());	
@@ -597,7 +599,7 @@ public class ClientController {
 	public void processAnsagePoints() {
 		
 		AnsagePointsView ansagePointsView = new AnsagePointsView();
-		
+		ansagePointsView.userNamelbl.setText("Spieler: "+model.user);
 		Scene scene2 = new Scene(ansagePointsView);
 		Stage stage2 = new Stage();
 		stage2.setScene(scene2);
@@ -683,7 +685,8 @@ public class ClientController {
 	public void processStich(String player) {
 		String stichInfo = player+" macht den Stich!";
 		view.gameView.centerView.stichInfo.setText(stichInfo);
-		//TODO Zeitverzoegerung fuer Anzeige von Stich und weiteren Infos
+
+		//remove all cards from the center
 		for(Button b : view.gameView.centerView.centerButtons) {
 			CardButton cardBtn = (CardButton) b;
 			cardBtn.setVisible(false);
@@ -703,6 +706,7 @@ public class ClientController {
 		soundModule.playDraw(null);
 		view.gameView.centerView.stichInfo.setText("");
 		view.gameView.centerView.setCard(card, player);
+		
 	}
 	
 	/**
@@ -838,6 +842,11 @@ public class ClientController {
 		alert.initModality(Modality.APPLICATION_MODAL);
         alert.initOwner(stage);
 		alert.showAndWait();
+		stage.close();
+		model.setStatusToLogin();
+		model.updateGameList();
+		startLobby(stage);
+		
 		
 	}
 

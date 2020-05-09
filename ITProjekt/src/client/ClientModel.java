@@ -180,6 +180,10 @@ public class ClientModel {
 		Message_Ansage ansage = new Message_Ansage(ansagePoints);
 		connection.sendMessage(ansage);
 	}
+	
+	public void setStatusToLogin() {
+		connection.setStatus(Status.logedin);
+	}
 
 //Getters from connection---------------------------------------------------------------------------------------------
 	public void setCurrentGame(Game g) {

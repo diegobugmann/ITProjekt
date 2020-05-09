@@ -15,13 +15,14 @@ import javafx.scene.layout.VBox;
  *
  */
 public class AnsagePointsView extends VBox {
+	protected Label userNamelbl;
 	protected Label numOfPointslbl;
 	protected Spinner<Integer> numOfPoints;
 	protected Button okBtn;
 	
 	public AnsagePointsView() {
 		super();
-		
+		userNamelbl = new Label("");
 		numOfPointslbl = new Label("Ansage Punkte (1-157):");
 		
 		//https://o7planning.org/de/11185/anleitung-javafx-spinner
@@ -37,16 +38,19 @@ public class AnsagePointsView extends VBox {
         numOfPoints.setEditable(true);
         
         Region spacer1 = new Region();
-		spacer1.setPrefHeight(10);
+		spacer1.setPrefHeight(20);
 		
 		Region spacer2 = new Region();
 		spacer2.setPrefHeight(10);
 		
+		Region spacer3 = new Region();
+		spacer3.setPrefHeight(10);
+		
 		okBtn = new Button("Ansagen");
 		
 		this.setAlignment(Pos.CENTER);
-		this.getChildren().addAll(numOfPointslbl, spacer1,
-				numOfPoints, spacer2, okBtn);
+		this.getChildren().addAll(userNamelbl, spacer1, numOfPointslbl, spacer2,
+				numOfPoints, spacer3, okBtn);
 
 	}
 
