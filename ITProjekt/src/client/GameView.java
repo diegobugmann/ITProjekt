@@ -25,6 +25,7 @@ public class GameView extends BorderPane {
 		this.infoView = infoView;
 		
 		cardArea = new CardArea();
+		cardArea.setMinHeight(160);
 		centerView = new CenterView();
 		gameMenu = new GameMenu();
 		chatBox = new ChatBox();

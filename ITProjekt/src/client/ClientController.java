@@ -178,9 +178,12 @@ public class ClientController {
 		model.setCurrentGame(g);
 		int gameId = g.getGameId();
 		model.joinGame(gameId);
-		if(this.view.lobbyView.gameList.getSelectedGame().isSchieber()== false) {
+		if(this.view.lobbyView.gameList.getSelectedGame().isSchieber()== true) {
+			model.isGameTypeSchieber=true;
+		}else if(this.view.lobbyView.gameList.getSelectedGame().isSchieber()== false) {
 			model.isGameTypeSchieber=false;
 		}
+		System.out.println("Join game: "+model.isGameTypeSchieber);
 
 	}
 	
@@ -347,6 +350,9 @@ public class ClientController {
 	
 	private void processSoundSettings() {
 	SoundSettingsView soundSettingsView = new SoundSettingsView(soundModule);
+	soundSettingsView.initStyle(StageStyle.UNDECORATED);
+	soundSettingsView.initModality(Modality.APPLICATION_MODAL);
+	soundSettingsView.initOwner(stage);
 	soundSettingsView.show();		
 	}
 	
@@ -781,7 +787,7 @@ public class ClientController {
 			view.gameView.centerView.cardBtnCenterTop.setId(players.get(1).toString());
 			view.gameView.centerView.cardBtnLeft.setId(players.get(2).toString());
 		}
-		
+		System.out.println("Teams " +model.teams);
 	}
 	
 	/**
@@ -812,7 +818,7 @@ public class ClientController {
 				winInfo += pointsTeamII+ " zu "+pointsTeamI;
 			}
 		//Differenzler
-		}else if(!model.isGameTypeSchieber) {
+		}else if(model.isGameTypeSchieber == false) {
 			if(winningTeamID == 1) {
 				winInfo += model.teams.get(0)+ " bedankt sich.\n";
 				

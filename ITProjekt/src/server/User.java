@@ -5,6 +5,7 @@ import java.io.IOException;
 
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.logging.Logger;
 
 import Commons.*;
@@ -235,6 +236,14 @@ public class User {
 				int playPoints = currentPlay.validatePoints();
 				Team winningTeam = winningPlayer.getCurrentTeam();
 				winningTeam.addPoints(playPoints);
+				/**
+				//https://javabeginners.de/Grundlagen/Zeitsteuerung_ohne_Threads.php
+				long ende = (new Date()).getTime() + 1100; //set time in future
+		        while( (new Date()).getTime() < ende ){
+		        	//waiting until set time is reached
+		            //waitingtime that the last played card can be set, before removed
+		        }
+		        */
 				msgOut = new Message_Stich(winningPlayer.getName());
 				model.broadcast(currentGame.getPlayers(), msgOut);
 				//update user with the points made in this round in differenzler

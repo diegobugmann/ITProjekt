@@ -256,12 +256,7 @@ public class CommunicationThread extends Thread{
 				break;
 			}
 			case stich : {
-				//https://javabeginners.de/Grundlagen/Zeitsteuerung_ohne_Threads.php
-				long ende = (new Date()).getTime() + 2500; //set time in future
-		        while( (new Date()).getTime() < ende ){
-		        	//waiting until set time is reached
-		            //waitingtime that the last played card can be set, before removed
-		        }
+				
 				Message_Stich msgStich = (Message_Stich) msgIn;
 				controller.processStich(msgStich.getPlayer());
 				break;
