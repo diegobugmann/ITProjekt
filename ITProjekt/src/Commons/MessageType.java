@@ -20,6 +20,8 @@ public enum MessageType {
 	wiisInfo,
 	stich,
 	points,
+	pointsDifferenzler,
+	pointUpdateDifferenzler,
 	cancel,
 	trumpf,
 	endResults,
@@ -56,6 +58,8 @@ public enum MessageType {
     	else if (msg instanceof Message_Wiis) type = wiis;
     	else if (msg instanceof Message_Stich) type = stich;
     	else if (msg instanceof Message_Points) type = points;
+    	else if (msg instanceof Message_PointsDifferenzler) type = pointsDifferenzler;
+    	else if (msg instanceof Message_PointUpdateDifferenzler) type = pointUpdateDifferenzler;
     	else if (msg instanceof Message_Cancel) type = cancel;
     	else if (msg instanceof Message_Trumpf) type = trumpf;
     	else if (msg instanceof Message_EndResult) type = endResults;
