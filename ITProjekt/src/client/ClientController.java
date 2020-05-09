@@ -350,6 +350,9 @@ public class ClientController {
 	
 	private void processSoundSettings() {
 	SoundSettingsView soundSettingsView = new SoundSettingsView(soundModule);
+	soundSettingsView.initStyle(StageStyle.UNDECORATED);
+	soundSettingsView.initModality(Modality.APPLICATION_MODAL);
+	soundSettingsView.initOwner(stage);
 	soundSettingsView.show();		
 	}
 	

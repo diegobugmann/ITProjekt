@@ -170,6 +170,7 @@ public class ClientModel {
 	public void sendWiis(ArrayList<Wiis> wiisReturn) {
 		Message_Wiis wiis = new Message_Wiis(wiisReturn);
 		connection.sendMessage(wiis);
+		System.out.println(wiisReturn);
 	}
 	
 	/**
