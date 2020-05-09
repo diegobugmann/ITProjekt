@@ -168,9 +168,9 @@ public class InfoViewModel {
 
 	public void setPoints(Message_Points msgPoints) {
 		if(msgPoints.getPlayerI().equalsIgnoreCase(player) || msgPoints.getPlayerII().equalsIgnoreCase(player)) {
-			this.pointsTeam.set(msgPoints.getPoints());
+			this.pointsTeam.set(this.pointsTeam.get() + msgPoints.getPoints());
 		}else {
-			this.pointsOppo.set(msgPoints.getPoints());
+			this.pointsOppo.set(this.pointsOppo.get() + msgPoints.getPoints());
 		}
 		
 	}
