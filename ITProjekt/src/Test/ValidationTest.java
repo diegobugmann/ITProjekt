@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import Commons.Card;
+import Commons.Card.Rank;
 import Commons.Wiis;
 import Commons.Wiis.Blatt;
 import server.WiisValidation;
@@ -27,7 +28,7 @@ public class ValidationTest {
 	 */
 
 	private static String[][] differentHands = {
-		{ "6S", "7S", "8S", "QD", "TH", "9C", "JD", "AS", "7H" }, //dreiblatt
+		{ "6S", "7S", "8S", "AS", "7H", "TH", "JD", "QD", "9H" }, //dreiblatt
 		{ "6S", "7S", "QS", "9H", "TH", "JH", "QH", "KH", "AD" }, //fuenfblatt
 		{ "6S", "7S", "8S", "9S", "TS", "JS", "QS", "KS", "8D" }, //achtblatt
 		{ "8S", "9S", "TS", "QS", "QH", "KH", "AH", "8D", "JC" }, //dreiblatt 2x
@@ -39,6 +40,8 @@ public class ValidationTest {
 		{ "8C", "9C", "TC", "JC", "TD", "TS", "TH", "JH", "QH" }, //vierblatt + dreiblatt + vierlinge
 		{ "TC", "JC", "QC", "JD", "QD", "JS", "QS", "JH", "QH" }, //dreiblatt + vierlinge + 4bauern
 		{ "6C", "7C", "8C", "9C", "TC", "9H", "TH", "JH", "QH" }, //fuenfblatt + vierblatt
+		{ "7C", "8C", "9C", "QC", "KC", "AC", "6D", "7D", "8D" }, //dreiblatt 3x
+		{ "9C", "QC", "KC", "AC", "8D", "9D", "TD", "9H", "9S" }, //dreiblatt 2x + 4nell
 		};
 	
 	ArrayList<ArrayList<Card>> hands;
@@ -55,6 +58,7 @@ public class ValidationTest {
 	/**
 	 * @author digib
 	 * source: B. Richards, Poker
+	 * tests all the different hands to see if they contain the expected Wiis-objects
 	 */
 	@Test
 	public void testHands() {
@@ -143,9 +147,23 @@ public class ValidationTest {
 		assertTrue(wiis.get(1).getBlatt() == Blatt.vierblatt);
 		assertTrue(wiis.size() == 2);
 		
+		//test dreiblatt 3x
+		hand = hands.get(12);
+		wiis = WiisValidation.validateWiis(hand);
+		assertTrue(wiis.get(0).getBlatt() == Blatt.dreiblatt);
+		assertTrue(wiis.get(1).getBlatt() == Blatt.dreiblatt);
+		assertTrue(wiis.get(2).getBlatt() == Blatt.dreiblatt);
+		assertTrue(wiis.size() == 3);
+		
+		//test dreiblatt 2x + 4nell
+		hand = hands.get(13);
+		wiis = WiisValidation.validateWiis(hand);
+		assertTrue(wiis.get(0).getBlatt() == Blatt.dreiblatt);
+		assertTrue(wiis.get(1).getBlatt() == Blatt.vierNeuner);
+		assertTrue(wiis.get(2).getBlatt() == Blatt.dreiblatt);
+		assertTrue(wiis.size() == 3);
+		
 	}
-	
-	
 	
 	
 	/**

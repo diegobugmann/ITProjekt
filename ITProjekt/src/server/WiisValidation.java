@@ -41,7 +41,7 @@ public class WiisValidation {
 				firstWiis.getBlatt() == Blatt.neunblatt) {
 			wiis.add(firstWiis);
 			
-		//6 and 5-Blatt can be paired with vierlinge
+		//6 and 5-Blatt can be paired with vierlinge or another blatt
 		} else if (firstWiis.getBlatt() == Blatt.sechsblatt || firstWiis.getBlatt() == Blatt.fuenfblatt) {
 			wiis.add(firstWiis);
 			secondWiis = isVierlinge(handCopy); //check for vierlinge
@@ -71,13 +71,13 @@ public class WiisValidation {
 			secondWiis = isVierlinge(handCopy); //check for vierlinge
 			if (secondWiis != null) {
 				wiis.add(secondWiis);
-				ArrayList<Card> vierlinge = removeVierlinge(secondWiis, handCopy);
-				thirdWiis = isVierlinge(handCopy); //check for another vierlinge after removing the other ones
+				ArrayList<Card> handCopy2 = (ArrayList<Card>) handCopy.clone();
+				removeVierlinge(secondWiis, handCopy2);
+				thirdWiis = isVierlinge(handCopy2); //check for another vierlinge after removing the other ones
 				if (thirdWiis != null) {
 					wiis.add(thirdWiis);
 				} else {
-					addVierlinge(handCopy, vierlinge); //re add the vierlinge
-					removeBlatt(firstWiis, handCopy); //and remove the other blatt
+					removeBlatt(firstWiis, handCopy); //remove the other blatt
 					thirdWiis = isBlatt(handCopy); //to check for another blatt
 					if (thirdWiis != null)
 						wiis.add(thirdWiis);
@@ -125,7 +125,8 @@ public class WiisValidation {
 	/**
 	 * @author digib
 	 * @return Wiis
-	 * highest blatt as a Wiis-object or null if no blatt is found
+	 * returns the longest possible blatt, if multiple blatt from same length:
+	 * returns the most right one in the hand
 	 */
 	private static Wiis isBlatt(ArrayList<Card> hand) {
 		for (int diff = hand.size()-1; diff >= 2; diff--) {
@@ -160,16 +161,12 @@ public class WiisValidation {
 	 * @return ArrayList<Card>
 	 * removes all the cards corresponding to wiis from the hand in order to search for more wiis of the same type
 	 */
-	private static ArrayList<Card> removeVierlinge(Wiis wiis, ArrayList<Card> handCopy) {
-		ArrayList<Card> vierlinge = new ArrayList<Card>();
+	private static void removeVierlinge(Wiis wiis, ArrayList<Card> handCopy) {
 		Rank vierling = wiis.getHighestCard().getRank();
 		for (int i = handCopy.size()-1; i >= 0; i--) {
-			if (handCopy.get(i).getRank() == vierling) {
-				vierlinge.add(handCopy.get(i));
+			if (handCopy.get(i).getRank() == vierling)
 				handCopy.remove(i);
-			}
 		}
-		return vierlinge;
 	}
 	
 	/**
