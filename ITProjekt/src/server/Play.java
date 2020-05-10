@@ -16,11 +16,9 @@ public class Play {
 	private ArrayList<Card> playedCards = new ArrayList<Card>();
 	private ArrayList<Player> playedBy = new ArrayList<Player>(); //linking the player to the cards (same indices)
 	private GameType trumpf;
-	private boolean isSchieber;
 	
-	public Play(GameType trumpf, boolean isSchieber) {
+	public Play(GameType trumpf) {
 		this.trumpf = trumpf;
-		this.isSchieber = isSchieber;
 	}
 	
 	/**
@@ -38,7 +36,7 @@ public class Play {
 	 * @return points
 	 */
 	public int validatePoints() {
-		points = PlayValidation.validatePoints(playedCards, trumpf, isSchieber);
+		points = PlayValidation.validatePoints(playedCards, trumpf);
 		return points;
 	}
 	

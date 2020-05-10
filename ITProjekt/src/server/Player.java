@@ -226,4 +226,10 @@ public class Player extends User {
 		}
 		return teammate;
 	}
+	
+	public void reset() {
+		this.setCurrentGame(null);
+		this.clearHand();
+		this.resetWiis();
+	}
 }

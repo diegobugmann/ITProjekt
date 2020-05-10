@@ -174,6 +174,7 @@ public class User {
 						currentGame.updateTotalPoints();
 						msgOut = new Message_EndResult(p.getCurrentTeam().getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 						model.broadcast(currentGame.getPlayers(), msgOut);
+						for (Player player : currentGame.getPlayers()) player.reset();
 						return; //game is over
 					}
 				}
@@ -195,6 +196,7 @@ public class User {
 								model.broadcast(currentGame.getPlayers(), msgOut);
 								msgOut = new Message_EndResult(pp.getCurrentTeam().getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 								model.broadcast(currentGame.getPlayers(), msgOut);
+								for (Player player : currentGame.getPlayers()) player.reset();
 								return; //game is over
 							} else
 								currentGame.removePoints(20, pp.getCurrentTeam()); //not allowed to wiis stöck if game is not over in first round
@@ -226,6 +228,7 @@ public class User {
 							currentGame.updateTotalPoints();
 							msgOut = new Message_EndResult(wiisWinner.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 							model.broadcast(currentGame.getPlayers(), msgOut);
+							for (Player player : currentGame.getPlayers()) player.reset();
 							return; //game is over
 						}
 					}
@@ -233,7 +236,7 @@ public class User {
 				Player winningPlayer = currentPlay.validateWinner();
 				int playPoints = currentPlay.validatePoints();
 				Team winningTeam = winningPlayer.getCurrentTeam();
-				winningTeam.addPoints(playPoints);
+				currentGame.addPoints(playPoints, winningTeam);
 				
 				//https://javabeginners.de/Grundlagen/Zeitsteuerung_ohne_Threads.php
 				long ende = (new Date()).getTime() + 1100; //set time in future
@@ -255,6 +258,7 @@ public class User {
 					currentGame.updateTotalPoints();
 					msgOut = new Message_EndResult(winningTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 					model.broadcast(currentGame.getPlayers(), msgOut);
+					for (Player player : currentGame.getPlayers()) player.reset();
 					return; //game is over
 				}
 				//LAST PLAY OF THE ROUND
@@ -270,6 +274,7 @@ public class User {
 							currentGame.updateTotalPoints();
 							msgOut = new Message_EndResult(winningTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 							model.broadcast(currentGame.getPlayers(), msgOut);
+							for (Player player : currentGame.getPlayers()) player.reset();
 							return; //game is over
 						}
 						//if game is not over, add score to total and send scores for both teams
@@ -373,11 +378,8 @@ public class User {
 		//-------------------------------------------------------------------------------------------------------
 		case cancel : {
 			Game g = p.getCurrentGame();
-			for (Player player : g.getPlayers()) {
-				player.setCurrentGame(null);
-				player.clearHand();
-				player.resetWiis();
-			}
+			for (Player player : g.getPlayers())
+				player.reset();
 			g.removeAllPlayers();
 			g.resetTeamScores();
 			g.resetPlays();

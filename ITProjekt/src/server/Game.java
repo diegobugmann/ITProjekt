@@ -167,7 +167,7 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
-	 * adds points according to the gameMode to the team (used for Last Stich, Match, Wiis and Stöck)
+	 * adds points according to the gameMode to the team (used for Stich, Match, Wiis and Stöck)
 	 */
 	public void addPoints(int points, Team team) {
 		if (!isSchieber()) //differenzler has no multiplication depending on trumpf
@@ -317,7 +317,7 @@ public class Game extends Commons.Game {
 	 * creates a new Play object, adds it to the game and sets it as currentPlay
 	 */
 	public void newPlay() {
-		Play newPlay = new Play(this.trumpf, this.isSchieber());
+		Play newPlay = new Play(this.trumpf);
 		plays.add(newPlay);
 		this.currentPlay = newPlay;
 	}

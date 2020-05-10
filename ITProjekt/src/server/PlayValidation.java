@@ -220,7 +220,7 @@ public class PlayValidation {
 	 * @author digib
 	 * @return int points
 	 */
-	public static int validatePoints(ArrayList<Card> cards, GameType gameType, boolean isSchieber) {
+	public static int validatePoints(ArrayList<Card> cards, GameType gameType) {
 		int points = 0;
 		for (Card c : cards) {
 			switch (c.getRank()) {
@@ -245,13 +245,7 @@ public class PlayValidation {
 				if (gameType == GameType.BottomsUp) points += 11; break;
 			}
 		}
-		if (!isSchieber) //differenzler has no multiplication depending on trumpf
-			return points;
-		else {
-			if (gameType == GameType.BottomsUp || gameType == GameType.TopsDown) points *= 3;
-			else if (gameType == GameType.BellsOrClubs || gameType == GameType.ShieldsOrSpades) points *= 2;
-			return points;
-		}
+		return points;
 	}
 		
 }

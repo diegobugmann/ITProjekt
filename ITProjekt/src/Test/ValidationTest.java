@@ -57,7 +57,6 @@ public class ValidationTest {
 
 	/**
 	 * @author digib
-	 * source: B. Richards, Poker
 	 * tests all the different hands to see if they contain the expected Wiis-objects
 	 */
 	@Test
