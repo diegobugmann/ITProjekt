@@ -27,7 +27,7 @@ public class ValidationTest {
 	 * Yet another method does this for a whole set of hands
 	 */
 
-	private static String[][] differentHands = {
+	public static String[][] differentHands = {
 		{ "6S", "7S", "8S", "AS", "7H", "TH", "JD", "QD", "9H" }, //dreiblatt
 		{ "6S", "7S", "QS", "9H", "TH", "JH", "QH", "KH", "AD" }, //fuenfblatt
 		{ "6S", "7S", "8S", "9S", "TS", "JS", "QS", "KS", "8D" }, //achtblatt
@@ -170,7 +170,7 @@ public class ValidationTest {
 	 * Make an ArrayList of hands from an array of string-arrays
 	 * source: B. Richards, Poker
 	 */
-	private ArrayList<ArrayList<Card>> makeHands(String[][] handsIn) {
+	public static ArrayList<ArrayList<Card>> makeHands(String[][] handsIn) {
 		ArrayList<ArrayList<Card>> handsOut = new ArrayList<>();
 		for (String[] hand : handsIn) {
 			handsOut.add(makeHand(hand));
@@ -183,7 +183,7 @@ public class ValidationTest {
 	 * Make a hand (ArrayList<Card>) from an array of 9 strings
 	 * source: B. Richards, Poker
 	 */
-	private ArrayList<Card> makeHand(String[] inStrings) {
+	public static ArrayList<Card> makeHand(String[] inStrings) {
 		ArrayList<Card> hand = new ArrayList<>();
 		for (String in : inStrings) {
 			hand.add(makeCard(in));
@@ -198,7 +198,7 @@ public class ValidationTest {
 	 * Second character is the suit (C, D, H, S)
 	 * source: B. Richards, Poker
 	 */
-	private Card makeCard(String in) {
+	public static Card makeCard(String in) {
 		char r = in.charAt(0);
 		Card.Rank rank = null;
 		if (r == '6') rank = Card.Rank.Six;
