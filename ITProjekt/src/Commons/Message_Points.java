@@ -19,6 +19,9 @@ public class Message_Points extends Message{
 		this.points = points;
 		this.isWiis = isWiis;
 	}
+	public Boolean getIsWiis() {
+		return isWiis;
+	}
 	//Getters
 	public String getPlayerI() {
 		return playerI;
