@@ -265,8 +265,8 @@ public class CommunicationThread extends Thread{
 			case points : {
 				Message_Points msgPoints = (Message_Points) msgIn;
 				controller.infoViewController.model.setPoints(msgPoints);
-				//Achtung
-				controller.infoViewController.model.setTrump(GameType.noTrumpf);
+				if(!msgPoints.getIsWiis())
+					controller.infoViewController.model.setTrump(GameType.noTrumpf);
 				break;
 			}
 			case pointUpdateDifferenzler : {
