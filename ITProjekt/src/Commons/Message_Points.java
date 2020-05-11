@@ -10,12 +10,14 @@ public class Message_Points extends Message{
 	private String playerI;
 	private String playerII;
 	private int points;
+	private Boolean isWiis;
 	
-	public Message_Points(String playerI, String playerII, int points) {
+	public Message_Points(String playerI, String playerII, int points, Boolean isWiis) {
 		super();
 		this.playerI = playerI;
 		this.playerII = playerII;
 		this.points = points;
+		this.isWiis = isWiis;
 	}
 	//Getters
 	public String getPlayerI() {
