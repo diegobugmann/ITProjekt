@@ -62,7 +62,7 @@ public class User {
 	}
 	
 	/**
-	 * @author digib (mostly, database from sarah)
+	 * @author digib (mostly, database and login from sarah)
 	 * @param Message
 	 * processes the message from the client and decides what to do for each type, including Simple_Messages
 	 */
@@ -74,11 +74,13 @@ public class User {
 		Player p = (Player) this; //downcasting
 		switch (MessageType.getType(msgIn)) {
 		
-		//Trial code Michael can be deleted as soon as implemented properly
 		case login : {
+			ArrayList<String> userNames = new ArrayList<>();
+			for(User user : model.getUsers()) {
+				userNames.add(user.getName());
+			}
 			UserData ud = new UserData(); 
-			if(ud.check(((Message_Login)msgIn).getLoginName(), ((Message_Login)msgIn).getPassword())){
-			//if( ((Message_Login)msgIn).getLoginName().equals("m") && ((Message_Login)msgIn).getPassword().equals("m") ) {
+			if(ud.check(((Message_Login)msgIn).getLoginName(), ((Message_Login)msgIn).getPassword()) && !userNames.contains(((Message_Login)msgIn).getLoginName())){
 				this.setName(((Message_Login)msgIn).getLoginName());
 				msgOut = new Simple_Message(Simple_Message.Msg.Login_accepted);
 				this.sendMessage(msgOut);
@@ -86,7 +88,7 @@ public class User {
 				this.sendMessage(gameUpdate);
 			}
 			else {
-				msgOut = new Message_Error("Benutzername oder Passwort nicht korrekt", Message_Error.ErrorType.logginfalied);
+				msgOut = new Message_Error("Anmeldung fehlgeschlagen", Message_Error.ErrorType.logginfailed);
 				this.sendMessage(msgOut);
 			}
 			break;

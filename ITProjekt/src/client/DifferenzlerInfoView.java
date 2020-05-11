@@ -2,6 +2,7 @@ package client;
 
 
 import javafx.geometry.Insets;
+import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 
@@ -12,7 +13,8 @@ public class DifferenzlerInfoView extends InfoView {
 		protected Label pointslbl;
 		protected Label points;
 		protected Label diffPointslbl;
-		protected Label diffPoints;		
+		protected Label diffPoints;	
+		protected Button openSBbtn;
 		
 		public DifferenzlerInfoView() {
 			
@@ -25,7 +27,9 @@ public class DifferenzlerInfoView extends InfoView {
 			points = new Label ("");
 			
 			diffPointslbl = new Label("Differenz total");
-			diffPoints = new Label("");			
+			diffPoints = new Label("");	
+			
+			openSBbtn = new Button("Punktestand");
 			
 			Region spacer1 = new Region();
 			spacer1.setPrefHeight(50);
@@ -42,6 +46,6 @@ public class DifferenzlerInfoView extends InfoView {
 			
 			this.setPadding(new Insets(5,5,5,5));
 			this.getChildren().addAll(numOfRoundslbl, numOfRounds, spacer1, pointslbl, points, 
-					spacer2, diffPointslbl, diffPoints, spacer3, trumpflbl, picTrump, spacer4, popUplbl, popUp);			
+					spacer2, diffPointslbl, diffPoints, spacer3, trumpflbl, picTrump, spacer4, openSBbtn);			
 		}
 }

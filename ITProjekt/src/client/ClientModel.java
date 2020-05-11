@@ -17,6 +17,7 @@ public class ClientModel {
 	protected ArrayList<Card> actualHand = new ArrayList<>();
 	protected ArrayList<String> teams = new ArrayList<>();
 	protected boolean isGameTypeSchieber = true; //= Schieber
+	protected ArrayList<String> otherPlayers;
 
 	
 	/**
@@ -231,6 +232,15 @@ public class ClientModel {
 	public void sendMessage(String input) {
 		Message_Chat msg = new Message_Chat(input);
 		connection.sendMessage(msg);
+	}
+
+	public void setPlayers(ArrayList<String> players) {
+		for(String player : players) {
+			if(player != this.user) {
+				this.otherPlayers.add(player);
+			}
+		}
+		
 	}
 
 }

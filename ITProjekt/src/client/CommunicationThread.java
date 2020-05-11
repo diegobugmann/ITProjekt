@@ -224,6 +224,7 @@ public class CommunicationThread extends Thread{
 			case players : {
 				Message_Players msgPlayers = (Message_Players) msgIn;
 				controller.processPlayers(msgPlayers.getPlayers());
+				controller.createScoreBoard(msgPlayers.getPlayers());
 				break;
 			}
 			case hand : {

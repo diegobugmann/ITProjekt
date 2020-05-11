@@ -24,6 +24,7 @@ public class ClientController {
 	protected ClientView view;
 	protected CreateNewUserController createNewUserController;
 	protected InfoViewController infoViewController;
+	protected SBDifferenzlerController sbdController;
 	protected WaitingScreen_Preloader splashScreen;
 	protected boolean validateTrumpf;
 	protected boolean oneChecked = false;
@@ -851,6 +852,16 @@ public class ClientController {
 		model.updateGameList();
 		startLobby(stage);
 		
+		
+	}
+
+	public void createScoreBoard(ArrayList<String> players) {
+		if(!model.isGameTypeSchieber) {
+			this.sbdController = new SBDifferenzlerController(this.stage,players);
+			infoViewController.diffView.openSBbtn.setOnAction(event -> {
+				this.sbdController.showScoreboard();
+			});
+		}
 		
 	}
 

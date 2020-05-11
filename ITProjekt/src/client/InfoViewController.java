@@ -6,7 +6,7 @@ public class InfoViewController {
 	
 	protected InfoViewModel model; 
 	protected SchieberInfoView schView;
-	protected DifferenzlerInfoView diffView;	
+	protected DifferenzlerInfoView diffView;
 	
 	public InfoViewController (Game game, int cardStyle, String player) {
 
@@ -22,6 +22,7 @@ public class InfoViewController {
 			model.cardStyle.addListener((observable, 
 					oldValue, newValue)-> {schView.updateTrump(model.trump.get(), model.cardStyle.get());});
 		} else {
+
 			this.diffView = new DifferenzlerInfoView();
 			diffView.numOfRounds.textProperty().bind(model.numOfRounds);
 			diffView.points.textProperty().bind(model.points);
