@@ -170,10 +170,10 @@ public class User {
 					currentGame.addPoints(20, p.getCurrentTeam());
 					msgOut = new Message_Stoeck(p.getName());
 					model.broadcast(currentGame.getPlayers(), msgOut);
+					//TODO Message Points
 					//has the stoeckPlayer reached the points? (Stoeck count before a regular stich)
 					if (p.getCurrentTeam().isFinished(currentGame)) {
 						currentGame.setWinnerTeam(p.getCurrentTeam());
-						currentGame.updateTotalPoints();
 						msgOut = new Message_EndResult(p.getCurrentTeam().getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 						model.broadcast(currentGame.getPlayers(), msgOut);
 						for (Player player : currentGame.getPlayers()) player.reset();
@@ -193,9 +193,9 @@ public class User {
 							//has the stoeckWiiser reached the points? (Stöck - Wys - Stich)
 							if (pp.getCurrentTeam().isFinished(currentGame)) {
 								currentGame.setWinnerTeam(pp.getCurrentTeam());
-								currentGame.updateTotalPoints();
 								msgOut = new Message_Stoeck(pp.getName());
 								model.broadcast(currentGame.getPlayers(), msgOut);
+								//TODO Message Points
 								msgOut = new Message_EndResult(pp.getCurrentTeam().getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 								model.broadcast(currentGame.getPlayers(), msgOut);
 								for (Player player : currentGame.getPlayers()) player.reset();
@@ -224,10 +224,10 @@ public class User {
 								}
 							}
 						}
+						//TODO Message Points
 						//has the wiisWinner reached the points? (Stöck - Wys - Stich)
 						if (wiisWinner.isFinished(currentGame)) {
 							currentGame.setWinnerTeam(wiisWinner);
-							currentGame.updateTotalPoints();
 							msgOut = new Message_EndResult(wiisWinner.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 							model.broadcast(currentGame.getPlayers(), msgOut);
 							for (Player player : currentGame.getPlayers()) player.reset();
@@ -235,18 +235,15 @@ public class User {
 						}
 					}
 				}
+				//https://javabeginners.de/Grundlagen/Zeitsteuerung_ohne_Threads.php
+				long end = (new Date()).getTime() + 1100; //set time in future
+		        while( (new Date()).getTime() < end ) {
+		        	//waiting until set time is reached, to see the last played card
+		        }
 				Player winningPlayer = currentPlay.validateWinner();
 				int playPoints = currentPlay.validatePoints();
 				Team winningTeam = winningPlayer.getCurrentTeam();
-				currentGame.addPoints(playPoints, winningTeam);
-				
-				//https://javabeginners.de/Grundlagen/Zeitsteuerung_ohne_Threads.php
-				long ende = (new Date()).getTime() + 1100; //set time in future
-		        while( (new Date()).getTime() < ende ){
-		        	//waiting until set time is reached
-		            //waitingtime that the last played card can be set, before removed
-		        }
-		        
+				currentGame.addPoints(playPoints, winningTeam);		        
 				msgOut = new Message_Stich(winningPlayer.getName());
 				model.broadcast(currentGame.getPlayers(), msgOut);
 				//update user with the points made in this round in differenzler
@@ -257,7 +254,6 @@ public class User {
 				//has the playWinner reached the points? (Stöck - Wys - Stich)
 				if (currentGame.isSchieber() && winningTeam.isFinished(currentGame)) {
 					currentGame.setWinnerTeam(winningTeam);
-					currentGame.updateTotalPoints();
 					msgOut = new Message_EndResult(winningTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 					model.broadcast(currentGame.getPlayers(), msgOut);
 					for (Player player : currentGame.getPlayers()) player.reset();
@@ -273,19 +269,16 @@ public class User {
 						//has the playWinner reached the points now?
 						if (winningTeam.isFinished(currentGame)) {
 							currentGame.setWinnerTeam(winningTeam);
-							currentGame.updateTotalPoints();
 							msgOut = new Message_EndResult(winningTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 							model.broadcast(currentGame.getPlayers(), msgOut);
 							for (Player player : currentGame.getPlayers()) player.reset();
 							return; //game is over
 						}
-						//if game is not over, add score to total and send scores for both teams
+						//if game is not over, send total scores for both teams
 						for (int i = 0; i < 2; i++) {
 							Player p1 = currentGame.getTeam(i).getPlayerList().get(0);
 							Player p2 = currentGame.getTeam(i).getPlayerList().get(1);
-							int points = currentGame.getTeam(i).getScore();
-							currentGame.getTeam(i).addPointsToTotal(points);
-							msgOut = new Message_Points(p1.getName(), p2.getName(), points, false);
+							msgOut = new Message_Points(p1.getName(), p2.getName(), currentGame.getTeam(i).getScore(), false); //TODO change to totalScore?
 							model.broadcast(currentGame.getPlayers(), msgOut);
 						}
 					} else {
@@ -294,11 +287,12 @@ public class User {
 						winningTeam.getPlayerList().get(0).sendMessage(msgOut);
 						//add score to total and send scores for all 4 teams (for Differenzler)
 						for (int i = 0; i < 4; i++) {
-							Player p1 = currentGame.getTeam(i).getPlayerList().get(0);
-							int points = Math.abs(currentGame.getTeam(i).getScore() - p1.getAnnouncedPoints());
-							currentGame.getTeam(i).addPointsToTotal(points);
-							//msgOut = new Message_Points(p1.getName(), p1.getName(), points); //TODO andere Message
-							//model.broadcast(currentGame.getPlayers(), msgOut);
+							Player pp = currentGame.getTeam(i).getPlayerList().get(0);
+							int diff = Math.abs(currentGame.getTeam(i).getScore() - pp.getAnnouncedPoints());
+							currentGame.getTeam(i).addToTotal(diff);
+							msgOut = new Message_PointsDifferenzler(pp.getName(), pp.getAnnouncedPoints(),
+									pp.getCurrentTeam().getScore(), diff, pp.getCurrentTeam().getTotalScore());
+							model.broadcast(currentGame.getPlayers(), msgOut);
 						}
 					}
 					boolean keepPlaying = currentGame.prepareNewGameIfNeeded();
@@ -380,12 +374,14 @@ public class User {
 		//-------------------------------------------------------------------------------------------------------
 		case cancel : {
 			Game g = p.getCurrentGame();
-			for (Player player : g.getPlayers())
-				player.reset();
-			g.removeAllPlayers();
-			g.resetTeamScores();
-			g.resetPlays();
-			model.broadcast(msgIn);
+			if (g != null) {
+				for (Player player : g.getPlayers())
+					player.reset();
+				g.removeAllPlayers();
+				g.resetTeamScores();
+				g.resetPlays();
+				model.broadcast(msgIn);
+			}
 			break;
 		}
 		//-------------------------------------------------------------------------------------------------------

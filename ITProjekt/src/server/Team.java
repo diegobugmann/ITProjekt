@@ -21,6 +21,8 @@ public class Team {
 	 */
 	public void addPoints(int points) {
 		this.score += points;
+		if (playerList.get(0).getCurrentGame().isSchieber())
+			this.totalScore += points;
 	}
 	
 	/**
@@ -29,13 +31,15 @@ public class Team {
 	 */
 	public void removePoints(int points) {
 		this.score -= points;
+		this.totalScore -= points;
 	}
 	
 	/**
 	 * @author digib
+	 * only used for differenzler to update totalPoints
 	 */
-	public void addPointsToTotal(int points) {
-		this.totalScore += points;
+	public void addToTotal(int diff) {
+		this.totalScore += diff;
 	}
 	
 	/**
@@ -72,7 +76,7 @@ public class Team {
 	 * true if points from current and previous games add up to the winningPoints
 	 */
 	public boolean isFinished(Game currentGame) {
-		if (this.score + this.totalScore >= currentGame.getWinningPoints())
+		if (this.totalScore >= currentGame.getWinningPoints())
 			return true;
 		else
 			return false;

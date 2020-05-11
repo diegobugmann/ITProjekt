@@ -289,8 +289,6 @@ public class Game extends Commons.Game {
 			p.organizeHand();
 			msgOut = new Message_Hand(p.getHand());
 			p.sendMessage(msgOut);
-			for (Card c : p.getHand())
-				System.out.println(c);
 		}
 	}
 	
@@ -366,20 +364,16 @@ public class Game extends Commons.Game {
 				return false;
 			}
 		}
-		
 		for (Team t : teams) {
-			t.resetScore(); //reset score for a new round (Totalscore keeps counting)
+			t.resetScore(); //reset score for a new round (totalScore keeps counting)
 			for (Player p : t.getPlayerList())
-				p.resetWiis(); //reset the previous wiis
+				p.resetWiis(); //reset the previous wiis (only important for schieber)
 		}
-			
 		this.setNextStartingPlayer();
 		this.setBeginningOrder();
 		this.dealCards();
 		this.trumpf = null;
 		this.plays = new ArrayList<Play>();
-		//TODO previous plays irgendwo abspeichern?
-		
 		if (isSchieber())
 			this.setUpSchieber();
 		else {
@@ -399,15 +393,6 @@ public class Game extends Commons.Game {
 				return false;
 		}
 		return true;
-	}
-	
-	/**
-	 * @author digib
-	 * adds points from current game to the total score
-	 */
-	public void updateTotalPoints() {
-		for (Team t : teams)
-			t.addPointsToTotal(t.getScore());
 	}
 	
 	/**
