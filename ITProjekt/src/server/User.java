@@ -285,7 +285,7 @@ public class User {
 							Player p2 = currentGame.getTeam(i).getPlayerList().get(1);
 							int points = currentGame.getTeam(i).getScore();
 							currentGame.getTeam(i).addPointsToTotal(points);
-							msgOut = new Message_Points(p1.getName(), p2.getName(), points);
+							msgOut = new Message_Points(p1.getName(), p2.getName(), points, false);
 							model.broadcast(currentGame.getPlayers(), msgOut);
 						}
 					} else {
