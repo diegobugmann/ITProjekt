@@ -64,7 +64,7 @@ public class SoundModule {
 			Media stockMedia = new Media(stock.toString());
 			stockPlayer = new MediaPlayer(stockMedia);
 			stockPlayer.setVolume(gameVolume);
-			stockPlayer.play();
+				
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

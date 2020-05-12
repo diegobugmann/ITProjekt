@@ -27,10 +27,14 @@ public class SelectWiisView extends VBox {
 	public SelectWiisView(ArrayList<Wiis> wiisArray, int cardStyle) {
 
 		super();
+		
+		this.getStylesheets().add(getClass().getResource("CSS/popups.css").toExternalForm());
+		this.getStyleClass().add("root");
+		
 		userlbl = new Label("");
 		
-		checkVBox = new VBox();
-		
+		checkVBox = new VBox(10);
+		checkVBox.setPadding(new Insets(0,0,0,50));
 		for(Wiis w : wiisArray) {
 			String text = w.toString();
 			CheckBox b = null;
@@ -43,6 +47,7 @@ public class SelectWiisView extends VBox {
 				+ CardNameTranslator.getRankName(w, cardStyle));
 			}
 			b.setId(text);
+			b.getStyleClass().add("checkbox");
 			checkBoxes.add(b);
 			checkVBox.getChildren().add(b);
 		}
@@ -58,6 +63,7 @@ public class SelectWiisView extends VBox {
 		this.setAlignment(Pos.CENTER);
 		this.getChildren().addAll(userlbl, spacer1, checkVBox, spacer2, confirmBtn);
 		
+
 	}
 	 
 

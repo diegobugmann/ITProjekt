@@ -25,6 +25,10 @@ public class AnsagePointsView extends VBox {
 	
 	public AnsagePointsView() {
 		super();
+		//PopUp Style
+		this.getStylesheets().add(getClass().getResource("CSS/popups.css").toExternalForm());
+		this.getStyleClass().add("root");
+		
 		userNamelbl = new Label("");
 		numOfPointslbl = new Label("Ansage Punkte (0-157):");
 		

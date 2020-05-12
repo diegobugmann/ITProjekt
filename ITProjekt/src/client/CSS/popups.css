@@ -1,0 +1,12 @@
+.root {
+		-fx-background-color: lightgrey;
+		-fx-border-color: grey;
+		-fx-background-radius: 15;
+		-fx-border-radius: 15;
+    	-fx-border-width: 5 ; 
+
+
+}
+.checkbox {
+	-fx-opacity: 1.0;
+}

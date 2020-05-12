@@ -37,6 +37,9 @@ public class SelectTrumpfView extends VBox {
 	
 	public SelectTrumpfView(boolean isGeschoben) {
 		super();
+		//Popup Style
+		this.getStylesheets().add(getClass().getResource("CSS/popups.css").toExternalForm());
+		this.getStyleClass().add("root");
 		rbBox = new HBox();
 		rbBox2 = new HBox();
 		tg = new ToggleGroup();

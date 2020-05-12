@@ -96,6 +96,8 @@ public class SoundSettingsView extends Stage{
 		root.setPadding(new Insets(20,0,0,20));
 		
 		scene  = new Scene(root);
+		scene.getStylesheets().add(getClass().getResource("popups.css").toExternalForm());
+		root.getStyleClass().add("root");
 		this.setScene(scene);
 		this.setHeight(220);
 		this.setWidth(400);
