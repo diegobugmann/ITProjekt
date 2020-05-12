@@ -9,14 +9,8 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
-import javafx.scene.layout.Border;
-import javafx.scene.layout.BorderStroke;
-import javafx.scene.layout.BorderStrokeStyle;
-import javafx.scene.layout.BorderWidths;
-import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
 /**
  * VBox to process Chat messages from other players
  * @author mibe1
@@ -62,7 +56,6 @@ public class ChatBox extends VBox {
 	    });
 		controls.getChildren().addAll(input, send);
 		this.getChildren().addAll(centerArea, controls);
-		//this.setBorder(new Border(new BorderStroke(Color.valueOf("#9E9E9E"), BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(3))));
 		this.setPadding(new Insets(10,10,10,10));
 	}
 	
