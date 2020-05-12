@@ -170,14 +170,15 @@ public class User {
 					currentGame.addPoints(20, p.getCurrentTeam());
 					msgOut = new Message_Stoeck(p.getName());
 					model.broadcast(currentGame.getPlayers(), msgOut);
-					msgOut = new Message_Points(p.getName(), p.getTeammate().getName(), p.getCurrentTeam().getTotalScore(), true);
-					model.broadcast(currentGame.getPlayers(), msgOut);
+					//msgOut = new Message_Points(p.getName(), p.getTeammate().getName(), p.getCurrentTeam().getTotalScore(), true);
+					//model.broadcast(currentGame.getPlayers(), msgOut); TODO
 					//has the stoeckPlayer reached the points? (Stoeck count before a regular stich)
 					if (p.getCurrentTeam().isFinished(currentGame)) {
 						currentGame.setWinnerTeam(p.getCurrentTeam());
 						msgOut = new Message_EndResult(p.getCurrentTeam().getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 						model.broadcast(currentGame.getPlayers(), msgOut);
 						for (Player player : currentGame.getPlayers()) player.reset();
+						model.deleteGame(currentGame);
 						return; //game is over
 					}
 				}
@@ -201,6 +202,7 @@ public class User {
 								msgOut = new Message_EndResult(pp.getCurrentTeam().getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 								model.broadcast(currentGame.getPlayers(), msgOut);
 								for (Player player : currentGame.getPlayers()) player.reset();
+								model.deleteGame(currentGame);
 								return; //game is over
 							} else
 								currentGame.removePoints(20, pp.getCurrentTeam()); //not allowed to wiis stöck if game is not over in first round
@@ -234,6 +236,7 @@ public class User {
 							msgOut = new Message_EndResult(wiisWinner.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 							model.broadcast(currentGame.getPlayers(), msgOut);
 							for (Player player : currentGame.getPlayers()) player.reset();
+							model.deleteGame(currentGame);
 							return; //game is over
 						}
 					}
@@ -260,6 +263,7 @@ public class User {
 					msgOut = new Message_EndResult(winningTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 					model.broadcast(currentGame.getPlayers(), msgOut);
 					for (Player player : currentGame.getPlayers()) player.reset();
+					model.deleteGame(currentGame);
 					return; //game is over
 				}
 				//LAST PLAY OF THE ROUND
@@ -275,6 +279,7 @@ public class User {
 							msgOut = new Message_EndResult(winningTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 							model.broadcast(currentGame.getPlayers(), msgOut);
 							for (Player player : currentGame.getPlayers()) player.reset();
+							model.deleteGame(currentGame);
 							return; //game is over
 						}
 						//if game is not over, send total scores for both teams
@@ -304,6 +309,7 @@ public class User {
 						msgOut = new Message_EndResult(winnerTeam.getTeamID(), currentGame.getTeam(0).getTotalScore(), 
 							currentGame.getTeam(1).getTotalScore(), currentGame.getTeam(2).getTotalScore(), currentGame.getTeam(3).getTotalScore());
 						model.broadcast(currentGame.getPlayers(), msgOut);
+						model.deleteGame(currentGame);
 						return; //game over
 					} else if (!currentGame.isSchieber()) {
 						msgOut = new Simple_Message(Msg.nextRound);
@@ -383,6 +389,7 @@ public class User {
 				g.resetTeamScores();
 				g.resetPlays();
 				model.broadcast(msgIn);
+				model.deleteGame(g);
 			}
 			break;
 		}

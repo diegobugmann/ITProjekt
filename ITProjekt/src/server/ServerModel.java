@@ -128,4 +128,19 @@ public class ServerModel {
 		this.castGames.add(new Commons.Game(g.isGermanCards(), g.getNumOfRounds(), g.getWinningPoints(), g.isSchieber(), g.getGameId()));
 	}
 	
+	/**
+	 * @author digib
+	 * @param Game
+	 * deletes a game from games and castGames
+	 */
+	public void deleteGame(Game g) {
+		this.games.remove(g);
+		for (Commons.Game gg : this.castGames) {
+			if (gg.getGameId() == g.getGameId()) {
+				this.castGames.remove(gg);
+				return;
+			}
+		}
+	}
+	
 }

@@ -75,6 +75,9 @@ public class ServerController {
 					g.setUpSchieber();
 				else
 					g.setUpDifferenzler();
+			//delete game when no player is left in game
+			} else if ((int) nV == 0) {
+				model.deleteGame(g);
 			}
 		});
 		
