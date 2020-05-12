@@ -110,13 +110,12 @@ public class InfoViewModel {
 		String content = "";
 		if(player2 == null) {
 			Wiis mvw = wiisPlayer1.get(0);
-			content += player1 +" sagt " + CardNameTranslator.getBlattName(mvw, cardStyle.get()) + " an.\n";
 			for(Wiis w : wiisPlayer1) {
-				if(mvw.compareTo(w) != 0) {
-					mvw = w;
-					content += player1 +" sagt " + CardNameTranslator.getBlattName(mvw, cardStyle.get()) + " an.\n";
+				if(mvw.compareTo(w) < 0) {
+					mvw = w;					
 				}
 			}
+			content += player1 +" sagt " + CardNameTranslator.getBlattName(mvw, cardStyle.get()) + " an.\n";
 			addInfoPopUp(content);
 		} else {
 			wiisPlayer2 = msgWiisInfo.getWiisPlayerII();
