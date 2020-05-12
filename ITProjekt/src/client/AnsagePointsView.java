@@ -23,7 +23,7 @@ public class AnsagePointsView extends VBox {
 	public AnsagePointsView() {
 		super();
 		userNamelbl = new Label("");
-		numOfPointslbl = new Label("Ansage Punkte (1-157):");
+		numOfPointslbl = new Label("Ansage Punkte (0-157):");
 		
 		//https://o7planning.org/de/11185/anleitung-javafx-spinner
 		numOfPoints = new Spinner<Integer>();
@@ -31,8 +31,8 @@ public class AnsagePointsView extends VBox {
 		final int initialValue = 75;
 		 
         //sets the range of the spinner
-        SpinnerValueFactory<Integer> valueFactory = //
-                new SpinnerValueFactory.IntegerSpinnerValueFactory(1, 157, initialValue);
+        SpinnerValueFactory<Integer> valueFactory =
+                new SpinnerValueFactory.IntegerSpinnerValueFactory(0, 157, initialValue);
  
         numOfPoints.setValueFactory(valueFactory);
         numOfPoints.setEditable(true);

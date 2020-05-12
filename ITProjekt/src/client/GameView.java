@@ -25,7 +25,7 @@ public class GameView extends BorderPane {
 		this.infoView = infoView;
 		
 		cardArea = new CardArea();
-		cardArea.setMinHeight(160);
+		cardArea.setMinHeight(162);
 		centerView = new CenterView();
 		gameMenu = new GameMenu();
 		chatBox = new ChatBox();
@@ -49,7 +49,7 @@ public class GameView extends BorderPane {
 		Scene scene = new Scene(this);
 		stage.setScene(scene);
 		stage.setHeight(880);
-		stage.setWidth(1000);
+		stage.setWidth(1080);
 		//stage.setResizable(false); //TODO evtl. wieder aktivieren
 		stage.show();
 	}

@@ -84,7 +84,6 @@ public class ClientModel {
 		}else if(isSchieber == false) {
 			isGameTypeSchieber = false;
 		}
-		System.out.println("Create game: "+isGameTypeSchieber);
 		//Only create Game when user is in the correct Status to create a Game
 		if(connection.getStatus() == Status.logedin) {
 			connection.setStatus(Status.joingamerequested);
@@ -171,7 +170,6 @@ public class ClientModel {
 	public void sendWiis(ArrayList<Wiis> wiisReturn) {
 		Message_Wiis wiis = new Message_Wiis(wiisReturn);
 		connection.sendMessage(wiis);
-		System.out.println(wiisReturn);
 	}
 	
 	/**

@@ -22,6 +22,7 @@ public abstract class InfoView extends VBox{
 		
 		popUplbl = new Label("Info");
 		popUp = new Label("");
+		this.setMinWidth(200);
 	}
 	
 	public void updateTrump(int trump, int cardStyle) {		

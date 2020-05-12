@@ -91,7 +91,7 @@ public class InfoViewModel {
 		}
 	}
 	/**
-	 * @author Luca Meyer (sarah: angepasst fuer infobox)
+	 * @author sarah
 	 * @param msgWiisInfo
 	 */
 	public void processWiisInfo(Message_WiisInfo msgWiisInfo) {
@@ -101,25 +101,27 @@ public class InfoViewModel {
 		String player2 = msgWiisInfo.getPlayerII();
 		ArrayList<Wiis> wiisPlayer2 = new ArrayList<>();
 		
+		String content = "";
 		if(player2 == null) {
 			Wiis mvw = wiisPlayer1.get(0);
+			content += player1 +" sagt " + CardNameTranslator.getBlattName(mvw, cardStyle.get()) + " an.\n";
 			for(Wiis w : wiisPlayer1) {
-				if(mvw.compareTo(w) < 0) {
+				if(mvw.compareTo(w) != 0) {
 					mvw = w;
+					content += player1 +" sagt " + CardNameTranslator.getBlattName(mvw, cardStyle.get()) + " an.\n";
 				}
 			}						
-			String content = "Player " + player1 +" sagt " + CardNameTranslator.getBlattName(mvw, cardStyle.get()) + " an.";
-			if(popUp.get() == "") {
-				popUp.set(content);
-			}else {
-				popUp.set(popUp.get() + "\n" + content);
-			}
-			
+			//if(popUp.get() == "") {
+				
+			//}else {
+				//popUp.set(popUp.get() + "\n" + content);
+			//}
+			popUp.set(content);
 		} else {
 			wiisPlayer2 = msgWiisInfo.getWiisPlayerII();
-			String content = "";
+			content = "";
 			if(wiisPlayer1.size() > 0) {
-				content = "Player " + player1 +" weist:\n";
+				content = player1 +" weist:\n";
 				
 				for(Wiis w : wiisPlayer1) {
 					if(w.getBlatt()== Wiis.Blatt.viergleiche) {
@@ -134,7 +136,7 @@ public class InfoViewModel {
 				}	
 			}
 			if(wiisPlayer2.size() > 0) {
-				content += "Player " + player2 +" weist:\n";
+				content += player2 +" weist:\n";
 				for(Wiis w : wiisPlayer2) {
 					if(w.getBlatt()== Wiis.Blatt.viergleiche) {
 						content += CardNameTranslator.getBlattName(w, cardStyle.get()) + " von "+ 

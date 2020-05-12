@@ -184,8 +184,6 @@ public class ClientController {
 		}else if(this.view.lobbyView.gameList.getSelectedGame().isSchieber()== false) {
 			model.isGameTypeSchieber=false;
 		}
-		System.out.println("Join game: "+model.isGameTypeSchieber);
-
 	}
 	
 	public void joinGameApproved(Game game) {
@@ -614,7 +612,6 @@ public class ClientController {
 		stage2.initOwner(stage);
 		stage2.show();
 		
-		
 		ansagePointsView.okBtn.setOnAction(event-> {
 			
 			int ansagePoints = ansagePointsView.numOfPoints.getValue();
@@ -788,7 +785,6 @@ public class ClientController {
 			view.gameView.centerView.cardBtnCenterTop.setId(players.get(1).toString());
 			view.gameView.centerView.cardBtnLeft.setId(players.get(2).toString());
 		}
-		System.out.println("Teams " +model.teams);
 	}
 	
 	/**
