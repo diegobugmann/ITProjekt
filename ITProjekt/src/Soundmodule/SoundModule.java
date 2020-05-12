@@ -20,6 +20,7 @@ public class SoundModule {
 	private MediaPlayer drawPlayer;
 	private MediaPlayer mixPlayer;
 	private MediaPlayer msgPlayer;
+	private MediaPlayer stockPlayer;
 	//FileLocation
 	private String location;
 	/**
@@ -59,6 +60,11 @@ public class SoundModule {
 			msgPlayer = new MediaPlayer(msgMedia);
 			msgPlayer.setVolume(gameVolume);
 			
+			URL stock = new URL(location+"stock.mp3");
+			Media stockMedia = new Media(stock.toString());
+			stockPlayer = new MediaPlayer(stockMedia);
+			stockPlayer.setVolume(gameVolume);
+				
 		} catch (MalformedURLException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -167,14 +173,26 @@ public class SoundModule {
 	public void playNewMesage(ActionEvent e) {
 		msgPlayer.play();
 		msgPlayer.onEndOfMediaProperty().set(new Runnable(){
-	        public void run(){
-	        	backgroundPlayer.play();
-				
+	        public void run(){			
 				try {
 					URL msg = new URL(location+"newMessage.mp3");
 					Media msgMedia = new Media(msg.toString());
 					msgPlayer = new MediaPlayer(msgMedia);
 					msgPlayer.setVolume(gameVolume);
+				} catch (MalformedURLException e) {}
+	        }
+		});
+	}
+	
+	public void playStock() {
+		stockPlayer.play();
+		stockPlayer.onEndOfMediaProperty().set(new Runnable(){
+	        public void run(){
+				try {
+					URL stock = new URL(location+"stock.mp3");
+					Media stockMedia = new Media(stock.toString());
+					stockPlayer = new MediaPlayer(stockMedia);
+					stockPlayer.setVolume(gameVolume);
 				} catch (MalformedURLException e) {}
 	        }
 		});
@@ -208,6 +226,9 @@ public class SoundModule {
 		this.gameVolume = gameVolume;
 		mixPlayer.setVolume(gameVolume);
 		drawPlayer.setVolume(gameVolume);
+		msgPlayer.setVolume(gameVolume);
+		stockPlayer.setVolume(gameVolume);
+		
 	}
 	//------------------------------------------------------------------------------------------------------------------
 }

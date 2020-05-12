@@ -1,0 +1,26 @@
+.root {
+		-fx-background-color: lightgrey;
+		 -fx-border-color: white;
+		-fx-background-radius: 15;
+		-fx-border-radius: 15;
+    	-fx-border-width: 5 ; 
+
+
+}
+.checkbox {
+
+}
+
+.checkbox:selected .mark {
+
+-fx-background-color: white;
+
+}
+
+.checkbox:selected .box {
+
+-fx-background-color: #28a3f4;
+}
+.checkbox:focused {
+    -fx-focus-color: transparent; 
+}

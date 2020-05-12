@@ -38,7 +38,9 @@ public class NewGameView extends VBox {
 	
 	public NewGameView() {
 		super();
-		
+		//PopUp Style
+		this.getStylesheets().add(getClass().getResource("CSS/popups.css").toExternalForm());
+		this.getStyleClass().add("root");
 		gameTypelbl = new Label("Spielart:");
 		rbSchieber = new RadioButton("Schieber");
 		rbDifferenzler = new RadioButton("Differenzler");
