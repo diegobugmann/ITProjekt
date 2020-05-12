@@ -173,10 +173,11 @@ public class InfoViewModel {
 	}
 
 	public void setPoints(Message_Points msgPoints) {
+		//Change for Diego
 		if(msgPoints.getPlayerI().equalsIgnoreCase(player) || msgPoints.getPlayerII().equalsIgnoreCase(player)) {
-			this.pointsTeam.set(this.pointsTeam.get() + msgPoints.getPoints());
+			this.pointsTeam.set(msgPoints.getPoints());
 		}else {
-			this.pointsOppo.set(this.pointsOppo.get() + msgPoints.getPoints());
+			this.pointsOppo.set(msgPoints.getPoints());
 		}
 		
 	}
