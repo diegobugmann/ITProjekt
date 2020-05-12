@@ -241,6 +241,7 @@ public class CommunicationThread extends Thread{
 			}
 			case stoeck : {
 				Message_Stoeck msgStoeck = (Message_Stoeck) msgIn;
+				controller.soundModule.playStock();
 				controller.infoViewController.model.setStoeck(msgStoeck.getName());
 				break;
 			}
