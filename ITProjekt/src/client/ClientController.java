@@ -631,7 +631,7 @@ public class ClientController {
 		oneChecked = false;
 		
 		SelectWiisView selectWiisView = new SelectWiisView(wiisArray, ClientModel.cardStyle);
-		selectWiisView.userlbl.setText("Player: " + model.user);
+		selectWiisView.userlbl.setText(model.user);
 		Scene scene2 = new Scene(selectWiisView);
 		Stage stage2 = new Stage();
 		
@@ -694,7 +694,7 @@ public class ClientController {
 			cardBtn.setVisible(false);
 			cardBtn.setCard(null);
 		}
-		infoViewController.model.setInfoPopUp("");
+		infoViewController.model.updateInfoView();
 	}
 
 	/**

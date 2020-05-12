@@ -6,6 +6,7 @@ import Commons.Message_Points;
 import Commons.Message_WiisInfo;
 import Commons.Wiis;
 import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
 
 public class InfoViewModel {
@@ -14,6 +15,9 @@ public class InfoViewModel {
 	
 	protected SimpleIntegerProperty pointsTeam;
 	protected SimpleIntegerProperty pointsOppo;
+	protected int pointsTeamOld;
+	protected int pointsOppoOld;
+	
 	protected final SimpleIntegerProperty goalPoints;
 	
 	protected SimpleStringProperty numOfRounds; 
@@ -24,10 +28,12 @@ public class InfoViewModel {
 	protected final int numOfRoundsTotal;
 	protected int numOfRoundsCurrent;
 	
-	protected SimpleIntegerProperty trump;
+	protected SimpleObjectProperty<Integer> trump;
 	protected SimpleStringProperty popUp;
 	
 	protected final String player;
+	
+	protected int rounds = 1;
 	
 	public InfoViewModel(int goalPoints, int cardStyle, int numOfRoundsTotal, String player) {
 		this.player = player;
@@ -48,7 +54,7 @@ public class InfoViewModel {
 		
 		this.cardStyle = new SimpleIntegerProperty();
 		this.cardStyle.set(cardStyle);
-		this.trump = new SimpleIntegerProperty();
+		this.trump = new SimpleObjectProperty<>();
 		this.popUp = new SimpleStringProperty();
 		this.popUp.set("");
 	}
@@ -110,13 +116,8 @@ public class InfoViewModel {
 					mvw = w;
 					content += player1 +" sagt " + CardNameTranslator.getBlattName(mvw, cardStyle.get()) + " an.\n";
 				}
-			}						
-			//if(popUp.get() == "") {
-				
-			//}else {
-				//popUp.set(popUp.get() + "\n" + content);
-			//}
-			popUp.set(content);
+			}
+			addInfoPopUp(content);
 		} else {
 			wiisPlayer2 = msgWiisInfo.getWiisPlayerII();
 			content = "";
@@ -155,7 +156,7 @@ public class InfoViewModel {
 	public void setDiffPoints() {
 		if(this.angesagtePoints != 0) {
 			if(this.aktuellePoints != 0) {
-				this.diffPoints.set(this.angesagtePoints - this.aktuellePoints);
+				this.diffPoints.set(Math.abs(this.angesagtePoints - this.aktuellePoints));
 			}else {
 				this.diffPoints.set(this.angesagtePoints);
 			}
@@ -165,6 +166,7 @@ public class InfoViewModel {
 	}
 	//TODO Aufruf der Methode nach Punkte ansage
 	public void setAngesagtePoints(int points) {
+		this.aktuellePoints = 0;
 		this.angesagtePoints = points;
 		this.points.set(this.aktuellePoints + "/" + this.angesagtePoints);
 	}
@@ -178,8 +180,16 @@ public class InfoViewModel {
 		//Change for Diego
 		
 		if(msgPoints.getPlayerI().equalsIgnoreCase(player) || msgPoints.getPlayerII().equalsIgnoreCase(player)) {
+			if(this.rounds == 1) {
+				this.pointsTeamOld = this.pointsTeam.get();
+				this.addInfoPopUp("Punkte dein Team: " + (msgPoints.getPoints() - this.pointsTeamOld));
+			}
 			this.pointsTeam.set(msgPoints.getPoints());
 		}else {
+			if(this.rounds == 1) {
+				this.pointsOppoOld = this.pointsOppo.get();
+				this.addInfoPopUp("Punkte gegnerisches Team: " + (msgPoints.getPoints() - this.pointsOppoOld));
+			}
 			this.pointsOppo.set(msgPoints.getPoints());
 		}
 		
@@ -190,6 +200,16 @@ public class InfoViewModel {
 			this.popUp.set(playerName + " hat Stoeck gewiesen.");
 		}else {
 			this.popUp.set(this.popUp.get() + "\n" + playerName + " hat Stoeck gewiesen.");
+		}
+	}
+
+	public void updateInfoView() {
+		if (this.rounds != 1) {
+			this.popUp.set("");
+		}
+		this.rounds++;
+		if (this.rounds == 10) {
+			this.rounds = 1;
 		}
 	}
 }
