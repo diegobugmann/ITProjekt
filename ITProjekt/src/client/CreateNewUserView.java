@@ -15,7 +15,6 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
-import Commons.Validation_LoginProcess;
 
 public class CreateNewUserView extends VBox{
 	

@@ -170,7 +170,8 @@ public class User {
 					currentGame.addPoints(20, p.getCurrentTeam());
 					msgOut = new Message_Stoeck(p.getName());
 					model.broadcast(currentGame.getPlayers(), msgOut);
-					//TODO Message Points
+					msgOut = new Message_Points(p.getName(), p.getTeammate().getName(), p.getCurrentTeam().getTotalScore(), true);
+					model.broadcast(currentGame.getPlayers(), msgOut);
 					//has the stoeckPlayer reached the points? (Stoeck count before a regular stich)
 					if (p.getCurrentTeam().isFinished(currentGame)) {
 						currentGame.setWinnerTeam(p.getCurrentTeam());
@@ -195,7 +196,8 @@ public class User {
 								currentGame.setWinnerTeam(pp.getCurrentTeam());
 								msgOut = new Message_Stoeck(pp.getName());
 								model.broadcast(currentGame.getPlayers(), msgOut);
-								//TODO Message Points
+								msgOut = new Message_Points(pp.getName(), pp.getTeammate().getName(), pp.getCurrentTeam().getTotalScore(), true);
+								model.broadcast(currentGame.getPlayers(), msgOut);
 								msgOut = new Message_EndResult(pp.getCurrentTeam().getTeamID(), currentGame.getTeam(0).getTotalScore(), currentGame.getTeam(1).getTotalScore());
 								model.broadcast(currentGame.getPlayers(), msgOut);
 								for (Player player : currentGame.getPlayers()) player.reset();
@@ -224,7 +226,8 @@ public class User {
 								}
 							}
 						}
-						//TODO Message Points
+						msgOut = new Message_Points(p1.getName(), p2.getName(), wiisWinner.getTotalScore(), true);
+						model.broadcast(currentGame.getPlayers(), msgOut);
 						//has the wiisWinner reached the points? (Stöck - Wys - Stich)
 						if (wiisWinner.isFinished(currentGame)) {
 							currentGame.setWinnerTeam(wiisWinner);
@@ -277,8 +280,7 @@ public class User {
 						//if game is not over, send total scores for both teams
 						for (int i = 0; i < 2; i++) {
 							Player p1 = currentGame.getTeam(i).getPlayerList().get(0);
-							Player p2 = currentGame.getTeam(i).getPlayerList().get(1);
-							msgOut = new Message_Points(p1.getName(), p2.getName(), currentGame.getTeam(i).getScore(), false); //TODO change to totalScore?
+							msgOut = new Message_Points(p1.getName(), p1.getTeammate().getName(), currentGame.getTeam(i).getTotalScore(), false);
 							model.broadcast(currentGame.getPlayers(), msgOut);
 						}
 					} else {

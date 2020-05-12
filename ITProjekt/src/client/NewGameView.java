@@ -46,9 +46,13 @@ public class NewGameView extends VBox {
 		rbSchieber.setToggleGroup(typeGroup);
 		rbDifferenzler.setToggleGroup(typeGroup);
 		
+		Region spacer0 = new Region();
+		spacer0.setPrefWidth(10);
+		
+		
 		radioBoxType = new HBox();
 		radioBoxType.setAlignment(Pos.CENTER);
-		radioBoxType.getChildren().addAll(rbSchieber, rbDifferenzler);
+		radioBoxType.getChildren().addAll(rbSchieber, spacer0, rbDifferenzler);
 		
 		Region spacer1 = new Region();
 		spacer1.setPrefHeight(10);
@@ -61,9 +65,12 @@ public class NewGameView extends VBox {
 		rb2500.setToggleGroup(pointsGroup);
 		pointsGroup.selectToggle(rb1000);
 		
+		Region spacer2 = new Region();
+		spacer2.setPrefWidth(10);
+		
 		radioBoxPoints = new HBox();
 		radioBoxPoints.setAlignment(Pos.CENTER);
-		radioBoxPoints.getChildren().addAll(rb1000, rb2500);
+		radioBoxPoints.getChildren().addAll(rb1000, spacer2, rb2500);
 		
 		numOfRoundslbl = new Label("Anzahl Runden (1-20):");
 		
@@ -85,19 +92,19 @@ public class NewGameView extends VBox {
         numOfRounds.setVisible(false);
 		
 		
-		Region spacer2 = new Region();
-		spacer2.setPrefHeight(10);
-		
 		Region spacer3 = new Region();
 		spacer3.setPrefHeight(10);
+		
+		Region spacer4 = new Region();
+		spacer4.setPrefHeight(10);
 		
 		okBtn = new Button("Erstellen");
 		
 		this.setAlignment(Pos.CENTER);
 		
 		this.getChildren().addAll(gameTypelbl, radioBoxType, spacer1, 
-				pointslbl, radioBoxPoints, spacer2, numOfRoundslbl, 
-				numOfRounds, spacer3, okBtn);
+				pointslbl, radioBoxPoints, spacer3, numOfRoundslbl, 
+				numOfRounds, spacer4, okBtn);
 
 	}
 

@@ -16,6 +16,7 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+import javafx.util.StringConverter;
 
 public class ClientController {
 	
@@ -23,6 +24,7 @@ public class ClientController {
 	protected ClientModel model;
 	protected ClientView view;
 	protected CreateNewUserController createNewUserController;
+	protected int numOfRounds = 1;
 	protected InfoViewController infoViewController;
 	protected SBDifferenzlerController sbdController;
 	protected WaitingScreen_Preloader splashScreen;
@@ -31,6 +33,7 @@ public class ClientController {
 	protected String actualTrumpf;
 	protected ArrayList<Wiis> wiisReturn;
 	protected Wiis wiisNew;
+	protected int ansagePoints = 0;
 	protected GameView gameView;
 	//Sounds
 	protected SoundModule soundModule;
@@ -184,8 +187,6 @@ public class ClientController {
 		}else if(this.view.lobbyView.gameList.getSelectedGame().isSchieber()== false) {
 			model.isGameTypeSchieber=false;
 		}
-		System.out.println("Join game: "+model.isGameTypeSchieber);
-
 	}
 	
 	public void joinGameApproved(Game game) {
@@ -225,6 +226,7 @@ public class ClientController {
 						newGameView.rb1000.setVisible(true);
 						newGameView.rb2500.setVisible(true);
 						newGameView.pointslbl.setVisible(true);
+						newGameView.okBtn.setDisable(false);
 					}
 				});
 		
@@ -236,6 +238,22 @@ public class ClientController {
 						newGameView.rb1000.setVisible(false);
 						newGameView.rb2500.setVisible(false);
 						newGameView.pointslbl.setVisible(false);
+						
+						//handle correct and incorrect numbers or text in the spinnerfield and setting the button on or off
+						newGameView.numOfRounds.getEditor().textProperty().addListener((observable1,
+				        		oldValue1, newValue1)->{
+				        			try {
+				        				int newNumOfRounds = Integer.parseInt(newValue1);
+				        				if(newNumOfRounds < 1 || newNumOfRounds > 20 ) {
+				            				newGameView.okBtn.setDisable(true);
+				            			}else {
+				            				newGameView.okBtn.setDisable(false);
+				            				numOfRounds = newNumOfRounds;
+				            			}	
+				        			} catch (Exception NumberFormatException) {
+				        				newGameView.okBtn.setDisable(true);
+				        			}
+				        		});
 					}
 				});
 		
@@ -244,7 +262,7 @@ public class ClientController {
 			boolean isSchieber = true;
 			boolean isGermanCards = false;
 			int winningPoints = 1000;
-
+			
 			try {
 				if(newGameView.rbDifferenzler.isSelected()) {
 					isSchieber = false;	
@@ -256,7 +274,7 @@ public class ClientController {
 					winningPoints = 2500;
 				}
 				
-				int numOfRounds = newGameView.numOfRounds.getValue();
+				
 				model.newGame(isSchieber,isGermanCards,
 						numOfRounds,winningPoints);
 				stage2.close();
@@ -596,9 +614,6 @@ public class ClientController {
 	/**
 	 * @author Luca Meyer
 	 * creates a new Window to choose the points for differenzler and sends them to the model
-	 * There is no check needed if letters are written. The getValue() only takes the first
-	 * numbers until the first letter, if the number is higher than the max it takes
-	 * the factoryValue
 	 */
 	public void processAnsagePoints() {
 		
@@ -614,10 +629,26 @@ public class ClientController {
 		stage2.initOwner(stage);
 		stage2.show();
 		
+		//handle correct and incorrect numbers or text in the spinnerfield and setting the button on or off
+		
+		ansagePointsView.numOfPoints.getEditor().textProperty().addListener((observable,
+        		oldValue, newValue)->{
+        			try {
+        				int newInt = Integer.parseInt(newValue);
+        				if(newInt < 0 || newInt > 157 ) {
+            				ansagePointsView.okBtn.setDisable(true);
+            			}else {
+            				ansagePointsView.okBtn.setDisable(false);
+            				ansagePoints = newInt;
+            			}	
+        			} catch (Exception NumberFormatException) {
+        				ansagePointsView.okBtn.setDisable(false);
+        			}
+        		});
 		
 		ansagePointsView.okBtn.setOnAction(event-> {
 			
-			int ansagePoints = ansagePointsView.numOfPoints.getValue();
+			ansagePointsView.numOfPoints.getValue();
 			model.sendAnsagePoints(ansagePoints);
 			infoViewController.model.setAngesagtePoints(ansagePoints);
 			stage2.close();
@@ -788,7 +819,6 @@ public class ClientController {
 			view.gameView.centerView.cardBtnCenterTop.setId(players.get(1).toString());
 			view.gameView.centerView.cardBtnLeft.setId(players.get(2).toString());
 		}
-		System.out.println("Teams " +model.teams);
 	}
 	
 	/**
