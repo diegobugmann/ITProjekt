@@ -27,8 +27,8 @@ public class CardStyleView extends VBox {
 	public CardStyleView() {
 		super();
 		//PopUp Style
-		this.getStylesheets().add(getClass().getResource("CSS/popups.css").toExternalForm());
-		this.getStyleClass().add("root");
+		//this.getStylesheets().add(getClass().getResource("CSS/popups.css").toExternalForm());
+		//this.getStyleClass().add("root");
 		tg = new ToggleGroup();
 		
 		rb1 = new RadioButton("Franzöisch");
