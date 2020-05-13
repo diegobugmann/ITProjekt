@@ -21,8 +21,6 @@ public class Team {
 	 */
 	public void addPoints(int points) {
 		this.score += points;
-		if (playerList.get(0).getCurrentGame().isSchieber())
-			this.totalScore += points;
 	}
 	
 	/**
@@ -30,16 +28,15 @@ public class Team {
 	 * only used to delete stoeck in case they cannot be wiised in the first round
 	 */
 	public void removePoints(int points) {
-		this.score -= points;
 		this.totalScore -= points;
 	}
 	
 	/**
 	 * @author digib
-	 * only used for differenzler to update totalPoints
+	 * used to update totalPoints
 	 */
-	public void addToTotal(int diff) {
-		this.totalScore += diff;
+	public void addToTotal(int points) {
+		this.totalScore += points;
 	}
 	
 	/**
@@ -76,10 +73,18 @@ public class Team {
 	 * true if points from current and previous games add up to the winningPoints
 	 */
 	public boolean isFinished(Game currentGame) {
-		if (this.totalScore >= currentGame.getWinningPoints())
+		if (this.score + this.totalScore >= currentGame.getWinningPoints())
 			return true;
 		else
 			return false;
+	}
+	
+	/**
+	 * @author digib
+	 * adds the points from current game to totalpoints
+	 */
+	public void updateTotalPoints() {
+		this.totalScore += this.score;
 	}
 
 	public void setTeamID(int teamID) {

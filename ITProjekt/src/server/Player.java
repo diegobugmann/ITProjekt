@@ -108,7 +108,7 @@ public class Player extends User {
 	public void addWiisPointsToTeam() {
 		for (Wiis w : wiis) {
 			int points = w.getBlatt().getPoints();
-			this.currentGame.addPoints(points, this.currentTeam);
+			this.currentGame.addPointsToTotal(points, this.currentTeam);
 		}
 	}
 	

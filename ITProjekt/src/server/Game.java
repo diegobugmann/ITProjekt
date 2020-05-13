@@ -167,7 +167,7 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
-	 * adds points according to the gameMode to the team (used for Stich, Match, Wiis and Stöck)
+	 * adds points according to the gameMode to the team (used for Stich (including the last one) and Match)
 	 */
 	public void addPoints(int points, Team team) {
 		if (!isSchieber()) //differenzler has no multiplication depending on trumpf
@@ -183,12 +183,37 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
+	 * adds points according to the gameMode to the team (used for Wiis and Stöck)
+	 */
+	public void addPointsToTotal(int points, Team team) {
+		if (!isSchieber()) //differenzler has no multiplication depending on trumpf
+			team.addToTotal(points);
+		else {
+			if (trumpf == GameType.TopsDown || trumpf == GameType.BottomsUp) 
+				points *= 3;
+			else if (trumpf == GameType.BellsOrClubs || trumpf == GameType.ShieldsOrSpades) 
+				points *= 2;
+			team.addToTotal(points);
+		}
+	}
+	
+	/**
+	 * @author digib
 	 * removes points according to the gameMode from the team (used only for stoeck during schieber, if cannot be wiised at start)
 	 */
-	public void removePoints(int points, Team team) {
+	public void removePointsFromTotal(int points, Team team) {
 		if (trumpf == GameType.BellsOrClubs || trumpf == GameType.ShieldsOrSpades) 
 			points *= 2;
 		team.removePoints(points);
+	}
+	
+	/**
+	 * @author digib
+	 * adds the points from current game to totalpoints for each team
+	 */
+	public void updateTeamPoints() {
+		for (Team t : teams)
+			t.updateTotalPoints();
 	}
 	
 	/**

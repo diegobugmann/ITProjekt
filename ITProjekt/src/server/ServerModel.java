@@ -97,7 +97,7 @@ public class ServerModel {
 			try {
 				listener.close();
 			} catch (IOException e) {
-				logger.info(e.toString());
+				logger.info("Server successfully closed");
 			}
 		}
 	}
