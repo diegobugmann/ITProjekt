@@ -179,16 +179,12 @@ public class InfoViewModel {
 		//Change for Diego
 		
 		if(msgPoints.getPlayerI().equalsIgnoreCase(player) || msgPoints.getPlayerII().equalsIgnoreCase(player)) {
-			if(this.rounds == 1) {
-				this.pointsTeamOld = this.pointsTeam.get();
-				this.addInfoPopUp("Punkte dein Team: " + (msgPoints.getPoints() - this.pointsTeamOld));
-			}
+			this.pointsTeamOld = this.pointsTeam.get();
+			this.addInfoPopUp("Punkte dein Team: " + (msgPoints.getPoints() - this.pointsTeamOld));
 			this.pointsTeam.set(msgPoints.getPoints());
 		}else {
-			if(this.rounds == 1) {
-				this.pointsOppoOld = this.pointsOppo.get();
-				this.addInfoPopUp("Punkte gegnerisches Team: " + (msgPoints.getPoints() - this.pointsOppoOld));
-			}
+			this.pointsOppoOld = this.pointsOppo.get();
+			this.addInfoPopUp("Punkte gegnerisches Team: " + (msgPoints.getPoints() - this.pointsOppoOld));
 			this.pointsOppo.set(msgPoints.getPoints());
 		}
 		
@@ -196,9 +192,9 @@ public class InfoViewModel {
 	
 	public void setStoeck(String playerName) {
 		if(this.popUp.get() == "") {
-			this.popUp.set(playerName + " hat Stoeck gewiesen.");
+			this.popUp.set(playerName + " hat Stöck gewiesen.");
 		}else {
-			this.popUp.set(this.popUp.get() + "\n" + playerName + " hat Stoeck gewiesen.");
+			this.popUp.set(this.popUp.get() + "\n" + playerName + " hat Stöck gewiesen.");
 		}
 	}
 
