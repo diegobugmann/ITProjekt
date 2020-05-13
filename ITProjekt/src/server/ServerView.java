@@ -30,7 +30,7 @@ public class ServerView {
 		
 		Scene scene = new Scene(root,300,70);
 		scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-		primaryStage.setTitle("SimpleChat Server");
+		primaryStage.setTitle("Server CodingKittens");
 		primaryStage.setScene(scene);
 		primaryStage.show();
 	}
