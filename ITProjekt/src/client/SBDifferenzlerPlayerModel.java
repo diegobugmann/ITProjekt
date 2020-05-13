@@ -20,4 +20,11 @@ public class SBDifferenzlerPlayerModel {
 		this.pointsTotal = new SimpleIntegerProperty();
 	}
 
+	public void setPoints(int ansage, int points, int difference, int differenceTotal) {
+		this.angesagtePoints.set(ansage);
+		this.gemachtePoints.set(points);
+		this.differenzPoints.set(difference);
+		this.pointsTotal.set(differenceTotal);
+	}
+
 }

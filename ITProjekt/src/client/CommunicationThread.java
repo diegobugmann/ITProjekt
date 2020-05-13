@@ -276,7 +276,8 @@ public class CommunicationThread extends Thread{
 				break;
 			}
 			case pointsDifferenzler : {
-				//TODO Punkte aller Spieler
+				Message_PointsDifferenzler msg = (Message_PointsDifferenzler) msgIn;
+				controller.sbdController.setPoints(msg.getPlayerName(), msg.getAnsage(), msg.getPoints(), msg.getDifference(), msg.getDifferenceTotal());
 				break;
 			}
 			

@@ -61,5 +61,13 @@ public class SBDifferenzlerController {
 	public void showScoreboard() {
 		stage2.show();
 	}
+	
+	public void setPoints(String playerName, int ansage, int points, int difference, int differenceTotal) {
+		for (SBDifferenzlerPlayerModel p : playerModels) {
+			if (p.playerName.get().equalsIgnoreCase(playerName)) {
+				p.setPoints(ansage, points, difference, differenceTotal);
+			}
+		}
+	}
 
 }
