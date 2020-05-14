@@ -1,4 +1,4 @@
-Jass-Regeln (gemäss swisslos.ch)
+Jass-Regeln
 
 Spielkarten
 Jeder Spieler kann zwischen einem Kartenset mit deutschen Farben (deutsches Blatt) und einem Kartenset mit französischen Farben (französisches Blatt) wählen.
@@ -110,3 +110,5 @@ Beim Differenzler gibt es klare Regeln, wann welche Farben gespielt werden dürf
 3. Es darf jederzeit einen Trumpf gespielt werden anstatt Farbe zu bekennen.
 4. Wurde die Trumpffarbe ausgespielt, dann muss ebenfalls eine Trumpfkarte gespielt werden. 
 Wer neben dem Trumpf-Bauer/Trumpf-Under keine andere Trumpfkarte mehr besitzt, darf statt des Trumpf-Bauer/Trumpf-Under auch jede andere Karte spielen.
+
+Regeln gemäss swisslos.ch - wurde von uns alles so implementiert
