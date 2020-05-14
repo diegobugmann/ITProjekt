@@ -1,55 +1,34 @@
-Der Schieberjass
-Für ein Spiel werden die 36 Karten gemischt und gleichmässig auf die Spieler verteilt.
-Bei jeder Spielrunde darf ein Spieler die Trumpf-Farbe bestimmen.
-Wer selber den Trumpf nicht festlegen will, kann zu seinem Partner gegenüber schieben und dieser muss dann den Trumpf bestimmen.
-Das Total der Punkte in einer Runde ist 157. Die erreichten Punkte werden mit dem jeweiligen Trumpffaktor multipliziert.
+Jass-Regeln (gemäss swisslos.ch)
 
-Die Trumpffaktoren sind wie folgt festgelegt:
-Eichle und Rose bzw. Eggen und Herz zählen einfach
-Schälle und Schilte bzw. Schaufel und Kreuz zählen doppelt
-Obenabe und Undenufe zählen dreifach
+Spielkarten
+Jeder Spieler kann zwischen einem Kartenset mit deutschen Farben (deutsches Blatt) und einem Kartenset mit französischen Farben (französisches Blatt) wählen.
+Ein Kartenset besteht aus 4 Farben und jede Farbe umfasst 9 Spielkarten. Insgesamt sind 36 Karten im Spiel.
+Beim Differenzler und Schieber ergibt das Punktetotal der Karten 152 Punkte und fünf Punkte für den letzten Stich. Insgesamt sind also 157 Punkte im Spiel.
 
-Das Spiel
-Wer mit trumpfen an der Reihe ist gibt die erste Karte, auch wenn er mit schieben seinen Partner den Trumpf wählen liess.
-Die anderen Spieler geben der Reihe nach entweder eine Karte der gleichen Farbe oder eine Trumpfkarte.
-Wer die höchste Karte bzw. stärkste Trumpfkarte gegeben hat, sticht und erhält die vier gespielten Karten.
-Der Stich hat einen Wert, der dem Punktewert aller vier Karten entspricht.
+Rangfolge und Kartenwerte
+Trumpf
+Wenn eine Farbe als Trumpffarbe angesagt ist, dann sticht die Trumpffarbe jeden Rang einer Nebenfarbe. 
+Die Rangfolge innerhalb der Trumpffarbe sowie die Punktwerte gelten gemäss der unterstehenden Tabelle. 
+Eine höhere Karte sticht eine tiefere Karte.
+Nebenfarbe
+Die Rangfolge innerhalb der Nebenfarben sowie die Punktwerte gelten gemäss der untenstehenden Tabelle. 
+Eine höhere Karte sticht eine tiefere Karte.
 
-Der Schieber ist ein Partnerspiel.
-Die beiden gegenüberliegenden Spieler bilden zusammen jeweils ein Team.
-Die erzielten Punkte werden zusammengezählt und gemeinsam geschrieben.
-Beim Spiel mit Trumpf wird der Under/Bube zum Puur und die 9 zum Nell.
-Puur und Nell sind die beiden stärksten Karten im Spiel.
-Beim Undenufe wird die Sechs, beim Obenabe das As zur stärksten Karte.
-Wer mehrere Karten in Folge hat, kann diese als Weis melden.
-Haben mehrere Spieler einen Weis, gilt derjenige, der von der höchsten Karte stammt.
-Der Weis wird beim Spielen der ersten Karte angesagt.
-Ausnahme: Die Stöcke (König und Ober vom Trumpf) werden erst gemeldet, wenn beide Karten im Spiel gegeben wurden.
-Ein gültiger Weis hat einen bestimmten Punktwert, welcher zu den erspielten Punkten addiert wird.
-Auch die Weispunkte werden mit den momentan gültigen Trumpffaktoren multipliziert.
-Gewonnen hat die Partei, welche zuerst die für den Gewinn erforderliche Punktzahl erreicht hat.
-Am Ende jeder Runde und am Ende des Spiels werden die jeweils erreichten Punkte und allfällige Weispunkte sowie die jeweiligen Spielstände angezeigt.
-
-Die Punkte-Vergabe
-Geschrieben werden nur die Punkte der Partei, die den Trumpf gewählt hat.
-Nachdem sämtliche Trumpfarten von beiden Parteien durchgespielt worden sind, werden die Punkte-Totale verglichen.
-Gewonnen hat, wer die meisten Punkte erzielt hat.
-
-Kartenwerte beim Spiel mit oder ohne Trumpf:
-
-Werte für nicht- Trumpfkarten 				Werte beim Trumpf
-
+Werte für nicht-Trumpfkarten 					Werte beim Trumpf
 Karte			Punkte						Karte			Punkte
 As				11							As				11
 König 			4							König			4
 Ober/Dame 		3							Ober/Dame		3
-Under/Bube 		2							Puur			20		
-Banner/Zehn 	10							Banner/Zehn		10
-Neun			-							Nell			14	
-Acht 			-							Acht			-
+Under/Bube 		2							Puur				20		
+Banner/Zehn 		10							Banner/Zehn		10
+Neun			-							Nell				14	
+Acht 			-							Acht				-
 Sieben 			-							Sieben			-
 Sechs			-							Sechs			-
 
+Obenabe und Undenufe
+Beim Obenabe und Undenufe gibt es keine Trumpffarbe. Die Rangfolge sowie die Punktwerte gelten gemäss der untenstehenden Tabelle. 
+Beim Obenabe ist das Ass die höchste Stechkarte, beim Undenufe hingegen die 6. 
 
 Werte beim Undenufe							Werte beim Obenabe
 Karte			Punkte						Karte			Punkte
@@ -57,51 +36,77 @@ As				-							As				11
 König 			4							König			4
 Ober/Dame 		3							Ober/Dame		3
 Under/Bube 		2							Under/Bube		2
-Banner/Zehn 	10							Banner/Zehn		10
+Banner/Zehn 		10							Banner/Zehn		10
 Neun			-							Neun			-
-Acht 			8							Acht			8
-Sieben 										Sieben			-
+Acht 			8							Acht				8
+Sieben 			-							Sieben			-
 Sechs			11							Sechs			-
 
-Im Spiel sind immer 152 Punkte. 
-Dazu kommen 5 Punkte für den letzten Stich. 
-Das ergibt das Total von 157 Punkten.
+Stich
+Man jasst bzw. spielt die Karten immer gegen den Uhrzeigersinn. 
+Wer die höchste Karte bzw. die stärkste Trumpfkarte gegeben hat, sticht und erhält die vier gespielten Karten und beginnt den nächsten Stich. 
+Der Wert des Stichs entspricht dem Punktwert aller vier Karten. Der letzte Stich einer Spielrunde zählt zusätzlich 5 Punkte.
 
 
-Der Differenzlerjass
+Schieber-Jass
 
-Trumpf und Ansage
-Für ein Spiel werden die 36 Karten gemischt und verteilt. Jeder Spieler erhält 9 Karten. 
-Bei jeder Spielrunde wird durch Zufall die Trumpf-Farbe bestimmt. 
-Die Spieler schätzen nun, wie viele Punkte sie mit ihrem Blatt erreichen werden. 
-Die Schätzung wird entweder offen oder verdeckt angesagt. 
-Bei der verdeckten Ansage erfahren die anderen Mitspieler erst nach Ende der Runde wie viel jeder angesagt hat. 
-Hingegen wird beim offenen Differenzler die Ansage für die anderen Mitspieler bereits am Anfang der Runde angezeigt.
+Spielablauf
+Der Schieber ist ein Partnerjass, bei dem jeweils die beiden gegenüberliegenden Spieler ein Team bilden. 
+Die erzielten Punkte des Teams werden gemeinsam geschrieben. Das Ziel des Schiebers ist, 
+eine gewisse Punktzahl (1000 oder 2500 Punkte) vor dem gegnerischen Team zu erreichen.
+Direkt im Anschluss an das Austeilen der Karten muss die Vorhand Trumpf wählen oder schieben. Schiebt sie, so muss der Partner Trumpf bestimmen. 
+In jeder Runde kann zwischen den vier Trumpffarben, Obenabe und Undenufe gewählt werden. Die Spielrunde startet, indem die Vorhand die erste Karte ablegt.
+Eine Partie ist automatisch beendet, sobald ein Team die geforderte Punktzahl erreicht hat. 
+Die Ausmachregel ist «Stöck, Wys, Stich», welche dann zur Anwendung kommt, wenn beide Teams im ersten Stich des letzten Spiels 
+gleichzeitig das Ziel erreichen und entscheidet, in welcher Reihenfolge die Punkte gezählt werden.
 
-Das Spiel
-Das Spiel beginnt nachdem alle Spieler ihre Ansage gemacht haben. 
-Der erste Spieler gibt eine Karte und die anderen Spieler geben der Reihe nach entweder eine Karte der gleichen Farbe oder eine Trumpfkarte. 
-Wer die höchste Karte bzw. stärkste Trumpfkarte gegeben hat, sticht und erhält die vier gespielten Karten. 
-Der Stich hat einen Wert, der dem Punktewert aller vier Karten entspricht. 
-Alle Stiche werden zusammengezählt und am Ende der Runde mit der angesagten Punktzahl verglichen. 
-Die Differenzpunkte jeder Runde werden zusammengezählt und gewonnen hat, wer am Spielende am wenigsten Differenzpunkte erzielt hat.
+Spielvarianten
+Bei unserem Spiel wird beim Schieber immer mit Multiplikatoren gespielt. Das heisst, die Punkte bei Trumpf Rose/Herz oder Eichel/Ecken werden einfach gezählt. 
+Wird Schilten/Schaufel oder Schellen/Kreuz gewählt, zählen alle erzielten Punkte doppelt. 
+Wird Obenabe oder Undenufe gewählt, zählen alle erzielten Punkte dreifach.
 
-Kartenwerte beim Spiel mit oder ohne Trumpf:
+Spielregeln
+Beim Schieber gibt es klare Regeln, wann welche Farben gespielt werden dürfen.
+1. Wer eine Karte der ausgespielten Farbe besitzt, muss diese Farbe spielen. Die Ausnahme ist der Trumpf-Bauer/Trumpf-Under.
+2. Wer keine Karte der ausgespielten Farbe hat, darf irgendeine Karte spielen (Untertrumpfen ist nur erlaubt, wenn man nur noch Trumpfkarten besitzt).
+3. Es darf jederzeit einen Trumpf gespielt werden anstatt Farbe zu bekennen.
+4. Wurde die Trumpffarbe ausgespielt, dann muss ebenfalls eine Trumpfkarte gespielt werden. 
+Wer neben dem Trumpf-Bauer/Trumpf-Under keine andere Trumpfkarte mehr besitzt, darf statt des Trumpf-Bauer/Trumpf-Under auch jede andere Karte spielen.
+   
+Weis, Stöck und Match
+Für Weise, Stöck und Match gibt es Zusatzpunkte, bei welchen auch der Multiplikator angewendet wird.
+Weispunkte gibt es ab drei aufeinanderfolgenden Karten derselben Farbe oder für vier gleiche Karten. Die Weispunkte gelten gemäss der untenstehenden Tabelle. 
+Die Stöck sind König und Ober der Trumpffarbe und geben 20 Punkte.
+Beim Ausspielen der ersten Karte entscheidet jeder Spieler, ob er weisen will. Es wird nur der Punktwert des höchsten Weises angesagt. 
+Dem Team mit dem höchsten Einzelweis werden sämtliche eigene Weispunkte gutgeschrieben. Desto tiefer der Weis in der Tabelle unten, desto stärker ist er.
+Bei gleichhohen Weisen entscheidet die Anzahl der Karten. Ist ebenfalls die Anzahl der Karten gleich, dann gewinnt der Weis vom Trumpf, ansonsten die Vorhand. 
+Kreuzweise sind ebenfalls möglich. Das bedeutet, eine Karte kann in mehreren Weisen verwendet werden.
 
-Werte für nicht-Trumpfkarten:				Werte beim Trumpf:
-Karte			Punkte						Karte			Punkte
-As				11							As				11
-König			4							König			4
-Ober/Dame		3							Ober/Dame		3
-Under/Bube		2							Puur			20
-Banner/Zehn		10							Banner/Zehn		10
-Neun			-							Nell			14
-Acht			-							Acht			-
-Sieben			-							Sieben			-
-Sechs			-							Sechs			-
+3-Blatt		20 points
+4-Blatt		50 points
+Vierlinge		100 points
+5-Blatt		100 points
+Vier Nell		150 points
+6-Blatt		150 points
+Vier Bauern	200 points
+7-Blatt		200 points
+8-Blatt		250 points
+9-Blatt		300 points
 
-Im Spiel sind immer 152 Punkte. 
-Dazu kommen 5 Punkte für den letzten Stich. Das ergibt das Total von 157 Punkten.
 
-Spielregeln nach https://www.schieber.ch/srules.php
-und nach https://www.differenzler.ch/drules.php
+Differenzler-Jass
+
+Spielablauf
+Zu Beginn jeder Runde schätzt jeder Spieler, wie viele Punkte er selbst in der entsprechenden Runde erzielen will. 
+Die Ansage geschieht verdeckt, d.h. dass jeder Spieler nur die eigenen geschätzten Punkte kennt. Die Trumpffarbe wird jeweils vom Server per Zufall ermittelt.
+Die Differenz zwischen der geschätzten und tatsächlich erzielten Anzahl Punkte wird als Differenzpunkte gewertet. 
+Die Differenzpunkte aus allen Runden einer Partie werden je Teilnehmer addiert. 
+Der Spieler mit der geringsten Anzahl Differenzpunkte über alle Runden der Partie gewinnt.
+
+Spielregeln
+Beim Differenzler gibt es klare Regeln, wann welche Farben gespielt werden dürfen. Es gilt der sogenannte eingeschränkte Farbzwang:
+1. Wer eine Karte der ausgespielten Farbe besitzt, muss diese Farbe spielen. Die Ausnahme ist der Trumpf-Bauer/Trumpf-Under.
+2. Wer keine Karte der ausgespielten Farbe hat, darf irgendeine Karte spielen (Untertrumpfen ist in diesem Fall erlaubt).
+3. Es darf jederzeit einen Trumpf gespielt werden anstatt Farbe zu bekennen.
+4. Wurde die Trumpffarbe ausgespielt, dann muss ebenfalls eine Trumpfkarte gespielt werden. 
+Wer neben dem Trumpf-Bauer/Trumpf-Under keine andere Trumpfkarte mehr besitzt, darf statt des Trumpf-Bauer/Trumpf-Under auch jede andere Karte spielen.
