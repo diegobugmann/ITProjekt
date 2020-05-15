@@ -164,6 +164,9 @@ public class ClientController {
 		soundModule.playBackgroundSound();
 		view.showLobbyView(stage);
 		
+		stage.setOnCloseRequest(event -> {
+			this.processExit(event, stage);
+		});
 		view.lobbyView.gameMenu.exit.setOnAction(event -> {
 			processExit(event, stage);
 		});
@@ -350,8 +353,8 @@ public class ClientController {
 		}
 	}
 	
-	public void processExit(Event event, Stage stage) {
-			stage.close();
+	public void processExit(Event event, Stage stage) {	
+		stage.close();
 			if(model.connection != null && model.connection.isAlive()) {
 				model.closeConnection();
 			}	
@@ -472,6 +475,7 @@ public class ClientController {
 			}
 			stage.setOnCloseRequest(event -> {
 				processExitGame(event);
+				this.processExit(event, stage);
 			});
 			view.gameView.gameMenu.karten.setOnAction(event -> {
 				processCardStyle();
