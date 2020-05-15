@@ -270,8 +270,11 @@ public class User {
 					currentGame.addPoints(5, winningTeam);
 					if (currentGame.isSchieber()) {
 						//check for match (only when schieber)
-						if (currentGame.isMatch())
+						if (currentGame.isMatch()) {
 							currentGame.addPoints(100, winningTeam);
+							msgOut = new Simple_Message(Msg.Match);
+							model.broadcast(currentGame.getPlayers(), msgOut);
+						}
 						//has the playWinner reached the points now?
 						if (winningTeam.isFinished(currentGame)) {
 							currentGame.updateTeamPoints();

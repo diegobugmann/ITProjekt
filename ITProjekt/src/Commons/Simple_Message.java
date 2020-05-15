@@ -33,6 +33,8 @@ public class Simple_Message extends Message{
 		Get_GameList,
 		//Canncel on the Splashscreen
 		CancelWaiting,
+		//server to client if a match was played
+		Match,
 		//Login related Messages
 		Login_accepted,
 		Registration_accepted,
