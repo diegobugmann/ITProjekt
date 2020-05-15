@@ -40,6 +40,7 @@ public class WaitingScreen_Preloader extends Preloader {
         
         vBox = new VBox();
         abbruchBtn = new Button("Abbruch");
+        abbruchBtn.getStyleClass().add("Button");
         Region spacer1 = new Region();
         spacer1.setPrefHeight(30);
         

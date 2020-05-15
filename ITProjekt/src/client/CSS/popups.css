@@ -28,7 +28,7 @@
 .checkbox:focused {
     -fx-focus-color: transparent; 
 }
-
+/*Code for Buttons from  https://drive.google.com/drive/folders/0B_nK3WmoczMgb01hRHRrb0FDYU0*/
 .button {
 	   -fx-background-color:
             rgba(0,0,0,0.08),
