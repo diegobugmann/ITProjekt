@@ -3,8 +3,6 @@ package client;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.Date;
-
 import Commons.*;
 import javafx.application.Platform;
 /**
