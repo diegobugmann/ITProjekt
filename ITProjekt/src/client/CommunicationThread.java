@@ -150,6 +150,10 @@ public class CommunicationThread extends Thread{
 						controller.infoViewController.model.incrementNumberOfRounds();
 						break;
 					}
+					case Match: {
+						controller.infoViewController.model.addInfoPopUp("!!!MATCH!!!");;
+						break;
+					}
 					case Login_accepted :{
 				        this.status = Status.logedin;
 						controller.loginaccepted();

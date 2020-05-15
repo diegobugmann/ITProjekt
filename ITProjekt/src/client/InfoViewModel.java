@@ -84,10 +84,7 @@ public class InfoViewModel {
 		this.numOfRoundsCurrent++;
 		this.numOfRounds.set(this.numOfRoundsCurrent + "/" + this.numOfRoundsTotal);
 	}
-	//Wird ev. benoetigt
-	public void setInfoPopUp(String text) {
-		popUp.set(text);
-	}
+	
 	//Wird ev. benoetigt
 	public void addInfoPopUp(String text) {
 		if(this.popUp.get() == "") {
