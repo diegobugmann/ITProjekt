@@ -34,7 +34,7 @@ public class SelectWiisView extends VBox {
 		userlbl = new Label("");
 		
 		checkVBox = new VBox(10);
-		checkVBox.setPadding(new Insets(3,3,3,50));
+		checkVBox.setPadding(new Insets(3,3,3,55));
 		for(Wiis w : wiisArray) {
 			String text = w.toString();
 			CheckBox b = null;

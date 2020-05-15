@@ -2,6 +2,7 @@ package client;
 
 import java.io.InputStream;
 
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
@@ -27,8 +28,8 @@ public class CardStyleView extends VBox {
 	public CardStyleView() {
 		super();
 		//PopUp Style
-		//this.getStylesheets().add(getClass().getResource("CSS/popups.css").toExternalForm());
-		//this.getStyleClass().add("root");
+		this.getStylesheets().add(getClass().getResource("CSS/popups.css").toExternalForm());
+		this.getStyleClass().add("root");
 		tg = new ToggleGroup();
 		
 		rb1 = new RadioButton("Franzöisch");
@@ -40,6 +41,7 @@ public class CardStyleView extends VBox {
 		v1.setFitHeight(20);
 		rb1.setGraphic(v1);
 		rb1.setToggleGroup(tg);
+		rb1.getStyleClass().add("radio-button");
 		
 		rb2 = new RadioButton("Deutsch");
 		InputStream is2 = getClass().getResourceAsStream("Bilder/Bilder_deutsch.png");
@@ -50,6 +52,11 @@ public class CardStyleView extends VBox {
 		v1.setFitHeight(20);
 		rb2.setGraphic(v2);
 		rb2.setToggleGroup(tg);
+		rb2.getStyleClass().add("radio-button");
+		
+		VBox choices = new VBox(15);
+		choices.getChildren().addAll(rb1, rb2);
+		choices.setPadding(new Insets(0,0,0,30));
 		
 		confirmBtn = new Button("Übernehmen");
 		
@@ -57,7 +64,7 @@ public class CardStyleView extends VBox {
 		spacer1.setPrefHeight(20);
 		
 		this.setAlignment(Pos.CENTER);
-		this.getChildren().addAll(rb1,rb2, spacer1, confirmBtn);
+		this.getChildren().addAll(choices, spacer1, confirmBtn);
 		
 	}
 	

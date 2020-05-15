@@ -11,6 +11,7 @@ import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.Toggle;
+import javafx.scene.image.Image;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
 import javafx.scene.paint.Color;
@@ -42,6 +43,7 @@ public class ClientController {
 		this.model = model;
 		this.view = view;
 		this.stage = stage;
+		stage.getIcons().add(new Image(ClientView.class.getResourceAsStream("Bilder/icon.png")));
 		//Sounds
 		soundModule = new SoundModule();
 		
@@ -371,7 +373,7 @@ public class ClientController {
 		Stage stage2 = new Stage();
 		stage2.setScene(scene2);
 		stage2.setHeight(300);
-		stage2.setWidth(300);
+		stage2.setWidth(350);
 		stage2.initStyle(StageStyle.TRANSPARENT);
 		stage2.initModality(Modality.APPLICATION_MODAL);
         stage2.initOwner(stage);
