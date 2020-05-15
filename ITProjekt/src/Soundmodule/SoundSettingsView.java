@@ -10,6 +10,7 @@ import javafx.scene.control.Slider;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -45,7 +46,6 @@ public class SoundSettingsView extends Stage{
 	private Label gameSoundVolume;
 	
 	private Button apply = new Button("Speichern");
-	private Region spacer = new Region();
 	private Button cancel = new Button("Verwerfen");
 	
 	public SoundSettingsView(SoundModule sm) {
@@ -59,6 +59,7 @@ public class SoundSettingsView extends Stage{
             	WaitingSoundVolume.setText(val+" %");
 			}
 		});
+		waitingSoundSlider.getStyleClass().add("slider");
 		WaitingSoundVolume = new Label((int)(waitingSoundSlider.getValue()*100)+" %");
 		
 		backgroundSoundSlider = new Slider(0.0, 1.0, sm.getBackgroundvolume());
@@ -68,6 +69,7 @@ public class SoundSettingsView extends Stage{
             	backgroundSoundVolume.setText(val+" %");
 			}
 		});
+		backgroundSoundSlider.getStyleClass().add("slider");
 		backgroundSoundVolume = new Label((int)(backgroundSoundSlider.getValue()*100)+"%");
 		
 		gameSoundSoundSlider = new Slider(0.0, 1.0, sm.getGameVolume());
@@ -77,6 +79,7 @@ public class SoundSettingsView extends Stage{
             	gameSoundVolume.setText( val+" %");
 			}
 		});
+		gameSoundSoundSlider.getStyleClass().add("slider");
 		gameSoundVolume = new Label((int)(gameSoundSoundSlider.getValue()*100)+"%");
 		
 		apply.setOnAction(event -> {
@@ -96,11 +99,13 @@ public class SoundSettingsView extends Stage{
 		root.setPadding(new Insets(20,0,0,20));
 		
 		scene  = new Scene(root);
+		scene.setFill(Color.TRANSPARENT);
 		scene.getStylesheets().add(getClass().getResource("popups.css").toExternalForm());
 		root.getStyleClass().add("root");
 		this.setScene(scene);
-		this.setHeight(220);
-		this.setWidth(400);
+		this.setHeight(200);
+		this.setWidth(460);
+		this.initStyle(StageStyle.TRANSPARENT);
 	}
 
 	private void applySettings() {

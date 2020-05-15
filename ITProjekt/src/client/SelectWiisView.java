@@ -58,7 +58,7 @@ public class SelectWiisView extends VBox {
 		
 		
 		confirmBtn = new Button("Weisen");
-		
+		confirmBtn.getStyleClass().add("button");
 		Region spacer1 = new Region();
 		spacer1.setPrefHeight(50);
 		
