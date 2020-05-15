@@ -34,6 +34,7 @@ public class InfoViewModel {
 	protected final String player;
 	
 	protected int rounds = 1;
+	protected boolean isWiis = false;
 	
 	public InfoViewModel(int goalPoints, int cardStyle, int numOfRoundsTotal, String player) {
 		this.player = player;
@@ -98,6 +99,7 @@ public class InfoViewModel {
 	 * @param msgWiisInfo
 	 */
 	public void processWiisInfo(Message_WiisInfo msgWiisInfo) {
+		isWiis = true;
 		String player1 = msgWiisInfo.getPlayerI();
 		ArrayList<Wiis> wiisPlayer1 = new ArrayList<>(msgWiisInfo.getWiisPlayerI());
 
@@ -196,11 +198,12 @@ public class InfoViewModel {
 	}
 
 	public void updateInfoView() {
-		if (this.rounds != 1) {
+		if (this.rounds != 1 || !this.isWiis) {
 			this.popUp.set("");
 		}
 		this.rounds++;
 		if (this.rounds == 10) {
+			this.isWiis = false;
 			this.rounds = 1;
 		}
 	}
