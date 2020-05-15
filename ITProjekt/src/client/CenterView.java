@@ -102,7 +102,7 @@ public class CenterView extends HBox {
 		this.getChildren().addAll(boxLeft, spacer6, boxCenter, spacer7, boxRight);
 		
 	}
-	
+	//set the card to the correct center button
 	public void setCard(Card card, String player) {
 		for(Button b : centerButtons) {
 			if(b.getId().equalsIgnoreCase(player)) {

@@ -16,7 +16,6 @@ import javafx.scene.input.KeyCode;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
-import javafx.util.StringConverter;
 
 public class ClientController {
 	
@@ -80,6 +79,16 @@ public class ClientController {
 			
 	}
 	
+	
+//Login and Connection
+//------------------------------------------------------------------------
+	/**
+	 * @author sarah
+	 */
+	public void createNewUserView() {
+		this.createNewUserController = new CreateNewUserController(model.connection);
+	}
+	
 	private void loginActivate() {		
 		if(!view.loginView.userName.getText().isEmpty() && !view.loginView.passwordField.getText().isEmpty()) {
 			view.loginView.loginBtn.setDisable(false);
@@ -132,6 +141,17 @@ public class ClientController {
 		
 	}
 	
+	/**
+	 * @author mibe1
+	 * When the login gets accepted the mainstage is shown
+	 */
+	public void loginaccepted() {
+		startLobby(stage);
+	}
+	
+	
+//Lobby, NewGame and Join
+//------------------------------------------------------------------------
 	/**
 	 * @author Luca Meyer
 	 * starts the Lobbyview and sets all the buttons on action
@@ -306,6 +326,9 @@ public class ClientController {
 	
 	}
 	
+	
+//Set MenuBar on action
+//------------------------------------------------------------------------
 	/**
 	 * Stops the Waiting Screen and tells the model to exit the current game
 	 * @param e
@@ -400,14 +423,6 @@ public class ClientController {
 		alert.showAndWait();
 	}
 	
-	/**
-	 * @author mibe1
-	 * When the login gets accepted the mainstage is shown
-	 */
-	public void loginaccepted() {
-		startLobby(stage);
-	}
-	
 /**
  	* Called when the Game list on the Serverlist gets changed and sent to the Client
  * @author mibe1 
@@ -432,13 +447,9 @@ public class ClientController {
 		
 	}
 	
-	/**
-	 * @author sarah
-	 */
-	public void createNewUserView() {
-		this.createNewUserController = new CreateNewUserController(model.connection);
-	}
 	
+//Start the game and methods to handle events and msg for the game
+//------------------------------------------------------------------------
 	/**
 	 * Starts the Game;
 	 */
@@ -631,6 +642,7 @@ public class ClientController {
 		
 		//handle correct and incorrect numbers or text in the spinnerfield and setting the button on or off
 		
+		ansagePointsView.okBtn.setDisable(false);
 		ansagePointsView.numOfPoints.getEditor().textProperty().addListener((observable,
         		oldValue, newValue)->{
         			try {
@@ -696,22 +708,6 @@ public class ClientController {
 			stage2.close();
 			
 		});
-	}
-	
-	/**
-	 * @author mibe1
-	 * @param title
-	 * @param message
-	 * Shows an alterbox of the type Error to tell the user about an error messae or an exception
-	 */
-	public void showAlert(String title, String message) {
-		Alert alert = new Alert(AlertType.ERROR);
-		alert.setTitle(title);
-		alert.setHeaderText(null);
-		alert.setContentText(message);
-		alert.initModality(Modality.APPLICATION_MODAL);
-        alert.initOwner(stage);
-		alert.showAndWait();
 	}
 	
 	/**
@@ -823,9 +819,8 @@ public class ClientController {
 	
 	/**
 	 * @author Luca Meyer
-	 * 
+	 * Shows the endresults in an alert depending on the gameType
 	 */
-
 	public void processEndResults(int winningTeamID, int pointsTeamI, int pointsTeamII, int pointsTeamIII,
 			int pointsTeamIV) {
 		view.gameView.centerView.stichInfo.setText("");
@@ -893,6 +888,24 @@ public class ClientController {
 			});
 		}
 		
+	}
+	
+//General method for alerts
+//------------------------------------------------------------------------
+	/**
+	 * @author mibe1
+	 * @param title
+	 * @param message
+	 * Shows an alterbox of the type Error to tell the user about an error messae or an exception
+	 */
+	public void showAlert(String title, String message) {
+		Alert alert = new Alert(AlertType.ERROR);
+		alert.setTitle(title);
+		alert.setHeaderText(null);
+		alert.setContentText(message);
+		alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
+		alert.showAndWait();
 	}
 
 }

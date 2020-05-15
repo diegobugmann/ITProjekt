@@ -19,14 +19,15 @@ public class ClientModel {
 	protected boolean isGameTypeSchieber = true; //= Schieber
 	protected ArrayList<String> otherPlayers;
 
-	
+//Login and Connection
+//------------------------------------------------------------------------	
 	/**
+	 * @author mibe1 inspired by Bradley Richards code example, sarah completed to connect
 	 * Connects to the Server and creates a connection object to send or receive data from the server
 	 * @param c Controller for Thread to Send actions
 	 * @param ipAdress Server adress
 	 * @param port Serverport
 	 * @category Serverconnection
-	 * @author mibe1 inspired by Bradley Richards code example, sarah completed to connect
 	 */
 	public boolean connect(ClientController c) {
 	    Socket socket = null;
@@ -74,6 +75,10 @@ public class ClientModel {
 		connection.sendMessage(msg);		
 	}
 	
+	public void setStatusToLogin() {
+		connection.setStatus(Status.logedin);
+	}
+	
 	/**
 	 * @author mibe1
 	 * Creates a game based on the Inputs form the GUI via controller and sends creation to Server via connection thread
@@ -94,7 +99,6 @@ public class ClientModel {
 			System.out.println("Wrong Status");
 		//TODO Errorhandling
 	}
-
 
 	public void joinGame(int gameId) {
 		//Only join Game when user is in the correct Status to join a Game
@@ -118,6 +122,14 @@ public class ClientModel {
 		connection.sendMessage(msg);
 	}
 	
+	public void sendMessage(String input) {
+		Message_Chat msg = new Message_Chat(input);
+		connection.sendMessage(msg);
+	}
+	
+	
+//During playing
+//------------------------------------------------------------------------
 	/**
 	 * @author Luca meyer
 	 * sends the played Card to the CommunicationThread
@@ -182,11 +194,18 @@ public class ClientModel {
 		connection.sendMessage(ansage);
 	}
 	
-	public void setStatusToLogin() {
-		connection.setStatus(Status.logedin);
+	public void setPlayers(ArrayList<String> players) {
+		for(String player : players) {
+			if(player != this.user) {
+				this.otherPlayers.add(player);
+			}
+		}
+		
 	}
+	
 
-//Getters from connection---------------------------------------------------------------------------------------------
+//Getters from connection
+//---------------------------------------------------------------------------------------------
 	public void setCurrentGame(Game g) {
 		connection.setCurrentGame(g);
 		
@@ -195,6 +214,8 @@ public class ClientModel {
 	public Game getCurrentGame() {
 		return connection.getCurrentGame();
 	}
+
+//End and exit game
 //-----------------------------------------------------------------------------------------------------------
 	/**
 	 * @author mibe1
@@ -224,21 +245,6 @@ public class ClientModel {
 
 	public void closeConnection() {
 		connection.closeConnection();
-	}
-
-
-	public void sendMessage(String input) {
-		Message_Chat msg = new Message_Chat(input);
-		connection.sendMessage(msg);
-	}
-
-	public void setPlayers(ArrayList<String> players) {
-		for(String player : players) {
-			if(player != this.user) {
-				this.otherPlayers.add(player);
-			}
-		}
-		
 	}
 
 }
