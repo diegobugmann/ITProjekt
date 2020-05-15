@@ -34,15 +34,23 @@ public class Play {
 	/**
 	 * @author digib
 	 * @return points
+	 * validates the points from a play
 	 */
 	public int validatePoints() {
 		points = PlayValidation.validatePoints(playedCards, trumpf);
 		return points;
 	}
 	
+	/**
+	 * @author digib
+	 * @param card
+	 * adds a card to playedCards
+	 */
 	public void addCard(Card c) {
 		this.playedCards.add(c);
 	}
+	
+	//Getters and setters
 	
 	public ArrayList<Card> getPlayedCards(){
 		return this.playedCards;

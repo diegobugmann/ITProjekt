@@ -18,6 +18,7 @@ public class ServerMain extends Application {
 	
 	/**
 	 * @author digib
+	 * initializes model, view and controller
 	 */
 	@Override
 	public void start(Stage primaryStage) throws Exception {

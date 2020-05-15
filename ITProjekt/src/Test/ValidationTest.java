@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 
 import Commons.Card;
-import Commons.Card.Rank;
 import Commons.Wiis;
 import Commons.Wiis.Blatt;
 import server.WiisValidation;
@@ -161,7 +160,6 @@ public class ValidationTest {
 		assertTrue(wiis.get(1).getBlatt() == Blatt.vierNeuner);
 		assertTrue(wiis.get(2).getBlatt() == Blatt.dreiblatt);
 		assertTrue(wiis.size() == 3);
-		
 	}
 	
 	

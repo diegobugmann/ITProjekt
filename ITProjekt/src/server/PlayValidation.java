@@ -19,8 +19,6 @@ public class PlayValidation {
 	public static ArrayList<Card> getPlayableCards(ArrayList<Card> hand, ArrayList<Card> playedCards, GameType gameType, boolean isSchieber) {
 		if (playedCards.isEmpty()) return hand; //If you are the first to play, you can play whatever you like
 		Suit playedSuit = playedCards.get(0).getSuit();
-		//System.out.println("Played Suit: "+playedSuit);
-		//System.out.println("Trumpf: "+gameType);
 		boolean hasSuit = containsSuit(hand, playedSuit);
 		ArrayList<Card> playableCards = (ArrayList<Card>) hand.clone();
 		
@@ -63,6 +61,7 @@ public class PlayValidation {
 	
 	/**
 	 * @author digib
+	 * @param cards, trumpf
 	 * @return boolean
 	 */
 	private static boolean containsTrumpf(ArrayList<Card> cards, GameType trumpf) {
@@ -75,6 +74,7 @@ public class PlayValidation {
 	
 	/**
 	 * @author digib
+	 * @param hand, trumpf
 	 * @return boolean
 	 */
 	private static boolean containsOnlyTrumpf(ArrayList<Card> hand, GameType trumpf) {
@@ -87,6 +87,7 @@ public class PlayValidation {
 	
 	/**
 	 * @author digib
+	 * @param hand, suit
 	 * @return boolean
 	 */
 	private static boolean containsSuit(ArrayList<Card> hand, Suit suit) {
@@ -99,7 +100,7 @@ public class PlayValidation {
 	
 	/**
 	 * @author digib
-	 * @return void
+	 * @param hand, playedSuit
 	 * Removes all cards that don't match the played suit
 	 */
 	private static void removeNonSuitable(ArrayList<Card> hand, Suit playedSuit) {
@@ -111,8 +112,8 @@ public class PlayValidation {
 	
 	/**
 	 * @author digib
-	 * @return void
-	 * Removes all cards but the trumpf that don't match the played suit
+	 * @param hand, playedSuit, trumpf
+	 * Removes all cards (but the trumpf) that don't match the played suit
 	 */
 	private static void removeNonSuitable(ArrayList<Card> hand, Suit playedSuit, GameType trumpf) {
 		for (int i = hand.size()-1; i >= 0; i--) {
@@ -123,6 +124,7 @@ public class PlayValidation {
 	
 	/**
 	 * @author digib
+	 * @param hand, trumpf
 	 * @return boolean
 	 * return true if player has the jack of trumpf on its own
 	 */
@@ -141,7 +143,7 @@ public class PlayValidation {
 	
 	/**
 	 * @author digib
-	 * @return void
+	 * @param playableCards, playedCards, gameType
 	 * remove all trumpf cards that are less worthy than the highest played trumpf card
 	 */
 	private static void removeLowerTrumpfs(ArrayList<Card> playableCards, ArrayList<Card> playedCards, GameType gameType) {
@@ -162,6 +164,7 @@ public class PlayValidation {
 	/**
 	 * @author digib
 	 * @return Suit
+	 * returns the suit corresponding to the gameType
 	 */
 	public static Suit getTrumpfAsSuit(GameType gameType) {
 		Suit trumpf = null;
@@ -175,7 +178,9 @@ public class PlayValidation {
 	
 	/**
 	 * @author digib
+	 * @param playedCards, correspondingPlayer, gameType
 	 * @return Player winner
+	 * returns the winner of the play
 	 */
 	public static Player validateWinner(ArrayList<Card> playedCards, ArrayList<Player> correspondingPlayer, GameType gameType) {
 		Card winningCard = playedCards.get(0); //assume first card wins
@@ -218,7 +223,9 @@ public class PlayValidation {
 	
 	/**
 	 * @author digib
+	 * @param cards, gameType
 	 * @return int points
+	 * returns the value of all cards played, not considering the multiplication factors
 	 */
 	public static int validatePoints(ArrayList<Card> cards, GameType gameType) {
 		int points = 0;

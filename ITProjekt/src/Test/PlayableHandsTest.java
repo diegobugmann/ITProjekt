@@ -1,6 +1,5 @@
 package Test;
 
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
@@ -12,6 +11,9 @@ import Commons.Card;
 import Commons.GameType;
 import server.PlayValidation;
 
+/**
+ * @author digib
+ */
 public class PlayableHandsTest {
 	
 	/**

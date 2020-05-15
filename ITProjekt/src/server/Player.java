@@ -7,7 +7,6 @@ import java.util.Collections;
 import Commons.Card;
 import Commons.Card.Rank;
 import Commons.Card.Suit;
-import Commons.GameType;
 import Commons.Wiis;
  
 /**
@@ -24,36 +23,37 @@ public class Player extends User {
 	private int beginningOrder;
 	private boolean hasStoeck;
 	
+	/**
+	 * @author digib
+	 * @param model, clientSocket
+	 */
 	public Player(ServerModel model, Socket clientSocket) {
 		super(model, clientSocket);
 	}
 	
+	/**
+	 * @author digib
+	 * @param card
+	 * adds a card to the hand
+	 */
 	public void addCard(Card c) {
 		this.hand.add(c);
 	}
 	
-	public ArrayList<Card> getHand() {
-		return this.hand;
-	}
-	
+	/**
+	 * @author digib
+	 * @param ArrayList<Wiis>
+	 */
 	public void addWiis(ArrayList<Wiis> wiis) {
 		this.wiis.addAll(wiis);
 	}
 	
-	public ArrayList<Wiis> getWiis(){
-		return this.wiis;
-	}
-	
+	/**
+	 * @author digib
+	 * empties the wiis-list
+	 */
 	public void resetWiis() {
 		this.wiis.clear();
-	}
-	
-	public int getBeginningOrder() {
-		return this.beginningOrder;
-	}
-	
-	public void setBeginningOrder(int beginningOrder) {
-		this.beginningOrder = beginningOrder;
 	}
 	
 	/**
@@ -85,25 +85,9 @@ public class Player extends User {
 		hand = spades;
 	}
 	
-	public void setCurrentGame(Game g) {
-		this.currentGame = g;
-	}
-	
-	public Game getCurrentGame() {
-		return this.currentGame;
-	}
-	
-	public void setAnnouncedPoints(int announcedPoints) {
-		this.announcedPoints = announcedPoints;
-	}
-	
-	public int getAnnouncedPoints() {
-		return this.announcedPoints;
-	}
-	
 	/**
 	 * @author digib
-	 * adds the points from all wiis-Objects to the currentTeam
+	 * adds the points from all wiis-Objects to the currentTeams totalPoints
 	 */
 	public void addWiisPointsToTeam() {
 		for (Wiis w : wiis) {
@@ -115,6 +99,7 @@ public class Player extends User {
 	/**
 	 * @author digib
 	 * @return ArrayList<Wiis>
+	 * validates the wiis-objects from the hand
 	 */
 	public ArrayList<Wiis> validateWiis() {
 		ArrayList<Wiis> wiis = WiisValidation.validateWiis(hand);
@@ -124,6 +109,7 @@ public class Player extends User {
 	/**
 	 * @author digib
 	 * @return ArrayList<Card>
+	 * validates and returns the playableCards
 	 */
 	public ArrayList<Card> getPlayableCards() {
 		ArrayList<Card> playableCards = PlayValidation.getPlayableCards(
@@ -131,6 +117,11 @@ public class Player extends User {
 		return playableCards;
 	}
 	
+	/**
+	 * @author digib
+	 * @param cards
+	 * removes a specific card from the hand (used if card is played)
+	 */
 	public void removeCard(Card c) {
 		Card cardToRemove = null;
 		for (Card card : hand) {
@@ -140,24 +131,12 @@ public class Player extends User {
 		hand.remove(cardToRemove);
 	}
 	
+	/**
+	 * @author digib
+	 * clears hand
+	 */
 	public void clearHand() {
 		hand.clear();
-	}
-	
-	public Player getFollowingPlayer() {
-		return this.followingPlayer;
-	}
-	
-	public void setFollowingPlayer(Player followingPlayer) {
-		this.followingPlayer = followingPlayer;
-	}
-
-	public Team getCurrentTeam() {
-		return currentTeam;
-	}
-	
-	public void setCurrentTeam(Team t) {
-		this.currentTeam = t;
 	}
 	
 	/**
@@ -186,7 +165,7 @@ public class Player extends User {
 	/**
 	 * @author digib
 	 * @return boolean
-	 * looks whether a player has played both of the stoeck. If so, return true
+	 * looks whether a player has played both of the stoeck. If so, set hasStoeck to false and return true
 	 */
 	public boolean hasPlayedStoeck() {
 		Suit trumpf = PlayValidation.getTrumpfAsSuit(currentGame.getTrumpf());
@@ -205,17 +184,10 @@ public class Player extends User {
 			return false;
 	}
 	
-	public boolean hasStoeck() {
-		return hasStoeck;
-	}
-	
-	public void setHasStoeck(boolean hasStoeck) {
-		this.hasStoeck = hasStoeck;
-	}
-	
 	/**
 	 * @author digib
 	 * @return Player
+	 * returns the teammate of a player
 	 */
 	public Player getTeammate() {
 		Player teammate = null;
@@ -227,9 +199,71 @@ public class Player extends User {
 		return teammate;
 	}
 	
+	/**
+	 * @author digib
+	 * resets the player (currentGame, hand and wiis)
+	 */
 	public void reset() {
 		this.setCurrentGame(null);
 		this.clearHand();
 		this.resetWiis();
+	}
+	
+	//getters and setters
+	
+	public ArrayList<Card> getHand() {
+		return this.hand;
+	}
+	
+	public Player getFollowingPlayer() {
+		return this.followingPlayer;
+	}
+	
+	public void setFollowingPlayer(Player followingPlayer) {
+		this.followingPlayer = followingPlayer;
+	}
+
+	public Team getCurrentTeam() {
+		return currentTeam;
+	}
+	
+	public void setCurrentTeam(Team t) {
+		this.currentTeam = t;
+	}
+	
+	public void setCurrentGame(Game g) {
+		this.currentGame = g;
+	}
+	
+	public Game getCurrentGame() {
+		return this.currentGame;
+	}
+	
+	public void setAnnouncedPoints(int announcedPoints) {
+		this.announcedPoints = announcedPoints;
+	}
+	
+	public int getAnnouncedPoints() {
+		return this.announcedPoints;
+	}
+	
+	public boolean hasStoeck() {
+		return hasStoeck;
+	}
+	
+	public void setHasStoeck(boolean hasStoeck) {
+		this.hasStoeck = hasStoeck;
+	}
+	
+	public ArrayList<Wiis> getWiis(){
+		return this.wiis;
+	}
+	
+	public int getBeginningOrder() {
+		return this.beginningOrder;
+	}
+	
+	public void setBeginningOrder(int beginningOrder) {
+		this.beginningOrder = beginningOrder;
 	}
 }

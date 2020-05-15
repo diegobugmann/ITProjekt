@@ -44,14 +44,11 @@ public class User {
 							processMessage(msgIn);
 						}
 					} catch (ClassNotFoundException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}catch (EOFException e) {
-						//TODO send to Logger
 						logger.info("Connection to "+name+" (User "+userID+") determined");
 						model.removeUser(User.this);
 					}catch (IOException e) {
-						// TODO Auto-generated catch block
 						e.printStackTrace();
 					}
 					finally { try { if (clientSocket != null) clientSocket.close(); } catch (IOException e) {}}
@@ -167,7 +164,7 @@ public class User {
 			if (currentGame.isSchieber() && p.hasStoeck()) {
 				//has a player played both stoeck?
 				if (p.hasPlayedStoeck()) {
-					currentGame.addPointsToTotal(20, p.getCurrentTeam()); //TODO
+					currentGame.addPointsToTotal(20, p.getCurrentTeam());
 					msgOut = new Message_Stoeck(p.getName());
 					model.broadcast(currentGame.getPlayers(), msgOut);
 					msgOut = new Message_Points(p.getName(), p.getTeammate().getName(), p.getCurrentTeam().getTotalScore(), true);
@@ -401,7 +398,6 @@ public class User {
 		case simple_Message : {
 			switch(((Simple_Message)msgIn).getType()) {
 			case Received: {
-				//TODO
 				break;
 			}
 			case Get_GameList: {
@@ -423,7 +419,7 @@ public class User {
 				break;
 			}
 			default: {
-				break; //Sollten keine anderen Simple_Messages vom Server empfangen werden
+				break; //no other simpleMsgs should be received
 			}
 			}
 		}
@@ -441,6 +437,7 @@ public class User {
 	
 	/**
 	 * @author digib
+	 * @param msg
 	 * sets the clientName and sends the message to this User's socket
 	 */
 	public void sendMessage(Message msg) {
@@ -448,7 +445,9 @@ public class User {
 		msg.send(clientSocket);
 		logger.info("Message sent to client: "+msg.toString());
 	}
-
+	
+	//getters and setters
+	
 	public void setName(String name) {
 		this.name = name;
 	}

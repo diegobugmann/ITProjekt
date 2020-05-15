@@ -18,6 +18,8 @@ public class Team {
 	
 	/**
 	 * @author digib
+	 * @param points
+	 * adds points to the current score
 	 */
 	public void addPoints(int points) {
 		this.score += points;
@@ -25,18 +27,20 @@ public class Team {
 	
 	/**
 	 * @author digib
-	 * only used to delete stoeck in case they cannot be wiised in the first round
+	 * @param points
+	 * adds points to the totalScore
 	 */
-	public void removePoints(int points) {
-		this.totalScore -= points;
+	public void addToTotal(int points) {
+		this.totalScore += points;
 	}
 	
 	/**
 	 * @author digib
-	 * used to update totalPoints
+	 * @param points
+	 * only used to delete stoeck in case they cannot be wiised in the first round
 	 */
-	public void addToTotal(int points) {
-		this.totalScore += points;
+	public void removePoints(int points) {
+		this.totalScore -= points;
 	}
 	
 	/**
@@ -55,20 +59,9 @@ public class Team {
 		this.totalScore = 0;
 	}
 	
-	public int getScore() {
-		return this.score;
-	}
-	
-	public int getTotalScore() {
-		return this.totalScore;
-	}
-	
-	public ArrayList<Player> getPlayerList() {
-		return this.playerList;
-	}
-	
 	/**
 	 * @author digib
+	 * @param game
 	 * @return boolean
 	 * true if points from current and previous games add up to the winningPoints
 	 */
@@ -81,18 +74,31 @@ public class Team {
 	
 	/**
 	 * @author digib
-	 * adds the points from current game to totalpoints
+	 * adds the score from current game to totalScore
 	 */
 	public void updateTotalPoints() {
 		this.totalScore += this.score;
 	}
 
+	//getters and setters
+	
 	public void setTeamID(int teamID) {
 		this.teamID = teamID;
 	}
 	
 	public int getTeamID() {
 		return this.teamID;
+	}
+	public int getScore() {
+		return this.score;
+	}
+	
+	public int getTotalScore() {
+		return this.totalScore;
+	}
+	
+	public ArrayList<Player> getPlayerList() {
+		return this.playerList;
 	}
 	
 }

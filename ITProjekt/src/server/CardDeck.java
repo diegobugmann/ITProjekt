@@ -19,7 +19,7 @@ public class CardDeck {
 	/**
 	 * @author digib
 	 */
-	public CardDeck(boolean germanCards) {
+	public CardDeck() {
 		cards = new ArrayList<Card>();
 		shuffleCards();
 	}
@@ -42,6 +42,7 @@ public class CardDeck {
 	 * @author digib
 	 * @param ArrayList<Player> players
 	 * deals 9 cards to each player, shuffling first for new Rounds
+	 * if testMode is true, each player gets a predefined hand from the class ValidationTest, for testig purpose
 	 */
     public void dealCards(ArrayList<Player> players) {
     	if (!testMode) {

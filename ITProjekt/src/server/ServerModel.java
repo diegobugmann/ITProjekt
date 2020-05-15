@@ -21,12 +21,12 @@ public class ServerModel {
 	private ArrayList<Commons.Game> castGames = new ArrayList<Commons.Game>();
 	private ServerSocket listener;
 	private volatile boolean stop = false;
-	
 	private int port;
 	
 	/**
 	 * @author digib
 	 * @param port
+	 * starts the server and waits for sockets to connect
 	 */
 	public void startServer(int port) {
 		logger.info("Starting server");
@@ -49,7 +49,7 @@ public class ServerModel {
 				}
 			};
 			Thread thread = new Thread(run, "ServerSocket");
-			thread.start(); //Starten des threads und somit aufrufen von run()
+			thread.start(); //starting of the thread and calling run()
 		} catch (IOException e) {
 			logger.info(e.toString());
 		}
@@ -57,20 +57,20 @@ public class ServerModel {
 	
 	/**
 	 * @author digib
-	 * @param Message
+	 * @param msg
 	 * broadcast messages to all users
 	 */
 	public void broadcast(Message msg) {
 		logger.info("Broadcasting to all clients ("+msg.toString()+")");
 		for (User u : users) {
-			msg.send(u.getSocket()); //Methode, um Msg zu versenden
+			msg.send(u.getSocket());
 		}
 	}
 	
 	/**
 	 * @author digib
-	 * @param players, Message
-	 * broadcast messages to only certain users
+	 * @param players, msg
+	 * broadcast messages to only certain users (used for users playing a game)
 	 */
 	public void broadcast(ArrayList<Player> players, Message msg) {
 		logger.info("Broadcasting to all clients in corresponding game ("+msg.toString()+")");
@@ -81,6 +81,7 @@ public class ServerModel {
 	
 	/**
 	 * @author digib
+	 * closes all sockets and shuts down the server
 	 */
 	public void stopServer() {
 		logger.info("Stopping all clients");
@@ -102,20 +103,13 @@ public class ServerModel {
 		}
 	}
 	
+	/**
+	 * @author digib
+	 * @param user
+	 * removes a user from the userslist
+	 */
 	public void removeUser(User u) {
 		users.remove(u);
-	}
-	
-	public ArrayList<User> getUsers() {
-		return users;
-	}
-
-	public ObservableList<Game> getGames() {
-		return games;
-	}
-	
-	public ArrayList<Commons.Game> getCastedGames() {
-		return castGames;
 	}
 	
 	/**
@@ -141,6 +135,20 @@ public class ServerModel {
 				return;
 			}
 		}
+	}
+	
+	//getters and setters
+	
+	public ArrayList<User> getUsers() {
+		return users;
+	}
+
+	public ObservableList<Game> getGames() {
+		return games;
+	}
+	
+	public ArrayList<Commons.Game> getCastedGames() {
+		return castGames;
 	}
 	
 }

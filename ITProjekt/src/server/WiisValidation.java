@@ -16,7 +16,8 @@ public class WiisValidation {
 	
 	/**
 	 * @author digib
-	 * @return ArrayList<Wiis> containing ALL possible Wiis objects for players hand (regarding BIG-Wiis)
+	 * @param hand
+	 * @return ArrayList<Wiis> containing ALL possible Wiis objects from players hand
 	 */
 	public static ArrayList<Wiis> validateWiis(ArrayList<Card> hand) {
 		ArrayList<Wiis> wiis = new ArrayList<Wiis>();
@@ -100,6 +101,7 @@ public class WiisValidation {
 
 	/**
 	 * @author digib
+	 * @param hand
 	 * @return Wiis
 	 * vierlinge as a Wiis-object or null if no vierlinge are found
 	 */
@@ -110,7 +112,6 @@ public class WiisValidation {
 			for (Card c : hand) {
 				if (c.getRank() == r) {
 					counter++;
-					//allenfalls remove, um weniger zu durchsuchen?
 					if (counter == 4) {
 						if (r == Rank.Nine) return new Wiis(Blatt.vierNeuner, c);
 						else if (r == Rank.Jack) return new Wiis(Blatt.vierBauern, c);
@@ -124,9 +125,9 @@ public class WiisValidation {
 	
 	/**
 	 * @author digib
+	 * @param hand
 	 * @return Wiis
-	 * returns the longest possible blatt, if multiple blatt from same length:
-	 * returns the most right one in the hand
+	 * returns the longest possible blatt, if multiple blatt from same length: returns the most right one in the hand or null if no blatt is found
 	 */
 	private static Wiis isBlatt(ArrayList<Card> hand) {
 		for (int diff = hand.size()-1; diff >= 2; diff--) {
@@ -145,6 +146,7 @@ public class WiisValidation {
 	
 	/**
 	 * @author digib
+	 * @param wiis, handCopy
 	 * removes all the cards corresponding to wiis from the hand
 	 */
 	private static void removeBlatt(Wiis wiis, ArrayList<Card> handCopy) {
@@ -158,6 +160,7 @@ public class WiisValidation {
 	
 	/**
 	 * @author digib
+	 * @param wiis, handCopy
 	 * @return ArrayList<Card>
 	 * removes all the cards corresponding to wiis from the hand in order to search for more wiis of the same type
 	 */
@@ -171,16 +174,7 @@ public class WiisValidation {
 	
 	/**
 	 * @author digib
-	 * adds the vierlinge back to the hand
-	 */
-	private static void addVierlinge(ArrayList<Card> handCopy, ArrayList<Card> vierlinge) {
-		for (Card c : vierlinge) {
-			handCopy.add(c);
-		}
-	}
-	
-	/**
-	 * @author digib
+	 * @param players, gameType
 	 * @return Player with the highest Wiis
 	 * compares all different Wiis-Objects from the players and validates the highest one, considering all special cases
 	 */
@@ -210,7 +204,7 @@ public class WiisValidation {
 									if (w.getHighestCard().getSuit() == trumpf) { //does one have the wiis in trumpf suit?
 										highestWiis = w;
 										winningPlayer = p;
-									} else if (highestWiis.getHighestCard().getSuit() != trumpf) {
+									} else if (highestWiis.getHighestCard().getSuit() != trumpf) { //same blatt, both no trump suit: forehand wins
 										if (p.getBeginningOrder() < winningPlayer.getBeginningOrder()) {
 											highestWiis = w;
 											winningPlayer = p;
@@ -224,8 +218,7 @@ public class WiisValidation {
 								}
 							}
 						} else {
-							//same points but not same blatt: lower ordinal is stronger 
-							//(according to rules and how we organized blatt-Enum)
+							//same points but not same blatt: lower ordinal is stronger (according to rules and how we organized blatt-enum)
 							if (w.getBlatt().ordinal() < highestWiis.getBlatt().ordinal()) {
 								highestWiis = w;
 								winningPlayer = p;

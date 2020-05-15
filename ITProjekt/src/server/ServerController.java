@@ -3,10 +3,7 @@ package server;
 import java.util.ArrayList;
 
 import Commons.Message;
-import Commons.Message_GameList;
-import Commons.Message_Hand;
 import Commons.Message_Players;
-import Commons.Message_Trumpf;
 import Commons.Simple_Message;
 import javafx.collections.ListChangeListener;
 
@@ -70,7 +67,6 @@ public class ServerController {
 				msgOut = new Message_Players(playersInOrder);
 				model.broadcast(players, msgOut);
 				g.dealCards();
-				//TODO broadcast GameList? gem. Diagramm, um zu zeigen, dass das Spiel am laufen ist
 				if (g.isSchieber())
 					g.setUpSchieber();
 				else

@@ -11,7 +11,6 @@ import Commons.Message_Trumpf;
 import Commons.Message_Wiis;
 import Commons.Message_YourTurn;
 import Commons.Simple_Message;
-import Commons.Simple_Message.Msg;
 import Commons.Wiis;
 import javafx.beans.property.SimpleIntegerProperty;
 
@@ -39,7 +38,7 @@ public class Game extends Commons.Game {
 	 */
 	public Game(boolean isGermanCards, int rounds, int winningPoints, boolean isSchieber) {
 		super(isGermanCards, rounds, winningPoints, isSchieber, nextID++);
-		this.deck = new CardDeck(isGermanCards);
+		this.deck = new CardDeck();
 		plays = new ArrayList<Play>();
 		
 		//create 2 teams for schieber and 4 teams for differenzler
@@ -60,6 +59,7 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
+	 * @param Player
 	 * @return int teamIndex (-1 if failed)
 	 * adds a player to the next possible spot and increases the numOfPlayers
 	 */
@@ -89,7 +89,7 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
-	 * removes all Players from a game (in case a game gets cancelled)
+	 * removes all Players from a game
 	 */
 	public void removeAllPlayers() {
 		for (Team t : teams)
@@ -99,6 +99,7 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
+	 * @param Player
 	 * removes a certain Player from a game (in case a game is left during loading screen)
 	 */
 	public void removePlayer(Player p) {
@@ -158,7 +159,7 @@ public class Game extends Commons.Game {
 			return null;
 		else if (onlyOneTeamHasWiis) //The only wiising team wins the Wiis-battle
 			return players.get(0).getCurrentTeam();
-		else {
+		else { //only if different teams want to wiis, compare who has the strongest one.
 			Player winner = WiisValidation.validateWiisWinner(players, trumpf);
 			Team winningTeam = winner.getCurrentTeam();
 			return winningTeam;
@@ -167,7 +168,8 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
-	 * adds points according to the gameMode to the team (used for Stich (including the last one) and Match)
+	 * @param points, team
+	 * adds points according to the gameMode to the teams currentPoints (used for Stich (including the last one) and Match)
 	 */
 	public void addPoints(int points, Team team) {
 		if (!isSchieber()) //differenzler has no multiplication depending on trumpf
@@ -183,22 +185,20 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
-	 * adds points according to the gameMode to the team (used for Wiis and Stöck)
+	 * @param points, team
+	 * adds points according to the gameMode to the teams totalPoints (used for Wiis and Stöck)
 	 */
 	public void addPointsToTotal(int points, Team team) {
-		if (!isSchieber()) //differenzler has no multiplication depending on trumpf
-			team.addToTotal(points);
-		else {
-			if (trumpf == GameType.TopsDown || trumpf == GameType.BottomsUp) 
-				points *= 3;
-			else if (trumpf == GameType.BellsOrClubs || trumpf == GameType.ShieldsOrSpades) 
-				points *= 2;
-			team.addToTotal(points);
-		}
+		if (trumpf == GameType.TopsDown || trumpf == GameType.BottomsUp) 
+			points *= 3;
+		else if (trumpf == GameType.BellsOrClubs || trumpf == GameType.ShieldsOrSpades) 
+			points *= 2;
+		team.addToTotal(points);
 	}
 	
 	/**
 	 * @author digib
+	 * @param points, team
 	 * removes points according to the gameMode from the team (used only for stoeck during schieber, if cannot be wiised at start)
 	 */
 	public void removePointsFromTotal(int points, Team team) {
@@ -290,7 +290,7 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
-	 * @return ArrayList<Player> (all Players from all teams)
+	 * @return ArrayList<Player> (all Players from all teams, no specific order)
 	 */
 	public ArrayList<Player> getPlayers() {
 		ArrayList<Player> players = new ArrayList<Player>();
@@ -308,7 +308,6 @@ public class Game extends Commons.Game {
 	public void dealCards() {
 		Message msgOut = null;
 		ArrayList<Player> players = getPlayers();
-		//TODO broadcast GameList? gem. Diagramm
 		this.deck.dealCards(players);
 		for (Player p : players) {
 			p.organizeHand();
@@ -373,7 +372,7 @@ public class Game extends Commons.Game {
 	 * @author digib
 	 * @return boolean
 	 * checks if game is over; if so, sets the winning team and returns false (only possible for differenzler)
-	 * if not, prepares new game and returns true
+	 * if not, prepares new game (resetting Wiis and Score, setting new startingPlayer, deal cards etc.) and returns true
 	 */
 	public boolean prepareNewGameIfNeeded() {
 		if (!isSchieber()) {
@@ -410,7 +409,7 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
-	 * @return boolean
+	 * @return boolean (if a team has scored a match)
 	 */
 	public boolean isMatch() {
 		for (int i = 1; i < plays.size(); i++) {
@@ -430,6 +429,7 @@ public class Game extends Commons.Game {
 	
 	/**
 	 * @author digib
+	 * increases the nunOfRoundsPlayed (only for differenzler)
 	 */
 	public void increaseNumOfRoundsPlayed() {
 		this.numOfRoundsPlayed++;
@@ -442,6 +442,8 @@ public class Game extends Commons.Game {
 	public void setNextStartingPlayer() {
 		this.startingPlayer = startingPlayer.getFollowingPlayer();
 	}
+	
+	//getters and setters
 	
 	public SimpleIntegerProperty getNumOfPlayersAsProperty() {
 		return numOfPlayers;
