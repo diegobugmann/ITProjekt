@@ -37,6 +37,7 @@ public class CardArea extends VBox {
         	Button cardBtn = new CardButton();
             Region spacer = new Region();
             spacer.setPrefWidth(10);
+            spacer.setPrefHeight(165);
             hboxCards.getChildren().add(cardBtn);
             hboxCards.getChildren().add(spacer);
             cardButtons.add(i, cardBtn);

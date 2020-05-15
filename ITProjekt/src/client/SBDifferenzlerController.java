@@ -2,6 +2,7 @@ package client;
 
 import java.util.ArrayList;
 import javafx.scene.Scene;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -22,12 +23,13 @@ public class SBDifferenzlerController {
 		this.view = new ScoreboardDifferenzlerView();
 		
 		Scene scene = new Scene(view);
+		scene.setFill(Color.TRANSPARENT);
 		stage2 = new Stage();
 		
 		stage2.setScene(scene);
 		stage2.setHeight(300);
 		stage2.setWidth(600);
-		stage2.initStyle(StageStyle.UNDECORATED);
+		stage2.initStyle(StageStyle.TRANSPARENT);
 		stage2.initModality(Modality.APPLICATION_MODAL);
         stage2.initOwner(stage);
 		

@@ -13,6 +13,7 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.Toggle;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -23,7 +24,7 @@ public class ClientController {
 	protected ClientModel model;
 	protected ClientView view;
 	protected CreateNewUserController createNewUserController;
-	protected int numOfRounds = 1;
+	protected int numOfRounds = 5; //is default in the spinner
 	protected InfoViewController infoViewController;
 	protected SBDifferenzlerController sbdController;
 	protected WaitingScreen_Preloader splashScreen;
@@ -229,11 +230,12 @@ public class ClientController {
 		NewGameView newGameView = new NewGameView();
 		
 		Scene scene2 = new Scene(newGameView);
+		scene2.setFill(Color.TRANSPARENT);
 		Stage stage2 = new Stage();
 		stage2.setScene(scene2);
 		stage2.setHeight(300);
 		stage2.setWidth(300);
-		stage2.initStyle(StageStyle.UNDECORATED);
+		stage2.initStyle(StageStyle.TRANSPARENT);
 		stage2.initModality(Modality.APPLICATION_MODAL); /* *** */
 		stage2.initOwner(stage);
 		stage2.show();
@@ -365,11 +367,12 @@ public class ClientController {
 		cardStyleView.setSelectedStyle(cardStyle);
 		
 		Scene scene2 = new Scene(cardStyleView);
+		scene2.setFill(Color.TRANSPARENT);
 		Stage stage2 = new Stage();
 		stage2.setScene(scene2);
 		stage2.setHeight(300);
 		stage2.setWidth(300);
-		stage2.initStyle(StageStyle.UNDECORATED);
+		stage2.initStyle(StageStyle.TRANSPARENT);
 		stage2.initModality(Modality.APPLICATION_MODAL);
         stage2.initOwner(stage);
 		stage2.show();
@@ -406,6 +409,7 @@ public class ClientController {
 		RuleView ruleView = new RuleView();
 	
 		Scene scene2 = new Scene(ruleView);
+		scene2.setFill(Color.TRANSPARENT);
 		Stage stage2 = new Stage();
 		stage2.setScene(scene2);
 		stage2.setHeight(700);
@@ -529,9 +533,10 @@ public class ClientController {
 		Stage stage2 = new Stage();
 		
 		stage2.setScene(scene2);
+		scene2.setFill(Color.TRANSPARENT);
 		stage2.setHeight(300);
 		stage2.setWidth(300);
-		stage2.initStyle(StageStyle.UNDECORATED);
+		stage2.initStyle(StageStyle.TRANSPARENT);
 		stage2.initModality(Modality.APPLICATION_MODAL);
 		stage2.initOwner(stage);
 		stage2.show();
@@ -631,11 +636,12 @@ public class ClientController {
 		AnsagePointsView ansagePointsView = new AnsagePointsView();
 		ansagePointsView.userNamelbl.setText("Spieler: "+model.user);
 		Scene scene2 = new Scene(ansagePointsView);
+		scene2.setFill(Color.TRANSPARENT);
 		Stage stage2 = new Stage();
 		stage2.setScene(scene2);
 		stage2.setHeight(300);
 		stage2.setWidth(300);
-		stage2.initStyle(StageStyle.UNDECORATED);
+		stage2.initStyle(StageStyle.TRANSPARENT);
 		stage2.initModality(Modality.APPLICATION_MODAL);
 		stage2.initOwner(stage);
 		stage2.show();
@@ -679,12 +685,13 @@ public class ClientController {
 		SelectWiisView selectWiisView = new SelectWiisView(wiisArray, ClientModel.cardStyle);
 		selectWiisView.userlbl.setText(model.user);
 		Scene scene2 = new Scene(selectWiisView);
+		scene2.setFill(Color.TRANSPARENT);
 		Stage stage2 = new Stage();
 		
 		stage2.setScene(scene2);
 		stage2.setHeight(300);
 		stage2.setWidth(300);
-		stage2.initStyle(StageStyle.UNDECORATED);
+		stage2.initStyle(StageStyle.TRANSPARENT);
 		stage2.initModality(Modality.APPLICATION_MODAL); /* *** */
         stage2.initOwner(stage);
 		stage2.show();

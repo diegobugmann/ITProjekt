@@ -34,7 +34,7 @@ public class SelectWiisView extends VBox {
 		userlbl = new Label("");
 		
 		checkVBox = new VBox(10);
-		checkVBox.setPadding(new Insets(0,0,0,50));
+		checkVBox.setPadding(new Insets(3,3,3,50));
 		for(Wiis w : wiisArray) {
 			String text = w.toString();
 			CheckBox b = null;
@@ -50,7 +50,12 @@ public class SelectWiisView extends VBox {
 			b.getStyleClass().add("checkbox");
 			checkBoxes.add(b);
 			checkVBox.getChildren().add(b);
+			
+			Region spacer0 = new Region();
+			spacer0.setPrefHeight(1);
+			checkVBox.getChildren().add(spacer0);
 		}
+		
 		
 		confirmBtn = new Button("Weisen");
 		

@@ -16,7 +16,7 @@ public class CardNameTranslator {
 				break; 
 			}
 			case fuenfblatt :{
-				blattName = "Fuenfblatt";
+				blattName = "Fünfblatt";
 				break; 
 			}
 			case sechsblatt :{
@@ -140,7 +140,7 @@ public class CardNameTranslator {
 				break; 
 			}
 			case King :{
-				rankName = "K�nig";
+				rankName = "König";
 				break; 
 			}
 			case Ace :{
