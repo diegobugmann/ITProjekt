@@ -305,8 +305,6 @@ public class ClientController {
 				model.newGame(isSchieber,isGermanCards,
 						numOfRounds,winningPoints);
 				stage2.close();
-				startSplash();
-				
 				
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
@@ -323,12 +321,21 @@ public class ClientController {
 	private void startSplash() throws Exception {
 		splashScreen = new WaitingScreen_Preloader();
 		view.lobbyView.stage.close();
+		
+		Stage stage2 = new Stage();
+		stage2.setHeight(800);
+		stage2.setWidth(800);
+		stage2.initStyle(StageStyle.TRANSPARENT);
+		stage2.initModality(Modality.APPLICATION_MODAL);
+        stage2.initOwner(stage);
+		
 		soundModule.pauseBackgroundSound();
 		soundModule.playWaitingSound();
-		splashScreen.start(stage);
+		splashScreen.start(stage2);
 		
 		splashScreen.abbruchBtn.setOnAction(event -> {
 			processAbbruch(event);
+			stage2.close();
 		});	
 	
 	}

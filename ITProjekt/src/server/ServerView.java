@@ -48,7 +48,7 @@ public class ServerView {
 		root.getChildren().addAll(controls, ipAdress,localHost);
 		root.getStyleClass().add("root");
 		
-		Scene scene = new Scene(root,310,100);
+		Scene scene = new Scene(root,320,100);
 		scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
 		btnStart.getStyleClass().add("Button");
 		primaryStage.setTitle("Server CodingKittens");
