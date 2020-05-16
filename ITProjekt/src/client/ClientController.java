@@ -327,10 +327,22 @@ public class ClientController {
 		view.lobbyView.stage.close();
 		soundModule.pauseBackgroundSound();
 		soundModule.playWaitingSound();
-		splashScreen.start(stage);
 		
+		splashScreen.start(stage);
+		/**
+		 * Tell Server that User left Game and that user determined Program
+		 * @author mibe1
+		 */
+		stage.setOnCloseRequest(event -> {
+			model.processAbbruch();
+			stage.close();
+			if(model.connection != null && model.connection.isAlive()) {
+				model.closeConnection();
+			}			
+		});
 		splashScreen.abbruchBtn.setOnAction(event -> {
 			processAbbruch(event);
+	
 		});	
 		
 	
