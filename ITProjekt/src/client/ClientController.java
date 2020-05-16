@@ -321,22 +321,16 @@ public class ClientController {
 	private void startSplash() throws Exception {
 		splashScreen = new WaitingScreen_Preloader();
 		view.lobbyView.stage.close();
-		
-		Stage stage2 = new Stage();
-		stage2.setHeight(800);
-		stage2.setWidth(800);
-		stage2.initStyle(StageStyle.TRANSPARENT);
-		stage2.initModality(Modality.APPLICATION_MODAL);
-        stage2.initOwner(stage);
-		
+
 		soundModule.pauseBackgroundSound();
 		soundModule.playWaitingSound();
-		splashScreen.start(stage2);
+		splashScreen.start(stage);
 		
 		splashScreen.abbruchBtn.setOnAction(event -> {
 			processAbbruch(event);
-			stage2.close();
+			stage.close();
 		});	
+		
 	
 	}
 	

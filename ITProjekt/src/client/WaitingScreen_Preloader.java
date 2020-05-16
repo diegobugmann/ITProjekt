@@ -15,6 +15,7 @@ import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.scene.paint.Color;
@@ -69,6 +70,8 @@ public class WaitingScreen_Preloader extends Preloader {
        
         Scene scene = new Scene(root, 200, 200);
         scene.getStylesheets().add(getClass().getResource("CSS/splash.css").toExternalForm());
+		stage.setHeight(800);
+		stage.setWidth(800);
         stage.setScene(scene);
         stage.show();
         
