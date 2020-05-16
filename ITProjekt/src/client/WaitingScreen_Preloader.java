@@ -81,6 +81,7 @@ public class WaitingScreen_Preloader extends Preloader {
         stage.setScene(scene);
         stage.show();
         
+        //https://stackoverflow.com/questions/18173956/how-to-drag-an-undecorated-window-stage-of-javafx
         root.setOnMouseDragged(new EventHandler<MouseEvent>() {
             public void handle(MouseEvent event) {
                 stage.setX(event.getScreenX() + xOffset);
