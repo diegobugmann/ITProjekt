@@ -31,3 +31,7 @@
 .text-field {
     -fx-accent: black ;
 }
+
+.hyperlink {
+	-fx-text-fill: black;
+}
