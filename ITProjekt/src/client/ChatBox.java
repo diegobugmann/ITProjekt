@@ -10,6 +10,7 @@ import javafx.scene.control.TextField;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.Priority;
 import javafx.scene.layout.VBox;
 /**
  * VBox to process Chat messages from other players
@@ -27,10 +28,11 @@ public class ChatBox extends VBox {
 	 */
 	public ChatBox() {
 		super(15);
+		
+		this.getStylesheets().add(getClass().getResource("CSS/chat.css").toExternalForm());
+		
 		centerArea.setEditable(false);
 		centerArea.setWrapText(true);
-		centerArea.setMaxWidth(180);
-		centerArea.setMinWidth(180);
 		
 		//Stackoverflow code to scroll to the Bottom when the Text is changed
 		centerArea.textProperty().addListener(new ChangeListener<Object>() {
@@ -56,6 +58,7 @@ public class ChatBox extends VBox {
 	    });
 		controls.getChildren().addAll(input, send);
 		this.getChildren().addAll(centerArea, controls);
+		this.setVgrow(centerArea, Priority.ALWAYS);
 		this.setPadding(new Insets(10,10,10,10));
 	}
 	
