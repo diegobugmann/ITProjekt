@@ -41,6 +41,7 @@ public class GameMenu extends MenuBar {
 		help.getItems().addAll(regeln, about);
 		
 		
+		this.getStylesheets().add(getClass().getResource("CSS/menu.css").toExternalForm());
 		
 		this.getMenus().addAll(spiel, einstellungen, help);
 		
