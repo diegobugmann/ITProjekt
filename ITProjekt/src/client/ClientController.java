@@ -6,6 +6,7 @@ import Soundmodule.SoundModule;
 import Soundmodule.SoundSettingsView;
 import client.CommunicationThread.Status;
 import javafx.event.Event;
+import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -14,6 +15,7 @@ import javafx.scene.control.Toggle;
 import javafx.scene.image.Image;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -38,6 +40,7 @@ public class ClientController {
 	protected GameView gameView;
 	//Sounds
 	protected SoundModule soundModule;
+	
 	
 	public ClientController(ClientModel model, ClientView view, Stage stage) {
 		this.model = model;
@@ -321,14 +324,23 @@ public class ClientController {
 	private void startSplash() throws Exception {
 		splashScreen = new WaitingScreen_Preloader();
 		view.lobbyView.stage.close();
+		
+		
+		Stage stage2 = new Stage();
+		stage2.setHeight(800);
+		stage2.setWidth(800);
+		stage2.initStyle(StageStyle.TRANSPARENT);
+		stage2.initModality(Modality.APPLICATION_MODAL); /* *** */
+		stage2.initOwner(stage);
+		
 
 		soundModule.pauseBackgroundSound();
 		soundModule.playWaitingSound();
-		splashScreen.start(stage);
+		splashScreen.start(stage2);
 		
 		splashScreen.abbruchBtn.setOnAction(event -> {
 			processAbbruch(event);
-			stage.close();
+			stage2.close();
 		});	
 		
 	

@@ -3,6 +3,7 @@ package client;
 
 
 import javafx.application.Preloader;
+import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -10,6 +11,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -32,6 +34,10 @@ public class WaitingScreen_Preloader extends Preloader {
     protected int anzahlPers;
     protected Button abbruchBtn;
     protected VBox vBox;
+    protected BorderPane root;
+    
+    private static double xOffset = 0;
+    private static double yOffset = 0;
     
 
     @Override
@@ -53,7 +59,7 @@ public class WaitingScreen_Preloader extends Preloader {
         ImageView imv = new ImageView(gif);
        
         
-        BorderPane root = new BorderPane();
+        root = new BorderPane();
         BorderPane.setAlignment(vBox, Pos.BASELINE_CENTER);
         BorderPane.setMargin(vBox, new Insets(0, 0, 50, 0));
         
@@ -70,10 +76,17 @@ public class WaitingScreen_Preloader extends Preloader {
        
         Scene scene = new Scene(root, 200, 200);
         scene.getStylesheets().add(getClass().getResource("CSS/splash.css").toExternalForm());
-		stage.setHeight(800);
-		stage.setWidth(800);
+		//stage.setHeight(800);
+		//stage.setWidth(800);
         stage.setScene(scene);
         stage.show();
+        
+        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
+            public void handle(MouseEvent event) {
+                stage.setX(event.getScreenX() + xOffset);
+                stage.setY(event.getScreenY() + yOffset);
+            }
+        });
         
     }
 
