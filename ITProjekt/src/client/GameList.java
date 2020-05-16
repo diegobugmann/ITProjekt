@@ -57,11 +57,11 @@ public class GameList extends VBox {
 	}
 	
 	protected TableView<DisplayGame> tableView;
-
+	
 	
 	public GameList() {
 		super();
-		
+		this.getStylesheets().add(getClass().getResource("CSS/gameList.css").toExternalForm());
 		TableView<DisplayGame> tableView = createTableView();
 		
 		this.getChildren().add(tableView);
@@ -69,7 +69,7 @@ public class GameList extends VBox {
 	
 	private TableView<DisplayGame> createTableView(){
 		tableView = new TableView<DisplayGame>();
-		
+
 		TableColumn gameId = new TableColumn("Spiel ID");
 		gameId.setCellValueFactory(new PropertyValueFactory<>("gameId"));
 		

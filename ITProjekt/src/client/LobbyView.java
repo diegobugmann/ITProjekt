@@ -84,7 +84,7 @@ public class LobbyView {
 		lobby.setLeft(region2);
 		
 		Scene scene = new Scene(lobby);
-		//scene.getStylesheets().add(getClass().getResource("").toExternalForm());
+		scene.getStylesheets().add(getClass().getResource("CSS/Lobby.css").toExternalForm());
 		
 
 		stage.setFullScreen(false);
