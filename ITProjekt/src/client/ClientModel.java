@@ -40,7 +40,7 @@ public class ClientModel {
             return true;
 
         } catch (Exception e) {
-            e.printStackTrace();
+            //e.printStackTrace();
             return false;
         }
 	}
@@ -83,7 +83,7 @@ public class ClientModel {
 	 * @author mibe1
 	 * Creates a game based on the Inputs form the GUI via controller and sends creation to Server via connection thread
 	 */
-	public void newGame(boolean isSchieber, boolean isGermanCards, int numOfRounds, int winningPoints) {
+	public Boolean newGame(boolean isSchieber, boolean isGermanCards, int numOfRounds, int winningPoints) {
 		if(isSchieber == true) {
 			isGameTypeSchieber = true;
 		}else if(isSchieber == false) {
@@ -94,22 +94,22 @@ public class ClientModel {
 			connection.setStatus(Status.joingamerequested);
 			Message_CreateGame msg = new Message_CreateGame(isSchieber, isGermanCards, numOfRounds, winningPoints);
 			connection.sendMessage(msg);
+			return true;
 		}
 		else
-			System.out.println("Wrong Status");
-		//TODO Errorhandling
+			return false;
 	}
 
-	public void joinGame(int gameId) {
+	public Boolean joinGame(int gameId) {
 		//Only join Game when user is in the correct Status to join a Game
 		if(connection.getStatus() == Status.logedin) {
 			connection.setStatus(Status.joingamerequested);
 			Message_JoinGame msg = new Message_JoinGame(gameId);
 			connection.sendMessage(msg);
+			return true;
 		}
 		else
-			System.out.println("Wrong Status");
-		//TODO Errorhandling
+			return false;
 	}
 	
 	public void disconnect() {
@@ -121,8 +121,11 @@ public class ClientModel {
 		Simple_Message msg = new Simple_Message(Simple_Message.Msg.Get_GameList);
 		connection.sendMessage(msg);
 	}
-	
-	public void sendMessage(String input) {
+	/**
+	 * Sending Chat Message to Server to resend to all Players
+	 * @param input
+	 */
+	public void sendChatMessage(String input) {
 		Message_Chat msg = new Message_Chat(input);
 		connection.sendMessage(msg);
 	}
@@ -203,7 +206,6 @@ public class ClientModel {
 		
 	}
 	
-
 //Getters from connection
 //---------------------------------------------------------------------------------------------
 	public void setCurrentGame(Game g) {
@@ -242,9 +244,4 @@ public class ClientModel {
 		updateGameList();
 		
 	}
-
-	public void closeConnection() {
-		connection.closeConnection();
-	}
-
 }

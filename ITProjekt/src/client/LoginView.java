@@ -1,5 +1,6 @@
 package client;
 
+import javafx.event.EventHandler;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,6 +9,8 @@ import javafx.scene.control.Label;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
@@ -43,10 +46,24 @@ public class LoginView extends VBox{
 		 * @author luca: Ganze View, sarah: cn und newUserLink 
 		 */
 		cnlbl = new Label("IP/Port");
-		cnAddress = new TextField(address);
+		cnAddress = new TextField(address);	            	
 		cnAddress.setMaxWidth(300);
 		cnBtn = new Button("Verbinden");
 		
+		//Send message on Enter from Stackoverflow
+		cnAddress.setOnKeyPressed(new EventHandler<KeyEvent>()
+	    {
+	        @Override
+	        public void handle(KeyEvent ke)
+	        {
+	            if (ke.getCode().equals(KeyCode.ENTER))
+	            {
+	            	cnBtn.fire();
+	            	userName.requestFocus();
+
+	            }
+	        }
+	    });
 		
 		newUserLink = new Hyperlink("Neuen Benutzer erstellen");
 		newUserLink.setDisable(true);
@@ -66,7 +83,6 @@ public class LoginView extends VBox{
 		loginBtn = new Button("Login");
 		loginBtn.setDisable(true);
 		
-		
 		Region region0 = new Region();
 		region0.setPrefHeight(10);
 		
@@ -82,19 +98,23 @@ public class LoginView extends VBox{
 		Region region4 = new Region();
 		region4.setPrefHeight(10);
 		
+		Region region5 = new Region();
+		region5.setPrefHeight(10);
+		
 		Image image = new Image(LobbyView.class.getResourceAsStream("Bilder/Lobby.jpg"));
 		BackgroundSize backSize = new BackgroundSize(800, 800, false, false, false, false);
 		Background background = new Background(new BackgroundImage(image, null, null, BackgroundPosition.CENTER, backSize));
 		
 		this.setBackground(background);
 		
-		this.getChildren().addAll(region0,cnlbl, cnAddress, cnBtn, region1, textlbl, userName, region2, pwlbl, passwordField, region3, loginBtn, newUserLink);
+		this.getChildren().addAll(region0,cnlbl, cnAddress, region5, cnBtn, region1, textlbl, userName, region2, pwlbl, passwordField, region3, loginBtn, newUserLink);
 		
 		this.setAlignment(Pos.CENTER);
 		
 		Scene scene = new Scene(this);
-		/* scene.getStylesheets().add(getClass().getResource("").toExternalForm()); */
-		
+		//CSS Styling-------------------------------------------------------------------------------
+		scene.getStylesheets().add(getClass().getResource("CSS/login.css").toExternalForm());				
+		//----------------------------------------------------------------------------------------
 		stage.setFullScreen(false);
 		
 		stage.setHeight(800);
@@ -165,8 +185,5 @@ public class LoginView extends VBox{
 		this.newUserLink.setDisable(true);
 		this.cnAddress.setDisable(false);
 	}
-	
-	
-	
 
 }

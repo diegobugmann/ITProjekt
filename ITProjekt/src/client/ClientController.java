@@ -126,10 +126,7 @@ public class ClientController {
 			view.loginView.toggleCnBtn();
 		}else {
 			view.loginView.deactivateLoginFields();
-
-			/*TODO mach no schoene
-			Alert
-			*/			
+			this.showAlert("Verbindung fehlgeschlagen", "Die Verbindung zum Server ist fehlgeschlagen");		
 		}
 	}
 	
@@ -210,11 +207,15 @@ public class ClientController {
 		Game g = this.view.lobbyView.gameList.getSelectedGame();
 		model.setCurrentGame(g);
 		int gameId = g.getGameId();
-		model.joinGame(gameId);
-		if(this.view.lobbyView.gameList.getSelectedGame().isSchieber()== true) {
-			model.isGameTypeSchieber=true;
-		}else if(this.view.lobbyView.gameList.getSelectedGame().isSchieber()== false) {
-			model.isGameTypeSchieber=false;
+		if(model.joinGame(gameId)) {
+			if(this.view.lobbyView.gameList.getSelectedGame().isSchieber()== true) {
+				model.isGameTypeSchieber=true;
+			}else if(this.view.lobbyView.gameList.getSelectedGame().isSchieber()== false) {
+				model.isGameTypeSchieber=false;
+			}
+		}
+		else {
+			this.showAlert("Fehler: Falscher Stauts", "Sie können keinem weiteren Spiel beitreten, da Sie sich bereits in einem Spiel befinden");
 		}
 	}
 	
@@ -305,10 +306,13 @@ public class ClientController {
 				}
 				
 				
-				model.newGame(isSchieber,isGermanCards,
-						numOfRounds,winningPoints);
-				stage2.close();
-				startSplash();
+				if(model.newGame(isSchieber,isGermanCards,numOfRounds,winningPoints)) {
+					stage2.close();
+					startSplash();
+				}
+				else {
+					this.showAlert("Fehler: Falscher Stauts", "Sie können im Moment kein neues Spiel erstelle, da Sie sich bereits in einem Spiel befinden");
+				}
 				
 			} catch (Exception e1) {
 				// TODO Auto-generated catch block
@@ -337,7 +341,7 @@ public class ClientController {
 			model.processAbbruch();
 			stage.close();
 			if(model.connection != null && model.connection.isAlive()) {
-				model.closeConnection();
+				model.disconnect();
 			}			
 		});
 		splashScreen.abbruchBtn.setOnAction(event -> {
@@ -371,7 +375,7 @@ public class ClientController {
 	public void processExit(Event event, Stage stage) {	
 		stage.close();
 			if(model.connection != null && model.connection.isAlive()) {
-				model.closeConnection();
+				model.disconnect();
 			}	
 	}
 	
@@ -512,7 +516,7 @@ public class ClientController {
 			});
 			view.gameView.chatBox.getSend().setOnAction(event ->{
 				if(view.gameView.chatBox.getInput().getText() != "") {
-					model.sendMessage(view.gameView.chatBox.getInput().getText());
+					model.sendChatMessage(view.gameView.chatBox.getInput().getText());
 					view.gameView.chatBox.getInput().setText("");
 				}
 			});

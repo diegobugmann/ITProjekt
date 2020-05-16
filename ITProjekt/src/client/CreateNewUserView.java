@@ -81,7 +81,9 @@ public class CreateNewUserView extends VBox{
 		this.setAlignment(Pos.CENTER);
 		
 		Scene scene = new Scene(this);
-		/* scene.getStylesheets().add(getClass().getResource("").toExternalForm()); */
+		//CSS Styling-------------------------------------------------------------------------------
+		scene.getStylesheets().add(getClass().getResource("CSS/login.css").toExternalForm());				
+		//----------------------------------------------------------------------------------------
 		
 		stage.setFullScreen(false);
 		
