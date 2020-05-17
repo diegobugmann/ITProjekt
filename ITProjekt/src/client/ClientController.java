@@ -244,6 +244,7 @@ public class ClientController {
 		stage2.initStyle(StageStyle.TRANSPARENT);
 		stage2.initModality(Modality.APPLICATION_MODAL); /* *** */
 		stage2.initOwner(stage);
+		stage2.getIcons().add(new Image(ClientView.class.getResourceAsStream("Bilder/icon.png")));
 		stage2.show();
 		
 		newGameView.rbSchieber.armedProperty().addListener((observable, 
