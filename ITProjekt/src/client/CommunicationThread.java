@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import Commons.*;
+import Commons.Message_Error.ErrorType;
 import javafx.application.Platform;
 /**
  * 
@@ -314,6 +315,11 @@ public class CommunicationThread extends Thread{
 			case error : {
 				Message_Error msgError = (Message_Error) msgIn;
 				controller.showAlert(msgError.getType().toString(), msgError.getErrorMessage());
+				if(msgError.getType() == ErrorType.serverDisconnected) {
+					this.closeConnection();
+					controller.stage.close();
+					
+				}
 				break;
 			}
 		}
