@@ -64,9 +64,7 @@ public class User {
 	 * processes the message from the client and decides what to do for each type, including Simple_Messages
 	 */
 	protected void processMessage(Message msgIn) {
-		if (!(MessageType.getType(msgIn) == MessageType.simple_Message && 
-			((Simple_Message)msgIn).getType() == Simple_Message.Msg.Received)) //do not log received-Messages
-			logger.info("Message received from client: "+ msgIn.toString());
+		logger.info("Message received from client: "+ msgIn.toString());
 		Message msgOut = null;
 		Player p = (Player) this; //downcasting
 		switch (MessageType.getType(msgIn)) {
@@ -407,9 +405,6 @@ public class User {
 		//-------------------------------------------------------------------------------------------------------
 		case simple_Message : {
 			switch(((Simple_Message)msgIn).getType()) {
-			case Received: {
-				break;
-			}
 			case Get_GameList: {
 				msgOut = new Message_GameList(model.getCastedGames());
 				this.sendMessage(msgOut);
@@ -439,16 +434,6 @@ public class User {
 		}
 		}
 	}
-	
-	/**
-	 * @author digib
-	 * sends a received Message
-	 */
-	public void sendReceived() {
-		Simple_Message msg = new Simple_Message(Simple_Message.Msg.Received);
-		msg.send(clientSocket);
-	}
-	
 	/**
 	 * @author digib
 	 * @param msg

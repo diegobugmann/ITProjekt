@@ -15,8 +15,6 @@ public class Simple_Message extends Message{
 	public enum Msg{
 		//Quited with a received message it checks the possibilty to send messages between server and client
 		CheckConnection,
-		//Most used message quits a receive of any massage
-		Received,
 		//Server to clients start of the Game
 		Game_Start,
 		//Server to client waits for client to reutrn Message ansage Points
