@@ -70,22 +70,29 @@ public class User {
 		Message msgOut = null;
 		Player p = (Player) this; //downcasting
 		switch (MessageType.getType(msgIn)) {
-		
 		case login : {
-			ArrayList<String> userNames = new ArrayList<>();
-			for(User user : model.getUsers()) {
-				userNames.add(user.getName());
+			try {
+				UserData ud = new UserData(); 
+				ArrayList<String> userNames = new ArrayList<>();
+				for(User user : model.getUsers()) {
+					userNames.add(user.getName());
+				}
+				
+				if(ud.check(((Message_Login)msgIn).getLoginName(), ((Message_Login)msgIn).getPassword()) && !userNames.contains(((Message_Login)msgIn).getLoginName())){
+					this.setName(((Message_Login)msgIn).getLoginName());
+					msgOut = new Simple_Message(Simple_Message.Msg.Login_accepted);
+					this.sendMessage(msgOut);
+					Message gameUpdate = new Message_GameList(model.getCastedGames());
+					this.sendMessage(gameUpdate);
+				}
+				else {
+					msgOut = new Message_Error("Anmeldung fehlgeschlagen", Message_Error.ErrorType.logginfailed);
+					this.sendMessage(msgOut);
+				}
 			}
-			UserData ud = new UserData(); 
-			if(ud.check(((Message_Login)msgIn).getLoginName(), ((Message_Login)msgIn).getPassword()) && !userNames.contains(((Message_Login)msgIn).getLoginName())){
-				this.setName(((Message_Login)msgIn).getLoginName());
-				msgOut = new Simple_Message(Simple_Message.Msg.Login_accepted);
-				this.sendMessage(msgOut);
-				Message gameUpdate = new Message_GameList(model.getCastedGames());
-				this.sendMessage(gameUpdate);
-			}
-			else {
-				msgOut = new Message_Error("Anmeldung fehlgeschlagen", Message_Error.ErrorType.logginfailed);
+			//Catach Error when Database is not acessiable and tell client
+			catch(java.lang.NullPointerException e) {
+				msgOut = new Message_Error("Server is not connected to the Database please contact your system adminstrator", ErrorType.logginfailed);
 				this.sendMessage(msgOut);
 			}
 			break;
