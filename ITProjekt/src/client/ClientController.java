@@ -6,7 +6,6 @@ import Soundmodule.SoundModule;
 import Soundmodule.SoundSettingsView;
 import client.CommunicationThread.Status;
 import javafx.event.Event;
-import javafx.event.EventHandler;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Button;
@@ -15,7 +14,6 @@ import javafx.scene.control.Toggle;
 import javafx.scene.image.Image;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.input.KeyCode;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -27,7 +25,7 @@ public class ClientController {
 	protected ClientModel model;
 	protected ClientView view;
 	protected CreateNewUserController createNewUserController;
-	protected int numOfRounds = 5; //is default in the spinner
+	protected int numOfRounds = 5; //is initValue in the spinner
 	protected InfoViewController infoViewController;
 	protected SBDifferenzlerController sbdController;
 	protected WaitingScreen_Preloader splashScreen;
@@ -36,7 +34,7 @@ public class ClientController {
 	protected String actualTrumpf;
 	protected ArrayList<Wiis> wiisReturn;
 	protected Wiis wiisNew;
-	protected int ansagePoints = 0;
+	protected int ansagePoints = 75; //is intiValue in the spinner
 	protected GameView gameView;
 	//Sounds
 	protected SoundModule soundModule;
@@ -195,7 +193,6 @@ public class ClientController {
 			try {
 				joinGame(event);
 				
-				
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -333,6 +330,7 @@ public class ClientController {
 		soundModule.playWaitingSound();
 		
 		splashScreen.start(stage);
+		
 		/**
 		 * Tell Server that User left Game and that user determined Program
 		 * @author mibe1

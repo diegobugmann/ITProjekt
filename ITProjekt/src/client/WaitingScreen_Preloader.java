@@ -3,7 +3,6 @@ package client;
 
 
 import javafx.application.Preloader;
-import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -11,15 +10,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 import javafx.scene.paint.Color;
 
 /**
@@ -34,10 +30,6 @@ public class WaitingScreen_Preloader extends Preloader {
     protected int anzahlPers;
     protected Button abbruchBtn;
     protected VBox vBox;
-    
-    private static double xOffset = 0;
-    private static double yOffset = 0;
-    
 
     @Override
     public void start(Stage splashStage) throws Exception {
@@ -78,15 +70,6 @@ public class WaitingScreen_Preloader extends Preloader {
         stage.setScene(scene);
         stage.show();
         
-        /**
-        //https://stackoverflow.com/questions/18173956/how-to-drag-an-undecorated-window-stage-of-javafx
-        root.setOnMouseDragged(new EventHandler<MouseEvent>() {
-            public void handle(MouseEvent event) {
-                stage.setX(event.getScreenX() + xOffset);
-                stage.setY(event.getScreenY() + yOffset);
-            }
-        });
-        */
     }
 
 	public void setMissingPers(int anzahlPers) {

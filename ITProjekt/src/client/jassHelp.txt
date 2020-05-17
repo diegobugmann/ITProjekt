@@ -15,32 +15,32 @@ Die Rangfolge innerhalb der Nebenfarben sowie die Punktwerte gelten gemäss der 
 Eine höhere Karte sticht eine tiefere Karte.
 
 Werte für nicht-Trumpfkarten 					Werte beim Trumpf
-Karte			Punkte						Karte			Punkte
-As				11							As				11
-König 			4							König			4
+Karte				Punkte						Karte				Punkte
+As					11							As					11
+König 				4							König				4
 Ober/Dame 		3							Ober/Dame		3
-Under/Bube 		2							Puur			20		
-Banner/Zehn 	10							Banner/Zehn		10
-Neun			-							Nell			14	
-Acht 			-							Acht			-
-Sieben 			-							Sieben			-
-Sechs			-							Sechs			-
+Under/Bube 		2							Puur				20		
+Banner/Zehn 		10							Banner/Zehn		10
+Neun				-							Nell					14	
+Acht 				-							Acht				-
+Sieben 				-							Sieben				-
+Sechs				-							Sechs				-
 
 Obenabe und Undenufe
 Beim Obenabe und Undenufe gibt es keine Trumpffarbe. Die Rangfolge sowie die Punktwerte gelten gemäss der untenstehenden Tabelle. 
 Beim Obenabe ist das Ass die höchste Stechkarte, beim Undenufe hingegen die 6. 
 
 Werte beim Undenufe							Werte beim Obenabe
-Karte			Punkte						Karte			Punkte
-As				-							As				11
-König 			4							König			4
+Karte			Punkte							Karte				Punkte
+As					-							As					11
+König 				4							König				4
 Ober/Dame 		3							Ober/Dame		3
 Under/Bube 		2							Under/Bube		2
-Banner/Zehn 	10							Banner/Zehn		10
-Neun			-							Neun			-
-Acht 			8							Acht			8
-Sieben 			-							Sieben			-
-Sechs			11							Sechs			-
+Banner/Zehn 		10							Banner/Zehn		10
+Neun				-							Neun				-
+Acht 				8							Acht				8
+Sieben 				-							Sieben				-
+Sechs				11							Sechs				-
 
 Stich
 Man jasst bzw. spielt die Karten immer gegen den Uhrzeigersinn. 
