@@ -7,6 +7,8 @@ import java.util.ArrayList;
 import java.util.logging.Logger;
 
 import Commons.Message;
+import Commons.Message_Error;
+import Commons.Message_Error.ErrorType;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 
@@ -87,6 +89,8 @@ public class ServerModel {
 		logger.info("Stopping all clients");
 		for (User u : users) {
 			try {
+				Message_Error errorMsg = new Message_Error("Server disconnected", ErrorType.serverDisconnected);
+				u.sendMessage(errorMsg);
 				u.getSocket().close();
 			} catch (IOException e1) {
 				logger.info(e1.toString());
@@ -98,7 +102,7 @@ public class ServerModel {
 			try {
 				listener.close();
 			} catch (IOException e) {
-				logger.info("Server successfully closed");
+				logger.info(e.toString());
 			}
 		}
 	}
