@@ -29,6 +29,7 @@ public class SBDifferenzlerPlayerView extends HBox {
 		this.playerName = new Label();
 		this.playerName.setBorder(new Border(borderStroke));
 		this.playerName.setMinWidth(150);
+		this.playerName.setStyle("-fx-padding: 0 0 0 5;");
 		this.angesagtePoints = new Label();
 		this.angesagtePoints.setBorder(new Border(borderStroke));
 		this.angesagtePoints.setMinWidth(60);

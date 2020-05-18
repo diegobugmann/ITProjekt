@@ -1,0 +1,39 @@
+.root { 
+	-fx-focus-color: transparent;
+	-fx-padding: 5 15 15 15;
+}
+/*Code for Buttons from  https://drive.google.com/drive/folders/0B_nK3WmoczMgb01hRHRrb0FDYU0*/
+.button {
+	   -fx-background-color:
+            rgba(0,0,0,0.08),
+            linear-gradient(#9a9a9a, #909090),
+            linear-gradient(white 0%, #f3f3f3 50%, #ececec 51%, #f2f2f2 100%);
+    -fx-background-insets: 0 0 -1 0,0,1;
+    -fx-background-radius: 5,5,4;
+    -fx-padding: 3 30 3 30;
+    -fx-text-fill: #242d35;
+    -fx-max-width: 150px;
+}
+.button:hover {
+	    -fx-background-color:
+            linear-gradient(#f2f2f2, #d6d6d6),
+            linear-gradient(#fcfcfc 0%, #d9d9d9 20%, #d6d6d6 100%),
+            linear-gradient(#dddddd 0%, #f6f6f6 50%);
+    -fx-background-radius: 8,7,6;
+    -fx-background-insets: 0,1,2;
+    -fx-text-fill: black;
+    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
+}
+
+.row {
+	-fx-max-width: 300px;
+}
+
+.titlelable {
+	-fx-font-weight: bold;
+}
+.title {
+	-fx-font-weight: bold;
+	-fx-font-size: 15pt;
+	-fx-underline: true;
+}

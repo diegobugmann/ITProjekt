@@ -33,8 +33,10 @@ public class SBDifferenzlerController {
 		stage2 = new Stage();
 		
 		stage2.setScene(scene);
-		stage2.setHeight(300);
-		stage2.setWidth(600);
+		stage2.setMaxHeight(350);
+		stage2.setMaxWidth(400);
+		stage2.setMinHeight(350);
+		stage2.setMinWidth(400);
 		stage2.initStyle(StageStyle.TRANSPARENT);
 		stage2.initModality(Modality.APPLICATION_MODAL);
         stage2.initOwner(stage);

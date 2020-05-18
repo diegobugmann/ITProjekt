@@ -36,17 +36,15 @@ public class ScoreboardDifferenzlerView extends VBox{
 	protected Button playbtn;
 	
 	public ScoreboardDifferenzlerView() {
-		super();
+		super();	
 		this.titellbl = new Label("Punktestand");
-		this.roundslbl = new Label();
-		this.header = new HBox();
 		Region spacer1 = new Region();
-		spacer1.setPrefWidth(300);
-		this.header.getChildren().addAll(titellbl, spacer1, roundslbl);
+		spacer1.prefHeight(15);
 		BorderStroke borderStroke = new BorderStroke(Color.BLACK,BorderStrokeStyle.SOLID, null, new BorderWidths(1));
 		this.playernameslbl = new Label("Spieler");
 		this.playernameslbl.setBorder(new Border(borderStroke));
 		this.playernameslbl.setMinWidth(150);
+		this.playernameslbl.setStyle("-fx-padding: 0 0 0 5;");
 		this.angesagtlbl = new Label("Angesagt");
 		this.angesagtlbl.setBorder(new Border(borderStroke));
 		this.angesagtlbl.setMinWidth(60);
@@ -69,10 +67,31 @@ public class ScoreboardDifferenzlerView extends VBox{
 		this.player2 = new SBDifferenzlerPlayerView();
 		this.player3 = new SBDifferenzlerPlayerView();
 		this.player4 = new SBDifferenzlerPlayerView();
+		Region spacer = new Region();
+		spacer.setPrefHeight(15);
 		this.playbtn = new Button("Schliessen");
-		this.footer = new HBox();
-		this.footer.getChildren().add(playbtn);
-		this.getChildren().addAll(header, titels, player1, player2, player3, player4, footer);
+
+		//CSS---------------------------------------------------
+		this.getStylesheets().add(getClass().getResource("CSS/scoreboard.css").toExternalForm());	
+		this.getStyleClass().add("root");
+		playbtn.getStyleClass().add("button");
+		player1.getStyleClass().add("row");
+		player2.getStyleClass().add("row");
+		player3.getStyleClass().add("row");
+		player4.getStyleClass().add("row");
+		titels.getStyleClass().add("row");
+		playernameslbl.getStyleClass().add("titlelable");
+		angesagtlbl.getStyleClass().add("titlelable");
+		gemachtlbl.getStyleClass().add("titlelable");
+		differenzlbl.getStyleClass().add("titlelable");
+		total.getStyleClass().add("titlelable");
+		titellbl.getStyleClass().add("title");
+		this.setAlignment(Pos.CENTER);
+		System.out.println("Test");
+		//-------------------------------------------------------
+
+
+		this.getChildren().addAll(titellbl, spacer1, titels, player1, player2, player3, player4, spacer, playbtn);
 	}
 
 

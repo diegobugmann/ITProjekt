@@ -51,6 +51,8 @@ public class DifferenzlerInfoView extends InfoView {
 			
 			
 			this.setPadding(new Insets(5,5,5,5));
+			//Same as Lobby to just change the button style and decoration
+			this.getStylesheets().add(getClass().getResource("CSS/lobby.css").toExternalForm());	
 			this.getChildren().addAll(numOfRoundslbl, numOfRounds, spacer1, pointslbl, points, 
 					spacer2, diffPointslbl, diffPoints, spacer3, trumpflbl, picTrump, spacer4, openSBbtn);			
 		}
