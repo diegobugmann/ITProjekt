@@ -83,16 +83,16 @@ Dem Team mit dem höchsten Einzelweis werden sämtliche eigene Weispunkte gutges
 Bei gleichhohen Weisen entscheidet die Anzahl der Karten. Ist ebenfalls die Anzahl der Karten gleich, dann gewinnt der Weis vom Trumpf, ansonsten die Vorhand. 
 Kreuzweise sind ebenfalls möglich. Das bedeutet, eine Karte kann in mehreren Weisen verwendet werden.
 
-3-Blatt		20 points
-4-Blatt			50 points
-Vierlinge	100 points
-5-Blatt		100 points
-Vier Nell		150 points
-6-Blatt		150 points
-Vier Bauern	200 points
-7-Blatt		200 points
-8-Blatt		250 points
-9-Blatt		300 points
+3-Blatt		20 Punkte
+4-Blatt		50 Punkte
+Vierlinge	100 Punkte
+5-Blatt		100 Punkte
+Vier Nell	150 Punkte
+6-Blatt		150 Punkte
+Vier Bauern	200 Punkte
+7-Blatt		200 Punkte
+8-Blatt		250 Punkte
+9-Blatt		300 Punkte
 
 
 Differenzler-Jass
