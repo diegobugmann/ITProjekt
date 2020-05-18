@@ -28,7 +28,7 @@ public class RuleView extends ScrollPane {
 			e.printStackTrace();
 		}
 		while(fileScanner.hasNextLine()) {
-			text += fileScanner.nextLine()+"\n"+"\n";
+			text += fileScanner.nextLine()+"\n";
 		}
 		content.setText(text);
 		this.setContent(content);
