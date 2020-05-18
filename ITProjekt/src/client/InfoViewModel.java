@@ -158,14 +158,10 @@ public class InfoViewModel {
 		}
 	}
 	public void setDiffPoints() {
-		if(this.angesagtePoints != 0) {
-			if(this.aktuellePoints != 0) {
-				this.diffPoints.set(Math.abs(this.angesagtePoints - this.aktuellePoints));
-			}else {
-				this.diffPoints.set(this.angesagtePoints);
-			}
+		if(this.aktuellePoints != 0) {
+			this.diffPoints.set(Math.abs(this.angesagtePoints - this.aktuellePoints));
 		}else {
-			this.diffPoints = null;
+			this.diffPoints.set(this.angesagtePoints);
 		}
 	}
 	//TODO Aufruf der Methode nach Punkte ansage
