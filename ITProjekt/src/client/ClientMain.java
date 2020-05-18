@@ -20,8 +20,12 @@ public class ClientMain extends Application{
 		model = new ClientModel();
 		view = new ClientView(primaryStage, model);
 		controller = new ClientController(model, view, primaryStage);
+		controller.serverClosed.addListener(event -> {
+	        Platform.exit();
+	        System.exit(0);
+		});
 		primaryStage.setOnCloseRequest(event -> {
-			controller.processExit(event, primaryStage);
+			controller.processExit(primaryStage);
 		});
 	}
 

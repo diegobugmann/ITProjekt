@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.util.ArrayList;
 import Commons.*;
+import Commons.Message_Error.ErrorType;
 import javafx.application.Platform;
 /**
  * 
@@ -80,6 +81,7 @@ public class CommunicationThread extends Thread{
 		if(msg != null) {
 			msg.setClient(senderName);
 			msg.send(this.socket);
+			System.out.println(msg);
 		}
 		else {
 			controller.showAlert("Outgoing Message is Null","The Sending Message is null and was not sent.");
@@ -122,9 +124,6 @@ public class CommunicationThread extends Thread{
 				Simple_Message msg =(Simple_Message) msgIn;
 				switch(msg.getType()) {
 				//If the Message is a received message from the Server the communication has ended (block loops)	
-					case Received :{
-						break;
-					}
 					case Game_Start :{
 						status = Status.ingame;
 						controller.startGame();
@@ -314,6 +313,10 @@ public class CommunicationThread extends Thread{
 			case error : {
 				Message_Error msgError = (Message_Error) msgIn;
 				controller.showAlert(msgError.getType().toString(), msgError.getErrorMessage());
+				if(msgError.getType() == ErrorType.serverDisconnected) {
+					controller.serverClosed.set(true);
+					
+				}
 				break;
 			}
 		}

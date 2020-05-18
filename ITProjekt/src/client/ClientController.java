@@ -5,6 +5,8 @@ import Commons.*;
 import Soundmodule.SoundModule;
 import Soundmodule.SoundSettingsView;
 import client.CommunicationThread.Status;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.event.Event;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
@@ -34,16 +36,19 @@ public class ClientController {
 	protected String actualTrumpf;
 	protected ArrayList<Wiis> wiisReturn;
 	protected Wiis wiisNew;
-	protected int ansagePoints = 75; //is intiValue in the spinner
+	protected int ansagePoints = 0;
 	protected GameView gameView;
 	//Sounds
 	protected SoundModule soundModule;
-	
+	protected BooleanProperty serverClosed = new SimpleBooleanProperty(false);
 	
 	public ClientController(ClientModel model, ClientView view, Stage stage) {
 		this.model = model;
 		this.view = view;
 		this.stage = stage;
+		/*serverClosed.addListener(event -> {
+			this.processExit(stage);
+		});*/
 		stage.getIcons().add(new Image(ClientView.class.getResourceAsStream("Bilder/icon.png")));
 		//Sounds
 		soundModule = new SoundModule();
@@ -163,10 +168,10 @@ public class ClientController {
 		view.showLobbyView(stage);
 		
 		stage.setOnCloseRequest(event -> {
-			this.processExit(event, stage);
+			this.processExit(stage);
 		});
 		view.lobbyView.gameMenu.exit.setOnAction(event -> {
-			processExit(event, stage);
+			processExit(stage);
 		});
 		
 		view.lobbyView.gameMenu.karten.setOnAction(event -> {
@@ -244,6 +249,7 @@ public class ClientController {
 		stage2.initStyle(StageStyle.TRANSPARENT);
 		stage2.initModality(Modality.APPLICATION_MODAL); /* *** */
 		stage2.initOwner(stage);
+		stage2.getIcons().add(new Image(ClientView.class.getResourceAsStream("Bilder/icon.png")));
 		stage2.show();
 		
 		newGameView.rbSchieber.armedProperty().addListener((observable, 
@@ -336,11 +342,13 @@ public class ClientController {
 		 * @author mibe1
 		 */
 		stage.setOnCloseRequest(event -> {
-			model.processAbbruch();
 			stage.close();
-			if(model.connection != null && model.connection.isAlive()) {
-				model.disconnect();
-			}			
+			if(!this.serverClosed.get()) {
+				model.processAbbruch();
+				if(model.connection != null && model.connection.isAlive()) {
+					model.disconnect();
+				}			
+			}
 		});
 		splashScreen.abbruchBtn.setOnAction(event -> {
 			processAbbruch(event);
@@ -370,9 +378,9 @@ public class ClientController {
 		}
 	}
 	
-	public void processExit(Event event, Stage stage) {	
+	public void processExit(Stage stage) {	
 		stage.close();
-			if(model.connection != null && model.connection.isAlive()) {
+			if(model.connection != null && model.connection.isAlive() && !this.serverClosed.get()) {
 				model.disconnect();
 			}	
 	}
@@ -492,7 +500,7 @@ public class ClientController {
 			}
 			stage.setOnCloseRequest(event -> {
 				processExitGame(event);
-				this.processExit(event, stage);
+				this.processExit(stage);
 			});
 			view.gameView.gameMenu.karten.setOnAction(event -> {
 				processCardStyle();
@@ -670,7 +678,7 @@ public class ClientController {
 		stage2.show();
 		
 		//handle correct and incorrect numbers or text in the spinnerfield and setting the button on or off
-		
+		ansagePoints = 75; //is intiValue in the spinner
 		ansagePointsView.okBtn.setDisable(false);
 		ansagePointsView.numOfPoints.getEditor().textProperty().addListener((observable,
         		oldValue, newValue)->{
