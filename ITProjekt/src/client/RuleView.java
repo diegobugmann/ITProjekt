@@ -19,7 +19,7 @@ public class RuleView extends ScrollPane {
 	public RuleView() {
 		super();
 		content = new Label("");
-		
+		//content.setStyle("-fx-font-family: \"Consolas\";");
 		String text = "";
 		try {
 			fileScanner = new Scanner(new File(System.getProperty("user.dir")+"/src/client/jassHelp.txt"), "UTF-8");
