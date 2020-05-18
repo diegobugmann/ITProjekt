@@ -909,6 +909,10 @@ public class ClientController {
 		
 		
 	}
+	/**
+	 * @author sarah
+	 * @param players
+	 */
 
 	public void createScoreBoard(ArrayList<String> players) {
 		if(!model.isGameTypeSchieber) {

@@ -19,7 +19,7 @@ import javafx.stage.Stage;
 public class CreateNewUserView extends VBox{
 	
 	/**
-	 * @author sarah, GUI design by Luca Meyer
+	 * @author sarah, @author Luca Meyer (GUI design)
 	 */
 	
 	protected Stage stage;

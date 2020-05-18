@@ -9,6 +9,12 @@ import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.HBox;
 import javafx.scene.paint.Color;
 
+/**
+ * 
+ * @author sarah
+ *
+ */
+
 public class SBDifferenzlerPlayerView extends HBox {
 	
 	protected Label playerName;

@@ -19,6 +19,12 @@ import javafx.scene.layout.Region;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
+/**
+ * 
+ * @author ??? (Luca, Michi, Sarah)
+ *
+ */
+
 
 public class LoginView extends VBox{
 	

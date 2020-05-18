@@ -21,7 +21,6 @@ public class CreateNewUserModel {
 		this.isNewUserNameAvailable = isAvaiable;
 	}
 	/**
-	 * @author sarah
 	 * @param newValue
 	 */
 	public void validateUsername(String newValue) {
@@ -33,7 +32,6 @@ public class CreateNewUserModel {
 		}
 	}
 	/**
-	 * @author sarah
 	 * @param newValue
 	 */
 	public void validatePassword(String newValue) {	
@@ -45,7 +43,6 @@ public class CreateNewUserModel {
 	}
 	
 	/**
-	 * @author sarah
 	 * @param newPasswordtxt
 	 * @param confirmPasswordtxt
 	 * 
@@ -58,7 +55,6 @@ public class CreateNewUserModel {
 		}
 	}
 	/**
-	 * @author sarah
 	 * @param userName
 	 * @param password
 	 */

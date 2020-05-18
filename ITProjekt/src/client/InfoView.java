@@ -1,6 +1,10 @@
 package client;
 
 import javafx.scene.control.Label;
+/**
+ * @author Luca Meyer
+ * @author sarah
+ */
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;

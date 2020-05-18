@@ -101,12 +101,7 @@ public class UserData {
         }		 
 		return createUserSucceded;
 	}
-	
-	public void setUserInactive() {
-		
-		// TODO nice to have 
-		
-	}
+
 	
 	public boolean setNewPassword(String userName, String password) {
 		

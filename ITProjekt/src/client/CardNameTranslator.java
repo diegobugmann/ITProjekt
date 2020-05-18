@@ -2,6 +2,12 @@ package client;
 
 import Commons.Wiis;
 
+/**
+ * 
+ * @author sarah
+ *
+ */
+
 public class CardNameTranslator {
 	
 	public static String getBlattName(Wiis w, int isDeutsch) {

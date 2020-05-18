@@ -5,7 +5,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 
 /**
- * @author Luca Meyer / @author sarah
+ * @author Luca Meyer 
+ * @author sarah
  *
  *
  */

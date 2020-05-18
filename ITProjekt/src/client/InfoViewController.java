@@ -1,6 +1,11 @@
 package client;
 
 import Commons.Game;
+/**
+ * 
+ * @author sarah
+ *
+ */
 
 public class InfoViewController {
 	

@@ -6,6 +6,12 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.Region;
 
+/**
+ * @author Luca Meyer
+ * @author sarah
+ *
+ */
+
 public class DifferenzlerInfoView extends InfoView {
 	
 		protected Label numOfRoundslbl;

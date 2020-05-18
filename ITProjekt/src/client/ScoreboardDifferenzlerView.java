@@ -11,6 +11,11 @@ import javafx.scene.layout.BorderStrokeStyle;
 import javafx.scene.layout.BorderWidths;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
+/**
+ * 
+ * @author sarah
+ *
+ */
 
 public class ScoreboardDifferenzlerView extends VBox{
 	

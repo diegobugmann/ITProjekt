@@ -3,6 +3,12 @@ package client;
 import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 
+/**
+ * 
+ * @author sarah
+ *
+ */
+
 public class SBDifferenzlerPlayerModel {
 	
 	protected final SimpleStringProperty playerName;

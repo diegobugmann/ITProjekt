@@ -41,9 +41,7 @@ public class CreateNewUserController {
 		view.setUserNameAvailable(isUserNameAvailable);
 	}
 	
-	/**
-	 * @author sarah
-	 */
+	
 	public void activateNewUserbtn() {
 		if(model.isNewPasswordValid && model.isNewUserNameAvailable && model.isPasswordConfirmed) {
 			view.activateNewUserbtn(true);
@@ -51,9 +49,7 @@ public class CreateNewUserController {
 			view.activateNewUserbtn(false);
 		}
 	}
-	/**
-	 * @author sarah
-	 */
+	
 	public void registrationSucceded() {
 		String info = "Neuer Benutzer erfolgreich erstellt";
 		Alert alert = new Alert(AlertType.INFORMATION, info );
@@ -63,9 +59,6 @@ public class CreateNewUserController {
 		view.stage.close();
 	}
 	
-	/**
-	 * @author sarah
-	 */
 	public void registerFailed(String message) {
 		Alert alert = new Alert(AlertType.ERROR);
 		alert.setTitle("Registration fehlgeschlagen");
