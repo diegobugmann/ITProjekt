@@ -81,7 +81,6 @@ public class CommunicationThread extends Thread{
 		if(msg != null) {
 			msg.setClient(senderName);
 			msg.send(this.socket);
-			System.out.println(msg);
 		}
 		else {
 			controller.showAlert("Outgoing Message is Null","The Sending Message is null and was not sent.");
