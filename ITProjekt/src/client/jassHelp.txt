@@ -75,7 +75,8 @@ Wer neben dem Trumpf-Bauer/Trumpf-Under keine andere Trumpfkarte mehr besitzt, d
    
 Weis, Stöck und Match
 Für Weise, Stöck und Match gibt es Zusatzpunkte, bei welchen auch der Multiplikator angewendet wird.
-Weispunkte gibt es ab drei aufeinanderfolgenden Karten derselben Farbe oder für vier gleiche Karten. Die Weispunkte gelten gemäss der untenstehenden Tabelle. 
+Weispunkte gibt es ab drei aufeinanderfolgenden Karten derselben Farbe oder für vier gleiche Karten. 
+Die Weispunkte gelten gemäss der untenstehenden Tabelle. 
 Die Stöck sind König und Ober der Trumpffarbe und geben 20 Punkte.
 Beim Ausspielen der ersten Karte entscheidet jeder Spieler, ob er weisen will. Es wird nur der Punktwert des höchsten Weises angesagt. 
 Dem Team mit dem höchsten Einzelweis werden sämtliche eigene Weispunkte gutgeschrieben. Desto tiefer der Weis in der Tabelle unten, desto stärker ist er.
@@ -83,10 +84,10 @@ Bei gleichhohen Weisen entscheidet die Anzahl der Karten. Ist ebenfalls die Anza
 Kreuzweise sind ebenfalls möglich. Das bedeutet, eine Karte kann in mehreren Weisen verwendet werden.
 
 3-Blatt		20 points
-4-Blatt		50 points
+4-Blatt			50 points
 Vierlinge	100 points
 5-Blatt		100 points
-Vier Nell	150 points
+Vier Nell		150 points
 6-Blatt		150 points
 Vier Bauern	200 points
 7-Blatt		200 points
@@ -98,7 +99,8 @@ Differenzler-Jass
 
 Spielablauf
 Zu Beginn jeder Runde schätzt jeder Spieler, wie viele Punkte er selbst in der entsprechenden Runde erzielen will. 
-Die Ansage geschieht verdeckt, d.h. dass jeder Spieler nur die eigenen geschätzten Punkte kennt. Die Trumpffarbe wird jeweils vom Server per Zufall ermittelt.
+Die Ansage geschieht verdeckt, d.h. dass jeder Spieler nur die eigenen geschätzten Punkte kennt. 
+Die Trumpffarbe wird jeweils vom Server per Zufall ermittelt.
 Die Differenz zwischen der geschätzten und tatsächlich erzielten Anzahl Punkte wird als Differenzpunkte gewertet. 
 Die Differenzpunkte aus allen Runden einer Partie werden je Teilnehmer addiert. 
 Der Spieler mit der geringsten Anzahl Differenzpunkte über alle Runden der Partie gewinnt.
