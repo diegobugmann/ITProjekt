@@ -36,7 +36,7 @@ public class ClientController {
 	protected String actualTrumpf;
 	protected ArrayList<Wiis> wiisReturn;
 	protected Wiis wiisNew;
-	protected int ansagePoints = 75; //is intiValue in the spinner
+	protected int ansagePoints = 0;
 	protected GameView gameView;
 	//Sounds
 	protected SoundModule soundModule;
@@ -678,7 +678,7 @@ public class ClientController {
 		stage2.show();
 		
 		//handle correct and incorrect numbers or text in the spinnerfield and setting the button on or off
-		
+		ansagePoints = 75; //is intiValue in the spinner
 		ansagePointsView.okBtn.setDisable(false);
 		ansagePointsView.numOfPoints.getEditor().textProperty().addListener((observable,
         		oldValue, newValue)->{
