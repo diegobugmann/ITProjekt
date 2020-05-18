@@ -32,7 +32,7 @@ public class DifferenzlerInfoView extends InfoView {
 			pointslbl = new Label("Punkte");
 			points = new Label ("");
 			
-			diffPointslbl = new Label("Differenz total");
+			diffPointslbl = new Label("Differenz aktuell");
 			diffPoints = new Label("");	
 			
 			openSBbtn = new Button("Punktestand");
