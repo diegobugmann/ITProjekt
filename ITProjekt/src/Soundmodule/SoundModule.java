@@ -28,7 +28,7 @@ public class SoundModule {
 	 */
 	private double waitingVolume = 0.0;
 	private double backgroundvolume = 0.0;
-	private double gameVolume = 0.5;
+	private double gameVolume = 0.0;
 
 	public SoundModule() {
 		//Initalizing all the Mediaplayers and sets the defaultsound
