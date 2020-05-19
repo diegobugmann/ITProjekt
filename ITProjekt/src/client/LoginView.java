@@ -21,7 +21,7 @@ import javafx.stage.Stage;
 
 /**
  * 
- * @author ??? (Luca, Michi, Sarah)
+ * @author Luca Meyer: Ganze View, @author sarah: cn und newUserLink 
  *
  */
 
@@ -46,11 +46,8 @@ public class LoginView extends VBox{
 	public LoginView(Stage stage, String address) {
 		
 		this.stage = stage;
-		
-		/**
-		 * @author luca: Ganze View, sarah: cn und newUserLink 
-		 */
-		cnlbl = new Label("IP/Port");
+
+		cnlbl = new Label("Adresse:Port");
 		cnAddress = new TextField(address);	            	
 		cnAddress.setMaxWidth(300);
 		cnBtn = new Button("Verbinden");

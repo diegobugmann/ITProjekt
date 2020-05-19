@@ -9,7 +9,7 @@ public class ClientModel {
 	
 	protected String user;
 	protected String pw;
-	protected String ipAddress = "127.0.0.1";
+	protected String ipAddress = "localhost";
 	protected int port = 6666;
 	protected boolean isConnected = false;
 	protected CommunicationThread connection;
@@ -54,11 +54,12 @@ public class ClientModel {
 	public boolean validateCnAdress(String newValue) {
 		
 		boolean cnAdress = false;
-		String pattern = "^(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." + 
+		String pattern = "^((25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." + 
 				"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." + 
 				"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\\." + 
-				"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)" +
-				":([0-9]){1,5}$";
+				"(25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?))" +
+				"|(([a-zA-Z0-9]+(-[a-zA-Z0-9]+)*\\.?)+(\\.[a-zA-Z]{2,})?)" +
+				":([1-9]|[0-9]{2,4}|[1-5][0-9]{4}|6[0-4][0-9]{3}|65[0-4][0-9]{2}|655[0-2][0-9]|6553[0-5])$";
 		if(newValue.matches(pattern)) {
 			cnAdress = true;
 			this.ipAddress = newValue.split(":")[0];

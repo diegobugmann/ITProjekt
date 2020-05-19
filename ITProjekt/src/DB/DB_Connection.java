@@ -18,7 +18,7 @@ import org.w3c.dom.NodeList;
 /**
  * 
  * @author sarah
- *
+ * inspired by example code from Bradley Richards
  */
 
 public class DB_Connection {
