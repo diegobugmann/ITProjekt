@@ -1,7 +1,6 @@
 package Commons;
 
 import java.util.ArrayList;
-import java.util.Collections;
 /**
  * Sends the hand to the player 
  * @author mibe1
