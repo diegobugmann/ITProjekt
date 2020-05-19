@@ -19,7 +19,6 @@ import javafx.scene.layout.Region;
 
 public class ScoreboardDifferenzlerView extends VBox{
 	
-	private HBox header;
 	private Label titellbl;
 	protected Label roundslbl;
 	private HBox titels;
@@ -32,7 +31,6 @@ public class ScoreboardDifferenzlerView extends VBox{
 	protected SBDifferenzlerPlayerView player2;
 	protected SBDifferenzlerPlayerView player3;
 	protected SBDifferenzlerPlayerView player4;
-	private HBox footer;
 	protected Button playbtn;
 	
 	public ScoreboardDifferenzlerView() {

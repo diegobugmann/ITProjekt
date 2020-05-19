@@ -29,7 +29,7 @@ public class ServerView {
 	/**
 	 * @author digib
 	 */
-	public ServerView(ServerModel mode, Stage primaryStage) {
+	public ServerView(ServerModel model, Stage primaryStage) {
 		this.model = model;
 		this.primaryStage = primaryStage;
 		

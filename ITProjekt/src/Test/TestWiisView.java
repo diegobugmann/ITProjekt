@@ -4,15 +4,10 @@ import java.util.ArrayList;
 
 import Commons.Card;
 import Commons.Wiis;
-import Soundmodule.SoundModule;
-import client.ChatBox;
 import client.SelectWiisView;
 import javafx.application.Application;
 import javafx.scene.Scene;
-import javafx.scene.layout.BorderPane;
-import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
