@@ -19,7 +19,7 @@ public class RuleView extends ScrollPane {
 	public RuleView() {
 		super();
 		content = new Label("");
-		//content.setStyle("-fx-font-family: \"Consolas\";");
+		content.setStyle("-fx-font-family: \"Arial\";");
 		String text = "";
 		try {
 			fileScanner = new Scanner(new File(System.getProperty("user.dir")+"/src/client/jassHelp.txt"), "UTF-8");
@@ -33,9 +33,6 @@ public class RuleView extends ScrollPane {
 		content.setText(text);
 		this.setContent(content);
 		this.setPadding(new Insets(10, 10, 10, 10));
-		
-		
-		
 		
 	}
 

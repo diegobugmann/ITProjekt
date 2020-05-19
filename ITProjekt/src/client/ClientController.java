@@ -443,7 +443,9 @@ public class ClientController {
 		Stage stage2 = new Stage();
 		stage2.setScene(scene2);
 		stage2.setHeight(700);
-		stage2.setWidth(900);
+		stage2.setWidth(1000);
+		stage2.initModality(Modality.APPLICATION_MODAL);
+		stage2.initOwner(stage);
 		stage2.show();
 	}
 	
@@ -454,6 +456,8 @@ public class ClientController {
 		Alert alert = new Alert(AlertType.INFORMATION, info );
 		alert.setHeaderText(null);
 		alert.setTitle(null);
+		alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(stage);
 		alert.showAndWait();
 	}
 	
