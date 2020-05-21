@@ -47,7 +47,7 @@ public class ClientModel {
 	
 	/** 
 	 * @author sarah: connection string 
-	 * (For IP Address: Regex: https://www.oreilly.com/library/view/regular-expressions-cookbook/9780596802837/ch07s16.html, added port manual)
+	 * (Regex: https://www.oreilly.com)
 	 * @param newValue
 	 * @return
 	 */

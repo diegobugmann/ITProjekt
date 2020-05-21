@@ -177,14 +177,13 @@ public class InfoViewModel {
 		
 		if(msgPoints.getPlayerI().equalsIgnoreCase(player) || msgPoints.getPlayerII().equalsIgnoreCase(player)) {
 			this.pointsTeamOld = this.pointsTeam.get();
-			this.addInfoPopUp("Punkte dein Team: " + (msgPoints.getPoints() - this.pointsTeamOld));
+			this.addInfoPopUp("Punkte dein Team: " + (msgPoints.getPoints() - this.pointsTeamOld) + "\n");
 			this.pointsTeam.set(msgPoints.getPoints());
 		}else {
 			this.pointsOppoOld = this.pointsOppo.get();
-			this.addInfoPopUp("Punkte gegnerisches Team: " + (msgPoints.getPoints() - this.pointsOppoOld));
+			this.addInfoPopUp("Punkte gegnerisches Team: " + (msgPoints.getPoints() - this.pointsOppoOld) + "\n");
 			this.pointsOppo.set(msgPoints.getPoints());
 		}
-		
 	}
 	
 	public void setStoeck(String playerName) {
