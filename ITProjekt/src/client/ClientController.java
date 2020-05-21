@@ -449,6 +449,10 @@ public class ClientController {
 		stage2.show();
 	}
 	
+	/**
+	 * @author Luca Meyer
+	 * Alert vor About Information
+	 */
 	public void processAbout() {
 		String info = "CodingKittens \n"
 				+ "Version V 1.0 \n"
@@ -557,6 +561,11 @@ public class ClientController {
 			model.exitGame();
 	}
 	
+	/**
+	 * @author Luca Meyer
+	 * @param isGeschoben
+	 * shows a new Stage to select the trumpf
+	 */
 	public void processSetTrumpf(boolean isGeschoben) {
 		view.gameView.stage.setAlwaysOnTop(true); // bring the player on turn to top
 		
@@ -921,11 +930,11 @@ public class ClientController {
 		
 		
 	}
+	
 	/**
 	 * @author sarah
 	 * @param players
 	 */
-
 	public void createScoreBoard(ArrayList<String> players) {
 		if(!model.isGameTypeSchieber) {
 			this.sbdController = new SBDifferenzlerController(this.stage,players);
